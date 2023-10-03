@@ -75,9 +75,7 @@
                               <a href="{{url('/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
                            
-                           <li class="">
-                              <a href="{{url('/role')}}" class="" ><i class=" icon-globe"></i> <span>Roles</span></a>
-                           </li>
+                           
 
                            <li class="active">
                               <a href="{{url('/user/registered-vet')}}" class="" ><i class=" icon-globe"></i> <span>Registered-Vet</span></a>
@@ -101,6 +99,22 @@
 
                            <li class="">
                               <a href="{{url('/user/chemist')}}" class="" ><i class="icon-hourglass"></i> <span>Chemist </span></a>
+                           </li>
+
+                           <li class="">
+                              <a href="{{url('/animal/')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Type </span></a>
+                           </li>
+
+                           <li class="">
+                              <a href="{{url('/animal/breed')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Breed </span></a>
+                           </li>
+
+                           <li class="">
+                              <a href="{{url('/animal/species')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Species </span></a>
+                           </li>
+
+                           <li class="">
+                              <a href="{{url('/animal/characterestics')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Characterestics </span></a>
                            </li>
 
                            <li class="">
@@ -129,6 +143,9 @@
                            </li>
                            <li class="@if (\Request::is('logs')) active  @endif">
                               <a href="{{route('logs')}}" class="" ><i class=" icon-doc"></i> <span>Logs</span></a>
+                           </li>
+                           <li class="">
+                              <a href="{{url('/role')}}" class="" ><i class=" icon-globe"></i> <span>Roles</span></a>
                            </li>
                         </ul>
                      </nav>

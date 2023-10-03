@@ -72,7 +72,7 @@ class AuthController extends BaseController
                 'marital_status' => 'required',
             ]);
         }
-        if($postData['role']=='Pet-owner')
+        if($postData['role']=='Animal-owner')
         {
             $validator = Validator::make($postData, [
                 'first_name' => 'required|string|max:255',

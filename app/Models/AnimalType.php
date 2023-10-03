@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Cities extends Model
+use Illuminate\Http\Request;
+
+class AnimalType extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = ['id','city_id','city'.'state_id','is_default','is_active','sort_order','lang','created_at','updated_at'];
-    
+    protected $fillable = ['id','animal_type','created_at','updated_at','deleted_at'];
+        
     public static  function boot()
     {
         parent::boot();
     }
+
 }

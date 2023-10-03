@@ -24,9 +24,9 @@ return [
     'user_register' => 'User (:name) has been created',
     'delete_user' => 'User (:name) has been deleted',
     'update_user' => 'User (:name) has been updated',
-    'update_records' => 'Records has been updated',
+    'update_records' => 'Record(s) has been updated successfully!',
     'update_information' => 'Information has been updated successfully!',
-    'delete_records' => 'Records has been deleted',
+    'delete_records' => 'Records has been deleted successfully!',
     'change_password' => 'Change password has been updated',
     'something' => 'Something went wrong!',
     'blank_field' => 'Please make sure all fields are fillable',
@@ -47,8 +47,15 @@ return [
     'role_create' => 'Role (:name) has been created', 
     'role_update' => 'Role (:name) has been updated',  
     'role_delete' => 'Role (:name) has been deleted',
+
+    'animal_type_create' => 'Animal type (:name) has been created', 
+    'animal_type_update' => 'Animal type (:name) has been updated',  
+    'animal_type_delete' => 'Animal type (:name) has been deleted',
+
+    
     'setting_update' => 'Settings has been updated',
     'enter_old_password'=>'Please enter your current password',
     'enter_current_password'=>'Please enter your new password',
     'enter_confirm_password'=>'Please confirm new password',
+    'do_you_want_to_delete'=>'Do you really want to delete the record(s)?',
 ];

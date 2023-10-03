@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\AnimalController;
 use App\Http\Controllers\Backend\UserController; 
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\TestController;
@@ -63,6 +64,20 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [RoleController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [RoleController::class, 'delete'])->name('delete'); 
     });
+
+    //Animal type module
+    Route::group([
+        'prefix' => 'animal',
+        'as' => 'animal.',
+      ], function () {
+        Route::get('/', [AnimalController::class, 'index'])->name('index-type');
+        Route::get('/create-type', [AnimalController::class, 'create'])->name('create-type');
+        Route::post('/store-type', [AnimalController::class, 'store'])->name('store-type'); 
+        Route::get('/{id?}/edit-type', [AnimalController::class, 'edit'])->name('edit-type'); 
+        Route::post('/{id?}/update-type', [AnimalController::class, 'update'])->name('update-type'); 
+        Route::get('/{id?}/delete-type', [AnimalController::class, 'delete'])->name('delete-type'); 
+    });
+
     //User module
     Route::group([
         'prefix' => 'user',
