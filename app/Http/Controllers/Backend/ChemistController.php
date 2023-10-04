@@ -102,13 +102,13 @@ class ChemistController extends Controller
         DB::beginTransaction();
         try{
             $aInsertData = $request->all();
-            $chemist = $this->chemistRepo->create($aInsertData);
+            $chemist = $this->chemistRepo->update($id,$request->all());
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
             ## Store log
             $message = trans('messages.chemist_update',['name' => $request->input('shop_name')]);
-            storeActicityLog(trans('messages.update'),$message,Auth::user(),$breed);
+            storeActicityLog(trans('messages.update'),$message,Auth::user(),$chemist);
             return redirect()->route('chemist.index');    
         }catch(\Exception $e){ 
             DB::rollback();

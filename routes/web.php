@@ -5,7 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\AnimalController;
 use App\Http\Controllers\Backend\BreedController;
+use App\Http\Controllers\Backend\BookController;
 use App\Http\Controllers\Backend\ChemistController;
+use App\Http\Controllers\Backend\TransporterController;
 use App\Http\Controllers\Backend\SpeciesController;
 use App\Http\Controllers\Backend\CharacteristicsController;
 use App\Http\Controllers\Backend\UserController; 
@@ -134,6 +136,32 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
     });
 
+    //Transporter module
+    Route::group([
+        'prefix' => 'transporter',
+        'as' => 'transporter.',
+      ], function () {
+        Route::get('/', [TransporterController::class, 'index'])->name('index');
+        Route::get('/create', [TransporterController::class, 'create'])->name('create');
+        Route::post('/store', [TransporterController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [TransporterController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [TransporterController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [TransporterController::class, 'delete'])->name('delete'); 
+    });
+
+    //Library module
+    Route::group([
+        'prefix' => 'book',
+        'as' => 'book.',
+      ], function () {
+        Route::get('/', [BookController::class, 'index'])->name('index');
+        Route::get('/create', [BookController::class, 'create'])->name('create');
+        Route::post('/store', [BookController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [BookController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [BookController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [BookController::class, 'delete'])->name('delete'); 
+    });
+
     //User module
     Route::group([
         'prefix' => 'user',
@@ -141,11 +169,11 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
       ], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/pashumitra', [UserController::class, 'pashumitra'])->name('pashumitra');
-        Route::get('/pet-owner', [UserController::class, 'petowner'])->name('petowner');
+        Route::get('/animal-owner', [UserController::class, 'petowner'])->name('petowner');
         Route::get('/registered-vet', [UserController::class, 'registeredvet'])->name('registered-vet');
         Route::get('/user-list', [UserController::class, 'getAjaxUser'])->name('list');
         Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::get('/create/pet-owner', [UserController::class, 'create_petowner'])->name('create-petowner');
+        Route::get('/create/animal-owner', [UserController::class, 'create_petowner'])->name('create-petowner');
         Route::get('/create/pashumitra', [UserController::class, 'create_pashumitra'])->name('create-pashumitra');
         Route::get('/create/registered-vet', [UserController::class, 'create_registeredvet'])->name('create-registered-vet');
         Route::post('/store', [UserController::class, 'store'])->name('store');

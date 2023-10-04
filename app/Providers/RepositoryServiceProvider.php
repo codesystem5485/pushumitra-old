@@ -13,7 +13,8 @@ use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Repositories\Implementation\City\CityRepository;
 use App\Repositories\Interfaces\Chemist\ChemistRepositoryInterface;
 use App\Repositories\Implementation\Chemist\ChemistRepository;
-
+use App\Repositories\Interfaces\Transporter\TransporterRepositoryInterface;
+use App\Repositories\Implementation\Transporter\TransporterRepository;
 class RepositoryServiceProvider extends ServiceProvider 
 {
     /**
@@ -28,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(StateRepositoryInterface::class, StateRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
         $this->app->bind(ChemistRepositoryInterface::class, ChemistRepository::class);        
+        $this->app->bind(TransporterRepositoryInterface::class, TransporterRepository::class);        
     } 
 
     /**

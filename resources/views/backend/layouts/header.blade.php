@@ -75,48 +75,49 @@
                               <a href="{{url('/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
                            
-                           
-
-                           <li class="active">
+<li class="@if (\Request::is('user/registered-vet') || \Request::is('user/animal-owner') || \Request::is('user/pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
+                              <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Users</span></a>
+                           <ul>
+                           <li class="@if (\Request::is('user/registered-vet')) active  @endif">
                               <a href="{{url('/user/registered-vet')}}" class="" ><i class=" icon-globe"></i> <span>Registered-Vet</span></a>
+                           </li></ul><ul>
+                           <li class="@if (\Request::is('user/animal-owner')) active  @endif">
+                              <a href="{{url('/user/animal-owner')}}" class="" ><i class=" icon-layers"></i> <span>Animal-Owner</span></a>
                            </li>
-                           
-                           <li class="">
-                              <a href="{{url('/user/pet-owner')}}" class="" ><i class=" icon-layers"></i> <span>Pet-Owner</span></a>
-                           </li>
-                           
-                           <li class="">
+                           </ul><ul>                  
+                           <li class="@if (\Request::is('user/pashumitra')) active  @endif">
                               <a href="{{url('/user/pashumitra')}}" class="" ><i class="icon-book-open"></i> <span>Pashumitra</span></a>
                            </li>                           
-
-                           <li class="">
-                              <a href="{{url('/user/transporter')}}" class="" ><i class="icon-book-open"></i> <span>Transporter</span></a>
+                           </ul><ul>
+                           <li class="@if (\Request::is('transporter')) active  @endif">
+                              <a href="{{url('/transporter')}}" class="" ><i class="icon-book-open"></i> <span>Transporter</span></a>
                            </li>     
-
-                           <li class="">
-                              <a href="{{url('/library')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
-                           </li>
-
-                           <li class="">
+                           </ul>
+                           <ul>
+                              <li class="@if (\Request::is('chemist')) active  @endif">
                               <a href="{{url('/chemist')}}" class="" ><i class="icon-hourglass"></i> <span>Chemist </span></a>
                            </li>
+</ul>
 
-                           <li class="">
-                              <a href="{{url('/animal/')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Type </span></a>
+</li>
+                           <li class="@if (\Request::is('animal') || \Request::is('breed') || \Request::is('species') || \Request::is('characteristics')) active  @endif">
+                              <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Animal</span></a>
+                              <ul>
+                                 <li class="@if (\Request::is('animal')) active  @endif"><a href="{{url('/animal/')}}"><i class=" icon-globe"></i> <span>Type</span></a></li>
+                              </ul>
+                              <ul>
+                                 <li class="@if (\Request::is('breed')) active  @endif"><a href="{{url('/breed')}}"><i class=" icon-globe"></i> <span>Breed</span></a></li>
+                              </ul>
+                              <ul>
+                                 <li class="@if (\Request::is('species')) active  @endif"><a href="{{url('/species')}}"><i class=" icon-globe"></i> <span>Species</span></a></li>
+                              </ul>
+                              <ul>
+                                 <li class="@if (\Request::is('characteristics')) active  @endif"><a href="{{url('/characteristics')}}"><i class=" icon-globe"></i> <span>Characterestics</span></a></li>
+                              </ul>
                            </li>
-
-                           <li class="">
-                              <a href="{{url('/breed')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Breed </span></a>
+                           <li class="@if (\Request::is('book')) active  @endif">
+                              <a href="{{url('/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
                            </li>
-
-                           <li class="">
-                              <a href="{{url('/species')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Species </span></a>
-                           </li>
-
-                           <li class="">
-                              <a href="{{url('/characteristics')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Characterestics </span></a>
-                           </li>
-
                            <li class="">
                               <a href="{{url('/animal-for-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>
                            </li>

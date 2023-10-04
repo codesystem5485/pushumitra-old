@@ -7,6 +7,7 @@ return [
 'login'=>'Login',
 'info'=>'Info',
 'role'=>'Role',
+'address'=>'Address',
 'basic_information'=>'Basic Information',
 'email_address'=>'Email Id',
 'password'=>'Password',
@@ -56,6 +57,16 @@ return [
 'breed'=>'Breed',
 'enter_breed'=>'Enter Breed',
 
+//books
+'book_list'=>'Book List',
+'book_add'=>'Add Book',
+'book_edit'=>'Edit Book',
+'book_create'=>'Create Books',
+'book'=>'Book',
+'book_name'=>'Book Name',
+'book_file'=>'Book File',
+'enter_book'=>'Enter Book Name',
+
 //species
 'species_list'=>'Species List',
 'species_add'=>'Add Specie',
@@ -72,7 +83,7 @@ return [
 'characteristics'=>'Characteristics',
 'enter_characteristics'=>'Enter Characteristics',
 
-//breed
+//chemist
 'chemist_list'=>'Chemist List',
 'chemist_add'=>'Add Chemist',
 'chemist_edit'=>'Edit Chemist',
@@ -89,6 +100,18 @@ return [
 'enter_address_line_2'=>'Enter address line 2',
 'enter_village'=>'Enter Village',
 'enter_pincode'=>'Enter Pincode',
+
+//transporter
+'transporter_list'=>'Transporter List',
+'transporter_add'=>'Add Transporter',
+'transporter_edit'=>'Edit Transporter',
+'transporter_create'=>'Create Transporters',
+'transporter'=>'Transporter',
+'transporter_name'=>'Transporter Name',
+'enter_transporter_name'=>'Enter Transporter Name',
+'transporter_vehicle_name'=>'Vehicle Name',
+'enter_transporter_vehicle_name'=>'Enter Transporter Vehicle Name',
+
 ];
 
 ?>

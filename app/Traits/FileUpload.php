@@ -4,15 +4,15 @@ namespace App\Traits;
 use Illuminate\Http\Request;
 use Lcobucci\JWT\Parser as JwtParser;
 use DB;
-use App\Models\User;
+use App\Models\Books;
 use Config;
 use File; 
 trait FileUpload {
 
     public function uploadFile($file,$type){
         switch($type){
-            case 'user':
-            $path = Config::get('constants.file.user_file_path');
+            case 'book':
+            $path = Config::get('constants.file.book_file_path');
             break;
             default:
             $path = '';    
@@ -27,8 +27,8 @@ trait FileUpload {
     public function removeFile($file,$type){
         
         switch($type){
-            case 'user':
-            $path = Config::get('constants.file.user_file_path');
+            case 'book':
+            $path = Config::get('constants.file.book_file_path');
             break;
             
             default:

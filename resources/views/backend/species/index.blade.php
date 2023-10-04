@@ -42,7 +42,7 @@
                                     <a href="{{route('species.edit',['id' => $type->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>
-                                    <a href="{{route('species.delete',['id' => $type->id])}}" onclick="return confirm({{__('messages.do_you_want_to_delete')}})">
+                                    <a href="{{route('species.delete',['id' => $type->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>
                                 </td>
