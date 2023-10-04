@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\Backend\AnimalController;
+use App\Http\Controllers\Backend\BreedController;
+use App\Http\Controllers\Backend\ChemistController;
+use App\Http\Controllers\Backend\SpeciesController;
+use App\Http\Controllers\Backend\CharacteristicsController;
 use App\Http\Controllers\Backend\UserController; 
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\TestController;
@@ -76,6 +80,58 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit-type', [AnimalController::class, 'edit'])->name('edit-type'); 
         Route::post('/{id?}/update-type', [AnimalController::class, 'update'])->name('update-type'); 
         Route::get('/{id?}/delete-type', [AnimalController::class, 'delete'])->name('delete-type'); 
+    });
+
+    //Animal Breed module
+    Route::group([
+        'prefix' => 'breed',
+        'as' => 'breed.',
+      ], function () {
+        Route::get('/', [BreedController::class, 'index'])->name('index');
+        Route::get('/create', [BreedController::class, 'create'])->name('create');
+        Route::post('/store', [BreedController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [BreedController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [BreedController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [BreedController::class, 'delete'])->name('delete'); 
+    });
+
+    //Animal species module
+    Route::group([
+        'prefix' => 'species',
+        'as' => 'species.',
+      ], function () {
+        Route::get('/', [SpeciesController::class, 'index'])->name('index');
+        Route::get('/create', [SpeciesController::class, 'create'])->name('create');
+        Route::post('/store', [SpeciesController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [SpeciesController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [SpeciesController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [SpeciesController::class, 'delete'])->name('delete'); 
+    });
+
+    //Animal Characterestics module
+    Route::group([
+        'prefix' => 'characteristics',
+        'as' => 'characteristics.',
+      ], function () {
+        Route::get('/', [CharacteristicsController::class, 'index'])->name('index');
+        Route::get('/create', [CharacteristicsController::class, 'create'])->name('create');
+        Route::post('/store', [CharacteristicsController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [CharacteristicsController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [CharacteristicsController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [CharacteristicsController::class, 'delete'])->name('delete'); 
+    });
+
+    //Chemist module
+    Route::group([
+        'prefix' => 'chemist',
+        'as' => 'chemist.',
+      ], function () {
+        Route::get('/', [ChemistController::class, 'index'])->name('index');
+        Route::get('/create', [ChemistController::class, 'create'])->name('create');
+        Route::post('/store', [ChemistController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [ChemistController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [ChemistController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
     });
 
     //User module

@@ -43,7 +43,7 @@ return [
     'exist_number' => 'This number is already updated',
     'try_another_number' =>'This number is registered with us. Please try another',
     'verify_phone' => 'Please verify your mobile number',
-    'create_records' => 'Records has been created',
+    'create_records' => 'Record has been created successfully!',
     'role_create' => 'Role (:name) has been created', 
     'role_update' => 'Role (:name) has been updated',  
     'role_delete' => 'Role (:name) has been deleted',

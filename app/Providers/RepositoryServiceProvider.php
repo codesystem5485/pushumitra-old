@@ -11,6 +11,8 @@ use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use App\Repositories\Implementation\State\StateRepository;
 use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Repositories\Implementation\City\CityRepository;
+use App\Repositories\Interfaces\Chemist\ChemistRepositoryInterface;
+use App\Repositories\Implementation\Chemist\ChemistRepository;
 
 class RepositoryServiceProvider extends ServiceProvider 
 {
@@ -25,7 +27,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserDetailRepositoryInterface::class, UserDetailRepository::class);
         $this->app->bind(StateRepositoryInterface::class, StateRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
-        
+        $this->app->bind(ChemistRepositoryInterface::class, ChemistRepository::class);        
     } 
 
     /**

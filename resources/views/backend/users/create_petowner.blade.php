@@ -101,7 +101,7 @@
                         <select id="state" class="form-control" aria-describedby="basic-addon3" name="state">
                             <option>--State--</option> 
                             @foreach($states as $state)
-                            <option value="{{$state->state_id}}">{{$state->state}}</option> 
+                            <option state_val="{{$state->state_id}}" value="{{$state->state_id}}">{{$state->state}}</option> 
                             @endforeach
                         </select>
                     </div>

@@ -98,7 +98,7 @@
                            </li>
 
                            <li class="">
-                              <a href="{{url('/user/chemist')}}" class="" ><i class="icon-hourglass"></i> <span>Chemist </span></a>
+                              <a href="{{url('/chemist')}}" class="" ><i class="icon-hourglass"></i> <span>Chemist </span></a>
                            </li>
 
                            <li class="">
@@ -106,15 +106,15 @@
                            </li>
 
                            <li class="">
-                              <a href="{{url('/animal/breed')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Breed </span></a>
+                              <a href="{{url('/breed')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Breed </span></a>
                            </li>
 
                            <li class="">
-                              <a href="{{url('/animal/species')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Species </span></a>
+                              <a href="{{url('/species')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Species </span></a>
                            </li>
 
                            <li class="">
-                              <a href="{{url('/animal/characterestics')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Characterestics </span></a>
+                              <a href="{{url('/characteristics')}}" class="" ><i class="icon-hourglass"></i> <span>Animal Characterestics </span></a>
                            </li>
 
                            <li class="">
@@ -123,10 +123,6 @@
 
                            <li class="">
                               <a href="{{url('/product-for-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
-                           </li>
-
-                           <li class="">
-                              <a href="{{url('/breed')}}" class="" ><i class="icon-hourglass"></i> <span>Breede </span></a>
                            </li>
 
                            <li class="">

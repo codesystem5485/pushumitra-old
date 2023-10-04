@@ -14,6 +14,7 @@ return [
 'current_password'=>'Current Password',
 'old_password'=>'Old Password',
 'mobile_number'=>'Mobile Number',
+'enter_mobile_number'=>'Enter Mobile Number',
 'first_name'=>'First Name',
 'middle_name'=>'Middle Name',
 'last_name'=>'Last Name',
@@ -25,7 +26,12 @@ return [
 'change_password'=>'Change Password',
 'please_wait'=>'Please wait...',
 'my_profile'=>'My Profile',
-
+'select_state'=>'Select State',
+'select_city'=>'Select City',
+'state'=>'State',
+'city'=>'City',
+'village'=>'Village',
+'pincode'=>'Pincode',
 //Button
 'btn_sending_pls_wait'=>'Sending, please wait...',
 
@@ -41,8 +47,48 @@ return [
 'animal_type_create'=>'Create Animal Types',
 'animal_type'=>'Animal Type',
 'enter_animal_type'=>'Enter Animal Type',
-''=>'',
 
+//breed
+'breed_list'=>'Breed List',
+'breed_add'=>'Add Breed',
+'breed_edit'=>'Edit Breed',
+'breed_create'=>'Create Breeds',
+'breed'=>'Breed',
+'enter_breed'=>'Enter Breed',
+
+//species
+'species_list'=>'Species List',
+'species_add'=>'Add Specie',
+'species_edit'=>'Edit Specie',
+'species_create'=>'Create Species',
+'species'=>'Specie',
+'enter_species'=>'Enter Specie',
+
+//Characterestics
+'characteristics_list'=>'Characteristics List',
+'characteristics_add'=>'Add Characteristics',
+'characteristics_edit'=>'Edit Characteristics',
+'characteristics_create'=>'Create Characteristics',
+'characteristics'=>'Characteristics',
+'enter_characteristics'=>'Enter Characteristics',
+
+//breed
+'chemist_list'=>'Chemist List',
+'chemist_add'=>'Add Chemist',
+'chemist_edit'=>'Edit Chemist',
+'chemist_create'=>'Create Chemists',
+'chemist'=>'Chemist',
+'enter_chemist'=>'Enter Chemist',
+'chemist_shop_name'=>'Chemist Shop Name',
+'shop_owner_name'=>'Shop Owner Name',
+'enter_chemist_shop_name'=>'Enter Chemist Shop Name',
+'enter_shop_owner_name'=>'Enter Shop Owner Name',
+'address_line_1'=>'Address Line 1',
+'address_line_2'=>'Address Line 2',
+'enter_address_line_1'=>'Enter address line 1',
+'enter_address_line_2'=>'Enter address line 2',
+'enter_village'=>'Enter Village',
+'enter_pincode'=>'Enter Pincode',
 ];
 
 ?>

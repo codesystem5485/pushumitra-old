@@ -56,7 +56,7 @@ class AnimalController extends Controller
         try{
             
             $animalType = AnimalType::create(['animal_type' => $request->input('animal_type')]);
-            DB::commit();
+            DB::commit();   
             Session::flash('success', trans('messages.update_records'));
             
             ## Store log

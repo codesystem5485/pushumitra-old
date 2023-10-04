@@ -8,19 +8,19 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
-                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> @if(!empty($animalType))
-                    {{ __('general.animal_type_edit') }}
+                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>@if(!empty($characteristics))
+                    {{ __('general.characteristics_edit') }}
                     @else
-                    {{ __('general.animal_type_create') }}
-                    @endif    </h2>
+                    {{ __('general.characteristics_create') }}
+                    @endif </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.animal_type_list') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.characteristics_list') }}</a></li>
                     <li class="breadcrumb-item">
-                    @if(!empty($animalType))
-                    {{ __('general.animal_type_edit') }}
+                    @if(!empty($characteristics))
+                    {{ __('general.characteristics_edit') }}
                     @else
-                    {{ __('general.animal_type_create') }}
+                    {{ __('general.characteristics_create') }}
                     @endif    
                     </li>
                 </ul>
@@ -33,14 +33,14 @@
                 <div class="header">
                     @include('backend.layouts.flash-message')
                 </div> 
-                <form action="@if(empty($animalType)){{route('animal.store-type')}}@else{{route('animal.update-type',['id' => $animalType->id])}}@endif" method="post"> 
+                <form action="@if(empty($characteristics)){{route('characteristics.store')}}@else{{route('characteristics.update',['id' => $characteristics->id])}}@endif" method="post"> 
                     @csrf  
                 <div class="body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon3">{{ __('general.animal_type') }}* :</span>
+                            <span class="input-group-text" id="basic-addon3">{{ __('general.characteristics') }}* :</span>
                         </div>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="animal_type" value="@if(empty($animalType)){{old('animal_type')}}@else{{$animalType->animal_type}}@endif"placeholder="{{ __('general.enter_animal_type') }}">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="characteristic" value="@if(empty($characteristics)){{old('characteristic')}}@else{{$characteristics->characteristic}}@endif"placeholder="{{ __('general.enter_characteristics') }}">
                     </div>
                     
                     <div class="input-group mb-2">
