@@ -176,6 +176,7 @@ class BaseRepository
                 $query->where($key,$value);
             }
         })->first();
+        // echo $query;
         return $query;
     }
 }

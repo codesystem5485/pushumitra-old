@@ -112,6 +112,22 @@ return [
 'transporter_vehicle_name'=>'Vehicle Name',
 'enter_transporter_vehicle_name'=>'Enter Transporter Vehicle Name',
 
+
+//animal owner
+'animal_owner_list'=>'Animal Owner List',
+'animal_owner'=>'Animal Owner',
+'create_animal_owner'=>'Create Animal Owner',
+'edit_animal_owner'=>'Edit Animal Owner',
+'animal_owner_details'=>'Animal Owner Details',
+
+//Pashumitra
+'pashumitra_list'=>'Pashumitra List',
+'pashumitra'=>'Pashumitra',
+'create_pashumitra'=>'Create Pashumitra',
+'edit_pashumitra'=>'Edit Pashumitra',
+'pashumitra_details'=>'Pashumitra Details',
+
+
 ];
 
 ?>

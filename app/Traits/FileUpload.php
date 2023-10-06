@@ -14,6 +14,27 @@ trait FileUpload {
             case 'book':
             $path = Config::get('constants.file.book_file_path');
             break;
+
+            case 'education_certificate':
+                $path = Config::get('constants.file.education_certificate_file_path');
+            break;
+
+            case 'aadhar_photo_front':
+                $path = Config::get('constants.file.aadhar_photo_front_file_path');
+            break;
+
+            case 'aadhar_photo_back':
+                $path = Config::get('constants.file.aadhar_photo_back_file_path');
+            break;
+
+            case 'pan_photo':
+                $path = Config::get('constants.file.pan_photo_file_path');
+            break;
+
+            case 'cheque_photo':
+                $path = Config::get('constants.file.cheque_photo_file_path');
+            break;
+            
             default:
             $path = '';    
         }
@@ -31,6 +52,26 @@ trait FileUpload {
             $path = Config::get('constants.file.book_file_path');
             break;
             
+            case 'education_certificate':
+                $path = Config::get('constants.file.education_certificate_file_path');
+            break;
+
+            case 'pm_aadhar_photo_front':
+                $path = Config::get('constants.file.pm_aadhar_photo_front_file_path');
+            break;
+
+            case 'pm_aadhar_photo_back':
+                $path = Config::get('constants.file.pm_aadhar_photo_back_file_path');
+            break;
+
+            case 'pm_pan_photo':
+                $path = Config::get('constants.file.pm_pan_photo_file_path');
+            break;
+
+            case 'pm_cheque_photo':
+                $path = Config::get('constants.file.pm_cheque_photo_file_path');
+            break;
+
             default:
             $path = '';    
         }

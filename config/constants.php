@@ -9,6 +9,11 @@ return [
     ],
     'file' => [
         'book_file_path' => 'upload/book',
+        'education_certificate_file_path'=>'upload/education_certificate',
+        'aadhar_photo_front_file_path'=>'upload/aadhar_photo_front',
+        'aadhar_photo_back_file_path'=>'upload/aadhar_photo_back',
+        'pan_photo_file_path'=>'upload/pan_photo',
+        'cheque_photo_file_path'=>'upload/cheque_photo',
     ],
     'otp_expiration_min' => 1,
     'entry_fess' => [10,20,50,100],

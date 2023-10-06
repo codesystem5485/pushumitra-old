@@ -12,9 +12,11 @@ use App\Http\Controllers\Backend\SpeciesController;
 use App\Http\Controllers\Backend\CharacteristicsController;
 use App\Http\Controllers\Backend\UserController; 
 use App\Http\Controllers\Backend\LoginController;
+use App\Http\Controllers\Backend\AnimalownerController;
+use App\Http\Controllers\Backend\PashumitraController;
+use App\Http\Controllers\Backend\RegisteredvetController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
-use App\Http\Controllers\Backend\RegisteredvetController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -162,43 +164,66 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [BookController::class, 'delete'])->name('delete'); 
     });
 
+    //Animal Owner module
+    Route::group([
+        'prefix' => 'animal-owner',
+        'as' => 'animal-owner.',
+      ], function () {
+        Route::get('/', [AnimalownerController::class, 'index'])->name('index');
+        Route::get('/create', [AnimalownerController::class, 'create'])->name('create');
+        Route::post('/store', [AnimalownerController::class, 'store'])->name('store'); 
+        Route::get('/animal-owner-list', [AnimalownerController::class, 'getAjaxUser'])->name('list');
+        Route::get('/{id?}/edit', [AnimalownerController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [AnimalownerController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [AnimalownerController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/detail', [AnimalownerController::class, 'userDetail'])->name('detail');        
+      });
+      
+      //Animal Owner module
+      Route::group([
+        'prefix' => 'pashumitra',
+        'as' => 'pashumitra.',
+      ], function () {
+        Route::get('/', [PashumitraController::class, 'index'])->name('index');
+        Route::get('/create', [PashumitraController::class, 'create'])->name('create');
+        Route::post('/store', [PashumitraController::class, 'store'])->name('store'); 
+        Route::get('/pashumitra-list', [PashumitraController::class, 'getAjaxUser'])->name('list');
+        Route::get('/{id?}/edit', [PashumitraController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [PashumitraController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [PashumitraController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/detail', [PashumitraController::class, 'userDetail'])->name('detail');        
+    });
+
+    //Animal Owner module
+    Route::group([
+        'prefix' => 'registervet',
+        'as' => 'registervet.',
+      ], function () {
+        Route::get('/', [RegisteredvetController::class, 'index'])->name('index');
+        Route::get('/create', [RegisteredvetController::class, 'create'])->name('create');
+        Route::post('/store', [RegisteredvetController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [RegisteredvetController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [RegisteredvetController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [RegisteredvetController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/detail', [RegisteredvetController::class, 'userDetail'])->name('detail');        
+    });
+
     //User module
     Route::group([
         'prefix' => 'user',
         'as' => 'user.', 
       ], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::get('/pashumitra', [UserController::class, 'pashumitra'])->name('pashumitra');
-        Route::get('/animal-owner', [UserController::class, 'petowner'])->name('petowner');
-        Route::get('/registered-vet', [UserController::class, 'registeredvet'])->name('registered-vet');
-        Route::get('/user-list', [UserController::class, 'getAjaxUser'])->name('list');
         Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::get('/create/animal-owner', [UserController::class, 'create_petowner'])->name('create-petowner');
-        Route::get('/create/pashumitra', [UserController::class, 'create_pashumitra'])->name('create-pashumitra');
-        Route::get('/create/registered-vet', [UserController::class, 'create_registeredvet'])->name('create-registered-vet');
+        Route::get('/user-list', [UserController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [UserController::class, 'getRoleWiseUser'])->name('role');
         Route::post('/store', [UserController::class, 'store'])->name('store');
         Route::get('/{id?}/edit', [UserController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [UserController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [UserController::class, 'delete'])->name('delete');  
-        Route::get('/{id?}/detail', [UserController::class, 'userDetail'])->name('detail');
-        Route::get('/get-role-user', [UserController::class, 'getRoleWiseUser'])->name('role');
+        Route::get('/{id?}/detail', [UserController::class, 'userDetail'])->name('detail');        
     });
     
-    //Registered-vet
-    Route::group([
-        'prefix' => 'user',
-        'as' => 'user.', 
-      ], function () {
-        Route::get('/registered-vet', [RegisteredvetController::class, 'index'])->name('index');
-        Route::get('/user-list', [UserController::class, 'getAjaxUser'])->name('list');
-        Route::get('/create', [UserController::class, 'create'])->name('create');
-        Route::post('/store', [UserController::class, 'store'])->name('store');
-        Route::get('/{id?}/edit', [UserController::class, 'edit'])->name('edit'); 
-        Route::post('/{id?}/update', [UserController::class, 'update'])->name('update'); 
-        Route::get('/{id?}/delete', [UserController::class, 'delete'])->name('delete');  
-        Route::get('/{id?}/detail', [UserController::class, 'userDetail'])->name('detail');
-        Route::get('/get-role-user', [UserController::class, 'getRoleWiseUser'])->name('role');
-    });
 });
 
     

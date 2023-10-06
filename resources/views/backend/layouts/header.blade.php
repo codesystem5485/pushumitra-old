@@ -75,18 +75,18 @@
                               <a href="{{url('/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
                            
-<li class="@if (\Request::is('user/registered-vet') || \Request::is('user/animal-owner') || \Request::is('user/pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
+<li class="@if (\Request::is('registered-vet') || \Request::is('animal-owner') || \Request::is('user/pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Users</span></a>
                            <ul>
-                           <li class="@if (\Request::is('user/registered-vet')) active  @endif">
-                              <a href="{{url('/user/registered-vet')}}" class="" ><i class=" icon-globe"></i> <span>Registered-Vet</span></a>
+                           <li class="@if (\Request::is('registered-vet')) active  @endif">
+                              <a href="{{url('/registered-vet')}}" class="" ><i class=" icon-globe"></i> <span>Registered-Vet</span></a>
                            </li></ul><ul>
-                           <li class="@if (\Request::is('user/animal-owner')) active  @endif">
-                              <a href="{{url('/user/animal-owner')}}" class="" ><i class=" icon-layers"></i> <span>Animal-Owner</span></a>
+                           <li class="@if (\Request::is('animal-owner')) active  @endif">
+                              <a href="{{url('/animal-owner')}}" class="" ><i class=" icon-layers"></i> <span>Animal-Owner</span></a>
                            </li>
                            </ul><ul>                  
-                           <li class="@if (\Request::is('user/pashumitra')) active  @endif">
-                              <a href="{{url('/user/pashumitra')}}" class="" ><i class="icon-book-open"></i> <span>Pashumitra</span></a>
+                           <li class="@if (\Request::is('pashumitra')) active  @endif">
+                              <a href="{{url('/pashumitra')}}" class="" ><i class="icon-book-open"></i> <span>Pashumitra</span></a>
                            </li>                           
                            </ul><ul>
                            <li class="@if (\Request::is('transporter')) active  @endif">
