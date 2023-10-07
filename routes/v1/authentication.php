@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommonController;
 /*
 |--------------------------------------------------------------------------
 | User Routes
@@ -15,10 +16,13 @@ use App\Http\Controllers\Api\AuthController;
 */
 // Route::middleware(['auth'])->group(function () {
 Route::group(['middleware' => ['cors']], function () {
+
     Route::post('/signup', [AuthController::class,'signUp']); 
     Route::post('/signin', [AuthController::class,'signIn']); 
     Route::post('/verify-otp', [AuthController::class,'verifyOtp']); 
     Route::post('/verify-mobile-number', [AuthController::class,'verifyPhoneNumber']); 
+    Route::get('/get-states', [CommonController::class,'getStates']); 
+    Route::get('/get-cities/{id?}', [CommonController::class,'getCities']); 
    
     Route::group(['middleware' => ['api-token']], function () {
         Route::get('/logout', [AuthController::class,'logout']); 

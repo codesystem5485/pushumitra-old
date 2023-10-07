@@ -60,12 +60,12 @@ class AuthController extends BaseController
                 'village' => 'required|string',
                 'city_town' => 'required|string',
                 'state' => 'required|string',
-                'pincode' => 'required|numeric',    
+                'pincode' => 'required|numeric',
                 'education'=> 'required',
                 'education_certificate'=> 'required|max:10240',
                 'pm_collage_name' => 'required|string',
                 'pm_collage_address' => 'required|string',
-                // 'date_of_birth' => 'required',
+                'date_of_birth' => 'date',
                 'age' => 'required',                
                 'nationality' => 'required',
                 'sex' => 'required',
@@ -82,9 +82,11 @@ class AuthController extends BaseController
                 'mobile_number' => 'required|numeric|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
-                'address_1' => 'required|string',
-                'address_2' => 'required|string',
+                'address_line_1' => 'required|string',
+                'address_line_2' => 'required|string',
                 'city_town' => 'required|string',
+                'city_id' => 'required',
+                'state_id' => 'required',
                 'state' => 'required|string',
                 'pincode' => 'required|numeric',
                  
@@ -101,8 +103,8 @@ class AuthController extends BaseController
                 'mobile_number' => 'required|numeric|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
-                'address_1' => 'required|string',
-                'address_2' => 'required|string',
+                'address_line_1' => 'required|string',
+                'address_line_2' => 'required|string',
                 'city_town' => 'required|string',
                 'state' => 'required|string',
                 'pincode' => 'required|numeric',
@@ -148,7 +150,7 @@ class AuthController extends BaseController
             {
                 $user = $this->userRepo->create($param);
             }
-            if($postData['role']=='Pashumitra')
+            if($postData['role']=='Animal-owner')
             {
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
@@ -162,6 +164,36 @@ class AuthController extends BaseController
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode']; 
+                
+                $user = $this->userRepo->create($param);
+
+                $paramDetail['user_id'] = $user->id;
+                $userDetail = $this->userDetailRepo->create($paramDetail);
+            }
+            if($postData['role']=='Pashumitra')
+            {
+                $param['first_name'] = $postData['first_name'];
+                $param['middle_name'] = $postData['middle_name'];
+                $param['last_name'] = $postData['last_name'];
+                $param['email'] = $postData['email'];
+                $param['password'] = $postData['password'];
+                $param['mobile_number'] = $postData['mobile_number'];
+                $param['address_line_1'] = $postData['address_line_1'];
+                $param['address_line_2'] = $postData['address_line_2'];
+                $param['village'] = $postData['village'];
+                $param['city_town'] = $postData['city_town'];
+                $param['state'] = $postData['state'];
+                $param['state_id'] = $postData['state_id'];
+                $param['city_id'] = $postData['city_id'];
+                $param['pincode'] = $postData['pincode']; 
+
+                $param['education']= $postData['education'];
+                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+                $param['education_certificate']= $education_certificateName;
+                $param['pm_collage_name'] = $postData['pm_collage_name'];
+                $param['pm_collage_address'] = $postData['pm_collage_address'];
+                
+
                 $param['nationality'] = $postData['nationality']; 
                 $param['sex'] = $postData['sex']; 
                 $param['marital_status'] = $postData['marital_status']; 
@@ -201,23 +233,24 @@ class AuthController extends BaseController
     }
 
     public function signIn(Request $request){
-        $postData = request()->json()->all();
+        $postData = request()->all();
         $validator = Validator::make($postData, [
-            'mobile' => 'required|max:10',
-            'country_code' => 'required'
+            'mobile_number' => 'required|max:10',
+            // 'country_code' => 'required'
         ]);
         $response = [];
         if ($validator->fails())
         {
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
-        $user = $this->userRepo->getSingleRecords(['phone_number' => $postData['mobile']]);
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+        
         if ($user) {
             ## check phone is verify
-            $aUserVerify = $this->userRepo->getSingleRecords(['phone_number' => $postData['mobile'],'is_phone_verify' => 1]);
+            $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number'],'is_phone_verify' => 1]);
             if(empty($aUserVerify)){
                 return $this->sendError($response,trans('messages.verify_phone'),401);
-            } 
+            }
             DB::beginTransaction();
             try{
                 $otp = random_number();
@@ -240,7 +273,7 @@ class AuthController extends BaseController
         }
     }
     public function verifyOtp(Request $request){
-        $postData = request()->all();
+        $postData = request()->all(); 
         // $postData = request()->json()->all();
         $validator = Validator::make($postData, [
             'mobile_number' => 'required|max:10',
@@ -283,9 +316,9 @@ class AuthController extends BaseController
         }
     }
     public function verifyPhoneNumber(Request $reqest){
-        $postData = request()->json()->all();
+        $postData = request()->all();
         $validator = Validator::make($postData, [
-            'mobile' => 'required|max:10',
+            'mobile_number' => 'required|max:10',
         ]);
         $response = [];
         if ($validator->fails())
@@ -293,7 +326,7 @@ class AuthController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
         $response = [];
-        $user = $this->userRepo->getSingleRecords(['phone_number' => $postData['mobile']]);
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
         if ($user) {
             DB::beginTransaction();
             try{
