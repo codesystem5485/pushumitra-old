@@ -42,4 +42,39 @@ $(document).ready(function () {
         var city_val = $(this).children("option:selected").attr("city_val");
         $("#city_id").val(city_val);
     });
+
+    $("#rv_working_state").on("change", function () {
+        var actionurl = webUrl + "/get-cities";
+        var state_val = $(this).children("option:selected").attr("state_val");
+        $("#rv_working_state_id").val(state_val);
+        $.ajax({
+            url: actionurl,
+            type: "get",
+            dataType: "application/json",
+            data: { state_id: state_val },
+            dataType: "JSON",
+            success: function (res) {
+                $("#rv_working_city_town").html(
+                    "<option value=''> --City-- </option>"
+                );
+                $.each(res, function (index, value) {
+                    $("#rv_working_city_town").append(
+                        '<option city_val="' +
+                            value.city_id +
+                            '" value="' +
+                            value.city +
+                            '">' +
+                            value.city +
+                            "</option>"
+                    );
+                });
+            },
+        });
+    });
+
+    $("#rv_working_city_town").on("change", function () {
+        var actionurl = webUrl + "/get-cities";
+        var city_val = $(this).children("option:selected").attr("city_val");
+        $("#rv_working_city_id").val(city_val);
+    });
 });

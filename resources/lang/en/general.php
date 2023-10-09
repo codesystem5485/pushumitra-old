@@ -127,6 +127,13 @@ return [
 'edit_pashumitra'=>'Edit Pashumitra',
 'pashumitra_details'=>'Pashumitra Details',
 
+//Registered-vet
+'registered_vet_list'=>'Registered-vet List',
+'registered_vet'=>'Registered-vet',
+'create_registered_vet'=>'Create Registered-vet',
+'edit_registered_vet'=>'Edit Registered-vet',
+'registered_vet_details'=>'Registered-vet Details',
+
 
 ];
 

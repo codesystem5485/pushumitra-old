@@ -16,8 +16,9 @@
             </div>
         </div>
          <div class="row clearfix">
-                  <div class="col-lg-3 col-md-6">
-                     <div class="card overflowhidden">
+                  <div class="col-lg-12 col-md-12" style="text-align:center;vertical-align:center;">
+                   <h2> Coming Soon...</h2>
+                     <!-- <div class="card overflowhidden">
                         <div class="body">
                            <h3>{{$nTotalUusers}}<i class="icon-user-follow float-right"></i></h3>
                            <span>New Users</span>
@@ -25,7 +26,7 @@
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
-                     </div>
+                     </div> -->
                   </div>
                 
                </div>

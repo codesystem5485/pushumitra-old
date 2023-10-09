@@ -196,8 +196,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Owner module
     Route::group([
-        'prefix' => 'registervet',
-        'as' => 'registervet.',
+        'prefix' => 'registered-vet',
+        'as' => 'registered-vet.',
       ], function () {
         Route::get('/', [RegisteredvetController::class, 'index'])->name('index');
         Route::get('/create', [RegisteredvetController::class, 'create'])->name('create');
