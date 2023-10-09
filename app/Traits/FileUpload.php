@@ -11,6 +11,11 @@ trait FileUpload {
 
     public function uploadFile($file,$type){
         switch($type){
+
+            case 'profile_photo':
+            $path = Config::get('constants.file.profile_photo_file_path');
+            break;
+
             case 'book':
             $path = Config::get('constants.file.book_file_path');
             break;

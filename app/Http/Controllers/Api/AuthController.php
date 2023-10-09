@@ -48,6 +48,7 @@ class AuthController extends BaseController
         if($postData['role']=='Pashumitra')
         {
             $validator = Validator::make($postData, [
+                'profile_photo'=>'required|max:10240',
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
@@ -75,6 +76,7 @@ class AuthController extends BaseController
         if($postData['role']=='Animal-owner')
         {
             $validator = Validator::make($postData, [
+                'profile_photo'=>'required|max:10240',
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
@@ -110,13 +112,14 @@ class AuthController extends BaseController
                 'pincode' => 'required|numeric',
                 'education_certificate'=> 'required|max:10240',
                 'education'=> 'required|string',
+
                 'rv_state_verternity_council'=>'required',
                 'rv_state_verternity_council_no'=>'required|numeric',
                 'rv_working_village' => 'required|string',
                 'rv_working_city_town' => 'required|string',
                 'rv_working_state' => 'required|string',
                 'rv_working_pincode' => 'required|numeric',
-                //'date_of_birth' => 'required',
+                'date_of_birth' => 'date',
                 'age' => 'required|numeric',
                 'sex' => 'required|string',
                 'job_type' => 'required|string',
@@ -152,6 +155,17 @@ class AuthController extends BaseController
             }
             if($postData['role']=='Animal-owner')
             {
+                $profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+                if(!empty($profile_photoName))
+                {
+                    $param['profile_photo'] = $profile_photoName;
+                }
+                else{
+
+                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
+                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+                }
+                
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
@@ -172,6 +186,26 @@ class AuthController extends BaseController
             }
             if($postData['role']=='Pashumitra')
             {
+                $profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+                if(!empty($profile_photoName))
+                {
+                    $param['profile_photo'] = $profile_photoName;
+                }
+                else{
+                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
+                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+                }
+
+                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+                if(!empty($education_certificateName))
+                {
+                    $param['education_certificate']= $education_certificateName;
+                }
+                else{
+                    $response['error'] = trans('messages.not_able_to_upload_edu_certi');
+                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+                }
+                
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
@@ -186,14 +220,9 @@ class AuthController extends BaseController
                 $param['state_id'] = $postData['state_id'];
                 $param['city_id'] = $postData['city_id'];
                 $param['pincode'] = $postData['pincode']; 
-
                 $param['education']= $postData['education'];
-                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-                $param['education_certificate']= $education_certificateName;
                 $param['pm_collage_name'] = $postData['pm_collage_name'];
                 $param['pm_collage_address'] = $postData['pm_collage_address'];
-                
-
                 $param['nationality'] = $postData['nationality']; 
                 $param['sex'] = $postData['sex']; 
                 $param['marital_status'] = $postData['marital_status']; 
@@ -206,6 +235,64 @@ class AuthController extends BaseController
                 $paramDetail['pm_collage_name'] = $postData['pm_collage_name'];
                 $paramDetail['pm_collage_address'] = $postData['pm_collage_address'];
 
+                $userDetail = $this->userDetailRepo->create($paramDetail);
+            }
+            if($postData['role']=='Registered-vet')
+            {
+                $profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+                if(!empty($profile_photoName))
+                {
+                    $param['profile_photo'] = $profile_photoName;
+                }
+                else{
+                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
+                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+                }
+
+                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+                if(!empty($education_certificateName))
+                {
+                    $param['education_certificate']= $education_certificateName;
+                }
+                else{
+                    $response['error'] = trans('messages.not_able_to_upload_edu_certi');
+                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+                }
+                
+                $param['first_name'] = $postData['first_name'];
+                $param['middle_name'] = $postData['middle_name'];
+                $param['last_name'] = $postData['last_name'];
+                $param['email'] = $postData['email'];
+                $param['password'] = $postData['password'];
+                $param['mobile_number'] = $postData['mobile_number'];
+                $param['address_line_1'] = $postData['address_line_1'];
+                $param['address_line_2'] = $postData['address_line_2'];
+                $param['village'] = $postData['village'];
+                $param['city_town'] = $postData['city_town'];
+                $param['state'] = $postData['state'];
+                $param['state_id'] = $postData['state_id'];
+                $param['city_id'] = $postData['city_id'];
+                $param['pincode'] = $postData['pincode']; 
+                $param['education']= $postData['education'];
+                $param['date_of_birth'] =$postData['date_of_birth'];
+                $param['age'] =$postData['age'];
+                $param['sex'] =$postData['sex'];
+                $param['nationality'] =$postData['nationality'];
+                $param['alternate_mobile_number'] =$postData['alternate_mobile_number'];
+                $user = $this->userRepo->create($param);
+
+                $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
+                $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
+                $paramDetail['rv_working_village'] =$postData['rv_working_village'];
+                $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
+                $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
+                $paramDetail['rv_working_state'] =$postData['rv_working_state'];
+                $paramDetail['rv_working_state_id'] =$postData['rv_working_state_id'];
+                $paramDetail['rv_working_pincode'] =$postData['rv_working_pincode'];
+                $paramDetail['job_type'] =$postData['job_type'];
+                $paramDetail['user_id'] = $user->id;
+                $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
+                $paramDetail['rv_speciality'] =$postData['rv_speciality'];
                 $userDetail = $this->userDetailRepo->create($paramDetail);
             }
             if($user){
@@ -306,7 +393,7 @@ class AuthController extends BaseController
             if($postData['login_type'] == 'signin'){
                 ## if verified otp then create token
                 $token = $user->createToken($user->email)->accessToken;
-                $response = ['name' => $user->name,'email' => $user->email,'role' => 
+                $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
                 isset($user->roles[0]->name) ? $user->roles[0]->name : '','token' => $token];
             }
             

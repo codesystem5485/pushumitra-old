@@ -8,6 +8,7 @@ return [
         'validation_error' => 401
     ],
     'file' => [
+        'profile_photo_file_path' => 'upload/profile_photo',
         'book_file_path' => 'upload/book',
         'education_certificate_file_path'=>'upload/education_certificate',
         'aadhar_photo_front_file_path'=>'upload/aadhar_photo_front',
