@@ -32,7 +32,7 @@ $(document).ready(function () {
                     $(".alert-warning").fadeOut(4000);
                 }
                 if (res.statusCode == 200) {
-                    href = "/dashboard";
+                    href = webUrl + "/dashboard";
 
                     window.location.replace(href);
                 }
