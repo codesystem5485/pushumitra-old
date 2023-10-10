@@ -8,13 +8,13 @@
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
-                    {{ __('general.animal_owner_details')}}
+                    {{ __('general.pashumitra_details')}}
                    </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.animal_owner_list')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.pashumitra_list')}}</a></li>
                     <li class="breadcrumb-item">
-                    {{ __('general.animal_owner_details')}}
+                    {{ __('general.pashumitra_details')}}
                     
                     </li>
                 </ul>
@@ -57,8 +57,66 @@
                             <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
                         </div>
                     </div>
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Education :</span>
+                            <span class="">{{ $user->education }}</span>
+                        </div>
+                    </div>
                     
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Collage Name/Address :</span>
+                            <span class="">{{ $user->getUserDetail->pm_collage_name}} {{$user->getUserDetail->pm_collage_address }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Date of Birth :</span>
+                            <span class="">{{ date('d-m-Y',strtotime($user->date_of_birth))}}</span>
+                        </div>
+                        <div class="">
+                            <span class="">Age :</span>
+                            <span class="">{{ $user->age }}</span>
+                        </div>
+                    </div>
 
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Nationality :</span>
+                            <span class="">{{ $user->nationality}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Sex :</span>
+                            <span class="">{{ $user->sex}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Naminee Name :</span>
+                            <span class="">{{ $user->getUserDetail->pm_nominee_name}}</span>
+                        </div>
+                        <div class="">
+                            <span class="">Naminee Date of birth :</span>
+                            <span class="">{{ $user->getUserDetail->pm_nominee_dob}}</span>
+                        </div>
+                        <div class="">
+                            <span class="">Naminee Relationship :</span>
+                            <span class="">{{ $user->getUserDetail->pm_nominee_relationship}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Marital Status :</span>
+                            <span class="">{{ $user->marital_status}}</span>
+                        </div>
+                    </div>
                      
                 </div>
                 </form>

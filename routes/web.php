@@ -201,6 +201,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
       ], function () {
         Route::get('/', [RegisteredvetController::class, 'index'])->name('index');
         Route::get('/create', [RegisteredvetController::class, 'create'])->name('create');
+        Route::get('/list', [RegisteredvetController::class, 'getAjaxUser'])->name('list');
         Route::post('/store', [RegisteredvetController::class, 'store'])->name('store'); 
         Route::get('/{id?}/edit', [RegisteredvetController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [RegisteredvetController::class, 'update'])->name('update'); 

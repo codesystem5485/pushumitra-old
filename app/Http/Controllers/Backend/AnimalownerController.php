@@ -113,11 +113,11 @@ class AnimalownerController extends BaseController
             $this->userRepo->delete($id);
             DB::commit(); 
             Session::flash('success', trans('messages.delete_records'));
-            return redirect()->route('user.index');
+            return redirect()->route('animal-owner.index');
         }catch(\Exception $e){
             DB::rollback();
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('user.index');
+            return redirect()->route('animal-owner.index');
         } 
     }
 

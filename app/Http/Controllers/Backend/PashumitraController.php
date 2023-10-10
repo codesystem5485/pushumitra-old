@@ -182,17 +182,21 @@ class PashumitraController extends BaseController
             $this->userRepo->delete($id);
             DB::commit(); 
             Session::flash('success', trans('messages.delete_records'));
-            return redirect()->route('user.index');
+            return redirect()->route('pashumitra.index');
         }catch(\Exception $e){
             DB::rollback();
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('user.index');
+            return redirect()->route('pashumitra.index');
         } 
     }
 
     public function userDetail($id){
-        $user = $this->userRepo->getbyId($id,['roles:id']);
-        return view('backend.pashumitra.detail',['user'=>$user,'url' => $this->url]);
+        // $user = $this->userRepo->getbyId($id,['roles:id']);
+        $filter = ['id'=>$id];
+        $select = [];
+        $with = ['getUserDetail','roles']; 
+        $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with); 
+        return view('backend.pashumitra.detail',['user'=>$userDetail,'url' => $this->url]);
     }
     public function getRoleWiseUser(Request $request){
         $roleName = $request->role;

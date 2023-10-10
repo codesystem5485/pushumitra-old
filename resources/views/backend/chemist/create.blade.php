@@ -74,7 +74,7 @@
                         <select id="state" class="form-control"  aria-describedby="basic-addon3" name="state" >
                             <option value="">{{ __('general.select_state') }}</option>
                             @foreach($states as $state)
-                            <option @if($state->state_id == $chemist->state_id) selected='selected' @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
+                            <option @if(!empty($chemist))@if($state->state_id == $chemist->state_id) selected='selected' @endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
                             @endforeach
                         </select>
                     </div>
@@ -86,7 +86,7 @@
 
                         <select id="city_town" class="form-control"  aria-describedby="basic-addon3" name="city_town" >
                             <option value="">{{ __('general.select_city') }}</option>
-                            @if($cities)
+                            @if(!empty($cities))
                             @foreach($cities as $city)
                             <option @if($city->city_id==$chemist->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
                             @endforeach

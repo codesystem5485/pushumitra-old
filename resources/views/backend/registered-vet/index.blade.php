@@ -68,7 +68,7 @@
            processing: true,
            serverSide: true,
             ajax: {
-                "url":"{{ route('pashumitra.list') }}",
+                "url":"{{ route('registered-vet.list') }}",
                 "type": "GET",
                 "data": function(d){
                     d.role = $("#role").val();

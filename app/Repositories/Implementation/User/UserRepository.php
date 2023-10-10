@@ -31,8 +31,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
      * {@inheritDoc}
      */
     public function getUsers(array $input = [])
-    { 
-    
+    {     
         return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name'])
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
@@ -201,6 +200,43 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             }
             if(auth()->user()->can('pashumitra-delete')){
                 $actionBtn .= '<a href="'.route('pashumitra.delete',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
+            }
+            return $actionBtn;
+           
+        })
+        ->rawColumns(['action','roles'])
+        ->make(true);
+    }
+
+    public function getRegisteredvetData($sRoleName = ''){
+        
+        $users = $this->getUsers(['sRoleName' => $sRoleName]); 
+        return Datatables::of($users)
+        ->addIndexColumn()
+        ->addColumn('roles', function ($user) { 
+            return isset($user->roles[0]['name']) ? $user->roles[0]['name'] : "-";
+        })
+        ->editColumn('first_name', function ($user) { 
+            return $user->first_name." ".$user->middle_name." ".$user->last_name;
+        })
+        ->editColumn('mobile_number', function ($user) { 
+            return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
+        })
+        ->addColumn('action', function($user){
+            $actionBtn = '';
+            if(auth()->user()->can('registeredvet-list')){
+                $actionBtn .= '<a href="'.route('registered-vet.detail',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
+                </button></a>';
+            }
+            if(auth()->user()->can('registeredvet-edit')){
+                $actionBtn .= '<a href="'.route('registered-vet.edit',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
+                </button></a>';
+            }
+            if(auth()->user()->can('registeredvet-delete')){
+                $actionBtn .= '<a href="'.route('registered-vet.delete',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
             }
             return $actionBtn;

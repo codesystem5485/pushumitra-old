@@ -91,7 +91,7 @@ class RegisteredvetController extends BaseController
             $user = $this->userRepo->create($aInsertData); 
             
             //asign role
-            $roleData = $this->roleRepo->where('id',$request->role)->first();
+            $roleData = $this->roleRepo->where('id','7')->first();
 
             if($roleData){
                 $user->assignRole($roleData->name);  
@@ -121,45 +121,94 @@ class RegisteredvetController extends BaseController
         }    
     }
     public function edit(Request $request, $id = ''){
-        $user = $this->userRepo->getbyId($id,['roles:id']);
-       
+        $filter = ['id'=>$id];
+        $select = ['first_name,middle_name,last_name,email,mobile_number,address_line_1,address_line_2,village,city_id,state_id,city_town,state,pincode,nationality,sex,marital_status,date_of_birth,age,education,education_certificate'];
+        $with = ['getUserDetail','roles']; 
+        $user = $this->userRepo->getSingleRecords($filter,[],$with); 
+        
+        $states = $this->stateRepo->getStates();
+        $cities = $this->cityRepo->getCities(['state_id'=>$user->state_id]);
+        $rv_cities = $this->cityRepo->getCities(['state_id'=>$user->getUserDetail->rv_working_state_id]);
         $roles = $this->getRoles();
-        return view('backend.users.create',['user' => $user,'roles' => $roles,'url' => $this->url]);
+        return view('backend.registered-vet.create',['rv_cities'=>$rv_cities,'cities'=>$cities,'states'=>$states,'user' => $user,'roles' => $roles,'url' => $this->url]);
     }   
 
-    public function update(UserProcessRequest $request, $id) 
+    public function update(RegisteredvetProcessRequest $request, $id) 
     {
         DB::beginTransaction();
-        try{
+        // try{
             //set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
             //store user data
-            $user = $this->userRepo->update($id,$request->except('_token','role'));
-            $oOldUserRole = $user->getRoleNames();
-            //asign role
-            $roleData = $this->roleRepo->where('id',$request->role)->first();
-             
-            if(!empty($oOldUserRole)){ 
-                $user->removeRole($oOldUserRole[0]);  
-                $user->assignRole($roleData->name);  
+            // $aUpdateData = $request->all();
+
+            $aUpdateData['first_name'] = $request->first_name;
+            $aUpdateData['middle_name'] = $request->middle_name;
+            $aUpdateData['last_name'] = $request->last_name;
+            if(!empty($request->email))
+            {
+                $aUpdateData['email'] = $request->email;
             }
+            if(!empty($request->mobile_number))
+            {
+                $aUpdateData['mobile_number'] = $request->mobile_number;
+            }
+            if(!empty($request->password))
+            {
+                $aUpdateData['password'] = $request->password;
+            }
+            $aUpdateData['address_line_1'] = $request->address_line_1;
+            $aUpdateData['address_line_2'] = $request->address_line_2;
+            $aUpdateData['village'] = $request->village;
+            $aUpdateData['city_town'] = $request->city_town;
+            $aUpdateData['state'] = $request->state;
+            $aUpdateData['state_id'] = $request->state_id;
+            $aUpdateData['city_id'] = $request->city_id;
+            $aUpdateData['pincode'] = $request->pincode;
+            $aUpdateData['education'] = $request->education;
+            if(!empty($request->education_certificate)){
+            $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+            $aUpdateData['education_certificate'] = $education_certificateName;
+            }
+            $aUpdateData['date_of_birth']=date('Y-m-d',strtotime($request->date_of_birth));
+            $aUpdateData['age']=$request->age;
+            $aUpdateData['nationality']=$request->nationality;
+            $aUpdateData['sex']=$request->sex;
+            $aUpdateData['marital_status']=$request->marital_status;
+            // dd($id,$aUpdateData);
+            $userd = $this->userRepo->update($id,$request->all()); 
+            
+            $inputDetail['job_type'] = $request->job_type;
+            $inputDetail['rv_state_verternity_council'] = $request->rv_state_verternity_council;
+            $inputDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
+            $inputDetail['rv_speciality'] = $request->rv_speciality;
+            $inputDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
+            $inputDetail['rv_working_state'] = $request->rv_working_state;
+            $inputDetail['rv_working_state_id'] = $request->rv_working_state_id;
+            $inputDetail['rv_working_city_town'] = $request->rv_working_city_town;
+            $inputDetail['rv_working_city_id'] = $request->rv_working_city_id;
+            $inputDetail['rv_working_village'] = $request->rv_working_village;
+            $inputDetail['rv_working_pincode'] = $request->rv_working_pincode;
+            $oUser = $this->userDetailRepo->update($id,$inputDetail);            
+
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));
             ## Store log
             $message = trans('messages.update_records'); 
             storeActicityLog(trans('messages.update'),$message,Auth::user(),$user);
             return redirect()->route('user.index');  
-        }catch(\Exception $e){
+        // }catch(\Exception $e){
             DB::rollback();
             Session::flash('error', trans('messages.something'));
             return redirect()->route('user.edit',['id' => $id]);
-        } 
+        // } 
     }
 
     public function delete($id){
         DB::beginTransaction();
         try{   
             $this->userRepo->delete($id);
+            $this->userDetailRepo->delete($id);
             DB::commit(); 
             Session::flash('success', trans('messages.delete_records'));
             return redirect()->route('user.index');
@@ -189,6 +238,6 @@ class RegisteredvetController extends BaseController
     }
 
     public function getAjaxUser(Request $request){
-        return $this->userRepo->getUsersData($request->role);
+        return $this->userRepo->getRegisteredvetData($request->role);
     }
 }

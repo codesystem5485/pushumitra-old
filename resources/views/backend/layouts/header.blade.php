@@ -75,7 +75,7 @@
                               <a href="{{url('/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
                            
-<li class="@if (\Request::is('registered-vet') || \Request::is('animal-owner') || \Request::is('user/pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
+<li class="@if (\Request::is('registered-vet') || \Request::is('animal-owner') || \Request::is('pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Users</span></a>
                            <ul>
                            <li class="@if (\Request::is('registered-vet')) active  @endif">

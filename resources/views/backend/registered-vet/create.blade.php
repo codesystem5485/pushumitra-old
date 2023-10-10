@@ -81,7 +81,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Alternate Mobile Number* :</span>
                         </div>
-                        <input type="text" id="alternate_mobile_number" class="form-control" aria-describedby="basic-addon3" name="alternate_mobile_number" value="@if(empty($user)){{old('alternate_mobile_number')}}@else{{$user->getUserDetail->alternate_mobile_number}}@endif" placeholder="Alternate mobile number" required><br>
+                        <input type="text" id="alternate_mobile_number" class="form-control" aria-describedby="basic-addon3" name="alternate_mobile_number" value="@if(empty($user)){{old('alternate_mobile_number')}}@else{{$user->alternate_mobile_number}}@endif" placeholder="Alternate mobile number" required><br>
                         <div><span>{{ $errors->first('alternate_mobile_number') }}</span></div>
                     </div>
 
@@ -288,11 +288,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">State* :</span>
                         </div>
-                        <input type="hidden"  id="rv_working_state_id" name="rv_working_state_id" value="@if(empty($user)){{old('rv_working_state_id')}}@else{{$user->rv_working_state_id}}@endif" />
+                        <input type="hidden"  id="rv_working_state_id" name="rv_working_state_id" value="@if(empty($user)){{old('rv_working_state_id')}}@else{{$user->getUserDetail->rv_working_state_id}}@endif" />
                         <select id="rv_working_state" class="form-control" aria-describedby="basic-addon3" name="rv_working_state">
                             <option value="">Select State</option> 
                             @foreach($states as $state)
-                            <option @if(!empty($user)) @if($state->state_id == $user->state_id) selected='selected'@endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
+                            <option @if(!empty($user)) @if($state->state_id == $user->getUserDetail->rv_working_state_id) selected='selected'@endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
                             @endforeach
                         </select>
                         <div><span>{{ $errors->first('rv_working_state') }}</span></div>
@@ -302,12 +302,12 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">City/Town* :</span>
                         </div>
-                        <input type="hidden"  id="rv_working_city_id" name="rv_working_city_id" value="@if(empty($user)){{old('city_id')}}@else{{$user->city_id}}@endif" />
+                        <input type="hidden"  id="rv_working_city_id" name="rv_working_city_id" value="@if(empty($user)){{old('city_id')}}@else{{$user->getUserDetail->city_id}}@endif" />
                         <select id="rv_working_city_town" class="form-control" aria-describedby="basic-addon3" name="rv_working_city_town">
                             <option value="">{{ __('general.select_city') }}</option>
-                        @if(!empty($cities) && !empty($user))
-                            @foreach($cities as $city)
-                            <option @if($city->city_id==$user->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
+                            @if(!empty($rv_cities) && !empty($user))
+                            @foreach($rv_cities as $city)
+                            <option @if($city->city_id==$user->getUserDetail->rv_working_city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
                             @endforeach
                             @endif
                         </select>
@@ -318,7 +318,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Village* :</span>
                         </div>
-                        <input type="text" id="rv_working_village" class="form-control" aria-describedby="basic-addon3" name="rv_working_village" value="@if(empty($user)){{old('rv_working_village')}}@else{{$user->rv_working_village}}@endif"placeholder="Village" required><br>
+                        <input type="text" id="rv_working_village" class="form-control" aria-describedby="basic-addon3" name="rv_working_village" value="@if(empty($user)){{old('rv_working_village')}}@else{{$user->getUserDetail->rv_working_village}}@endif"placeholder="Village" required><br>
                         <div><span>{{ $errors->first('rv_working_village') }}</span></div>
                     </div>
 
@@ -326,7 +326,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Pincode* :</span>
                         </div>
-                        <input type="text" id="rv_working_pincode" class="form-control" aria-describedby="basic-addon3" name="rv_working_pincode" value="@if(empty($user)){{old('rv_working_pincode')}}@else{{$user->rv_working_pincode}}@endif"placeholder="Pincode" required><br>
+                        <input type="text" id="rv_working_pincode" class="form-control" aria-describedby="basic-addon3" name="rv_working_pincode" value="@if(empty($user)){{old('rv_working_pincode')}}@else{{$user->getUserDetail->rv_working_pincode}}@endif"placeholder="Pincode" required><br>
                         <div><span>{{ $errors->first('rv_working_pincode') }}</span></div>
                     </div>
 
