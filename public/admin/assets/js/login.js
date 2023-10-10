@@ -25,7 +25,7 @@ $(document).ready(function () {
             dataType: "JSON",
             success: function (res) {
                 // var webUrl = "{{url('/')}}";
-
+                var webUrl = "<?php echo (url('/')); ?>";
                 if (res.statusCode == 404) {
                     $(".alert-warning").show();
                     $(".warning-msg").html(res.message);
