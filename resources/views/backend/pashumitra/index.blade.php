@@ -22,7 +22,7 @@
                 <div class="card">
                 <div class="header">
                 @include('backend.layouts.flash-message')
-                    @can('user-create')
+                    @can('pashumitra-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_pashumitra') }}</a>
                     @endcan
                     

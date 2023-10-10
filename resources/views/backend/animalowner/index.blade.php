@@ -22,7 +22,7 @@
                 <div class="card">
                 <div class="header">
                 @include('backend.layouts.flash-message')
-                    @can('user-create')
+                    @can('animal-owner-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">Create Animal Owner</a>
                     @endcan
                     
