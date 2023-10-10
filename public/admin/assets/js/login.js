@@ -24,17 +24,14 @@ $(document).ready(function () {
             data: $(".form-auth-small").serialize(),
             dataType: "JSON",
             success: function (res) {
-                // var webUrl = "{{url('/')}}";
-                var webUrl = "<?php echo (url('/')); ?>";
                 if (res.statusCode == 404) {
                     $(".alert-warning").show();
                     $(".warning-msg").html(res.message);
                     $(".alert-warning").fadeOut(4000);
                 }
                 if (res.statusCode == 200) {
-                    href = webUrl + "/dashboard";
-
-                    window.location.replace(href);
+                    // var webUrl = '{{url("/")}}';
+                    window.location.href = webUrl + "/dashboard";
                 }
             },
         });
