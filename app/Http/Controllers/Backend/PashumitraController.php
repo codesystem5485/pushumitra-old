@@ -160,8 +160,96 @@ class PashumitraController extends BaseController
         try{
             //set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
+
+            $filter = ['id'=>$id];
+            $select = ['id'];
+            $with = ['getUserDetail']; 
+            $userData = $this->userRepo->getSingleRecords($filter,$select,$with); 
+            // dd($userDetail);
+            $userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
+            
             //store user data
-            $user = $this->userRepo->update($id,$request->except('_token','role'));
+            $aInsertData['first_name'] = $request->first_name;
+            $aInsertData['middle_name'] = $request->middle_name;
+            $aInsertData['last_name'] = $request->last_name;
+            $aInsertData['email'] = $request->email;
+            $aInsertData['mobile_number'] = $request->mobile_number;
+            $aInsertData['password'] = $request->password;
+            $aInsertData['address_line_1'] = $request->address_line_1;
+            $aInsertData['address_line_2'] = $request->address_line_2;
+            $aInsertData['village'] = $request->village;
+            $aInsertData['city_town'] = $request->city_town;
+            $aInsertData['state'] = $request->state;
+            $aInsertData['state_id'] = $request->state_id;
+            $aInsertData['city_id'] = $request->city_id;
+            $aInsertData['pincode'] = $request->pincode;
+            $aInsertData['education'] = $request->education;
+            if(!empty($request->education_certificate))
+            {
+            $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+            if(!empty(($education_certificateName)))
+            {
+            $aInsertData['education_certificate'] = $education_certificateName;
+            }
+            }
+            $aInsertData['date_of_birth']=date('Y-m-d',strtotime($request->date_of_birth));
+            $aInsertData['age']=$request->age;
+            $aInsertData['nationality']=$request->nationality;
+            $aInsertData['sex']=$request->sex;
+            $aInsertData['marital_status']=$request->marital_status;
+            $user = $this->userRepo->update($id,$aInsertData); 
+            
+            $inputDetail['pm_collage_name'] = $request->pm_collage_name;
+            $inputDetail['pm_collage_address'] = $request->pm_collage_address;
+            
+            $inputDetail['pm_nominee_name'] = $request->pm_nominee_name;
+            $inputDetail['pm_nominee_dob'] = date('Y-m-d',strtotime($request->pm_nominee_dob));
+            $inputDetail['pm_nominee_relationship'] = $request->pm_nominee_relationship;
+            $inputDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
+            if(!empty($request->pm_aadhar_photo_front))
+            {
+                $pm_aadhar_photo_frontName = $this->uploadFile($request->pm_aadhar_photo_front,'aadhar_photo_front');
+                if(!empty($pm_aadhar_photo_frontName))
+                {
+                    $inputDetail['pm_aadhar_photo_front'] = $pm_aadhar_photo_frontName;
+                }
+            }
+            if(!empty($request->pm_aadhar_photo_back))
+            {
+                $pm_aadhar_photo_backName = $this->uploadFile($request->pm_aadhar_photo_back,'aadhar_photo_back');
+                if(!empty($pm_aadhar_photo_backName))
+                {
+                    $inputDetail['pm_aadhar_photo_back'] = $pm_aadhar_photo_backName;
+                }
+            }
+
+            $inputDetail['job_type'] = $request->job_type;
+            $inputDetail['pm_pan_no'] = $request->pm_pan_no;
+
+            if(!empty($request->pm_pan_photo))
+            {
+                $pm_pan_photoName = $this->uploadFile($request->pm_pan_photo,'pan_photo');
+                if(!empty($pm_pan_photoName))
+                {
+                    $inputDetail['pm_pan_photo'] = $pm_pan_photoName;
+                }
+            }
+
+            $inputDetail['pm_bank_name'] = $request->pm_bank_name;
+            $inputDetail['pm_account_no'] = $request->pm_account_no;
+            $inputDetail['pm_ifsc_code'] = $request->pm_ifsc_code;
+
+            if(!empty($request->pm_cheque_photo))
+            {
+                $pm_cheque_photoName = $this->uploadFile($request->pm_cheque_photo,'cheque_photo');
+                if(!empty($pm_cheque_photoName))
+                {
+                    $inputDetail['pm_cheque_photo'] = $pm_cheque_photoName;
+                }
+            }
+            
+            $inputDetail['pm_name_of_org'] = $request->pm_name_of_org;
+            $oUser = $this->userDetailRepo->update($userDetailId,$inputDetail);
             
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));

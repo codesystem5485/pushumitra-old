@@ -16,10 +16,11 @@ use App\Http\Requests\RegisteredvetProcessRequest;
 use Auth;
 use App\Http\Controllers\BaseController as BaseController;
 use App\Traits\FileUpload;
+use App\Traits\PassportToken;
 
 class RegisteredvetController extends BaseController
 {
-    use FileUpload;
+    use FileUpload,PassportToken;
     protected $url = '';
     protected $userRepo;
     protected $roleRepo;
@@ -136,12 +137,16 @@ class RegisteredvetController extends BaseController
     public function update(RegisteredvetProcessRequest $request, $id) 
     {
         DB::beginTransaction();
+        $filter = ['id'=>$id];
+        $select = ['id'];
+        $with = ['getUserDetail']; 
+        $userData = $this->userRepo->getSingleRecords($filter,$select,$with); 
+        // dd($userDetail);
+        $userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
+
         // try{
             //set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
-            //store user data
-            // $aUpdateData = $request->all();
-
             $aUpdateData['first_name'] = $request->first_name;
             $aUpdateData['middle_name'] = $request->middle_name;
             $aUpdateData['last_name'] = $request->last_name;
@@ -175,9 +180,10 @@ class RegisteredvetController extends BaseController
             $aUpdateData['nationality']=$request->nationality;
             $aUpdateData['sex']=$request->sex;
             $aUpdateData['marital_status']=$request->marital_status;
-            // dd($id,$aUpdateData);
-            $userd = $this->userRepo->update($id,$request->all()); 
+            $user = $this->userRepo->update($id,$aUpdateData);
             
+            if($userDetailId != null)
+            {
             $inputDetail['job_type'] = $request->job_type;
             $inputDetail['rv_state_verternity_council'] = $request->rv_state_verternity_council;
             $inputDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
@@ -189,42 +195,49 @@ class RegisteredvetController extends BaseController
             $inputDetail['rv_working_city_id'] = $request->rv_working_city_id;
             $inputDetail['rv_working_village'] = $request->rv_working_village;
             $inputDetail['rv_working_pincode'] = $request->rv_working_pincode;
-            $oUser = $this->userDetailRepo->update($id,$inputDetail);            
-
+            $oUser = $this->userDetailRepo->update($userDetailId,$inputDetail);            
+            }
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));
             ## Store log
             $message = trans('messages.update_records'); 
             storeActicityLog(trans('messages.update'),$message,Auth::user(),$user);
-            return redirect()->route('user.index');  
+            return redirect()->route('registered-vet.index');  
         // }catch(\Exception $e){
             DB::rollback();
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('user.edit',['id' => $id]);
+            return redirect()->route('registered-vet.edit',['id' => $id]);
         // } 
     }
 
     public function delete($id){
         DB::beginTransaction();
         try{   
+            $filter = ['id'=>$id];
+            $select = ['id'];
+            $with = ['getUserDetail']; 
+            $userData = $this->userRepo->getSingleRecords($filter,$select,$with); 
+            // dd($userDetail);
+            $userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
+            
             $this->userRepo->delete($id);
-            $this->userDetailRepo->delete($id);
+            $this->userDetailRepo->delete($userDetailId);
             DB::commit(); 
             Session::flash('success', trans('messages.delete_records'));
-            return redirect()->route('user.index');
+            return redirect()->route('registered-vet.index');
         }catch(\Exception $e){
             DB::rollback();
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('user.index');
+            return redirect()->route('registered-vet.index');
         } 
     }
 
     public function userDetail($id){
         $filter = ['id'=>$id];
-        $select = ['id','name','email','phone_number'];
-        $with = ['getUserDetail:id,user_id,pan_number,dob,profile_pic,city,state,gender','roles']; 
+        $select = [];
+        $with = ['getUserDetail']; 
         $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with); 
-        return view('backend.users.detail',['userDetail'=>$userDetail,'url' => $this->url]);
+        return view('backend.registered-vet.detail',['user'=>$userDetail,'url' => $this->url]);
     }
     public function getRoleWiseUser(Request $request){
         $roleName = $request->role;

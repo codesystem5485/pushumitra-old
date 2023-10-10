@@ -129,7 +129,7 @@ class AuthController extends BaseController
                 'rv_speciality'=>'required|string',
             ]);
         }
-        if($postData['role']=='Superadmin' || $postData['role']=='Administrator')
+        if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant')
         {
             $validator = Validator::make($postData, [
                 'first_name' => 'required|string|max:255',
@@ -149,7 +149,7 @@ class AuthController extends BaseController
         DB::beginTransaction();
         try{
             $param = $request->all();
-            if($postData['role']=='Superadmin' || $postData['role']=='Administrator')
+            if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant')
             {
                 $user = $this->userRepo->create($param);
             }

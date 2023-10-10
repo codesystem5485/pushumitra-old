@@ -120,6 +120,18 @@ class TransporterController extends Controller
     }
 
     /**
+     * Get Particular Transporter
+     * @param int $id (Transporter Id) Request $request
+     * @return View
+     */
+    public function detail(Request $request, $id = ''){
+        $transporter = Transporters::find($id);
+        $states = State::where('is_active','1')->get();
+        $cities = Cities::where('state_id',$transporter->state_id)->get();        
+        return view('backend.transporter.detail',['cities'=>$cities,'states'=>$states,'user' => $transporter,'url' => $this->url]);  
+    }
+
+    /**
      * Delete Transporter
      * @param int $id (Transporter Id)
      * @return Route

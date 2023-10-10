@@ -88,6 +88,7 @@ return [
 'chemist_add'=>'Add Chemist',
 'chemist_edit'=>'Edit Chemist',
 'chemist_create'=>'Create Chemists',
+'chemist_details'=>'Chemists details',
 'chemist'=>'Chemist',
 'enter_chemist'=>'Enter Chemist',
 'chemist_shop_name'=>'Chemist Shop Name',
@@ -105,9 +106,10 @@ return [
 'transporter_list'=>'Transporter List',
 'transporter_add'=>'Add Transporter',
 'transporter_edit'=>'Edit Transporter',
-'transporter_create'=>'Create Transporters',
+'transporter_create'=>'Add Transporters',
 'transporter'=>'Transporter',
 'transporter_name'=>'Transporter Name',
+'transporter_details'=>'Transporter details',
 'enter_transporter_name'=>'Enter Transporter Name',
 'transporter_vehicle_name'=>'Vehicle Name',
 'enter_transporter_vehicle_name'=>'Enter Transporter Vehicle Name',
@@ -116,24 +118,31 @@ return [
 //animal owner
 'animal_owner_list'=>'Animal Owner List',
 'animal_owner'=>'Animal Owner',
-'create_animal_owner'=>'Create Animal Owner',
+'create_animal_owner'=>'Add Animal Owner',
 'edit_animal_owner'=>'Edit Animal Owner',
 'animal_owner_details'=>'Animal Owner Details',
 
 //Pashumitra
 'pashumitra_list'=>'Pashumitra List',
 'pashumitra'=>'Pashumitra',
-'create_pashumitra'=>'Create Pashumitra',
+'create_pashumitra'=>'Add Pashumitra',
 'edit_pashumitra'=>'Edit Pashumitra',
 'pashumitra_details'=>'Pashumitra Details',
 
 //Registered-vet
 'registered_vet_list'=>'Registered-vet List',
 'registered_vet'=>'Registered-vet',
-'create_registered_vet'=>'Create Registered-vet',
+'create_registered_vet'=>'Add Registered-vet',
 'edit_registered_vet'=>'Edit Registered-vet',
 'registered_vet_details'=>'Registered-vet Details',
 
+//Registered-vet
+'user_list'=>'User List',
+'user'=>'User',
+'create_user'=>'Add User',
+'edit_user'=>'Edit User',
+'user_details'=>'User Details',
+'all_user'=>'All Users',
 
 ];
 

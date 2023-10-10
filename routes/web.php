@@ -132,20 +132,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
       ], function () {
         Route::get('/', [ChemistController::class, 'index'])->name('index');
         Route::get('/create', [ChemistController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [ChemistController::class, 'detail'])->name('detail');
         Route::post('/store', [ChemistController::class, 'store'])->name('store'); 
         Route::get('/{id?}/edit', [ChemistController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [ChemistController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
     });
-
+    
     //Transporter module
     Route::group([
-        'prefix' => 'transporter',
-        'as' => 'transporter.',
-      ], function () {
-        Route::get('/', [TransporterController::class, 'index'])->name('index');
-        Route::get('/create', [TransporterController::class, 'create'])->name('create');
-        Route::post('/store', [TransporterController::class, 'store'])->name('store'); 
+      'prefix' => 'transporter',
+      'as' => 'transporter.',
+    ], function () {
+      Route::get('/', [TransporterController::class, 'index'])->name('index');
+      Route::get('/create', [TransporterController::class, 'create'])->name('create');
+      Route::post('/store', [TransporterController::class, 'store'])->name('store'); 
+      Route::get('/{id?}/detail', [TransporterController::class, 'detail'])->name('detail');
         Route::get('/{id?}/edit', [TransporterController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [TransporterController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [TransporterController::class, 'delete'])->name('delete'); 

@@ -8,13 +8,13 @@
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
-                    {{ __('general.animal_owner_details')}}
+                    {{ __('general.registered_vet_details')}}
                    </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.animal_owner_list')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.registered_vet_list')}}</a></li>
                     <li class="breadcrumb-item">
-                    {{ __('general.animal_owner_details')}}
+                    {{ __('general.registered_vet_details')}}
                     
                     </li>
                 </ul>
@@ -58,8 +58,89 @@
                         </div>
                     </div>
                     
-
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Education :</span>
+                            <span class="">{{ $user->education }}</span>
+                        </div>
+                    </div>
                      
+                     <div class="mb-5">
+                        <div class="">
+                            <span class="">Date of Birth :</span>
+                            <span class="">{{ date('d-m-Y',strtotime($user->date_of_birth))}}</span>
+                        </div>
+                        <div class="">
+                            <span class="">Age :</span>
+                            <span class="">{{ $user->age }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Nationality :</span>
+                            <span class="">{{ $user->nationality}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Sex :</span>
+                            <span class="">{{ $user->sex}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Marital Status :</span>
+                            <span class="">{{ $user->marital_status}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Job Type :</span>
+                            <span class="">{{ $user->getUserDetail->job_type}}</span>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Speciality :</span>
+                            <span class="">{{ $user->getUserDetail->rv_speciality}}</span>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Name of state veterinary council :</span>
+                            <span class="">{{ $user->getUserDetail->rv_state_verternity_council}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Name of state veterinary council number:</span>
+                            <span class="">{{ $user->getUserDetail->rv_state_verternity_council_no}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Name of organization working with:</span>
+                            <span class="">{{ $user->getUserDetail->rv_name_of_working_org}}</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <div class="">
+                            <span class="">Working organization address:</span>
+                            <span class="">{{ $user->getUserDetail->rv_working_state}}
+
+                            {{ $user->getUserDetail->rv_working_state." ".$user->getUserDetail->rv_working_city_town." ".$user->getUserDetail->rv_working_village.", ".$user->getUserDetail->rv_working_pincode }}
+                            </span>
+                        </div>
+                    </div>
+
+                    
                 </div>
                 </form>
                 </div>

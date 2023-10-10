@@ -30,7 +30,7 @@
                         <select class="form-control" id="role" onChange="refreshTable()">
                             <option value="">Select Role Wise User </option>
                             @foreach($roles as $role)
-                            <option @if ($role->name == $role_now) selected="selected" @endif value="{{$role->name}}">{{$role->name}}</option>
+                            <option  value="{{$role->name}}">{{$role->name}}</option>
                             @endforeach
                         </select>
                     </p>

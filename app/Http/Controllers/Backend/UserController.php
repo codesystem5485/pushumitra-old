@@ -212,11 +212,8 @@ class UserController extends BaseController
     }
 
     public function userDetail($id){
-        $filter = ['id'=>$id];
-        $select = ['id','name','email','phone_number'];
-        $with = ['getUserDetail:id,user_id,pan_number,dob,profile_pic,city,state,gender','roles']; 
-        $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with); 
-        return view('backend.users.detail',['userDetail'=>$userDetail,'url' => $this->url]);
+       $user = $this->userRepo->getbyId($id,['roles:id']);
+        return view('backend.users.detail',['user'=>$user,'url' => $this->url]);
     }
     public function getRoleWiseUser(Request $request){
         $roleName = $request->role;

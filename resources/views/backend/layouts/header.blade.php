@@ -74,27 +74,32 @@
                            <li class="@if (\Request::is('dashboard')) active  @endif">
                               <a href="{{url('/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
-                           
-<li class="@if (\Request::is('registered-vet') || \Request::is('animal-owner') || \Request::is('pashumitra') || \Request::is('transporter') || \Request::is('chemist') ) active  @endif">
+                           @if(auth()->user()->can('user-list') || auth()->user()->can('user-create') ||  auth()->user()->can('user-edit') ||  auth()->user()->can('user-delete'))
+                           <li class="@if (\Request::is('user')) active  @endif">
+                              <a href="{{url('/user')}}" class=""><i class="icon-home"></i> <span>{{__('general.all_user')}}</span></a>
+                           </li>
+                           @endif
+
+                        <li class="@if (\Request::is('registered-vet') || \Request::is('registered-vet/*') || \Request::is('animal-owner') || \Request::is('animal-owner/*') || \Request::is('pashumitra') || \Request::is('pashumitra/*') || \Request::is('transporter') || \Request::is('transporter/*') || \Request::is('chemist') || \Request::is('chemist/*')) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Users</span></a>
                            <ul>
-                           <li class="@if (\Request::is('registered-vet')) active  @endif">
+                           <li class="@if (\Request::is('registered-vet') || \Request::is('registered-vet/*')) active  @endif">
                               <a href="{{url('/registered-vet')}}" class="" ><i class=" icon-globe"></i> <span>Registered-Vet</span></a>
                            </li></ul><ul>
-                           <li class="@if (\Request::is('animal-owner')) active  @endif">
+                           <li class="@if (\Request::is('animal-owner') || \Request::is('animal-owner/*'))  active  @endif">
                               <a href="{{url('/animal-owner')}}" class="" ><i class=" icon-layers"></i> <span>Animal-Owner</span></a>
                            </li>
                            </ul><ul>                  
-                           <li class="@if (\Request::is('pashumitra')) active  @endif">
+                           <li class="@if (\Request::is('pashumitra') || \Request::is('pashumitra/*')) active  @endif">
                               <a href="{{url('/pashumitra')}}" class="" ><i class="icon-book-open"></i> <span>Pashumitra</span></a>
                            </li>                           
                            </ul><ul>
-                           <li class="@if (\Request::is('transporter')) active  @endif">
+                           <li class="@if (\Request::is('transporter') || \Request::is('transporter/*')) active  @endif">
                               <a href="{{url('/transporter')}}" class="" ><i class="icon-book-open"></i> <span>Transporter</span></a>
                            </li>     
                            </ul>
                            <ul>
-                              <li class="@if (\Request::is('chemist')) active  @endif">
+                              <li class="@if (\Request::is('chemist') || \Request::is('chemist/*'))  active  @endif">
                               <a href="{{url('/chemist')}}" class="" ><i class="icon-hourglass"></i> <span>Chemist </span></a>
                            </li>
 </ul>

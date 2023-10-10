@@ -45,6 +45,8 @@
                                 <td>{{$type->mobile_number}}</td>                                 
                                 <td>{{$type->address_line_1." ".$type->address_line_2." ".$type->state." ".$type->city_town.", ".$type->village." ".$type->pincode }}</td>                                 
                                 <td>
+                                    <a href="{{route('transporter.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 
+                                    </button></a>
                                     <a href="{{route('transporter.edit',['id' => $type->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>

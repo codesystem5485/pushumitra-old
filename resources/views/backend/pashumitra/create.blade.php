@@ -247,7 +247,7 @@
                         <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@else{{$user->getUserDetail->pm_nominee_name}}@endif" placeholder="Nominee Name" required><br>
                         <div><span>{{ $errors->first('pm_nominee_name') }}</span></div>
                     </div>
-
+                    
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Nominee Date of Birth :</span>
