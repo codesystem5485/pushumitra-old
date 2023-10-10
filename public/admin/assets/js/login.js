@@ -24,7 +24,7 @@ $(document).ready(function () {
             data: $(".form-auth-small").serialize(),
             dataType: "JSON",
             success: function (res) {
-                var webUrl = "{{url('/')}}";
+                // var webUrl = "{{url('/')}}";
 
                 if (res.statusCode == 404) {
                     $(".alert-warning").show();
