@@ -19,7 +19,12 @@ class SpeciesController extends Controller
      */
     public function __construct(){
 
-       $this->url = [   
+        $this->middleware('permission:species-list|species-create|species-edit|species-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:species-create', ['only' => ['create','store']]);
+        $this->middleware('permission:species-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:species-delete', ['only' => ['delete']]);
+
+        $this->url = [   
             'listUrl' => route('species.index'),
             'createUrl' => route('species.create')
         ];

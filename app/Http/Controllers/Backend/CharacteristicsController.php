@@ -19,7 +19,12 @@ class CharacteristicsController extends Controller
      */
     public function __construct(){
 
-       $this->url = [   
+        $this->middleware('permission:characteristics-list|characteristics-create|characteristics-edit|characteristics-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:characteristics-create', ['only' => ['create','store']]);
+        $this->middleware('permission:characteristics-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:characteristics-delete', ['only' => ['delete']]);
+
+        $this->url = [   
             'listUrl' => route('characteristics.index'),
             'createUrl' => route('characteristics.create')
         ];

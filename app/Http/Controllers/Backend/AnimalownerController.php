@@ -24,6 +24,11 @@ class AnimalownerController extends BaseController
     protected $roleRepo;
     public function __construct(UserRepositoryInterface $userRepo,Role $role,StateRepositoryInterface $stateRepo, CityRepositoryInterface $cityRepo){
 
+        $this->middleware('permission:animal-owner-list|animal-owner-create|animal-owner-edit|animal-owner-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:animal-owner-create', ['only' => ['create','store']]);
+        $this->middleware('permission:animal-owner-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:animal-owner-delete', ['only' => ['delete']]);
+
         $this->url = [
             'listUrl' => route('animal-owner.index'),
             'createUrl' => route('animal-owner.create'),

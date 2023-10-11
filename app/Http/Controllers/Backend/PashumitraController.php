@@ -28,6 +28,11 @@ class PashumitraController extends BaseController
     private $userDetailRepo;
     public function __construct(UserRepositoryInterface $userRepo,Role $role,StateRepositoryInterface $stateRepo, CityRepositoryInterface $cityRepo,UserDetailRepositoryInterface $userDetailRepository){
 
+        $this->middleware('permission:pashumitra-list|pashumitra-create|pashumitra-edit|pashumitra-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:pashumitra-create', ['only' => ['create','store']]);
+        $this->middleware('permission:pashumitra-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:pashumitra-delete', ['only' => ['delete']]);
+
         $this->url = [
             'listUrl' => route('pashumitra.index'),
             'createUrl' => route('pashumitra.create'),

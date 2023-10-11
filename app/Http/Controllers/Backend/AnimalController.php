@@ -19,7 +19,12 @@ class AnimalController extends Controller
      */
     public function __construct(){
 
-       $this->url = [
+        $this->middleware('permission:animal-type-list|animal-type-create|animal-type-edit|animal-type-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:animal-type-create', ['only' => ['create','store']]);
+        $this->middleware('permission:animal-type-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:animal-type-delete', ['only' => ['delete']]);
+
+        $this->url = [
             'listUrl' => route('animal.index-type'),
             'createUrl' => route('animal.create-type')
         ];

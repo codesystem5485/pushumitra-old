@@ -23,7 +23,9 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
+                    @can('book-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.book_add') }} </a>
+                    @endcan
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -39,12 +41,16 @@
                             <tr>
                                 <td>{{$book->book_name}}</td>                                 
                                 <td>
+                                    @can('book-edit')
                                     <a href="{{route('book.edit',['id' => $book->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>
+                                    @endcan
+                                    @can('book-delete')
                                     <a href="{{route('book.delete',['id' => $book->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

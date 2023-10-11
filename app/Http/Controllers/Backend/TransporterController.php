@@ -23,7 +23,12 @@ class TransporterController extends Controller
      */
     public function __construct(TransporterRepositoryInterface $transporterRepo){
 
-       $this->url = [   
+        $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
+        $this->middleware('permission:transporter-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:transporter-delete', ['only' => ['delete']]);
+
+        $this->url = [   
             'listUrl' => route('transporter.index'),
             'createUrl' => route('transporter.create')
         ];

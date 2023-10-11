@@ -23,7 +23,12 @@ class ChemistController extends Controller
      */
     public function __construct(ChemistRepositoryInterface $chemistRepo){
 
-       $this->url = [   
+        $this->middleware('permission:chemist-list|chemist-create|chemist-edit|chemist-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:chemist-create', ['only' => ['create','store']]);
+        $this->middleware('permission:chemist-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:chemist-delete', ['only' => ['delete']]);
+
+        $this->url = [   
             'listUrl' => route('chemist.index'),
             'createUrl' => route('chemist.create')
         ];

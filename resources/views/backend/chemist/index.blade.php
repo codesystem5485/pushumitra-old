@@ -23,7 +23,9 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
+                    @can('chemist-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.chemist_add') }} </a>
+                    @endcan
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -45,14 +47,22 @@
                                 <td>{{$type->mobile_number}}</td>                                 
                                 <td>{{$type->address_line_1." ".$type->address_line_2." ".$type->state." ".$type->city_town.", ".$type->village." ".$type->pincode }}</td>                                 
                                 <td>
+                                    @can('chemist-detail')
                                     <a href="{{route('chemist.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 
                                     </button></a>
+                                    @endcan
+
+                                    @can('chemist-edit')
                                     <a href="{{route('chemist.edit',['id' => $type->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>
+                                    @endcan
+
+                                    @can('chemist-delete')
                                     <a href="{{route('chemist.delete',['id' => $type->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

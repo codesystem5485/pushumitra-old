@@ -19,7 +19,12 @@ class BreedController extends Controller
      */
     public function __construct(){
 
-       $this->url = [   
+        $this->middleware('permission:breed-list|breed-create|breed-edit|breed-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:breed-create', ['only' => ['create','store']]);
+        $this->middleware('permission:breed-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:breed-delete', ['only' => ['delete']]);
+
+        $this->url = [   
             'listUrl' => route('breed.index'),
             'createUrl' => route('breed.create')
         ];

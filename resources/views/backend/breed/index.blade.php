@@ -41,12 +41,17 @@
                             <tr>
                                 <td>{{$type->breed}}</td>                                 
                                 <td>
+                                    @can('breed-edit')
                                     <a href="{{route('breed.edit',['id' => $type->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>
+                                    @endcan
+
+                                    @can('breed-delete')
                                     <a href="{{route('breed.delete',['id' => $type->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

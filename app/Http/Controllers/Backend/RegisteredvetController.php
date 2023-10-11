@@ -29,6 +29,11 @@ class RegisteredvetController extends BaseController
     protected $userDetailRepo;
     public function __construct(UserRepositoryInterface $userRepo,Role $role,StateRepositoryInterface $stateRepo,CityRepositoryInterface $cityRepo,UserDetailRepositoryInterface $userDetailRepo){
 
+        $this->middleware('permission:registeredvet-list|registeredvet-create|registeredvet-edit|registeredvet-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:registeredvet-create', ['only' => ['create','store']]);
+        $this->middleware('permission:registeredvet-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:registeredvet-delete', ['only' => ['delete']]);
+
         $this->url = [
             'listUrl' => route('registered-vet.index'),
             'createUrl' => route('registered-vet.create'),

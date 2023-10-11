@@ -23,7 +23,9 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
+                    @can('role-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">Add Role </a>
+                    @endcan
                 </div>
                 <div class="body">
                     <div class="table-responsive">
@@ -46,15 +48,17 @@
                                     @endforeach
                                 @endif 
                                 <td>{{implode(',',$permission)}}</td>
-                                <td> 
-                                    @if(!in_array($role->name,['User','Super-Admin'])) 
+                                <td>
+                                    @can('role-edit')
                                         <a href="{{route('role.edit',['id' => $role->id])}}">
                                         <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                                         </button></a>
+                                    @endcan
+                                    @can('role-delete')
                                         <a href="{{route('role.delete',['id' => $role->id])}}" onclick="return confirm('Are you sure want to delete if you delete then it will delete all permission realted to role?')">
                                         <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i>
                                         </button></a>
-                                    @endif
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

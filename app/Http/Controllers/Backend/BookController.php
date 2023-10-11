@@ -23,6 +23,11 @@ class BookController extends Controller
      */
     public function __construct(){
 
+        $this->middleware('permission:book-list|book-create|book-edit|book-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:book-create', ['only' => ['create','store']]);
+        $this->middleware('permission:book-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:book-delete', ['only' => ['delete']]);
+        
        $this->url = [   
             'listUrl' => route('book.index'),
             'createUrl' => route('book.create')
@@ -98,6 +103,8 @@ class BookController extends Controller
      */
     public function update(Request $request, $id) 
     {
+        
+
         $this->validate($request, [
             'book_name' => 'required|unique:books,book_name,'.$id,
             'book_file' => 'unique:books,book_file|max:10240',            
