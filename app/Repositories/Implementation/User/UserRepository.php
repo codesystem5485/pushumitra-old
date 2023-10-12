@@ -151,7 +151,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
-            if(auth()->user()->can('animal-owner-list')){
+            if(auth()->user()->can('animal-owner-detail')){
                 $actionBtn .= '<a href="'.route('animal-owner.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
@@ -188,7 +188,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
-            if(auth()->user()->can('pashumitra-list')){
+            if(auth()->user()->can('pashumitra-detail')){
                 $actionBtn .= '<a href="'.route('pashumitra.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
@@ -225,7 +225,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
-            if(auth()->user()->can('registeredvet-list')){
+            if(auth()->user()->can('registeredvet-detail')){
                 $actionBtn .= '<a href="'.route('registered-vet.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';

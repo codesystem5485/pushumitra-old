@@ -23,7 +23,9 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
+                    @can('transporter-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.transporter_create') }} </a>
+                    @endcan
                 </div>
                 <div class="body">
                     <div class="table-responsive">
