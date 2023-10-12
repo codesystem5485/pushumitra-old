@@ -23,7 +23,7 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     @can('animal-owner-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">Create Animal Owner</a>
+                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_animal_owner')}}</a>
                     @endcan
                     
                     <p class="pull-right">
