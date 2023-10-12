@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\AnimalownerController;
 use App\Http\Controllers\Backend\PashumitraController;
 use App\Http\Controllers\Backend\RegisteredvetController;
+use App\Http\Controllers\Backend\AnimalsaleController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
 /*
@@ -227,6 +228,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/detail', [UserController::class, 'userDetail'])->name('detail');        
     });
     
+
+    //Animal for sale module
+    Route::group([
+        'prefix' => 'animal-sale',
+        'as' => 'animal-sale.', 
+      ], function () {
+        Route::get('/', [AnimalsaleController::class, 'index'])->name('index');
+        Route::get('/create', [AnimalsaleController::class, 'create'])->name('create');
+        Route::get('/user-list', [AnimalsaleController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [AnimalsaleController::class, 'getRoleWiseUser'])->name('role');
+        Route::post('/store', [AnimalsaleController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [AnimalsaleController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [AnimalsaleController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
+        Route::get('/{id?}/detail', [AnimalsaleController::class, 'userDetail'])->name('detail');        
+    });
 });
 
     

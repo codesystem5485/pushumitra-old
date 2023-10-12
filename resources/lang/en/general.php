@@ -56,6 +56,7 @@ return [
 'breed_create'=>'Create Breeds',
 'breed'=>'Breed',
 'enter_breed'=>'Enter Breed',
+'select_breeds'=>'Select Breeds',
 
 //books
 'book_list'=>'Book List',
@@ -74,6 +75,12 @@ return [
 'species_create'=>'Create Species',
 'species'=>'Specie',
 'enter_species'=>'Enter Specie',
+'UID_number'=>'UID Number',
+'enter_UID_number'=>'Enter animal UID Number',
+'age'=>'Age',
+'enter_age'=>'Enter Age',
+'contact_number'=>'Contact Number',
+'select_species'=>'Select Species',
 
 //Characterestics
 'characteristics_list'=>'Characteristics List',
@@ -144,6 +151,21 @@ return [
 'user_details'=>'User Details',
 'all_user'=>'All Users',
 
+//chemist
+'animal-sale_list'=>'Animal Sale List',
+'animal-sale_add'=>'Add Animal Sale',
+'animal-sale_edit'=>'Edit Animal Sale',
+'animal-sale_create'=>'Create Animal Sales',
+'animal-sale_details'=>'Animal Sales details',
+'animal-sale'=>'Animal Sale',
+'contact_number_of_owner'=>'Contact Number of Owner',
+'enter_contact_number_of_owner'=>'Enter contact number of owner',
+'price'=>'Price',
+'address'=>'Address',
+'description'=>'Description',
+'enter_description'=>'Enter Description',
+'enter_price'=>'Enter Price',
+'enter_address'=>'Enter Address',
 ];
 
 ?>

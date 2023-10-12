@@ -60,4 +60,14 @@ return [
     'do_you_want_to_delete'=>'Do you really want to delete the record(s)?',
     'not_able_to_upload_edu_certi'=>'Not able to upload education certificate, please upload another file.',
     'not_able_to_upload_pro_photo'=>'Not able to upload profile photo, please upload another file.',
+
+    'chemist_create' => 'Chemist (:name) has been created', 
+    'chemist_update' => 'Chemist (:name) has been updated',  
+    'chemist_delete' => 'Chemist (:name) has been deleted',
+
+    'animalsale_create' => 'Animal (:name) has been created for sale', 
+    'animalsale_update' => 'Animal (:name) has been updated for sale',  
+    'animalsale_delete' => 'Animal sale (:name) has been deleted',
+
+    ''=>'',
 ];

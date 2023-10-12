@@ -156,9 +156,9 @@
                               <a href="{{url('/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
                            </li>
                            @endif
-                           @if(auth()->user()->can('animal-for-sale-list')) 
+                           @if(auth()->user()->can('animal-sale-list') || auth()->user()->can('animal-sale-create') || auth()->user()->can('animal-sale-edit') || auth()->user()->can('animal-sale-delete')) 
                            <li class="">
-                              <a href="{{url('/animal-for-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>
+                              <a href="{{url('/animal-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>
                            </li>
                            @endif
 
