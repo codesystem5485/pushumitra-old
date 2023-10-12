@@ -129,7 +129,7 @@ class AuthController extends BaseController
                 'rv_speciality'=>'required|string',
             ]);
         }
-        if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant')
+        if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
         {
             $validator = Validator::make($postData, [
                 'first_name' => 'required|string|max:255',
