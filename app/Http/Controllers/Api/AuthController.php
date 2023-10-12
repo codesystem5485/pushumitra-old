@@ -149,7 +149,7 @@ class AuthController extends BaseController
         DB::beginTransaction();
         try{
             $param = $request->all();
-            if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant')
+            if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care')
             {
                 $user = $this->userRepo->create($param);
             }
