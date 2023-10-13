@@ -94,7 +94,7 @@
                         @if(count($productimages))
                             @foreach($productimages as $value)
                                 <div class="input-group mb-2" style="align:left;">
-                                    <img height="100" width="100" src="{{ "/upload/productsale/"}}{{$value->image_name}}" />
+                                    <img height="100" width="100" src="{{url("/upload/productsale/")}}/{{$value->image_name}}" />
                                     <a href="javascript:void(0);" class="removeProductImage" image_val="{{$value->id}}"> Delete</a>
                                 </div>
                             @endforeach
