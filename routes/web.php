@@ -243,6 +243,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [AnimalsaleController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AnimalsaleController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove');        
     });
 });
 

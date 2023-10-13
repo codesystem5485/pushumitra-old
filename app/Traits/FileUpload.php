@@ -12,6 +12,10 @@ trait FileUpload {
     public function uploadFile($file,$type){
         switch($type){
 
+            case 'animalsale':
+            $path = Config::get('constants.file.animalsale_file_path');
+            break; 
+
             case 'profile_photo':
             $path = Config::get('constants.file.profile_photo_file_path');
             break;
@@ -44,7 +48,7 @@ trait FileUpload {
             $path = '';    
         }
         if(!empty($file)){
-            $fileName = time().'-'.$type.'.'.$file->extension();
+            $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
             $file->move(public_path($path), $fileName);
             return $fileName;
         }
@@ -53,6 +57,10 @@ trait FileUpload {
     public function removeFile($file,$type){
         
         switch($type){
+            case 'animalsale':
+            $path = Config::get('constants.file.animalsale_file_path');
+            break; 
+
             case 'book':
             $path = Config::get('constants.file.book_file_path');
             break;

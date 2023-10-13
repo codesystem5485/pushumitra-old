@@ -80,6 +80,7 @@ return [
 'age'=>'Age',
 'enter_age'=>'Enter Age',
 'contact_number'=>'Contact Number',
+'contact_name'=>'Contact Name',
 'select_species'=>'Select Species',
 
 //Characterestics
@@ -159,13 +160,17 @@ return [
 'animal-sale_details'=>'Animal Sales details',
 'animal-sale'=>'Animal Sale',
 'contact_number_of_owner'=>'Contact Number of Owner',
+'contact_name_of_owner'=>'Contact Name of Owner',
 'enter_contact_number_of_owner'=>'Enter contact number of owner',
+'enter_contact_name_of_owner'=>'Enter contact name of owner',
 'price'=>'Price',
+'sex'=>'Sex',
 'address'=>'Address',
 'description'=>'Description',
 'enter_description'=>'Enter Description',
 'enter_price'=>'Enter Price',
 'enter_address'=>'Enter Address',
+'select_sex'=>'Select Sex',
 ];
 
 ?>

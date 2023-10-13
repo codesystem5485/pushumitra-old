@@ -8,10 +8,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 use Illuminate\Http\Request;
 
-class AnimalForSale extends Model
+class AnimalImages extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = ['id','species','breed','age','sex','UID_number','description','price','contact_number_of_owner','contact_name_of_owner','address','otp','otp_expiration','status','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id','animal_sale_id','image_name','created_at','updated_at','deleted_at'];
         
     public static  function boot()
     {

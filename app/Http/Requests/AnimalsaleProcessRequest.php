@@ -28,10 +28,12 @@ class AnimalsaleProcessRequest extends FormRequest
             'species' => 'required',
             'breed' => "required",
             'age' => 'required|numeric',
+            'sex' => 'required|string',
             'price' => 'required|numeric',
             'description' => 'required',
             'address' => 'required',
             'contact_number_of_owner' => 'required|numeric|min:10',
+            'contact_name_of_owner' => 'required',
         ];
         if(!$this->id){
             // $request['password'] = 'required';

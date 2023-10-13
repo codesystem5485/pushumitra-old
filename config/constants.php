@@ -8,6 +8,7 @@ return [
         'validation_error' => 401
     ],
     'file' => [
+        'animalsale_file_path'=>'upload/animalsale',
         'profile_photo_file_path' => 'upload/profile_photo',
         'book_file_path' => 'upload/book',
         'education_certificate_file_path'=>'upload/education_certificate',

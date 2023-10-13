@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AnimalForSale;
+use App\Models\AnimalImages;
 use App\Models\Breeds;
 use App\Models\Species;
 use Spatie\Permission\Models\Permission;
@@ -13,8 +14,11 @@ use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use DB;
 use Session;
 use Auth;
+use App\Traits\FileUpload;
+
 class AnimalsaleController extends Controller
 {
+    use FileUpload;
     protected $url = '';
     protected $animalsaleRepo;
     /**
@@ -66,6 +70,19 @@ class AnimalsaleController extends Controller
         try{            
             $aInsertData = $request->all();
             $animalsale = $this->animalsaleRepo->create($aInsertData);
+            if(count($request->animal_photo))
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'animalsale');
+                    if($fileName)
+                    {
+                        $animalImage = AnimalImages::create(['animal_sale_id'=>$animalsale->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+            
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
@@ -93,7 +110,8 @@ class AnimalsaleController extends Controller
         $animalsale = Animalforsale::find($id);
         $species = Species::where('is_active','1')->get();
         $breed = Breeds::where('is_active','1')->get();
-        return view('backend.animal-sale.create',['breed'=>$breed,'species'=>$species,'animalsale' => $animalsale,'url' => $this->url]);  
+        $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
+        return view('backend.animal-sale.create',['animalimages'=>$animalimages,'breed'=>$breed,'species'=>$species,'animalsale' => $animalsale,'url' => $this->url]);  
     }
 
      /**
@@ -108,6 +126,18 @@ class AnimalsaleController extends Controller
         try{
             $aInsertData = $request->all();
             $animalsale = $this->animalsaleRepo->update($id,$request->all());
+             if(count($request->animal_photo))
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'animalsale');
+                    if($fileName)
+                    {
+                        $animalImage = AnimalImages::create(['animal_sale_id'=>$animalsale->id,'image_name' => $fileName]);
+                    }
+                }
+            }
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
@@ -144,6 +174,19 @@ class AnimalsaleController extends Controller
         $message = trans('messages.animalsale_delete',['name' => $animalsale->UID_number]);
         storeActicityLog(trans('messages.animalsale_delete'),$message,Auth::user(),$animalsale);
         return redirect()->route('animal-sale.index');
+    }
+
+    public function removeImage($id)
+    {
+        $animalImage = AnimalImages::where('id',$id)->first();
+        $animalImage->delete();
+        // Session::flash('success', trans('messages.delete_records'));
+        
+        ## Store log
+        $message = trans('messages.animalsale_remove',['name' => $animalImage->id]);
+        storeActicityLog(trans('messages.animalsale_remove'),$message,Auth::user(),$animalImage);
+        // return redirect()->route('animal-sale.edit',$animalImage->id);
+        return true;
     }
 
 }
