@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transporters;
+use App\Models\VehicleImages;
 use App\Models\State;
 use App\Models\Cities;
 use Spatie\Permission\Models\Permission;
@@ -13,8 +14,11 @@ use App\Repositories\Interfaces\Transporter\TransporterRepositoryInterface;
 use DB;
 use Session;
 use Auth;
+use App\Traits\FileUpload;
+
 class TransporterController extends Controller
 {
+    use FileUpload;
     protected $url = '';
     protected $transporterRepo;
     /**
@@ -65,6 +69,20 @@ class TransporterController extends Controller
         // try{            
             $aInsertData = $request->all();
             $transporter = $this->transporterRepo->create($aInsertData);
+
+            if(count($request->vehicle_photo))
+            {
+                foreach($request->vehicle_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'vehicle');
+                    if($fileName)
+                    {
+                        VehicleImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
@@ -91,9 +109,10 @@ class TransporterController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $transporter = Transporters::find($id);
+        $vehicleimages = VehicleImages::where('transporter_id',$transporter->id)->get();
         $states = State::where('is_active','1')->get();
         $cities = Cities::where('state_id',$transporter->state_id)->get();        
-        return view('backend.transporter.create',['cities'=>$cities,'states'=>$states,'transporter' => $transporter,'url' => $this->url]);  
+        return view('backend.transporter.create',['vehicleimages'=>$vehicleimages,'cities'=>$cities,'states'=>$states,'transporter' => $transporter,'url' => $this->url]);  
     }
 
      /**
@@ -107,6 +126,20 @@ class TransporterController extends Controller
         DB::beginTransaction();
         try{
             $transporter = $this->transporterRepo->update($id,$request->all());
+
+            if(count($request->vehicle_photo))
+            {
+                foreach($request->vehicle_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'vehicle');
+                    if($fileName)
+                    {
+                        VehicleImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
@@ -150,6 +183,20 @@ class TransporterController extends Controller
         $message = trans('messages.transporter_delete',['name' => $transporter->owner_name]);
         storeActicityLog(trans('messages.delete'),$message,Auth::user(),$transporter);
         return redirect()->route('transporter.index');
+    }
+
+    public function removeImage($id)
+    {
+        $vehicleImage = VehicleImages::where('id',$id)->first();
+        $this->removeFile($vehicleImage->image_name,'vehicle');
+        $vehicleImage->delete();
+        // Session::flash('success', trans('messages.delete_records'));
+        
+        ## Store log
+        $message = trans('messages.vehicle_remove',['name' => $vehicleImage->id]);
+        storeActicityLog(trans('messages.vehicle_remove'),$message,Auth::user(),$vehicleImage);
+        // return redirect()->route('product-sale.edit',$vehicleImage->id);
+        return true;
     }
 
 }

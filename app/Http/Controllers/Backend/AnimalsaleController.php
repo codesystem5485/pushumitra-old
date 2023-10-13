@@ -167,6 +167,19 @@ class AnimalsaleController extends Controller
      */
     public function delete($id){ 
         $animalsale = Animalforsale::where('id',$id)->first();
+        $animalImages = AnimalImages::where('animal_sale_id',$id)->get();
+        if($animalImages)
+        {
+            if(count($animalImages))
+            {
+                foreach($animalImages as $image)
+                {
+                    $this->removeFile($image->image_name,'animalsale');
+                }
+            }
+        }
+        $animalImages = AnimalImages::where('animal_sale_id',$id)->delete();
+        // $animalImages->delete();
         $animalsale->delete();
         Session::flash('success', trans('messages.delete_records'));
         
@@ -179,6 +192,7 @@ class AnimalsaleController extends Controller
     public function removeImage($id)
     {
         $animalImage = AnimalImages::where('id',$id)->first();
+        $this->removeFile($animalImage->image_name,'animalsale');
         $animalImage->delete();
         // Session::flash('success', trans('messages.delete_records'));
         

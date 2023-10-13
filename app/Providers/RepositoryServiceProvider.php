@@ -17,6 +17,8 @@ use App\Repositories\Interfaces\Transporter\TransporterRepositoryInterface;
 use App\Repositories\Implementation\Transporter\TransporterRepository;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use App\Repositories\Implementation\Animalsale\AnimalsaleRepository;
+use App\Repositories\Interfaces\Productsale\ProductsaleRepositoryInterface;
+use App\Repositories\Implementation\Productsale\ProductsaleRepository;
 class RepositoryServiceProvider extends ServiceProvider 
 {
     /**
@@ -33,6 +35,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ChemistRepositoryInterface::class, ChemistRepository::class);        
         $this->app->bind(TransporterRepositoryInterface::class, TransporterRepository::class);        
         $this->app->bind(AnimalsaleRepositoryInterface::class, AnimalsaleRepository::class);        
+        $this->app->bind(ProductsaleRepositoryInterface::class, ProductsaleRepository::class);        
     } 
 
     /**

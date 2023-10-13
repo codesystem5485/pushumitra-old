@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\AnimalownerController;
 use App\Http\Controllers\Backend\PashumitraController;
 use App\Http\Controllers\Backend\RegisteredvetController;
 use App\Http\Controllers\Backend\AnimalsaleController;
+use App\Http\Controllers\Backend\ProductsaleController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
 /*
@@ -138,6 +139,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [ChemistController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [ChemistController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [ChemistController::class, 'removeImage'])->name('remove'); 
     });
     
     //Transporter module
@@ -152,6 +154,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [TransporterController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [TransporterController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [TransporterController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [TransporterController::class, 'removeImage'])->name('remove'); 
     });
 
     //Library module
@@ -165,6 +168,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [BookController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [BookController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [BookController::class, 'delete'])->name('delete'); 
+        Route::get('/{file_name?}/download', [BookController::class, 'getDownload'])->name('download'); 
+        
     });
 
     //Animal Owner module
@@ -244,6 +249,23 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AnimalsaleController::class, 'userDetail'])->name('detail');        
         Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove');        
+    });
+
+     //Animal for sale module
+    Route::group([
+        'prefix' => 'product-sale',
+        'as' => 'product-sale.', 
+      ], function () {
+        Route::get('/', [ProductsaleController::class, 'index'])->name('index');
+        Route::get('/create', [ProductsaleController::class, 'create'])->name('create');
+        Route::get('/user-list', [ProductsaleController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [ProductsaleController::class, 'getRoleWiseUser'])->name('role');
+        Route::post('/store', [ProductsaleController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [ProductsaleController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [ProductsaleController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [ProductsaleController::class, 'delete'])->name('delete');  
+        Route::get('/{id?}/detail', [ProductsaleController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/remove', [ProductsaleController::class, 'removeImage'])->name('remove');        
     });
 });
 

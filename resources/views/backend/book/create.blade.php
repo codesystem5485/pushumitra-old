@@ -47,6 +47,9 @@
                             <span class="input-group-text" id="basic-addon3">{{ __('general.book_file') }}* :</span>
                         </div>
                         <input type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="book_file" value="@if(empty($books)){{old('book_name')}}@else{{$books->book_name}}@endif"placeholder="{{ __('general.enter_book') }}">
+                        @if(!empty($books->book_file))
+                        <a target="_new" href="{{route("book.download",['file_name'=>$books->book_file])}}" >Download PDF</a>
+                        @endif
                     </div>
                     <div class="input-group mb-2">
                         <input type="submit" class="btn btn-primary" value="Submit" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"/>

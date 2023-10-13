@@ -171,6 +171,17 @@ return [
 'enter_price'=>'Enter Price',
 'enter_address'=>'Enter Address',
 'select_sex'=>'Select Sex',
+
+
+//chemist
+'product-sale_list'=>'Product Sale List',
+'product-sale_add'=>'Add Product Sale',
+'product-sale_edit'=>'Edit Product Sale',
+'product-sale_create'=>'Create Product Sales',
+'product-sale_details'=>'Product Sales details',
+'product_name'=>'Product Name',
+'enter_product_name'=>'Enter Product Name',
+
 ];
 
 ?>

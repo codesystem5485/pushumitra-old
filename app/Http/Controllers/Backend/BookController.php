@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Session;
 use Auth;
+use Response;
 use App\Traits\FileUpload;
 
 
@@ -155,6 +156,15 @@ class BookController extends Controller
         $message = trans('messages.book_delete',['name' => $book->book_name]);
         storeActicityLog(trans('messages.delete'),$message,Auth::user(),$book);
         return redirect()->route('book.index');
+    }
+
+    public function getDownload($file_name){
+
+        $file = public_path()."/upload/book/".urldecode($file_name);
+        $headers = array('Content-Type: application/pdf',);
+        return Response :: download($file);
+        // return response()->download($file, $file_name, $headers);
+        // return Response::download($file, 'info.pdf',$headers);
     }
 
 }

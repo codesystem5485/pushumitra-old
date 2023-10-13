@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Chemist;
+use App\Models\ChemistShopImages;
 use App\Models\State;
 use App\Models\Cities;
 use Spatie\Permission\Models\Permission;
@@ -13,8 +14,11 @@ use App\Repositories\Interfaces\Chemist\ChemistRepositoryInterface;
 use DB;
 use Session;
 use Auth;
+use App\Traits\FileUpload;
+
 class ChemistController extends Controller
 {
+    use FileUpload;
     protected $url = '';
     protected $chemistRepo;
     /**
@@ -62,9 +66,22 @@ class ChemistController extends Controller
     public function store(ChemistProcessRequest $request){
         
         DB::beginTransaction();
-        try{            
+        // try{            
             $aInsertData = $request->all();
             $chemist = $this->chemistRepo->create($aInsertData);
+            if(count($request->shop_photo))
+            {
+                foreach($request->shop_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'chemist');
+                    if($fileName)
+                    {
+                        ChemistShopImages::create(['chemist_id'=>$chemist->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
@@ -72,7 +89,7 @@ class ChemistController extends Controller
             $message = trans('messages.chemist_create',['name' => $request->input('shop_name')]);
             storeActicityLog(trans('messages.chemist_create'),$message,Auth::user(),$chemist);
             return redirect()->route('chemist.index');
-        }catch(\Exception $e){
+        // }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
@@ -80,7 +97,7 @@ class ChemistController extends Controller
             Session::flash('error', trans('messages.something'));
             return redirect()->route('chemist.index');   
             
-        }
+        // }
      
     }
 
@@ -92,8 +109,9 @@ class ChemistController extends Controller
     public function edit(Request $request, $id = ''){
         $chemist = Chemist::find($id);
         $states = State::where('is_active','1')->get();
-        $cities = Cities::where('state_id',$chemist->state_id)->get();        
-        return view('backend.chemist.create',['cities'=>$cities,'states'=>$states,'chemist' => $chemist,'url' => $this->url]);  
+        $cities = Cities::where('state_id',$chemist->state_id)->get();     
+        $shopimages = ChemistShopImages::where('chemist_id',$chemist->id)->get();   
+        return view('backend.chemist.create',['shopimages'=>$shopimages,'cities'=>$cities,'states'=>$states,'chemist' => $chemist,'url' => $this->url]);  
     }
 
      /**
@@ -108,6 +126,19 @@ class ChemistController extends Controller
         try{
             $aInsertData = $request->all();
             $chemist = $this->chemistRepo->update($id,$request->all());
+            if(count($request->shop_photo))
+            {
+                foreach($request->shop_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'chemist');
+                    if($fileName)
+                    {
+                        ChemistShopImages::create(['chemist_id'=>$chemist->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
@@ -146,6 +177,20 @@ class ChemistController extends Controller
         $message = trans('messages.chemist_delete',['name' => $chemist->owner_name]);
         storeActicityLog(trans('messages.delete'),$message,Auth::user(),$chemist);
         return redirect()->route('chemist.index');
+    }
+
+    public function removeImage($id)
+    {
+        $shopImage = ChemistShopImages::where('id',$id)->first();
+        $this->removeFile($shopImage->image_name,'chemist');
+        $shopImage->delete();
+        // Session::flash('success', trans('messages.delete_records'));
+        
+        ## Store log
+        $message = trans('messages.productsale_remove',['name' => $shopImage->id]);
+        storeActicityLog(trans('messages.productsale_remove'),$message,Auth::user(),$shopImage);
+        // return redirect()->route('product-sale.edit',$shopImage->id);
+        return true;
     }
 
 }

@@ -162,9 +162,9 @@
                            </li>
                            @endif
 
-                           @if(auth()->user()->can('product-for-sale-list')) 
+                           @if(auth()->user()->can('product-sale-list')) 
                            <li class="">
-                              <a href="{{url('/product-for-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
+                              <a href="{{url('/product-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
                            </li>
                            @endif
                            
