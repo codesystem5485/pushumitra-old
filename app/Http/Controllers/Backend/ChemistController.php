@@ -66,7 +66,7 @@ class ChemistController extends Controller
     public function store(ChemistProcessRequest $request){
         
         DB::beginTransaction();
-        // try{            
+        try{            
             $aInsertData = $request->all();
             $chemist = $this->chemistRepo->create($aInsertData);
             if(count($request->shop_photo))
@@ -89,7 +89,7 @@ class ChemistController extends Controller
             $message = trans('messages.chemist_create',['name' => $request->input('shop_name')]);
             storeActicityLog(trans('messages.chemist_create'),$message,Auth::user(),$chemist);
             return redirect()->route('chemist.index');
-        // }catch(\Exception $e){
+        }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
@@ -97,8 +97,7 @@ class ChemistController extends Controller
             Session::flash('error', trans('messages.something'));
             return redirect()->route('chemist.index');   
             
-        // }
-     
+        }     
     }
 
     /**

@@ -144,7 +144,7 @@ return [
 'edit_registered_vet'=>'Edit Registered-vet',
 'registered_vet_details'=>'Registered-vet Details',
 
-//Registered-vet
+//all users
 'user_list'=>'User List',
 'user'=>'User',
 'create_user'=>'Add User',
@@ -152,7 +152,7 @@ return [
 'user_details'=>'User Details',
 'all_user'=>'All Users',
 
-//chemist
+//animal sale
 'animal-sale_list'=>'Animal Sale List',
 'animal-sale_add'=>'Add Animal Sale',
 'animal-sale_edit'=>'Edit Animal Sale',
@@ -173,7 +173,7 @@ return [
 'select_sex'=>'Select Sex',
 
 
-//chemist
+//product sale
 'product-sale_list'=>'Product Sale List',
 'product-sale_add'=>'Add Product Sale',
 'product-sale_edit'=>'Edit Product Sale',
@@ -181,6 +181,15 @@ return [
 'product-sale_details'=>'Product Sales details',
 'product_name'=>'Product Name',
 'enter_product_name'=>'Enter Product Name',
+
+//product sale
+'add_animal_list'=>'Animals List',
+'add_animal_add'=>'Add Animal',
+'add_animal_edit'=>'Edit Animal',
+'add_animal_create'=>'Add Animal',
+'add_animal_details'=>'Animals details',
+'select_animal_owner'=>'Select Animal Owner',
+'select_breed'=>'Select Breed',
 
 ];
 

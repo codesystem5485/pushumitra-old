@@ -32,7 +32,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
      */
     public function getUsers(array $input = [])
     {     
-        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name'])
+        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name,middle_name,last_name,mobile_number'])
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);

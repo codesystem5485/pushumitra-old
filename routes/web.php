@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\PashumitraController;
 use App\Http\Controllers\Backend\RegisteredvetController;
 use App\Http\Controllers\Backend\AnimalsaleController;
 use App\Http\Controllers\Backend\ProductsaleController;
+use App\Http\Controllers\Backend\AddanimalController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
 /*
@@ -251,7 +252,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove');        
     });
 
-     //Animal for sale module
+    //Animal for sale module
     Route::group([
         'prefix' => 'product-sale',
         'as' => 'product-sale.', 
@@ -267,6 +268,24 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/detail', [ProductsaleController::class, 'userDetail'])->name('detail');        
         Route::get('/{id?}/remove', [ProductsaleController::class, 'removeImage'])->name('remove');        
     });
+
+    //Animal for sale module
+    Route::group([
+        'prefix' => 'add-animal',
+        'as' => 'add-animal.', 
+      ], function () {
+        Route::get('/', [AddanimalController::class, 'index'])->name('index');
+        Route::get('/create', [AddanimalController::class, 'create'])->name('create');
+        Route::get('/user-list', [AddanimalController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [AddanimalController::class, 'getRoleWiseUser'])->name('role');
+        Route::post('/store', [AddanimalController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [AddanimalController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [AddanimalController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
+        Route::get('/{id?}/detail', [AddanimalController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');        
+    });
+    
 });
 
     

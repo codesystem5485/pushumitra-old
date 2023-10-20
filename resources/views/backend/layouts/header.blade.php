@@ -151,6 +151,13 @@
                               @endif
                            </li>
                            @endif
+                           
+                           @if(auth()->user()->can('add-animal-list') || auth()->user()->can('add-animal/*')) 
+                           <li class="">
+                              <a href="{{url('/add-animal')}}" class="" ><i class="icon-hourglass"></i> <span>Add animals </span></a>
+                           </li>
+                           @endif
+
                            @if(auth()->user()->can('book-list') || auth()->user()->can('book-create') ||  auth()->user()->can('book-edit') ||  auth()->user()->can('book-delete'))
                            <li class="@if (\Request::is('book')) active  @endif">
                               <a href="{{url('/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
