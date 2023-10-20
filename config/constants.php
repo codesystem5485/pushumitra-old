@@ -8,6 +8,7 @@ return [
         'validation_error' => 401
     ],
     'file' => [
+        'product_file_path'=>'upload/product',
         'animal_file_path'=>'upload/animal',
         'chemist_file_path'=>'upload/chemist',
         'vehicle_file_path'=>'upload/vehicle',

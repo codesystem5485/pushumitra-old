@@ -27,6 +27,21 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         $this->userModelRepo = $userModel;
     }
 
+    public function getSiteUsers()
+    {     
+        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name,middle_name,last_name,mobile_number'])
+        ->whereHas('roles', function($q) {
+            // if(!empty($input['sRoleName'])){
+                $q->where('name','=','Pashumitra')
+                ->orWhere('name','=','Registered-vet')
+                ->orWhere('name','=','Animal-owner');
+            // }
+        })
+        //->where('id','!=',1)->where('is_phone_verify',1)
+            ->orderBy('id', 'DESC')
+            ->get();
+    }
+
     /**
      * {@inheritDoc}
      */

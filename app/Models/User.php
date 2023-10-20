@@ -104,10 +104,6 @@ class User extends Authenticatable
         $this->attributes['date_of_birth'] = date('Y-m-d',strtotime($dob));
     }
 
-    public function getUserAnimal(){
-        return $this->hasMany(Animals::class,'animal_owner');
-    }
-
     public function getUserDetail(){
         return $this->hasOne(UserDetail::class,'user_id');
     }

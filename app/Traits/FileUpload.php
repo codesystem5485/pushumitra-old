@@ -11,7 +11,10 @@ trait FileUpload {
 
     public function uploadFile($file,$type){
         switch($type){
-
+            case 'product':
+            $path = Config::get('constants.file.product_file_path');
+            break; 
+            
             case 'animal':
             $path = Config::get('constants.file.animal_file_path');
             break; 
@@ -73,6 +76,10 @@ trait FileUpload {
     public function removeFile($file,$type){
         
         switch($type){
+            case 'product':
+            $path = Config::get('constants.file.product_file_path');
+            break; 
+
             case 'animal':
             $path = Config::get('constants.file.animal_file_path');
             break; 

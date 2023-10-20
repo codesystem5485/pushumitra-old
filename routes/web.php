@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\PashumitraController;
 use App\Http\Controllers\Backend\RegisteredvetController;
 use App\Http\Controllers\Backend\AnimalsaleController;
 use App\Http\Controllers\Backend\ProductsaleController;
+use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\AddanimalController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
@@ -269,7 +270,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/remove', [ProductsaleController::class, 'removeImage'])->name('remove');        
     });
 
-    //Animal for sale module
+    //Animal add module
     Route::group([
         'prefix' => 'add-animal',
         'as' => 'add-animal.', 
@@ -284,6 +285,23 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AddanimalController::class, 'userDetail'])->name('detail');        
         Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');        
+    });
+
+    //Animal add module
+    Route::group([
+        'prefix' => 'add-product',
+        'as' => 'add-product.', 
+      ], function () {
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::get('/user-list', [ProductController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [ProductController::class, 'getRoleWiseUser'])->name('role');
+        Route::post('/store', [ProductController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [ProductController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [ProductController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [ProductController::class, 'delete'])->name('delete');  
+        Route::get('/{id?}/detail', [ProductController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/remove', [ProductController::class, 'removeImage'])->name('remove');        
     });
     
 });

@@ -169,6 +169,16 @@ class ChemistController extends Controller
      */
     public function delete($id){ 
         $chemist = Chemist::where('id',$id)->first();
+        $shopImage = ChemistShopImages::where('chemist_id',$chemist->id)->get();
+        
+        if(count($shopImage)>0)
+        {
+            foreach($shopImage as $image)
+            {
+                $this->removeFile($image->image_name,'chemist');
+                $image->delete();
+            }
+        }
         $chemist->delete();
         Session::flash('success', trans('messages.delete_records'));
         

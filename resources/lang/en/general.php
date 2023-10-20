@@ -182,7 +182,7 @@ return [
 'product_name'=>'Product Name',
 'enter_product_name'=>'Enter Product Name',
 
-//product sale
+//add animal 
 'add_animal_list'=>'Animals List',
 'add_animal_add'=>'Add Animal',
 'add_animal_edit'=>'Edit Animal',
@@ -190,6 +190,19 @@ return [
 'add_animal_details'=>'Animals details',
 'select_animal_owner'=>'Select Animal Owner',
 'select_breed'=>'Select Breed',
+
+
+
+//product sale
+'product_list'=>'Product List',
+'product_add'=>'Add Product',
+'product_edit'=>'Edit Product',
+'product_create'=>'Create Products',
+'product_details'=>'Product details',
+'product_name'=>'Product Name',
+'product_owner'=>'Product Owner',
+'select_product_owner'=>'Select Product Owner',
+'enter_product_name'=>'Enter Product Name',
 
 ];
 

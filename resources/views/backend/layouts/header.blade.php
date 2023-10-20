@@ -154,7 +154,13 @@
                            
                            @if(auth()->user()->can('add-animal-list') || auth()->user()->can('add-animal/*')) 
                            <li class="">
-                              <a href="{{url('/add-animal')}}" class="" ><i class="icon-hourglass"></i> <span>Add animals </span></a>
+                              <a href="{{url('/add-animal')}}" class="" ><i class="icon-hourglass"></i> <span>Add Animals </span></a>
+                           </li>
+                           @endif
+
+                           @if(auth()->user()->can('product-list') || auth()->user()->can('product/*')) 
+                           <li class="">
+                              <a href="{{url('/add-product')}}" class="" ><i class="icon-hourglass"></i> <span>Add Products </span></a>
                            </li>
                            @endif
 
