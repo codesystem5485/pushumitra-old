@@ -35,6 +35,7 @@
                                 <th>{{ __('general.UID_number') }}</th>                                
                                 <th>{{ __('general.species') }}</th>                                
                                 <th>{{ __('general.breed') }}</th>                                
+                                <th>{{ __('general.type') }}</th>                                
                                 <th>{{ __('general.age') }}</th>                                
                                 <th>{{ __('general.sex') }}</th>                                
                                 <th>{{ __('general.contact_name') }}</th>                                
@@ -48,6 +49,7 @@
                                 <td>{{$sale->UID_number}}</td>                                 
                                 <td>{{$sale->species}}</td>                                 
                                 <td>{{$sale->breed}}</td>                                 
+                                <td>{{$sale->type}}</td>                                 
                                 <td>{{$sale->age}}</td>                                 
                                 <td>{{$sale->sex}}</td>                                 
                                 <td>{{$sale->contact_name_of_owner}}</td>                                 

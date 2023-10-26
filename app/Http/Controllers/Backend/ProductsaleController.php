@@ -66,7 +66,7 @@ class ProductsaleController extends Controller
         try{            
             $aInsertData = $request->all();
             $productsale = $this->productsaleRepo->create($aInsertData);
-            if(count($request->product_photo))
+            if($request->product_photo)
             {
                 foreach($request->product_photo as $photo)
                 {
@@ -120,7 +120,7 @@ class ProductsaleController extends Controller
         try{
             $aInsertData = $request->all();
             $productsale = $this->productsaleRepo->update($id,$request->all());
-             if(count($request->product_photo))
+             if($request->product_photo)
             {
                 foreach($request->product_photo as $photo)
                 {
@@ -164,7 +164,7 @@ class ProductsaleController extends Controller
         $ProductImages = ProductImages::where('product_sale_id',$id)->get();
         if($ProductImages)
         {
-            if(count($ProductImages))
+            if(count($ProductImages)>0)
             {
                 foreach($ProductImages as $image)
                 {

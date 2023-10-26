@@ -27,6 +27,7 @@ class AnimalsaleProcessRequest extends FormRequest
             'UID_number' => 'required',
             'species' => 'required',
             'breed' => "required",
+            'type' => "required",
             'age' => 'required|numeric',
             'sex' => 'required|string',
             'price' => 'required|numeric',

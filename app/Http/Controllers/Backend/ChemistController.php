@@ -69,7 +69,7 @@ class ChemistController extends Controller
         try{            
             $aInsertData = $request->all();
             $chemist = $this->chemistRepo->create($aInsertData);
-            if(count($request->shop_photo))
+            if($request->shop_photo)
             {
                 foreach($request->shop_photo as $photo)
                 {
@@ -125,7 +125,7 @@ class ChemistController extends Controller
         try{
             $aInsertData = $request->all();
             $chemist = $this->chemistRepo->update($id,$request->all());
-            if(count($request->shop_photo))
+            if($request->shop_photo)
             {
                 foreach($request->shop_photo as $photo)
                 {

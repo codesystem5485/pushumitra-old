@@ -164,6 +164,7 @@ return [
 'enter_contact_number_of_owner'=>'Enter contact number of owner',
 'enter_contact_name_of_owner'=>'Enter contact name of owner',
 'price'=>'Price',
+'type'=>'Type',
 'sex'=>'Sex',
 'address'=>'Address',
 'description'=>'Description',
@@ -171,6 +172,7 @@ return [
 'enter_price'=>'Enter Price',
 'enter_address'=>'Enter Address',
 'select_sex'=>'Select Sex',
+'select_type'=>'Select Type',
 
 
 //product sale

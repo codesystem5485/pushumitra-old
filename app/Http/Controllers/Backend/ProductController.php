@@ -169,7 +169,7 @@ class ProductController extends Controller
         $ProductImages = AddProductImages::where('product_id',$id)->get();
         if($ProductImages)
         {
-            if(count($ProductImages))
+            if(count($ProductImages)>0)
             {
                 foreach($ProductImages as $image)
                 {

@@ -70,7 +70,7 @@ class TransporterController extends Controller
             $aInsertData = $request->all();
             $transporter = $this->transporterRepo->create($aInsertData);
 
-            if(count($request->vehicle_photo))
+            if($request->vehicle_photo)
             {
                 foreach($request->vehicle_photo as $photo)
                 {
@@ -127,7 +127,7 @@ class TransporterController extends Controller
         try{
             $transporter = $this->transporterRepo->update($id,$request->all());
 
-            if(count($request->vehicle_photo))
+            if($request->vehicle_photo)
             {
                 foreach($request->vehicle_photo as $photo)
                 {

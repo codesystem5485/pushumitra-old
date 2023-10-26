@@ -8,6 +8,7 @@ use App\Models\AnimalForSale;
 use App\Models\AnimalImages;
 use App\Models\Breeds;
 use App\Models\Species;
+use App\Models\AnimalType;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
@@ -56,7 +57,8 @@ class AnimalsaleController extends Controller
         $permission = Permission::get();
         $species = Species::where('is_active','1')->get();
         $breed = Breeds::where('is_active','1')->get();
-        return view('backend.animal-sale.create',['breed'=>$breed,'species'=>$species,'permission'=>$permission,'url' => $this->url]); 
+        $AnimalType = AnimalType::where('is_active','1')->get();
+        return view('backend.animal-sale.create',['animalType'=>$AnimalType,'breed'=>$breed,'species'=>$species,'permission'=>$permission,'url' => $this->url]); 
     }
     /**
      * Store Animal for sale
@@ -70,7 +72,7 @@ class AnimalsaleController extends Controller
         try{            
             $aInsertData = $request->all();
             $animalsale = $this->animalsaleRepo->create($aInsertData);
-            if(count($request->animal_photo))
+            if($request->animal_photo)
             {
                 foreach($request->animal_photo as $photo)
                 {
@@ -110,8 +112,9 @@ class AnimalsaleController extends Controller
         $animalsale = Animalforsale::find($id);
         $species = Species::where('is_active','1')->get();
         $breed = Breeds::where('is_active','1')->get();
+        $AnimalType = AnimalType::where('is_active','1')->get();
         $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
-        return view('backend.animal-sale.create',['animalimages'=>$animalimages,'breed'=>$breed,'species'=>$species,'animalsale' => $animalsale,'url' => $this->url]);  
+        return view('backend.animal-sale.create',['animalType'=>$AnimalType,'animalimages'=>$animalimages,'breed'=>$breed,'species'=>$species,'animalsale' => $animalsale,'url' => $this->url]);  
     }
 
      /**
@@ -126,7 +129,7 @@ class AnimalsaleController extends Controller
         try{
             $aInsertData = $request->all();
             $animalsale = $this->animalsaleRepo->update($id,$request->all());
-             if(count($request->animal_photo))
+             if($request->animal_photo)
             {
                 foreach($request->animal_photo as $photo)
                 {
@@ -170,7 +173,7 @@ class AnimalsaleController extends Controller
         $animalImages = AnimalImages::where('animal_sale_id',$id)->get();
         if($animalImages)
         {
-            if(count($animalImages))
+            if(count($animalImages)>0)
             {
                 foreach($animalImages as $image)
                 {
