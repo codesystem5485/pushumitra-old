@@ -18,6 +18,7 @@ return [
     'email_required' => 'Please enter your email id.',
     'email_or_mobile_required' => 'Please enter your email id or mobile number.',
     'password_required' => 'Please enter your password.',
+    'invalid_password'=>'Invalid Password',
     'valid_credential' => 'Please make sure either valid email or password',
     'records_found' => 'Records found',
     'records_not_found' => 'Records not found',

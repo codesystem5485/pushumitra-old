@@ -18,7 +18,8 @@ use App\Http\Controllers\Api\CommonController;
 Route::group(['middleware' => ['cors']], function () {
 
     Route::post('/signup', [AuthController::class,'signUp']); 
-    Route::post('/signin', [AuthController::class,'signIn']); 
+    // Route::post('/signin', [AuthController::class,'signIn']); 
+    Route::post('/signin', [AuthController::class,'login']); 
     Route::post('/verify-otp', [AuthController::class,'verifyOtp']); 
     Route::post('/verify-mobile-number', [AuthController::class,'verifyPhoneNumber']); 
     Route::get('/get-states', [CommonController::class,'getStates']); 

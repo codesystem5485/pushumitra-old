@@ -319,6 +319,60 @@ class AuthController extends BaseController
         } 
     }
 
+    public function login(Request $request){
+        $postData = request()->all();
+        $validator = Validator::make($postData, [
+            'mobile_number' => 'required|max:10',
+            'password' => 'required'
+        ]);
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+        
+        if (!$user) {
+
+            $user = $this->userRepo->getSingleRecords(['email' => $postData['mobile_number']]);
+        }
+
+        if($user)
+        {
+            ## check phone is verify
+            $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $user->mobile_number,'is_phone_verify' => 1]);
+            if(empty($aUserVerify)){
+                return $this->sendError($response,trans('messages.verify_phone'),401);
+            }
+
+            ##check correct password
+            $check = Hash::check($postData['password'], $user->password); 
+            if(!$check)
+            {
+                return $this->sendError($response,trans('messages.invalid_password'),401);
+            }
+            
+            DB::beginTransaction();
+            try{
+                $token = $user->createToken($user->email)->accessToken;
+                $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
+                isset($user->roles[0]->name) ? $user->roles[0]->name : '','token' => $token];
+                return $this->sendResponse($response,trans('messages.login_success'),200);  
+
+            }
+            catch(\Exception $e){  
+               DB::rollback();
+               $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
+               ##store error log
+               storeActicityLog(trans('messages.error'),$response['error']);
+               return  $this->sendError($response,trans('messages.something'),500);
+            }     
+        }
+        else {
+            return $this->sendError($response,trans('messages.user_not'),404);
+        }
+    }
+
     public function signIn(Request $request){
         $postData = request()->all();
         $validator = Validator::make($postData, [
@@ -359,6 +413,7 @@ class AuthController extends BaseController
             return $this->sendError($response,trans('messages.user_not'),404);
         }
     }
+
     public function verifyOtp(Request $request){
         $postData = request()->all(); 
         // $postData = request()->json()->all();
