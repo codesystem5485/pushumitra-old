@@ -322,7 +322,7 @@ class AuthController extends BaseController
     public function login(Request $request){
         $postData = request()->all();
         $validator = Validator::make($postData, [
-            'mobile_number' => 'required|max:10',
+            'email_id_or_mobile_number' => 'required',
             'password' => 'required'
         ]);
         $response = [];
@@ -330,11 +330,11 @@ class AuthController extends BaseController
         {
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
-        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number']]);
         
         if (!$user) {
 
-            $user = $this->userRepo->getSingleRecords(['email' => $postData['mobile_number']]);
+            $user = $this->userRepo->getSingleRecords(['email' => $postData['email_id_or_mobile_number']]);
         }
 
         if($user)
