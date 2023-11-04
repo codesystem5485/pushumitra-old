@@ -40,13 +40,14 @@ class AuthController extends BaseController
         $this->roleRepo = $role;
     }
 
-    public function signUp(Request $request){ 
-        
+    public function signUp(Request $request){
+
+		
         $user = User::first();
         $postData = request()->all();
         
         if($postData['role']=='Pashumitra')
-        {
+        { 
             $validator = Validator::make($postData, [
                 'profile_photo'=>'required|max:10240',
                 'first_name' => 'required|string|max:255',
