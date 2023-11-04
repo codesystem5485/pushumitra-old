@@ -16,6 +16,7 @@ use App\Traits\FileUpload;
 use Lcobucci\JWT\Parser as JwtParser;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 
 class AuthController extends BaseController
 {
@@ -355,9 +356,13 @@ class AuthController extends BaseController
             
             DB::beginTransaction();
             try{
-                $token = $user->createToken($user->email)->accessToken;
-                $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
-                isset($user->roles[0]->name) ? $user->roles[0]->name : '','token' => $token];
+              //  $token = $user->createToken($user->email)->accessToken;
+			  
+				$token = $this->createApiToken();
+				$param = ['api_token' => $token];
+				$this->userRepo->update($user->id,$param);
+				
+                $response = ['first_name' => $user->first_name,'email' => $user->email,'token' => $token];
                 return $this->sendResponse($response,trans('messages.login_success'),200);  
 
             }
@@ -448,7 +453,10 @@ class AuthController extends BaseController
             ## display  login type wise data
             if($postData['login_type'] == 'signin'){
                 ## if verified otp then create token
-                $token = $user->createToken($user->email)->accessToken;
+                //$token = $user->createToken($user->email)->accessToken;
+				$token = $this->createApiToken();
+				$param = ['api_token' => $token];
+				$this->userRepo->update($user->id,$param);
                 $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
                 isset($user->roles[0]->name) ? $user->roles[0]->name : '','token' => $token];
             }
@@ -604,6 +612,11 @@ class AuthController extends BaseController
             $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
             return  $this->sendError($response,trans('messages.something'),500);
         }
+    }
+	
+	 public function createApiToken(){
+        $token =  Str::random(30);
+        return $token;
     }
 
     
