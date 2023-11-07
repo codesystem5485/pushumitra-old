@@ -307,4 +307,16 @@ class PashumitraController extends BaseController
         // dd($users);
         return  $users;
     }
+	
+	 public function view(Request $request){
+        $filter = ['id'=>$id];
+        $select = ['first_name,middle_name,last_name,email,mobile_number,address_line_1,address_line_2,village,city_id,state_id,city_town,state,pincode,nationality,sex,marital_status,date_of_birth,age,education,education_certificate'];
+        $with = ['getUserDetail','roles']; 
+        $user = $this->userRepo->getSingleRecords($filter,[],$with); 
+        // echo '<pre>';print_r($user);echo '</pre>';exit;
+        $states = $this->stateRepo->getStates();
+        $cities = $this->cityRepo->getCities(['state_id'=>$user->state_id]);
+        $roles = $this->getRoles();
+        return view('backend.pashumitra.view',['cities'=>$cities,'states'=>$states,'user' => $user,'roles' => $roles,'url' => $this->url]);
+    }
 }

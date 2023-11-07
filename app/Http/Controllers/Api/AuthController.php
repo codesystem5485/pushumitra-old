@@ -179,7 +179,9 @@ class AuthController extends BaseController
                 $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
-                $param['pincode'] = $postData['pincode']; 
+                $param['pincode'] = $postData['pincode'];
+				$param['state_id'] = $postData['state_id'];
+                $param['city_id'] = $postData['city_id'];
                 
                 $user = $this->userRepo->create($param);
 

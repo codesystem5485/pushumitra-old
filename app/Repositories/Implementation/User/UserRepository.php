@@ -203,6 +203,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
+			$actionBtn .= '<a href="'.route('pashumitra.detail',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
+                </button></a>';
             if(auth()->user()->can('pashumitra-detail')){
                 $actionBtn .= '<a href="'.route('pashumitra.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
@@ -213,6 +216,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
             }
+			
             if(auth()->user()->can('pashumitra-delete')){
                 $actionBtn .= '<a href="'.route('pashumitra.delete',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';

@@ -34,16 +34,16 @@
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
-                        <div class="">
+                        
                             <span class="">Name :</span>
                             <span class="">{{ $user->first_name." ".$user->middle_name." ".$user->last_name}}</span>
-                        </div>
+                        
                     </div>
                     <div class="mb-5">
-                        <div class="">
+                        
                             <span class="">Email ID :</span>
                             <span class="">{{ $user->email }}</span>
-                        </div>
+                        
                     </div>
                     <div class="mb-5">
                         <div class="">
@@ -117,6 +117,34 @@
                             <span class="">{{ $user->marital_status}}</span>
                         </div>
                     </div>
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Job Type :</span>
+                            <span class="">{{ $user->getUserDetail->job_type}}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Name of organization working with :</span>
+                            <span class="">{{ $user->getUserDetail->pm_name_of_org}}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Education certificate :</span>
+                            <span class=""><a href="{{ url("/upload/education_certificate/")}}/{{$user->education_certificate}}">{{ $user->education_certificate}}</a></span>
+                        </div>
+                    </div>
+					
+					<!--<div class="mb-5">
+                        <div class="">
+                            <span class="">Certificate :</span>
+                            <span class=""><a href="{{ url("/upload/pashumitra_downloaded_certificate/")}}/{{$user->getUserDetail->pm_download_certificate}}">{{ $user->getUserDetail->pm_download_certificate}}</a></span>
+                        </div>
+                    </div>-->
+					
                      
                 </div>
                 </form>

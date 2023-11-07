@@ -13,6 +13,12 @@ use Hash;
 use DB;
 use Spatie\Activitylog\Models\Activity;
 use App\Models\User;
+use Carbon\Carbon;
+use App\Models\Chemist;
+use App\Models\Transporters;
+use App\Models\ProductForSale;
+use App\Models\AnimalForSale;
+
 class HomeController extends Controller
 {
     /**
@@ -37,8 +43,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $nTotalUusers =  User::role('Administrator')->count();         
-        return view('home',compact('nTotalUusers'));
+        $nTotalUusers =  User::role('Administrator')->count();  
+		$pashumitraCount = User::role('Pashumitra')->whereDate('created_at', Carbon::today())->count();
+		$animalOwnerCount = User::role('Animal-owner')->whereDate('created_at', Carbon::today())->count();
+		$registerVetCount = User::role('Registered-vet')->whereDate('created_at', Carbon::today())->count();
+		$chemistCount 	  = Chemist::whereDate('created_at', Carbon::today())->count();
+		$transporterCount = Transporters::whereDate('created_at', Carbon::today())->count();
+		$productSaleCount = ProductForSale::whereDate('created_at', Carbon::today())->count();
+		$animalSaleCount = AnimalForSale::whereDate('created_at', Carbon::today())->count();		
+        return view('home',compact('nTotalUusers','pashumitraCount','animalOwnerCount',
+									'registerVetCount','chemistCount','transporterCount','productSaleCount',
+									'animalSaleCount'));
     }
 
     /**

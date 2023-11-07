@@ -17,7 +17,7 @@
         </div>
          <div class="row clearfix">
                   <div class="col-lg-12 col-md-12" style="text-align:center;vertical-align:center;">
-                   <h2> Coming Soon...</h2>
+                   <!--<h2> Coming Soon...</h2>-->
                      <!-- <div class="card overflowhidden">
                         <div class="body">
                            <h3>{{$nTotalUusers}}<i class="icon-user-follow float-right"></i></h3>
@@ -27,6 +27,91 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div> -->
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/pashumitra')}}">{{$pashumitraCount}}</a></h3>
+                           <span>Pashumitra</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+
+					<div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/registered-vet')}}">{{$registerVetCount}}</a></h3>
+                           <span>Registered-vet</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/animal-owner')}}">{{$animalOwnerCount}}</a></h3>
+                           <span>Animal owner</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/animal-sale')}}">{{$animalSaleCount}}</a></h3>
+                           <span>Animal for sale</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/product-sale')}}">{{$productSaleCount}}</a></h3>
+                           <span>Product for sale</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/chemist')}}">{{$chemistCount}}</a></h3>
+                           <span>Chemist</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('/transporter')}}">{{$transporterCount}}</a></h3>
+                           <span>Transporter</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+                  </div>
                   </div>
                 
                </div>
