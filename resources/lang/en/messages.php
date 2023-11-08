@@ -69,6 +69,7 @@ return [
     'animalsale_create' => 'Animal (:name) has been created for sale', 
     'animalsale_update' => 'Animal (:name) has been updated for sale',  
     'animalsale_delete' => 'Animal sale (:name) has been deleted',
+	'email_password'=>'We have e-mailed your new password.',
 
     ''=>'',
 ];

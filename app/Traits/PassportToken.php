@@ -17,6 +17,16 @@ trait PassportToken {
         }
         return false;
     }
+	
+	public function getUserDetailsUsingId($request){
+        $userId = $request->user_id;
+		
+        if($userId)
+        {
+           return  User::with('getUserDetail')->find($userId);
+		}
+        return false;
+    }
 }
 
 ?>

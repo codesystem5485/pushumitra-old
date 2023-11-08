@@ -20,15 +20,19 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/signup', [AuthController::class,'signUp']); 
     // Route::post('/signin', [AuthController::class,'signIn']); 
     Route::post('/signin', [AuthController::class,'login']); 
-    Route::post('/verify-otp', [AuthController::class,'verifyOtp']); 
+
     Route::post('/verify-mobile-number', [AuthController::class,'verifyPhoneNumber']); 
     Route::get('/get-states', [CommonController::class,'getStates']); 
-    Route::get('/get-cities/{id?}', [CommonController::class,'getCities']); 
+    Route::get('/get-cities/{id?}', [CommonController::class,'getCities']);
+	Route::post('/forgot-password', [AuthController::class,'forgotPassword']);
+	
+	Route::get('/get-profile', [AuthController::class,'getProfile']);
+	Route::post('/update-profile', [AuthController::class,'updateProfile']); 
    
     Route::group(['middleware' => ['api-token']], function () {
         Route::get('/logout', [AuthController::class,'logout']); 
-        Route::get('/get-profile', [AuthController::class,'getProfile']); 
-        Route::put('/update-profile', [AuthController::class,'updateProfile']); 
+       
+        
         Route::post('/upload-profile-pic', [AuthController::class,'updateProfilePic']); 
     });
 
