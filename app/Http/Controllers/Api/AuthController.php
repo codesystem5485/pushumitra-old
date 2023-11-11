@@ -61,7 +61,7 @@ class AuthController extends BaseController
                 'mobile_number' => 'required|numeric|unique:users',
                 'address_line_1' => 'required|string',
                 'address_line_2' => 'required|string',
-                'village' => 'required|string',
+               // 'village' => 'required|string',
                 'city_town' => 'required|string',
                 'state' => 'required|string',
                 'pincode' => 'required|numeric',
@@ -115,10 +115,10 @@ class AuthController extends BaseController
                 'pincode' => 'required|numeric',
                 'education_certificate'=> 'required|max:10240',
                 'education'=> 'required|string',
-
+				'rv_current_working_address'=> 'required|string',
                 'rv_state_verternity_council'=>'required',
                 'rv_state_verternity_council_no'=>'required|numeric',
-                'rv_working_village' => 'required|string',
+                'rv_working_place' => 'required|string',
                 'rv_working_city_town' => 'required|string',
                 'rv_working_state' => 'required|string',
                 'rv_working_pincode' => 'required|numeric',
@@ -178,7 +178,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+               // $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
@@ -221,7 +221,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+              //  $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['state_id'] = $postData['state_id'];
@@ -275,7 +275,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+               // $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['state_id'] = $postData['state_id'];
@@ -291,12 +291,13 @@ class AuthController extends BaseController
 
                 $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
                 $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
-                $paramDetail['rv_working_village'] =$postData['rv_working_village'];
+                $paramDetail['rv_working_village'] =$postData['rv_working_place'];
                 $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
                 $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
                 $paramDetail['rv_working_state'] =$postData['rv_working_state'];
                 $paramDetail['rv_working_state_id'] =$postData['rv_working_state_id'];
                 $paramDetail['rv_working_pincode'] =$postData['rv_working_pincode'];
+				$paramDetail['rv_current_working_address'] =$postData['rv_current_working_address'];
                 $paramDetail['job_type'] =$postData['job_type'];
                 $paramDetail['user_id'] = $user->id;
                 $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
@@ -597,10 +598,10 @@ class AuthController extends BaseController
                 'pincode' => 'required|numeric',
                 'education_certificate'=> 'max:10240',
                 'education'=> 'required|string',
-
-                'rv_state_verternity_council'=>'required',
+				'rv_state_verternity_council'=>'required',
                 'rv_state_verternity_council_no'=>'required|numeric',
-                'rv_working_village' => 'required|string',
+				'rv_current_working_address' => 'required|string',
+                'rv_working_place' => 'required|string',
                 'rv_working_city_town' => 'required|string',
                 'rv_working_state' => 'required|string',
                 'rv_working_pincode' => 'required|numeric',
@@ -659,7 +660,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+                //$param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['state_id'] = $postData['state_id'];
@@ -707,7 +708,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+              //  $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
@@ -754,7 +755,7 @@ class AuthController extends BaseController
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
-                $param['village'] = $postData['village'];
+               // $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
                 $param['state'] = $postData['state'];
                 $param['state_id'] = $postData['state_id'];
@@ -771,7 +772,8 @@ class AuthController extends BaseController
 
                 $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
                 $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
-                $paramDetail['rv_working_village'] =$postData['rv_working_village'];
+                $paramDetail['rv_working_village'] =$postData['rv_working_place'];
+				$paramDetail['rv_current_working_address'] =$postData['rv_current_working_address'];
                 $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
                 $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
                 $paramDetail['rv_working_state'] =$postData['rv_working_state'];
