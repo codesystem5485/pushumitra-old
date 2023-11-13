@@ -19,12 +19,14 @@ Route::group(['middleware' => ['cors']], function () {
 
     Route::post('/signup', [AuthController::class,'signUp']); 
     // Route::post('/signin', [AuthController::class,'signIn']); 
-    Route::post('/signin', [AuthController::class,'login']); 
+    Route::post('/signin', [AuthController::class,'login']);  
+	Route::post('/guest-signin', [AuthController::class,'guestLogin']);
+	Route::post('/guest-verify-otp', [AuthController::class,'guestVerifyOtp']);
 
     Route::post('/verify-mobile-number', [AuthController::class,'verifyPhoneNumber']); 
 	Route::post('/verify-otp', [AuthController::class,'verifyOtp']); 
     Route::get('/get-states', [CommonController::class,'getStates']); 
-    Route::get('/get-cities/{id?}', [CommonController::class,'getCities']);
+    Route::get('/get-cities/{id?}', [CommonContrmjryooller::class,'getCities']);
 	Route::post('/forgot-password', [AuthController::class,'forgotPassword']);
 	
 	Route::get('/get-profile', [AuthController::class,'getProfile']);

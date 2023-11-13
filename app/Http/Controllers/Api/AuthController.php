@@ -15,6 +15,7 @@ use App\Traits\PassportToken;
 use App\Traits\FileUpload;
 use Lcobucci\JWT\Parser as JwtParser;
 use App\Models\User;
+use App\Models\Guestusers;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Mail;
@@ -432,7 +433,7 @@ class AuthController extends BaseController
         // $postData = request()->json()->all();
         $validator = Validator::make($postData, [
             'mobile_number' => 'required|max:10',
-            'otp' => 'required|max:4',
+            'otp' => 'required|max:6',
             'login_type' => 'required'
         ]);
         $response = [];
@@ -473,6 +474,7 @@ class AuthController extends BaseController
             return $this->sendError($response,trans('messages.user_not'),404);
         }
     }
+
     public function verifyPhoneNumber(Request $reqest){
         $postData = request()->all();
         $validator = Validator::make($postData, [
@@ -960,7 +962,90 @@ class AuthController extends BaseController
         else {
             return $this->sendError($response,trans('messages.user_not'),404);
         }
+		
+		
 	}
 
-    
+	public function guestLogin(Request $reqest){
+        $postData = request()->all();
+        $validator = Validator::make($postData, [
+            'mobile_number' => 'required|max:10',
+        ]);
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+        $response = [];
+		DB::beginTransaction();
+		try{
+		   $aOtpData = $this->userRepo->generateOtp();
+		   $aOtpData['mobile_number'] =$postData['mobile_number'];
+		   $user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
+		   if($user){
+			   
+				$user->otp = $aOtpData['otp'];
+				$user->otp_expiration = $aOtpData['otp_expiration'];
+				$user->save();
+		   }else{
+			  $user = Guestusers::create($aOtpData); 
+		   }
+			DB::commit();
+			$response = $aOtpData; 
+			return $this->sendResponse($response,trans('messages.otp_send'),200);
+		}
+		catch(\Exception $e){ 
+			DB::rollback();
+			$response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
+			##store error log
+			storeActicityLog(trans('messages.error'),$response['error']);
+			return  $this->sendError($response,trans('messages.something'),500);
+		}
+    }
+	
+	 public function guestVerifyOtp(Request $request){
+        $postData = request()->all(); 
+        // $postData = request()->json()->all();
+        $validator = Validator::make($postData, [
+            'mobile_number' => 'required|max:10',
+            'otp' => 'required|max:6',
+        ]);
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+        $response = [];
+        $user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
+        if ($user) {
+            ## check otp is valid or not 
+           
+			$checkOtp = Guestusers::where('mobile_number',$postData['mobile_number'])->where('otp',$postData['otp'])->first();
+
+		   if(empty($checkOtp)){
+                return $this->sendError($response,trans('messages.otp_invalid'),400);  
+            }
+
+            ## check otp expiration time
+            if(strtotime(now()) >strtotime($user->otp_expiration)){
+                return $this->sendError($response,trans('messages.otp_expired'),400); 
+            }
+           
+                ## if verified otp then create token
+                
+				$token = $this->createApiToken();
+				$param = ['api_token' => $token];
+				$user->api_token = $token;
+				$user->otp='';
+				$user->otp_expiration='';
+				$user->update();
+                $response = ['mobile_number' => $user->mobile_number,'api_token' => $token];
+            
+            
+            return $this->sendResponse($response,trans('messages.verify_success'),200);  
+        }else {
+            return $this->sendError($response,trans('messages.user_not'),404);
+        }
+    }
+	
 }   
