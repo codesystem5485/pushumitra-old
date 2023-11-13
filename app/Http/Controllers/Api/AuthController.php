@@ -193,7 +193,8 @@ class AuthController extends BaseController
             }
             if($postData['role']=='Pashumitra')
             {
-                $param['profile_photo']=null;
+				$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+				$param['profile_photo'] =null;
 				/*$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
                 if(!empty($profile_photoName))
                 {
@@ -217,7 +218,7 @@ class AuthController extends BaseController
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
-                $param['email'] = $postData['email'];
+                $param['email'] = 	$postData['email'];
                 $param['password'] = $postData['password'];
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
@@ -333,7 +334,8 @@ class AuthController extends BaseController
         $postData = request()->all();
         $validator = Validator::make($postData, [
             'email_id_or_mobile_number' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+			'role'=>'required'
         ]);
         $response = [];
         if ($validator->fails())
@@ -341,6 +343,8 @@ class AuthController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
         $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number']]);
+		
+		
         
         if (!$user) {
 
@@ -369,10 +373,14 @@ class AuthController extends BaseController
 				$token = $this->createApiToken();
 				$param = ['api_token' => $token];
 				$this->userRepo->update($user->id,$param);
-				
-                $response = ['first_name' => $user->first_name,'email' => $user->email,'token' => $token];
-                return $this->sendResponse($response,trans('messages.login_success'),200);  
-
+                $response = ['id'=>$user->id,'first_name' => $user->first_name,'email' => $user->email,'token' => $token,
+				'is_verified' =>$user->is_verified ];
+				if($user->is_verified==0)
+				{
+					return $this->sendResponse($response,trans('messages.login_success_not_verified'),200); 
+				}else{
+					return $this->sendResponse($response,trans('messages.login_success'),200); 
+				}
             }
             catch(\Exception $e){  
                DB::rollback();
@@ -434,7 +442,8 @@ class AuthController extends BaseController
         $validator = Validator::make($postData, [
             'mobile_number' => 'required|max:10',
             'otp' => 'required|max:6',
-            'login_type' => 'required'
+            'login_type' => 'required',
+			'role'=> 'required',
         ]);
         $response = [];
         if ($validator->fails())
@@ -455,7 +464,14 @@ class AuthController extends BaseController
                 return $this->sendError($response,trans('messages.otp_expired'),400); 
             }
             $param = ['otp' => null,'otp_expiration' =>  null,
-                    'is_phone_verify' => 1,'is_active' => 1];
+                    'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
+					
+			if($postData['role'] == 'Pashumitra')
+			{
+				$param = ['otp' => null,'otp_expiration' =>  null,
+                    'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 0];
+			}
+					
             $this->userRepo->update($user->id,$param);  
 
             ## display  login type wise data

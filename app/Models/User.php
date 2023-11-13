@@ -24,7 +24,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','middle_name','last_name','email','password','country_code','profile_image','mobile_number','alternate_mobile_number','is_phone_verify','otp','otp_expiration','address_line_1','address_line_2','village','city_id','city_town','state_id','state','pincode','nationality','sex','marital_status','date_of_birth','age','education','education_certificate','is_active','last_login','fcm_id',
+        'first_name','middle_name','last_name','email','password','country_code','profile_image','mobile_number','alternate_mobile_number','is_phone_verify','otp','otp_expiration','address_line_1','address_line_2','village','city_id','city_town','state_id','state','pincode','nationality','sex','marital_status','date_of_birth','age','education','education_certificate','is_active','last_login',
+		'fcm_id','pm_code','is_verified'
     ]; 
 
     /**

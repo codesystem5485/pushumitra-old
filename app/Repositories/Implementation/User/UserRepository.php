@@ -272,6 +272,28 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         $newDate = date('Y-m-d H:i:s', strtotime($expMin));
         return ['otp' => $otp,'otp_expiration' =>  $newDate];
     }
+	
+	public function generatePashumitraCode(){
+		
+		//$pm_code = str_rand(10 only digit);
+		$pm_code = $this->checkPashumitraCode();
+		return $pm_code;
+	}
+	
+	public function checkPashumitraCode()
+	{
+		//$pm_code = str_rand(10 only digit);
+		$pm_code = random_int(1000000000, 9999999999);
+		$check = User::where('pm_code',$pm_code)->count();
+		if($check==0)
+		{
+			return $pm_code;
+		}else{
+			
+			$pmcode = $this->checkPashumitraCode();
+			
+		}
+	}
 
     public function getLogsData($filter = []){
         $oLogs = Activity::where(function($query) use ($filter){
