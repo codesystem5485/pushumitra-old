@@ -201,7 +201,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [PashumitraController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [PashumitraController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [PashumitraController::class, 'delete'])->name('delete'); 
-        Route::get('/{id?}/detail', [PashumitraController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/detail', [PashumitraController::class, 'userDetail'])->name('detail');
+		Route::get('/{id?}/pashumitra-verify', [PashumitraController::class, 'pashumitraVerify'])->name('pashumitra-verify');        
     });
 
     //Animal Owner module

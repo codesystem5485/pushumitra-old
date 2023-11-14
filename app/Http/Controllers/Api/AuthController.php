@@ -335,7 +335,7 @@ class AuthController extends BaseController
         $validator = Validator::make($postData, [
             'email_id_or_mobile_number' => 'required',
             'password' => 'required',
-			'role'=>'required'
+			//'role'=>'required'
         ]);
         $response = [];
         if ($validator->fails())
@@ -443,7 +443,7 @@ class AuthController extends BaseController
             'mobile_number' => 'required|max:10',
             'otp' => 'required|max:6',
             'login_type' => 'required',
-			'role'=> 'required',
+			//'role'=> 'required',
         ]);
         $response = [];
         if ($validator->fails())
@@ -466,11 +466,11 @@ class AuthController extends BaseController
             $param = ['otp' => null,'otp_expiration' =>  null,
                     'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
 					
-			if($postData['role'] == 'Pashumitra')
+		/*	if($postData['role'] == 'Pashumitra')
 			{
 				$param = ['otp' => null,'otp_expiration' =>  null,
                     'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 0];
-			}
+			}*/
 					
             $this->userRepo->update($user->id,$param);  
 
@@ -582,12 +582,12 @@ class AuthController extends BaseController
                 'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
                 'address_line_1' => 'required|string',
                 'address_line_2' => 'required|string',
-                'village' => 'required|string',
+                //'village' => 'required|string',
                 'city_town' => 'required|string',
                 'state' => 'required|string',
                 'pincode' => 'required|numeric',
                 'education'=> 'required',
-                'education_certificate'=> 'max:10240',
+               // 'education_certificate'=> 'max:10240',
                 'pm_collage_name' => 'required|string',
                 'pm_collage_address' => 'required|string',
                 'date_of_birth' => 'date',
@@ -595,6 +595,23 @@ class AuthController extends BaseController
                 'nationality' => 'required',
                 'sex' => 'required',
                 'marital_status' => 'required',
+				'pm_collage_name' => 'required|string',
+				'pm_collage_address' => 'required|string',            
+				'pm_nominee_name'=>'required|String',
+				'pm_nominee_dob'	=>'required|date',
+				'pm_collage_address'	=>'required|String',
+				'pm_nominee_relationship'	=>'required|String',
+				'pm_aadhar_no'	=>'required|numeric',
+				'pm_aadhar_photo_front'	=>'required|max:10240',
+				'pm_aadhar_photo_back'	=>'required|max:10240',
+				'job_type'	=>'required',
+				'pm_pan_no'	=>'required|',
+				'pm_pan_photo'	=>'required|max:10240',
+				'pm_bank_name'	=>'required|String',
+				'pm_account_no'	=>'required|numeric',
+				'pm_ifsc_code'	=>'required',
+				'pm_cheque_photo'	=>'required|max:10240',
+				'pm_name_of_org'	=>'required|String',
             ]);
         }
 		
@@ -659,7 +676,7 @@ class AuthController extends BaseController
 		 if($postData['role']=='Pashumitra')
             {
 				if($request->education_certificate!=''){
-					$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+					/*$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
 					if(!empty($education_certificateName))
 					{
 						$param['education_certificate']= $education_certificateName;
@@ -667,9 +684,54 @@ class AuthController extends BaseController
 					else{
 						$response['error'] = trans('messages.not_able_to_upload_edu_certi');
 						return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+					}*/
+				}
+				
+				$paramDetail['pm_nominee_name'] = $request->pm_nominee_name;
+				$paramDetail['pm_nominee_dob'] = date('Y-m-d',strtotime($request->pm_nominee_dob));
+				$paramDetail['pm_nominee_relationship'] = $request->pm_nominee_relationship;
+				$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
+				$paramDetail['pm_pan_no'] = $request->pm_pan_no;
+				$paramDetail['pm_bank_name'] = $request->pm_bank_name;
+				$paramDetail['pm_account_no'] = $request->pm_account_no;
+				$paramDetail['pm_ifsc_code'] = $request->pm_ifsc_code;
+				$paramDetail['job_type'] = $request->job_type;
+				$paramDetail['pm_name_of_org'] = $request->pm_name_of_org;
+				
+				if(!empty($request->pm_aadhar_photo_front))
+				{
+					$pm_aadhar_photo_frontName = $this->uploadFile($request->pm_aadhar_photo_front,'aadhar_photo_front');
+					if(!empty($pm_aadhar_photo_frontName))
+					{
+						$paramDetail['pm_aadhar_photo_front'] = $pm_aadhar_photo_frontName;
 					}
 				}
-                
+				if(!empty($request->pm_aadhar_photo_back))
+				{
+					$pm_aadhar_photo_backName = $this->uploadFile($request->pm_aadhar_photo_back,'aadhar_photo_back');
+					if(!empty($pm_aadhar_photo_backName))
+					{
+						$paramDetail['pm_aadhar_photo_back'] = $pm_aadhar_photo_backName;
+					}
+				}
+			
+            if(!empty($request->pm_pan_photo))
+            {
+                $pm_pan_photoName = $this->uploadFile($request->pm_pan_photo,'pan_photo');
+                if(!empty($pm_pan_photoName))
+                {
+                   $paramDetail['pm_pan_photo'] = $pm_pan_photoName;
+                }
+            }
+			
+            if(!empty($request->pm_cheque_photo))
+            {
+                $pm_cheque_photoName = $this->uploadFile($request->pm_cheque_photo,'cheque_photo');
+                if(!empty($pm_cheque_photoName))
+                {
+                    $paramDetail['pm_cheque_photo'] = $pm_cheque_photoName;
+                }
+            }  
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];

@@ -8,6 +8,7 @@ return [
     'update' => 'updated',
     'delete' => 'deleted',
     'default' => 'default',
+	'verify' => 'verify',
     'error' => 'error',
     'status_change' => 'Status has been changed',
     'access_denied' => 'You have not sufficent access!',

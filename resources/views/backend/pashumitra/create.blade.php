@@ -300,7 +300,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">PAN Card Photo* :</span>
                         </div>
-                        <input type="file" id="pm_pan_photo" class="form-control" aria-describedby="basic-addon3" name="pm_pan_photo" value="@if(empty($user)){{old('pm_pan_photo')}}@else{{$user->getUserDetail->pm_pan_no}}@endif" placeholder="pm_pan_photo" required><br>
+                        <input type="file" id="pm_pan_photo" class="form-control" aria-describedby="basic-addon3" name="pm_pan_photo" value="@if(empty($user)){{old('pm_pan_photo')}}@else{{$user->getUserDetail->pm_pan_photo}}@endif" placeholder="pm_pan_photo" required><br>
                         <div><span>{{ $errors->first('pm_pan_photo') }}</span></div>
                     </div>
 
@@ -314,7 +314,7 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Bank Account Name* :</span>
+                            <span class="input-group-text">Bank Account Number* :</span>
                         </div>
                         <input type="text" id="pm_account_no" class="form-control" aria-describedby="basic-addon3" name="pm_account_no" value="@if(empty($user)){{old('pm_account_no')}}@else{{$user->getUserDetail->pm_account_no}}@endif" placeholder="Bank Account Number" required><br>
                         <div><span>{{ $errors->first('pm_account_no') }}</span></div>
@@ -332,7 +332,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Upload Cheque Photo* :</span>
                         </div>
-                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@else{{$user->getUserDetail->pm_pan_no}}@endif" placeholder="Cheque Photo" required><br>
+                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@else{{$user->getUserDetail->pm_cheque_photo}}@endif" placeholder="Cheque Photo" required><br>
                         <div><span>{{ $errors->first('pm_cheque_photo') }}</span></div>
                     </div>
 

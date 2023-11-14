@@ -319,4 +319,15 @@ class PashumitraController extends BaseController
         $roles = $this->getRoles();
         return view('backend.pashumitra.view',['cities'=>$cities,'states'=>$states,'user' => $user,'roles' => $roles,'url' => $this->url]);
     }
+	
+	public function pashumitraVerify($id)
+	{
+		$inputDetail['is_verified'] = 1;
+        $user = $this->userRepo->update($id,$inputDetail);
+		Session::flash('success', trans('messages.update_records'));
+		## Store log
+		$message = trans('messages.verify_success'); 
+		storeActicityLog(trans('messages.verify'),$message,Auth::user(),$user);
+		return redirect()->route('pashumitra.index');
+	}
 }

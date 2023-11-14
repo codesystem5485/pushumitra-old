@@ -33,10 +33,24 @@
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
+					
+					@if($user->is_verified==0)
+						<div class="mb-5">
+                        
+                            <span class=""><a href="{{route('pashumitra.pashumitra-verify',['id' => $user->id])}}" class="btn btn-info" >Verify Pashumitra</a></span>
+                    </div>
+						
+					@endif
                     <div class="mb-5">
                         
                             <span class="">Name :</span>
                             <span class="">{{ $user->first_name." ".$user->middle_name." ".$user->last_name}}</span>
+                        
+                    </div>
+					 <div class="mb-5">
+                        
+                            <span class="">Pashumitra Code :</span>
+                            <span class="">{{ $user->pm_code}}</span>
                         
                     </div>
                     <div class="mb-5">
@@ -131,10 +145,58 @@
                         </div>
                     </div>
 					
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Aadhar card number :</span>
+                            <span class="">{{ $user->getUserDetail->pm_aadhar_no }}</span>
+                        </div>
+                        <div class="">
+                            <span class="">PAN Card Number :</span>
+                            <span class="">{{ $user->getUserDetail->pm_pan_no}}</span>
+                        </div>
+                        <div class="">
+                            <span class="">Bank Name :</span>
+                            <span class="">{{ $user->getUserDetail->pm_bank_name}}</span>
+                        </div>
+						<div class="">
+                            <span class="">Bank Account Number :</span>
+                            <span class="">{{ $user->getUserDetail->pm_account_no}}</span>
+                        </div>
+						<div class="">
+                            <span class="">Bank IFSC Code :</span>
+                            <span class="">{{ $user->getUserDetail->pm_ifsc_code}}</span>
+                        </div>
+                    </div>
+					
 					<div class="mb-5">
                         <div class="">
                             <span class="">Education certificate :</span>
-                            <span class=""><a href="{{ url("/upload/education_certificate/")}}/{{$user->education_certificate}}">{{ $user->education_certificate}}</a></span>
+                            <span class=""><a target="_blank" href="{{ url("/upload/education_certificate/")}}/{{$user->education_certificate}}">{{ $user->education_certificate}}</a></span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Cheque Photo :</span>
+                            <span class=""><a target="_blank" href="{{ url("/upload/cheque_photo/")}}/{{$user->getUserDetail->pm_cheque_photo}}">{{ $user->getUserDetail->pm_cheque_photo}}</a></span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Aadhar Card Photo (Front) :</span>
+                            <span class=""><a target="_blank" href="{{ url("/upload/aadhar_photo_front/")}}/{{$user->getUserDetail->pm_aadhar_photo_front}}">{{ $user->getUserDetail->pm_aadhar_photo_front}}</a></span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Aadhar Card Photo (Back) :</span>
+                            <span class=""><a target="_blank" href="{{ url("/upload/aadhar_photo_back/")}}/{{$user->getUserDetail->pm_aadhar_photo_back}}">{{ $user->getUserDetail->pm_aadhar_photo_back}}</a></span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">PAN Card Photo :</span>
+                            <span class=""><a target="_blank" href="{{ url("/upload/pan_photo/")}}/{{$user->getUserDetail->pm_pan_photo}}">{{ $user->getUserDetail->pm_pan_photo}}</a></span>
                         </div>
                     </div>
 					
