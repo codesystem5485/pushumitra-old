@@ -533,8 +533,33 @@ class AuthController extends BaseController
            // $select = ['id','first_name','email','phone_number'];
 		   $select = ['*'];
             //$with = ['getUserDetail:id,user_id,pan_number,pin,dob,profile_pic,state,city,occupation,gender'];
-			$with  = ['getUserDetail:*'];			
-            $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with); 
+			$with  = ['getUserDetail'];			
+            $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
+			
+			$userDetail['pm_collage_name']=$userDetail->getUserDetail->pm_collage_name;
+			$userDetail['pm_collage_address']=$userDetail->getUserDetail->pm_collage_address;
+			$userDetail['pm_name_of_org']=$userDetail->getUserDetail->pm_name_of_org;
+			$userDetail['pm_nominee_name']=$userDetail->getUserDetail->pm_nominee_name;
+			$userDetail['pm_nominee_dob']=$userDetail->getUserDetail->pm_nominee_dob;
+			$userDetail['pm_nominee_relationship']=$userDetail->getUserDetail->pm_nominee_relationship;
+			$userDetail['pm_aadhar_no']=$userDetail->getUserDetail->pm_aadhar_no;
+			$userDetail['pm_pan_no']=$userDetail->getUserDetail->pm_pan_no;
+			$userDetail['pm_bank_name']=$userDetail->getUserDetail->pm_bank_name;
+			$userDetail['pm_account_no']=$userDetail->getUserDetail->pm_account_no;
+			$userDetail['pm_ifsc_code']=$userDetail->getUserDetail->pm_ifsc_code;
+			
+			$userDetail['pm_aadhar_photo_front']=$userDetail->getUserDetail->pm_aadhar_photo_front;
+			$userDetail['pm_aadhar_photo_back']=$userDetail->getUserDetail->pm_aadhar_photo_back;
+			$userDetail['pm_pan_photo']=$userDetail->getUserDetail->pm_pan_photo;
+			$userDetail['pm_cheque_photo']=$userDetail->getUserDetail->pm_cheque_photo;
+			
+			$userDetail['adharcard_front_url']=url("/upload/aadhar_photo_front/");
+			$userDetail['adharcard_back_url']=url("/upload/aadhar_photo_back/");
+			$userDetail['profile_photo_url'] = url("/upload/profile_photo/");
+			$userDetail['educationcertificate_url']=url("/upload/education_certificate/");
+			$userDetail['chequephoto_url']=url("/upload/cheque_photo/");
+			$userDetail['pancard_url']=url("/upload/pan_photo/");
+			
             return $this->sendResponse($userDetail,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
@@ -665,7 +690,7 @@ class AuthController extends BaseController
 					$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
 					if(!empty($profile_photoName))
 					{
-						$param['profile_photo'] = $profile_photoName;
+						 $param['profile_photo'] = $profile_photoName;
 					}
 					else{
 						$response['error'] = trans('messages.not_able_to_upload_pro_photo');
