@@ -577,6 +577,10 @@ class AuthController extends BaseController
 			$with  = ['getUserDetail'];			
             $userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
 			
+			//var_dump($userDetail);exit;
+			
+			if($userDetail->getUserDetail!=null){
+			
 			$userDetail['pm_collage_name']=$userDetail->getUserDetail->pm_collage_name;
 			$userDetail['pm_collage_address']=$userDetail->getUserDetail->pm_collage_address;
 			$userDetail['pm_name_of_org']=$userDetail->getUserDetail->pm_name_of_org;
@@ -593,6 +597,7 @@ class AuthController extends BaseController
 			$userDetail['pm_aadhar_photo_back']=$userDetail->getUserDetail->pm_aadhar_photo_back;
 			$userDetail['pm_pan_photo']=$userDetail->getUserDetail->pm_pan_photo;
 			$userDetail['pm_cheque_photo']=$userDetail->getUserDetail->pm_cheque_photo;
+			}
 			
 			$userDetail['adharcard_front_url']=url("/upload/aadhar_photo_front/");
 			$userDetail['adharcard_back_url']=url("/upload/aadhar_photo_back/");
