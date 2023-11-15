@@ -373,7 +373,7 @@ class AuthController extends BaseController
 				$token = $this->createApiToken();
 				$param = ['api_token' => $token];
 				$this->userRepo->update($user->id,$param);
-                $response = ['id'=>$user->id,'first_name' => $user->first_name,'email' => $user->email,'token' => $token,
+                $response = ['id'=>$user->id,'first_name' => $user->first_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified ];
 				if($user->is_verified==0)
 				{
@@ -443,7 +443,7 @@ class AuthController extends BaseController
             'mobile_number' => 'required|max:10',
             'otp' => 'required|max:6',
             'login_type' => 'required',
-			//'role'=> 'required',
+			'role'=> 'required',
         ]);
         $response = [];
         if ($validator->fails())
@@ -451,8 +451,46 @@ class AuthController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
         $response = [];
-        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+		
+		if($postData['role']=='Guest'){
+			$user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
+			
+		}else{
+			 $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+		}
+       
         if ($user) {
+			if($postData['role']=='Guest'){
+				$checkOtp = Guestusers::where('mobile_number',$postData['mobile_number'])->where('otp',$postData['otp'])->first();
+
+		   if(empty($checkOtp)){
+                return $this->sendError($response,trans('messages.otp_invalid'),400);  
+            }
+
+            ## check otp expiration time
+            if(strtotime(now()) >strtotime($user->otp_expiration)){
+                return $this->sendError($response,trans('messages.otp_expired'),400); 
+            }
+           
+                ## if verified otp then create token
+                
+				$token = $this->createApiToken();
+				$param = ['api_token' => $token];
+				$user->api_token = $token;
+				$user->otp='';
+				$user->otp_expiration='';
+				$user->update();
+                $response = ['mobile_number' => $user->mobile_number,'api_token' => $token];
+            
+            
+            return $this->sendResponse($response,trans('messages.verify_success'),200); 
+				
+				
+				
+				
+			}
+			else{
+			
             ## check otp is valid or not 
             $checkOtp = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number'],'otp' => $postData['otp']]);
             if(empty($checkOtp)){
@@ -466,11 +504,11 @@ class AuthController extends BaseController
             $param = ['otp' => null,'otp_expiration' =>  null,
                     'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
 					
-		/*	if($postData['role'] == 'Pashumitra')
+			if($postData['role'] == 'Pashumitra')
 			{
 				$param = ['otp' => null,'otp_expiration' =>  null,
                     'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 0];
-			}*/
+			}
 					
             $this->userRepo->update($user->id,$param);  
 
@@ -482,10 +520,13 @@ class AuthController extends BaseController
 				$param = ['api_token' => $token];
 				$this->userRepo->update($user->id,$param);
                 $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
-                isset($user->roles[0]->name) ? $user->roles[0]->name : '','token' => $token];
+                isset($user->roles[0]->name) ? $user->roles[0]->name : '','api_token' => $token];
             }
             
-            return $this->sendResponse($response,trans('messages.verify_success'),200);  
+            return $this->sendResponse($response,trans('messages.verify_success'),200); 
+			}
+
+			
         }else {
             return $this->sendError($response,trans('messages.user_not'),404);
         }
@@ -569,7 +610,12 @@ class AuthController extends BaseController
     public function updateProfile(Request $request){
 		
 		$postData = $request->all();
-        $user_id=$postData['user_id'];
+        
+		if(!isset($postData['user_id']))
+		{
+			 return  $this->sendError([],trans('messages.records_not_found'),404);
+		}
+		$user_id=$postData['user_id'];
 		$userData = $this->getUserDetailsUsingId($request);
 		
 		if($postData['role']=='Animal-owner')
@@ -579,10 +625,10 @@ class AuthController extends BaseController
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'string|max:255',
                 'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
-                'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
-                'password' => 'required',
-                'confirm_password' => 'required',
+              //  'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
+              //  'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
+              //  'password' => 'required',
+              //  'confirm_password' => 'required',
                 'address_line_1' => 'required|string',
                 'address_line_2' => 'required|string',
                 'city_town' => 'required|string',
@@ -601,10 +647,10 @@ class AuthController extends BaseController
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'string|max:255',
                 'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
-                'password' => 'required',
-                'confirm_password' => 'required',
-                'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
+               // 'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
+                //'password' => 'required',
+                //'confirm_password' => 'required',
+                //'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
                 'address_line_1' => 'required|string',
                 'address_line_2' => 'required|string',
                 //'village' => 'required|string',
@@ -647,16 +693,16 @@ class AuthController extends BaseController
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'string|max:255',
                 'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
-                'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
-                'password' => 'required',
-                'confirm_password' => 'required',
+               // 'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
+                //'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
+                //'password' => 'required',
+                //'confirm_password' => 'required',
                 'address_line_1' => 'required|string',
                 'address_line_2' => 'required|string',
                 'city_town' => 'required|string',
                 'state' => 'required|string',
                 'pincode' => 'required|numeric',
-                'education_certificate'=> 'max:10240',
+               // 'education_certificate'=> 'max:10240',
                 'education'=> 'required|string',
 				'rv_state_verternity_council'=>'required',
                 'rv_state_verternity_council_no'=>'required|numeric',
@@ -760,9 +806,9 @@ class AuthController extends BaseController
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
-                $param['email'] = $postData['email'];
-                $param['password'] = $postData['password'];
-                $param['mobile_number'] = $postData['mobile_number'];
+                //$param['email'] = $postData['email'];
+                //$param['password'] = $postData['password'];
+                //$param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
                 //$param['village'] = $postData['village'];
@@ -808,9 +854,9 @@ class AuthController extends BaseController
 				$param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
-                $param['email'] = $postData['email'];
-                $param['password'] = $postData['password'];
-                $param['mobile_number'] = $postData['mobile_number'];
+               // $param['email'] = $postData['email'];
+               // $param['password'] = $postData['password'];
+               // $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
               //  $param['village'] = $postData['village'];
@@ -840,7 +886,7 @@ class AuthController extends BaseController
 			
 			if($postData['role']=='Registered-vet')
             {
-				if($request->education_certificate!=''){
+				/*if($request->education_certificate!=''){
 					$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
 					if(!empty($education_certificateName))
 					{
@@ -850,14 +896,14 @@ class AuthController extends BaseController
 						$response['error'] = trans('messages.not_able_to_upload_edu_certi');
 						return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
 					}
-				}
+				}*/
                 
                 $param['first_name'] = $postData['first_name'];
                 $param['middle_name'] = $postData['middle_name'];
                 $param['last_name'] = $postData['last_name'];
-                $param['email'] = $postData['email'];
-                $param['password'] = $postData['password'];
-                $param['mobile_number'] = $postData['mobile_number'];
+              //  $param['email'] = $postData['email'];
+              //  $param['password'] = $postData['password'];
+              //  $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
                 $param['address_line_2'] = $postData['address_line_2'];
                // $param['village'] = $postData['village'];
@@ -877,7 +923,7 @@ class AuthController extends BaseController
 
                 $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
                 $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
-                $paramDetail['rv_working_village'] =$postData['rv_working_place'];
+                $paramDetail['rv_working_place'] =$postData['rv_working_place'];
 				$paramDetail['rv_current_working_address'] =$postData['rv_current_working_address'];
                 $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
                 $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
@@ -885,7 +931,6 @@ class AuthController extends BaseController
                 $paramDetail['rv_working_state_id'] =$postData['rv_working_state_id'];
                 $paramDetail['rv_working_pincode'] =$postData['rv_working_pincode'];
                 $paramDetail['job_type'] =$postData['job_type'];
-                
                 $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
                 $paramDetail['rv_speciality'] =$postData['rv_speciality'];
                 
