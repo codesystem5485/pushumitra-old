@@ -1,0 +1,192 @@
+@extends('front.master')
+@section('content')
+<div class="inner-page-banner">
+    <div class="container">
+        <div class="banner-content d-flex align-items-center justify-content-between">
+            <h1>Library</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{url('/home')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Library</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="h1-story-area two mb-70 pt-70 book">
+    <div class="container">
+        <!-- <div class="row g-4 justify-content-center">
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Azolla Production</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Cultivation-Practices</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Fodder & Water requirment</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Haydrophonic</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Hybrid Nepier</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-6">
+                <div class="collection-card">
+                    <div class="collection-img">
+                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
+                    </div>
+                    <div class="collection-content text-center">
+                        <h4><a href="javascript:void(0)">Silage</a></h4>
+                        <div class="price">
+                            <a href="" class="primary-btn1">Download 
+                                <i class="bi bi-download ml-5"></i></a>
+                        </div>
+                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Sr No</th>
+                <th>Book Name</th>
+                <th>File Nmae</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1.</td>
+                <td>Azolla Production</td>
+                <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>
+                <td><a href="" class="primary-btn1">Download 
+                    <i class="bi bi-download ml-5"></i></a>
+                </td>
+              </tr>
+             
+              
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <br>
+        <br> -->
+
+        <div class="tab-content2 table-responsive pt-0">
+            <table class="table total-table2">
+            <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Book Name</th>
+               <!-- <th>File Nmae</th>-->
+                <th>Download</th>
+            </tr>
+            </thead>
+            <tbody>
+			@php 
+				$i = 1;
+			@endphp
+			@foreach($books as $book)
+			
+            <tr>
+                <td>{{$i}}.</td>
+                <td>{{$book->book_name}}</td>
+               <!-- <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>-->
+                <td> @if(!empty($book->book_file))
+                        <a class="primary-btn1 sm-but" target="_new" href="{{route("book.download",['file_name'=>$book->book_file])}}" >Download<i class="bi bi-download ml-5"></i></a>
+                        @endif
+						<!--<a href="" class="primary-btn1 sm-but">Download 
+                    <i class="bi bi-download ml-5"></i></a>-->
+                </td>
+            </tr>
+			@php 
+				$i++;
+			@endphp
+			@endforeach
+            
+            
+            </tbody>
+        </table>
+        </div>
+		<!--<div class="paginations-area">
+        {{ $books->links() }}
+		</div>-->
+       
+        <div class="paginations-area">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="javascript:void(0)"><i class="bi bi-arrow-left"></i></a></li>
+                <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0)"><i class="bi bi-arrow-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+@endsection

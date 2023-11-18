@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\AddanimalController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
+use App\Http\Controllers\Front\FrontPagesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +32,21 @@ use App\Http\Controllers\CommonController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/test', [TestController::class, 'test'])->name('test'); 
+
+
+
+/*
+Front Website
+
+*/
+
+Route::get('/home', [FrontPagesController::class, 'index'])->name('index');
+Route::get('/about-us', [FrontPagesController::class, 'aboutus'])->name('about-us');
+Route::get('/contact-us', [FrontPagesController::class, 'contactus'])->name('contact-us');
+Route::get('/library', [FrontPagesController::class, 'library'])->name('library');
+Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions'])->name('terms-conditions');
+
+//Route::get('/test', [TestController::class, 'test'])->name('test'); 
 Route::get('/update-permission', [TestController::class, 'updatePermission']); 
 Route::get('/', function () {
     return redirect('/auth/login');

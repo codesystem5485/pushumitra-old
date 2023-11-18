@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Backend;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
@@ -14,6 +14,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use DB;
+use Validator;
 
 use App\Traits\FileUpload;
 
@@ -30,11 +31,15 @@ class AnimalsaleController extends BaseController
 		$this->animalsaleRepo = $animalsaleRepo;
     } 
 
+  public function check()
+  {
+	  
+	  echo "test";
+  }
     
-    public function addAnimalForSale(AnimalsaleProcessRequest $request){
+    public function addAnimalForSale(Request $request){
         
 		$postData = request()->all();
-		
 		$validator = Validator::make($postData, [
 				'UID_number' => 'required',
 				'species' => 'required',
@@ -77,10 +82,10 @@ class AnimalsaleController extends BaseController
             DB::commit();
 			 ## Store log
             $message = trans('messages.animalsale_create',['name' => $request->UID_number]);
-            storeActicityLog(trans('messages.animalsale_create'),
+            storeActicityLog(trans('messages.animalsale_create'),$message);
 			
 			
-			return $this->sendResponse($response,trans('messages.create_records'),200);
+			return $this->sendResponse($response,trans('messages.animalsale_create'),200);
         }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';

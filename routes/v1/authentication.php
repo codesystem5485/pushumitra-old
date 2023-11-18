@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommonController;
+use App\Http\Controllers\Api\AnimalsaleController;
 /*
 |--------------------------------------------------------------------------
 | User Routes
@@ -16,6 +17,9 @@ use App\Http\Controllers\Api\CommonController;
 */
 // Route::middleware(['auth'])->group(function () {
 Route::group(['middleware' => ['cors']], function () {
+	
+	/* Animal sale*/
+Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
 
     Route::post('/signup', [AuthController::class,'signUp']); 
     // Route::post('/signin', [AuthController::class,'signIn']); 
@@ -30,7 +34,9 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/forgot-password', [AuthController::class,'forgotPassword']);
 	
 	Route::get('/get-profile', [AuthController::class,'getProfile']);
-	Route::post('/update-profile', [AuthController::class,'updateProfile']); 
+	Route::post('/update-profile', [AuthController::class,'updateProfile']);
+
+		
    
     Route::group(['middleware' => ['api-token']], function () {
         Route::get('/logout', [AuthController::class,'logout']); 

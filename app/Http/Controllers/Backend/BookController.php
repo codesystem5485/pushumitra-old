@@ -161,10 +161,13 @@ class BookController extends Controller
     public function getDownload($file_name){
 
         $file = public_path()."/upload/book/".urldecode($file_name);
-        $headers = array('Content-Type: application/pdf',);
+        $headers = array('Content-Type: application/pdf',
+						'Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:
+		GET, POST, PUT, DELETE, OPTIONS');
         return Response :: download($file);
-        // return response()->download($file, $file_name, $headers);
-        // return Response::download($file, 'info.pdf',$headers);
+        
+       //  return response()->download($file, $file_name, $headers);
+        return Response::download($file,$file_name, $headers);
     }
 
 }
