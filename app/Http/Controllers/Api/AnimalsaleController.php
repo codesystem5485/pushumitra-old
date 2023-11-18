@@ -44,7 +44,7 @@ class AnimalsaleController extends BaseController
 				'UID_number' => 'required',
 				'species' => 'required',
 				'breed' => "required",
-				'type' => "required",
+				//'type' => "required",
 				'age' => 'required|numeric',
 				'sex' => 'required|string',
 				'price' => 'required|numeric',

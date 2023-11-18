@@ -53,20 +53,19 @@ class AuthController extends BaseController
         { 
             $validator = Validator::make($postData, [
                // 'profile_photo'=>'required|max:10240',
-                'first_name' => 'required|string|max:255',
-                'middle_name' => 'string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+			    'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
                 'mobile_number' => 'required|numeric|unique:users',
                 'address_line_1' => 'required|string',
-                'address_line_2' => 'required|string',
-               // 'village' => 'required|string',
-                'city_town' => 'required|string',
                 'state' => 'required|string',
+				'city_town' => 'required|string',
+				'district' => 'string',
+                'taluka' => 'string',
                 'pincode' => 'required|numeric',
-                'education'=> 'required',
+				'state_id' => 'required',
+                /*'education'=> 'required',
                 'education_certificate'=> 'required|max:10240',
                 'pm_collage_name' => 'required|string',
                 'pm_collage_address' => 'required|string',
@@ -75,25 +74,25 @@ class AuthController extends BaseController
                 'nationality' => 'required',
                 'sex' => 'required',
                 'marital_status' => 'required',
+				// 'address_line_2' => 'required|string',
+               // 'village' => 'required|string',
+                */
             ]);
         }
         if($postData['role']=='Animal-owner')
         {
             $validator = Validator::make($postData, [
-                //'profile_photo'=>'required|max:10240',
-                'first_name' => 'required|string|max:255',
-                'middle_name' => 'string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'mobile_number' => 'required|numeric|unique:users',
+				'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
+                'mobile_number' => 'required|numeric|unique:users',
                 'address_line_1' => 'required|string',
-                'address_line_2' => 'required|string',
-                'city_town' => 'required|string',
-                'city_id' => 'required',
-                'state_id' => 'required',
                 'state' => 'required|string',
+				'state_id' => 'required',
+				'city_town' => 'required|string',
+				'district' => 'string',
+                'taluka' => 'string',
                 'pincode' => 'required|numeric',
                  
             ]);
@@ -101,36 +100,18 @@ class AuthController extends BaseController
         if($postData['role']=='Registered-vet')
         {
             $validator = Validator::make($postData, [
-               // 'profile_photo'=>'required|max:10240',
-                'first_name' => 'required|string|max:255',
-                'middle_name' => 'string|max:255',
-                'last_name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'mobile_number' => 'required|numeric|unique:users',
+				'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
+                'mobile_number' => 'required|numeric|unique:users',
                 'address_line_1' => 'required|string',
-                'address_line_2' => 'required|string',
-                'city_town' => 'required|string',
                 'state' => 'required|string',
+				'state_id' => 'required',
+				'city_town' => 'required|string',
+				'district' => 'string',
+                'taluka' => 'string',
                 'pincode' => 'required|numeric',
-                'education_certificate'=> 'required|max:10240',
-                'education'=> 'required|string',
-				'rv_current_working_address'=> 'required|string',
-                'rv_state_verternity_council'=>'required',
-                'rv_state_verternity_council_no'=>'required|numeric',
-                'rv_working_place' => 'required|string',
-                'rv_working_city_town' => 'required|string',
-                'rv_working_state' => 'required|string',
-                'rv_working_pincode' => 'required|numeric',
-                'date_of_birth' => 'date',
-                'age' => 'required|numeric',
-                'sex' => 'required|string',
-                'job_type' => 'required|string',
-                'rv_name_of_working_org'=>'required|string',
-                'nationality' => 'required|string',
-                'alternate_mobile_number' => 'required|numeric',                
-                'rv_speciality'=>'required|string',
             ]);
         }
         if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
@@ -171,20 +152,17 @@ class AuthController extends BaseController
                     return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
                 }*/
                 
-                $param['first_name'] = $postData['first_name'];
-                $param['middle_name'] = $postData['middle_name'];
-                $param['last_name'] = $postData['last_name'];
+                $param['full_name'] = $postData['full_name'];
                 $param['email'] = $postData['email'];
                 $param['password'] = $postData['password'];
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
-                $param['address_line_2'] = $postData['address_line_2'];
-               // $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
+				$param['district'] = $postData['district'];
+				$param['taluka'] = $postData['taluka'];
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
 				$param['state_id'] = $postData['state_id'];
-                $param['city_id'] = $postData['city_id'];
                 
                 $user = $this->userRepo->create($param);
 
@@ -203,7 +181,7 @@ class AuthController extends BaseController
                 else{
                     $response['error'] = trans('messages.not_able_to_upload_pro_photo');
                     return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }*/
+                }
 
                 $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
                 if(!empty($education_certificateName))
@@ -213,38 +191,25 @@ class AuthController extends BaseController
                 else{
                     $response['error'] = trans('messages.not_able_to_upload_edu_certi');
                     return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }
+                }*/
                 
-                $param['first_name'] = $postData['first_name'];
-                $param['middle_name'] = $postData['middle_name'];
-                $param['last_name'] = $postData['last_name'];
-                $param['email'] = 	$postData['email'];
+				$param['full_name'] = $postData['full_name'];
+                $param['email'] = $postData['email'];
                 $param['password'] = $postData['password'];
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
-                $param['address_line_2'] = $postData['address_line_2'];
-              //  $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
+				$param['district'] = $postData['district'];
+				$param['taluka'] = $postData['taluka'];
                 $param['state'] = $postData['state'];
-                $param['state_id'] = $postData['state_id'];
-                $param['city_id'] = $postData['city_id'];
-                $param['pincode'] = $postData['pincode']; 
-                $param['education']= $postData['education'];
-                $param['pm_collage_name'] = $postData['pm_collage_name'];
-                $param['pm_collage_address'] = $postData['pm_collage_address'];
-                $param['nationality'] = $postData['nationality']; 
-                $param['sex'] = $postData['sex']; 
-                $param['marital_status'] = $postData['marital_status']; 
-                $param['age'] = $postData['age'];
-                $param['date_of_birth'] = $postData['date_of_birth'];
-
+                $param['pincode'] = $postData['pincode'];
+				$param['state_id'] = $postData['state_id'];
                 $user = $this->userRepo->create($param);
 
-                $paramDetail['user_id'] = $user->id;
+               /* $paramDetail['user_id'] = $user->id;
                 $paramDetail['pm_collage_name'] = $postData['pm_collage_name'];
                 $paramDetail['pm_collage_address'] = $postData['pm_collage_address'];
-
-                $userDetail = $this->userDetailRepo->create($paramDetail);
+				$userDetail = $this->userDetailRepo->create($paramDetail);*/
             }
             if($postData['role']=='Registered-vet')
             {
@@ -257,7 +222,7 @@ class AuthController extends BaseController
                 else{
                     $response['error'] = trans('messages.not_able_to_upload_pro_photo');
                     return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }*/
+                }
 
                 $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
                 if(!empty($education_certificateName))
@@ -267,44 +232,21 @@ class AuthController extends BaseController
                 else{
                     $response['error'] = trans('messages.not_able_to_upload_edu_certi');
                     return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }
-                
-                $param['first_name'] = $postData['first_name'];
-                $param['middle_name'] = $postData['middle_name'];
-                $param['last_name'] = $postData['last_name'];
-                $param['email'] = $postData['email'];
+                }*/
+				
+				$param['full_name'] = $postData['full_name'];
+                $param['email'] 	= $postData['email'];
                 $param['password'] = $postData['password'];
                 $param['mobile_number'] = $postData['mobile_number'];
                 $param['address_line_1'] = $postData['address_line_1'];
-                $param['address_line_2'] = $postData['address_line_2'];
-               // $param['village'] = $postData['village'];
                 $param['city_town'] = $postData['city_town'];
+				$param['district'] = $postData['district'];
+				$param['taluka'] = $postData['taluka'];
                 $param['state'] = $postData['state'];
-                $param['state_id'] = $postData['state_id'];
-                $param['city_id'] = $postData['city_id'];
-                $param['pincode'] = $postData['pincode']; 
-                $param['education']= $postData['education'];
-                $param['date_of_birth'] =$postData['date_of_birth'];
-                $param['age'] =$postData['age'];
-                $param['sex'] =$postData['sex'];
-                $param['nationality'] =$postData['nationality'];
-                $param['alternate_mobile_number'] =$postData['alternate_mobile_number'];
+                $param['pincode'] = $postData['pincode'];
+				$param['state_id'] = $postData['state_id'];
+				
                 $user = $this->userRepo->create($param);
-
-                $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
-                $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
-                $paramDetail['rv_working_village'] =$postData['rv_working_place'];
-                $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
-                $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
-                $paramDetail['rv_working_state'] =$postData['rv_working_state'];
-                $paramDetail['rv_working_state_id'] =$postData['rv_working_state_id'];
-                $paramDetail['rv_working_pincode'] =$postData['rv_working_pincode'];
-				$paramDetail['rv_current_working_address'] =$postData['rv_current_working_address'];
-                $paramDetail['job_type'] =$postData['job_type'];
-                $paramDetail['user_id'] = $user->id;
-                $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
-                $paramDetail['rv_speciality'] =$postData['rv_speciality'];
-                $userDetail = $this->userDetailRepo->create($paramDetail);
             }
             if($user){
                 //asign role
@@ -337,19 +279,19 @@ class AuthController extends BaseController
             'password' => 'required',
 			//'role'=>'required'
         ]);
+		
         $response = [];
         if ($validator->fails())
         {
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
+		
         $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number']]);
-		
-		
         
-        if (!$user) {
+       /* if (!$user) {
 
             $user = $this->userRepo->getSingleRecords(['email' => $postData['email_id_or_mobile_number']]);
-        }
+        }*/
 
         if($user)
         {
@@ -368,6 +310,8 @@ class AuthController extends BaseController
             
             DB::beginTransaction();
             try{
+				
+				
               //  $token = $user->createToken($user->email)->accessToken;
 			  
 				$token = $this->createApiToken();
@@ -485,9 +429,6 @@ class AuthController extends BaseController
             
             return $this->sendResponse($response,trans('messages.verify_success'),200); 
 				
-				
-				
-				
 			}
 			else{
 			
@@ -501,13 +442,15 @@ class AuthController extends BaseController
             if(strtotime(now()) >strtotime($user->otp_expiration)){
                 return $this->sendError($response,trans('messages.otp_expired'),400); 
             }
-            $param = ['otp' => null,'otp_expiration' =>  null,
-                    'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
+            
 					
 			if($postData['role'] == 'Pashumitra')
 			{
 				$param = ['otp' => null,'otp_expiration' =>  null,
                     'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 0];
+			}else{
+				$param = ['otp' => null,'otp_expiration' =>  null,
+                    'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
 			}
 					
             $this->userRepo->update($user->id,$param);  
