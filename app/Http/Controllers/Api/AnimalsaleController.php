@@ -36,6 +36,8 @@ class AnimalsaleController extends BaseController
 	  
 	  echo "test";
   }
+  
+  
     
     public function addAnimalForSale(Request $request){
         
@@ -95,6 +97,16 @@ class AnimalsaleController extends BaseController
         }
      
     }
+	
+	public function getAnimalSaleList(Request $request)
+	{
+		$response['animalsale']  =   Animalforsale::select( 'animal_for_sales.*',
+            DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
+           ->orderBy('animal_for_sales.id','ASC')->get();
+		   $response['animalsale_image_path'] =  url("/upload/animalsale/");
+			
+		return $this->sendResponse($response,"",200);
+	}
 
     /**
      * Get Particular Animal for sale

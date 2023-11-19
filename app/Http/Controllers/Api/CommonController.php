@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use App\Repositories\Interfaces\City\CityRepositoryInterface;
+use App\Models\Breeds;
+use App\Models\Species;
 
 class CommonController extends BaseController
 {
@@ -29,5 +31,17 @@ class CommonController extends BaseController
     {
         $response['cities'] = $this->cityRepo->getCities(['state_id'=>$request->state_id]);
         return $this->sendResponse($response,"",200);
+    }
+	
+	 public function getSpecies(){
+	   
+	    $response['species'] = Species::where('is_active','1')->get();
+		return $this->sendResponse($response,"",200);
+    }
+   
+    public function getBreeds(){
+	   
+	 $response['breeds'] = Breeds::where('is_active','1')->get();
+	   return $this->sendResponse($response,"",200);
     }
 }
