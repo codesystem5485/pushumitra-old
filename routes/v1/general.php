@@ -2,6 +2,7 @@
 use App\Http\Controllers\Api\CommonController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthController;
 
 use App\Http\Controllers\Api\AnimalsaleController;
 
@@ -9,6 +10,7 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	Route::get('/get-species', [CommonController::class,'getSpecies']); 
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
+	Route::get('/get-library', [AuthController::class,'getLibrary']);
 	
 	
 		/* Animal sale*/

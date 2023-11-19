@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Models\Guestusers;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
+use App\Models\Books;
 use Mail;
 
 class AuthController extends BaseController
@@ -1143,5 +1144,12 @@ class AuthController extends BaseController
             return $this->sendError($response,trans('messages.user_not'),404);
         }
     }
+	
+	public function getLibrary(Request $request)
+	{ 
+		 $response['books'] = Books::orderBy('id','ASC')->get();
+		 $response['books_file_url']=url("/upload/book/");
+		 return $this->sendResponse($response,"",200);
+	}
 	
 }   
