@@ -33,7 +33,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/forgot-password', [AuthController::class,'forgotPassword']);
 	
 	Route::get('/get-profile', [AuthController::class,'getProfile']);
-	Route::post('/update-profile', [AuthController::class,'updateProfile']);
+	//Route::post('/update-profile', [AuthController::class,'updateProfile']);
+	Route::post('/update-generalprofile', [AuthController::class,'updateGeneralProfile']);
 
 		
    

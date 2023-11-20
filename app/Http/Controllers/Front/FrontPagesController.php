@@ -9,6 +9,7 @@ use Session;
 use Auth;
 use App\Traits\FileUpload;
 use App\Models\Books;
+use Response;
 
 class FrontPagesController extends Controller
 {
@@ -49,5 +50,15 @@ class FrontPagesController extends Controller
         return view('front.termsconditions'); 
     }
 	
-
+	public function getDownload($file_name){
+		$file = public_path()."/upload/book/".urldecode($file_name);
+        $headers = array('Content-Type: application/pdf',
+						'Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:
+		GET, POST, PUT, DELETE, OPTIONS');
+        return Response :: download($file);
+        
+       //  return response()->download($file, $file_name, $headers);
+        return Response::download($file,$file_name, $headers);
+    }
+	
 }
