@@ -22,6 +22,8 @@ use App\Http\Controllers\Backend\AddanimalController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Front\FrontPagesController;
+use App\Http\Controllers\Backend\ContentManagementController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +42,7 @@ Front Website
 
 */
 
+
 Route::get('/home', [FrontPagesController::class, 'index'])->name('index');
 Route::get('/about-us', [FrontPagesController::class, 'aboutus'])->name('about-us');
 Route::get('/contact-us', [FrontPagesController::class, 'contactus'])->name('contact-us');
@@ -48,18 +51,28 @@ Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions']
 
 //Route::get('/test', [TestController::class, 'test'])->name('test'); 
 Route::get('/update-permission', [TestController::class, 'updatePermission']); 
-Route::get('/', function () {
-    return redirect('/auth/login');
+
+Route::get('/', [FrontPagesController::class, 'index'])->name('index');
+/*Route::get('/', function () {
+    //return redirect('/auth/login');
+	return redirect('/home');
+});*/
+
+
+Route::get('/pashumitra', function () {
+    return redirect('pashumitra/auth/login');
+	
 });
+
 Route::get('/clear-cache', function() {
     Artisan::call('optimize:clear');
     echo Artisan::output();
 });
-Route::get('/get-cities', [CommonController::class, 'get_cities'])->name('get-cities'); 
+Route::get('pashumitra/get-cities', [CommonController::class, 'get_cities'])->name('get-cities'); 
 
 //Login
 Route::group([
-  'prefix' => 'auth',
+  'prefix' => 'pashumitra/auth',
   'as' => 'auth.',
   ],function () { 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login'); 
@@ -69,19 +82,19 @@ Route::group([
 });
 
 Route::middleware(['auth'])->group(function () {//,'check.role'
-  Route::get('/dashboard', [HomeController::class, 'index'])->name('home'); 
+  Route::get('pashumitra/dashboard', [HomeController::class, 'index'])->name('home'); 
 	Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 	Route::post('/update/{id?}/profile', [HomeController::class, 'updateProfile'])->name('update.profile');
 	Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
   Route::post('/mobile-verify', [HomeController::class, 'mobileVerify'])->name('mobile.verify');
   Route::post('/update-mobile', [HomeController::class, 'updateMobile'])->name('update.mobile');
   ##Activity Logs
-  Route::get('/logs', [HomeController::class, 'getLogs'])->name('logs');
+  Route::get('logs', [HomeController::class, 'getLogs'])->name('logs');
   Route::get('/ajax-data', [HomeController::class, 'ajaxData'])->name('log.ajax'); 
      
     //Role module
     Route::group([
-        'prefix' => 'role',
+        'prefix' => 'pashumitra/role',
         'as' => 'role.',
       ], function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
@@ -94,7 +107,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal type module
     Route::group([
-        'prefix' => 'animal',
+        'prefix' => 'pashumitra/animal',
         'as' => 'animal.',
       ], function () {
         Route::get('/', [AnimalController::class, 'index'])->name('index-type');
@@ -107,7 +120,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Breed module
     Route::group([
-        'prefix' => 'breed',
+        'prefix' => 'pashumitra/breed',
         'as' => 'breed.',
       ], function () {
         Route::get('/', [BreedController::class, 'index'])->name('index');
@@ -120,7 +133,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal species module
     Route::group([
-        'prefix' => 'species',
+        'prefix' => 'pashumitra/species',
         'as' => 'species.',
       ], function () {
         Route::get('/', [SpeciesController::class, 'index'])->name('index');
@@ -133,7 +146,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Characterestics module
     Route::group([
-        'prefix' => 'characteristics',
+        'prefix' => 'pashumitra/characteristics',
         'as' => 'characteristics.',
       ], function () {
         Route::get('/', [CharacteristicsController::class, 'index'])->name('index');
@@ -146,7 +159,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Chemist module
     Route::group([
-        'prefix' => 'chemist',
+        'prefix' => 'pashumitra/chemist',
         'as' => 'chemist.',
       ], function () {
         Route::get('/', [ChemistController::class, 'index'])->name('index');
@@ -161,7 +174,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
     
     //Transporter module
     Route::group([
-      'prefix' => 'transporter',
+      'prefix' => 'pashumitra/transporter',
       'as' => 'transporter.',
     ], function () {
       Route::get('/', [TransporterController::class, 'index'])->name('index');
@@ -176,7 +189,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Library module
     Route::group([
-        'prefix' => 'book',
+        'prefix' => 'pashumitra/book',
         'as' => 'book.',
       ], function () {
         Route::get('/', [BookController::class, 'index'])->name('index');
@@ -191,7 +204,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Owner module
     Route::group([
-        'prefix' => 'animal-owner',
+        'prefix' => 'pashumitra/animal-owner',
         'as' => 'animal-owner.',
       ], function () {
         Route::get('/', [AnimalownerController::class, 'index'])->name('index');
@@ -206,7 +219,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
       
       //Animal Owner module
       Route::group([
-        'prefix' => 'pashumitra',
+        'prefix' => 'pashumitra/pashumitra',
         'as' => 'pashumitra.',
       ], function () {
         Route::get('/', [PashumitraController::class, 'index'])->name('index');
@@ -222,7 +235,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Owner module
     Route::group([
-        'prefix' => 'registered-vet',
+        'prefix' => 'pashumitra/registered-vet',
         'as' => 'registered-vet.',
       ], function () {
         Route::get('/', [RegisteredvetController::class, 'index'])->name('index');
@@ -237,7 +250,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //User module
     Route::group([
-        'prefix' => 'user',
+        'prefix' => 'pashumitra/user',
         'as' => 'user.', 
       ], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -254,7 +267,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal for sale module
     Route::group([
-        'prefix' => 'animal-sale',
+        'prefix' => 'pashumitra/animal-sale',
         'as' => 'animal-sale.', 
       ], function () {
         Route::get('/', [AnimalsaleController::class, 'index'])->name('index');
@@ -271,7 +284,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal for sale module
     Route::group([
-        'prefix' => 'product-sale',
+        'prefix' => 'pashumitra/product-sale',
         'as' => 'product-sale.', 
       ], function () {
         Route::get('/', [ProductsaleController::class, 'index'])->name('index');
@@ -288,7 +301,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal add module
     Route::group([
-        'prefix' => 'add-animal',
+        'prefix' => 'pashumitra/add-animal',
         'as' => 'add-animal.', 
       ], function () {
         Route::get('/', [AddanimalController::class, 'index'])->name('index');
@@ -305,7 +318,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal add module
     Route::group([
-        'prefix' => 'add-product',
+        'prefix' => 'pashumitra/add-product',
         'as' => 'add-product.', 
       ], function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
@@ -318,6 +331,21 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [ProductController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [ProductController::class, 'userDetail'])->name('detail');        
         Route::get('/{id?}/remove', [ProductController::class, 'removeImage'])->name('remove');        
+    });
+	
+	//Content management module
+    Route::group([
+        'prefix' => 'pashumitra/content-management',
+        'as' => 'content-management.',
+      ], function () {
+        Route::get('/', [ContentManagementController::class, 'index'])->name('index');
+        Route::get('/create', [ContentManagementController::class, 'create'])->name('create');
+        Route::post('/store', [ContentManagementController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [ContentManagementController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [ContentManagementController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [ContentManagementController::class, 'delete'])->name('delete'); 
+       
+        
     });
     
 });

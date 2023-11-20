@@ -31,7 +31,7 @@
 					  <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/pashumitra')}}">{{$pashumitraCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/pashumitra')}}">{{$pashumitraCount}}</a></h3>
                            <span>Pashumitra</span>
 						  </div>
                         </div>
@@ -43,7 +43,7 @@
 					<div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/registered-vet')}}">{{$registerVetCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/registered-vet')}}">{{$registerVetCount}}</a></h3>
                            <span>Registered-vet</span>
 						  </div>
                         </div>
@@ -55,7 +55,7 @@
 					 <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/animal-owner')}}">{{$animalOwnerCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/animal-owner')}}">{{$animalOwnerCount}}</a></h3>
                            <span>Animal owner</span>
 						  </div>
                         </div>
@@ -67,7 +67,7 @@
 					 <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/animal-sale')}}">{{$animalSaleCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/animal-sale')}}">{{$animalSaleCount}}</a></h3>
                            <span>Animal for sale</span>
 						  </div>
                         </div>
@@ -79,7 +79,7 @@
 					  <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/product-sale')}}">{{$productSaleCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/product-sale')}}">{{$productSaleCount}}</a></h3>
                            <span>Product for sale</span>
 						  </div>
                         </div>
@@ -91,7 +91,7 @@
 					  <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/chemist')}}">{{$chemistCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/chemist')}}">{{$chemistCount}}</a></h3>
                            <span>Chemist</span>
 						  </div>
                         </div>
@@ -103,7 +103,7 @@
 					 <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">
-                           <h3><a href="{{url('/transporter')}}">{{$transporterCount}}</a></h3>
+                           <h3><a href="{{url('pashumitra/transporter')}}">{{$transporterCount}}</a></h3>
                            <span>Transporter</span>
 						  </div>
                         </div>

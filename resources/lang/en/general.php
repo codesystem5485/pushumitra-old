@@ -193,8 +193,6 @@ return [
 'select_animal_owner'=>'Select Animal Owner',
 'select_breed'=>'Select Breed',
 
-
-
 //product sale
 'product_list'=>'Product List',
 'product_add'=>'Add Product',
@@ -205,6 +203,21 @@ return [
 'product_owner'=>'Product Owner',
 'select_product_owner'=>'Select Product Owner',
 'enter_product_name'=>'Enter Product Name',
+
+//Content management
+'cms_list'=>'Front Pages List',
+'cms_add'=>'Add Front Page',
+'cms_edit'=>'Edit Front Page',
+'cms_create'=>'Create Front Page',
+'cms'=>'Front Pages',
+'cms_title'=>'Pages Title',
+'enter_cmstitle'=>'Enter Title',
+'cms_pagecontent1'=>"Page Content 1",
+'cms_image1'=>"Page Image 1",
+'cms_image2'=>"Page Image 2",
+
+
+
 
 ];
 

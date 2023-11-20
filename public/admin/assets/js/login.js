@@ -30,7 +30,7 @@ $(document).ready(function () {
                     $(".alert-warning").fadeOut(4000);
                 }
                 if (res.statusCode == 200) {
-                    // var webUrl = '{{url("/")}}';
+                    //var webUrl = '{{url("/pashumitra/")}}';
                     window.location.href = webUrl + "/dashboard";
                 }
             },

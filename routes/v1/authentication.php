@@ -18,8 +18,7 @@ use App\Http\Controllers\Api\AnimalsaleController;
 // Route::middleware(['auth'])->group(function () {
 Route::group(['middleware' => ['cors']], function () {
 	
-	/* Animal sale*/
-Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
+
 
     Route::post('/signup', [AuthController::class,'signUp']); 
     // Route::post('/signin', [AuthController::class,'signIn']); 
