@@ -35,12 +35,11 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-profile', [AuthController::class,'getProfile']);
 	//Route::post('/update-profile', [AuthController::class,'updateProfile']);
 	Route::post('/update-generalprofile', [AuthController::class,'updateGeneralProfile']);
-
-		
+	Route::post('/update-bankprofile', [AuthController::class,'updateBankProfile']);
+	Route::post('/update-otherprofile', [AuthController::class,'updateOtherProfile']);
    
     Route::group(['middleware' => ['api-token']], function () {
-        Route::get('/logout', [AuthController::class,'logout']); 
-       
+        Route::get('/logout', [AuthController::class,'logout']);
         
         Route::post('/upload-profile-pic', [AuthController::class,'updateProfilePic']); 
     });

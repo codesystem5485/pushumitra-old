@@ -61,6 +61,7 @@ return [
     'enter_confirm_password'=>'Please confirm new password',
     'do_you_want_to_delete'=>'Do you really want to delete the record(s)?',
     'not_able_to_upload_edu_certi'=>'Not able to upload education certificate, please upload another file.',
+	'not_able_to_upload_rec_letter'=>'Not able to upload recommendation letter, please upload again.',
     'not_able_to_upload_pro_photo'=>'Not able to upload profile photo, please upload another file.',
 
     'chemist_create' => 'Chemist (:name) has been created', 
