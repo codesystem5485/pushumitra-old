@@ -6,12 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pashu Mitra</title>
+    <title>Pashumitra</title>
     <link rel="icon" href="{{asset('front/assets/images/sm-logo.svg')}}" type="image/gif" sizes="20x20">
-	
-	
-	
-
     <link rel="stylesheet" href="{{asset('front/assets/css/animate.css')}}"> 
     <link rel="stylesheet" href="{{asset('front/assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('front/assets/css/boxicons.min.css')}}">
@@ -27,7 +23,7 @@
     <header class="header-area style-2">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div class="header-logo">
-                <a href="index.html"><img alt="image" class="img-fluid" src="{{asset('front/assets/images/logo.png')}}"></a>
+                <a href="{{url('/')}}"><img alt="image" class="img-fluid" src="{{asset('front/assets/images/logo.png')}}"></a>
             </div>
             <div class="main-menu">
                 <div class="mobile-logo-area d-lg-none">
@@ -35,7 +31,7 @@
                         <i class="bi bi-x-lg"></i>
                     </div>
                     <div class="mobile-logo-wrap">
-                        <a href="index.html"><img alt="image" src="{{asset('front/assets/images/logo.png')}}"></a>
+                        <a href="{{url('/')}}"><img alt="image" src="{{asset('front/assets/images/logo.png')}}"></a>
                     </div>
                     
                 </div>

@@ -86,7 +86,7 @@
             <div class="row border-top align-items-center">
                 <div class="col-lg-6">
                     <div class="copyright-area">
-                        <p>© Copyrights 2023 <a href="#">Code System.</a> All rights reserved. </p>
+                        <p>© Copyrights 2023 <a target="_blank" href="https://www.codesystem.co.in/">Code System.</a> All rights reserved. </p>
                     </div>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-md-end justify-content-center">
