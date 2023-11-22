@@ -15,7 +15,8 @@ Route::group(['middleware' => ['cors']], function () {
 	
 		/* Animal sale*/
 	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
-	Route::get('/animalsale-list', [AnimalsaleController::class,'getAnimalSaleList']); 
+	Route::get('/animalsale-list', [AnimalsaleController::class,'getAnimalSaleList']);
+	Route::get('/animalsale-detail', [AnimalsaleController::class,'animalSaleDetail']);	
 	
 
     Route::group(['middleware' => ['api-token']], function () {

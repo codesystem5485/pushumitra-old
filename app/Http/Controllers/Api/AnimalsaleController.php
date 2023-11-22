@@ -31,14 +31,6 @@ class AnimalsaleController extends BaseController
 		$this->animalsaleRepo = $animalsaleRepo;
     } 
 
-  public function check()
-  {
-	  
-	  echo "test";
-  }
-  
-  
-    
     public function addAnimalForSale(Request $request){
         
 		$postData = request()->all();
@@ -95,7 +87,6 @@ class AnimalsaleController extends BaseController
             storeActicityLog(trans('messages.error'),$error,$request->user_id);
 			return  $this->sendError($response,trans('messages.something'),500);			
         }
-     
     }
 	
 	public function getAnimalSaleList(Request $request)
@@ -107,66 +98,18 @@ class AnimalsaleController extends BaseController
 			
 		return $this->sendResponse($response,"",200);
 	}
-
-    /**
-     * Get Particular Animal for sale
-     * @param int $id (Animal for sale Id) Request $request
-     */
-    public function edit(Request $request){
-		$id = $request->animalSaleId;
+	
+	public function animalSaleDetail(Request $request){
+		$id = $request->animalsale_id;
         $animalsale = Animalforsale::find($id);
         $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
 		if($animalsale){
 			$details = array('animalSaleDetails'=>$animalsale,'animalSaleImages' =>$animalimages);
+			$details['animalsale_image_path'] =  url("/upload/animalsale/");
 			return $this->sendResponse($details,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
-    }
-
-     /**
-     * Update Animal for sale
-     * @param Request $request
-     * @thorw exception
-     */
-    public function update(AnimalsaleProcessRequest $request, $id) 
-    {
-        DB::beginTransaction();
-        try{
-            $aInsertData = $request->all();
-            $animalsale = $this->animalsaleRepo->update($id,$request->all());
-             if($request->animal_photo)
-            {
-                foreach($request->animal_photo as $photo)
-                {
-                    $fileName ='';
-                    $fileName = $this->uploadFile($photo,'animalsale');
-                    if($fileName)
-                    {
-                        $animalImage = AnimalImages::create(['animal_sale_id'=>$animalsale->id,'image_name' => $fileName]);
-                    }
-                }
-            }
-            DB::commit();
-           
-
-            ## Store log
-            $message = trans('messages.animalsale_update',['name' => $request->UID_number]);
-            storeActicityLog(trans('messages.animalsale_update'),$message,Auth::user(),$animalsale);
-            return redirect()->route('animal-sale.index');    
-        }catch(\Exception $e){ 
-            DB::rollback();
-            $error = !empty($e->getMessage())?$e->getMessage() : '';
-            ##store error log
-            storeActicityLog(trans('messages.error'),$error,Auth::user());
-            Session::flash('error', trans('messages.something'));
-            return redirect()->route('animal-sale.index'); 
-        }
-    }
-
-    public function detail(Request $request, $id = ''){
-        $animalsale = Animalforsale::find($id);
-        return view('backend.animal-sale.detail',['animalsale' => $animalsale,'url' => $this->url]);  
     }
 
     /**
