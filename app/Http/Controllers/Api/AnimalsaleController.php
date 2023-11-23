@@ -103,41 +103,6 @@ class AnimalsaleController extends BaseController
 	
 	public function animalSaleDetail(Request $request){
 		
-		$api_key='rzp_test_fbiwRvGp1057Ua';
-		$api_secret='O4q2Dcq4PhZHNAwYvXifusHF';
-		
-		 $url = 'https://api.razorpay.com/v1/orders/';
-		 
-		 $data= array('receipt' => '123', 'amount' => 100, 'currency' => 'INR', 'notes'=> array('key1'=> 'value3','key2'=> 'value2'));
-		 
-		 
-    $key_id = $api_key;
-    $key_secret = $api_secret;
-    $params = http_build_query($data);
-    //cURL Request
-    $ch = curl_init();
-    //set the url, number of POST vars, POST data
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_USERPWD, $key_id . ':' . $key_secret);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-    $result = curl_exec($ch);
-	
-	$result1 = json_decode($result);
-	
-	var_dump($result1);exit;
-	exit;
-	
-		$api = new Api($api_key, $api_secret);
-		
-		$res = $api->order->create(array('receipt' => '123', 'amount' => 100, 'currency' => 'INR', 'notes'=> array('key1'=> 'value3','key2'=> 'value2')));
-		
-		print_r($res);exit;
-		exit;
-		
 		$id = $request->animalsale_id;
         $animalsale = Animalforsale::find($id);
         $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
