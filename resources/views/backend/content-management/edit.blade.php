@@ -36,26 +36,36 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">{{ __('general.cms_title') }}* :</span>
                         </div>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="title" value="@if(empty($pages)){{old('title')}}@else{{$pages->title}}@endif"placeholder="{{ __(enter_cmstitle) }}">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="title" value="@if(empty($pages)){{old('title')}}@else{{$pages->title}}@endif"placeholder="{{ __('general.enter_cmstitle') }}">
                     </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">{{ __('general.cms_pagecontent1') }}* :</span>
                         </div>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="title" value="@if(empty($pages)){{old('title')}}@else{{$pages->title}}@endif"placeholder="{{ __(enter_cmstitle) }}">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="common_content" value="@if(empty($pages)){{old('common_content')}}@else{{$pages->common_content}}@endif"placeholder="{{ __('general.enter_cmstitle') }}">
                     </div>
 					
-					
-                   <!-- <div class="input-group mb-3">
+                    <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon3">{{ __('general.book_file') }}* :</span>
+                            <span class="input-group-text" id="basic-addon3">{{ __('general.cms_image1') }}* :</span>
                         </div>
-                        <input type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="book_file" value="@if(empty($books)){{old('book_name')}}@else{{$books->book_name}}@endif"placeholder="{{ __('general.enter_book') }}">
+                        <input type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="common_image_1" value="@if(empty($pages)){{old('common_image_1')}}@else{{$pages->common_image_1}}@endif"placeholder="{{ __('general.cms_image1') }}">
                         @if(!empty($books->book_file))
-                        <a target="_new" href="{{route("book.download",['file_name'=>$books->book_file])}}" >Download PDF</a>
+                        <a target="_new" href="{{route("book.download",['file_name'=>$pages->common_image_1])}}" >Download PDF</a>
                         @endif
-                    </div>-->
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon3">{{ __('general.cms_image2') }}* :</span>
+                        </div>
+                        <input type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="common_image_2" value="@if(empty($pages)){{old('common_image_2')}}@else{{$pages->common_image_2}}@endif"placeholder="{{ __('general.cms_image2') }}">
+                        @if(!empty($books->book_file))
+                        <a target="_new" href="{{route("book.download",['file_name'=>$pages->common_image_2])}}" >Download PDF</a>
+                        @endif
+                    </div>
+					
                     <div class="input-group mb-2">
                         <input type="submit" class="btn btn-primary" value="Submit" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"/>
                     </div>

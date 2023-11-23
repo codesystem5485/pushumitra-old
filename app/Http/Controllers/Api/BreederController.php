@@ -17,10 +17,10 @@ use DB;
 use Validator;
 
 use App\Traits\FileUpload;
-use Razorpay\Api\Api;
 
 
-class AnimalsaleController extends BaseController
+
+class BreederController extends BaseController
 {
     use FileUpload;
     protected $url = '';
