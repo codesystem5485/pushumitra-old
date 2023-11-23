@@ -92,8 +92,8 @@ class AuthController extends BaseController
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
-				'district' => 'string',
-                'taluka' => 'string',
+				'district' => 'nullable|string',
+                'taluka' => 'nullable|string',
                 'pincode' => 'required|numeric',
                  
             ]);
@@ -110,8 +110,8 @@ class AuthController extends BaseController
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
-				'district' => 'string',
-                'taluka' => 'string',
+				'district' => 'nullable|string',
+                'taluka' => 'nullable|string',
                 'pincode' => 'required|numeric',
             ]);
         }
@@ -978,7 +978,7 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
                 'profile_photo'=>'max:10240',
                 'full_name' => 'required|string|max:255',
-                'email' => 'string|email|max:255|unique:users,email,'.$user_id,
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
 				'date_of_birth' => 'required|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
@@ -997,7 +997,7 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
                 'profile_photo'=>'max:10240',
                 'full_name' => 'required|string|max:255',
-                'email' => 'string|email|max:255|unique:users,email,'.$user_id,
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -1016,7 +1016,7 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
                 'profile_photo'=>'max:10240',
                 'full_name' => 'required|string|max:255',
-                'email' => 'string|email|max:255|unique:users,email,'.$user_id,
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
 				'date_of_birth' => 'required|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
