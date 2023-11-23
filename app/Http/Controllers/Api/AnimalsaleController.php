@@ -105,7 +105,10 @@ class AnimalsaleController extends BaseController
 		
 		$id = $request->animalsale_id;
         $animalsale = Animalforsale::find($id);
-        $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
+		$animalimages=array();
+		if($animalsale){
+			$animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
+		}
 		if($animalsale){
 			$details = array('animalSaleDetails'=>$animalsale,'animalSaleImages' =>$animalimages);
 			$details['animalsale_image_path'] =  url("/upload/animalsale/");
