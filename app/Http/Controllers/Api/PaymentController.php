@@ -8,19 +8,99 @@ use Illuminate\Http\Request;
 use DB;
 use Validator;
 use App\Models\Fee;
+use App\Models\Payments;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
+use App\Repositories\Interfaces\User\UserDetailRepositoryInterface;
+
 
 class PaymentController extends BaseController
 {
-  
-    public function __construct(){
+    private $userRepo;
+    private $userDetailRepo;
+	
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        UserDetailRepositoryInterface $userDetailRepository ){
+		$this->userRepo = $userRepository;
+        $this->userDetailRepo = $userDetailRepository;
 		
     } 
 	
-	public function getFee(Request $request)
+	public function getConfig(Request $request)
 	{
 		$response = Fee::orderBy('id','ASC')->get();
+		$user_id = $request->user_id;
+		$role = $request->role;
+		
+		$completedProfile =0; 
+		$completedPayment =0;
+		$verified=0;		
+		 $filter = ['id'=>$user_id];
+		$select = ['*'];
+        
+		$with  = ['getUserDetail'];			
+		$userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
+		
+		if($userDetail->full_name!='' && $userDetail->mobile!='' && $userDetail->date_of_birth!='' &&
+		 $userDetail->gender!=''  && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
+		 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!=''){
+			 
+			 $completedProfile =1;
+		 }
+		 
+		 $verified=$userDetail->is_verified;
+		 
+		 $profileMsg ='';
+		 if($completedProfile==0){
+			 
+			 $profileMsg = "Please complete Your profile" ;
+		 }
+		 
+		 $paymentMsg = '';
+		 if($completedPayment==1){
+			 
+			 $paymentMsg = "Please complete Your payment process" ;
+		 }
+		 
+		 $verifyMsg = '';
+		 if($verified==0){
+			 
+			 $verifyMsg = "Dear  Pashumitra ,Thank you for registering with Pashumitra Applicaton. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to ensure the accuracy and completeness of the information provided.This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations." ;
+		 }
+		 
+		 
+		 
+		 $response['verifyMsg'] = $verifyMsg;
+		 $response['profileMsg'] = $profileMsg;
+		 $response['paymentMsg'] = $paymentMsg;
+		 $response['completedProfile'] = $completedProfile;
+		 $response['completedPayment'] = $completedPayment;
+		 $response['verified'] = $verified;
+		 
+		 
+		//$userArray = $this->checkProfile($user_id,$role);
 		
 		return $this->sendResponse($response,"",200);
+	}
+	public function checkProfile($user_id,$role)
+	{
+		$completedProfile =0; 
+		$completedPayment =0;
+		$verified=0;		
+		
+		$select = ['*'];
+        
+		$with  = ['getUserDetail'];			
+		$userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
+		if($userDetail['full_name']!='' && $userDetail['mobile']!='' && $userDetail['date_of_birth']!='' &&
+		 $userDetail['gender']!=''  && $userDetail['city_town']!='' && $userDetail['pm_aadhar_no']!='' && 
+		 $userDetail['pm_pan_no']!='' && $userDetail['job_type']!=''){
+			 
+			 $completedProfile =1;
+		 }
+		 $verified=$userDetail['is_verified'];
+		
+		
 	}
 	
 	public function generatePaymentOrderId(Request $request){
@@ -65,7 +145,81 @@ class PaymentController extends BaseController
 		return $this->sendResponse($response,"",200);
         
     }
-
-    
-
+	
+	public function addPayments(Request $request)
+	{
+		$postData = request()->all();
+		
+		$validator = Validator::make($postData, [
+				'role' => 'required',
+				'amount' => 'required',
+				'type' => 'required',
+				'order_id' => 'required',
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+		$roleId = null;
+		if($aInsertData['role']=="Pashumitra"){
+			$roleId = 8;
+		}elseif($aInsertData['role']=="Registered-vet")
+		{
+			$roleId = 7;
+		}
+		elseif($aInsertData['role']=="Animal-owner")
+		{
+			$roleId = 6;
+		}
+		
+		$payment_response = $aInsertData['payment_response'];
+		$amount = $aInsertData['amount'];
+		$type = $aInsertData['type'];
+		$order_id =$aInsertData['order_id'];
+		
+		$paymentId =0;$status=0;$payment_request = '';
+		
+		if($aInsertData['payment_id']!=0 || $aInsertData['payment_id']!=''){
+			$paymentId =$aInsertData['payment_id'];
+			
+			$status = 1;
+			
+		}
+			$insertArray = array(
+					'role_id'=>$roleId,
+					'user_id'=>$aInsertData['user_id'],
+					'payment_id' =>$paymentId,
+					'order_id' =>$aInsertData['order_id'],
+					'status' =>$status,
+					'payment_date' =>date("Y-m-d H:i:s"),
+					'payment_response' =>$payment_response,
+					//'payment_request' =>$payment_request,
+					'amount' =>$amount,
+					'type' =>$type,
+				);
+			
+			
+			$payment = Payments::create($insertArray);
+            DB::commit();
+			 ## Store log
+            $message = trans('messages.payments_create',['name' => $paymentId]);
+            storeActicityLog(trans('messages.payments_create'),$message);
+			
+			
+			return $this->sendResponse($response,trans('messages.payments_create'),200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+	}
 }

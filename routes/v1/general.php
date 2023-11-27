@@ -19,7 +19,8 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* payment */
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
-	Route::get('/get-fee', [PaymentController::class,'getFee']);
+	Route::post('/create-payment', [PaymentController::class,'addPayments']);
+	Route::get('/get-config', [PaymentController::class,'getConfig']);
 	
 	Route::group(['middleware' => ['api-token']], function () {
         Route::get('/setting', [CommonController::class,'getSetting']); 

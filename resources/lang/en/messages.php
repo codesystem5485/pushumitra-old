@@ -72,6 +72,7 @@ return [
     'animalsale_update' => 'Animal (:name) has been updated for sale',  
     'animalsale_delete' => 'Animal sale (:name) has been deleted',
 	'email_password'=>'We have e-mailed your new password.',
+	'payments_create' =>'Payment created successfully',
 	'login_success_not_verified'=>'Dear  Pashumitra ,Thank you for registering with Pashumitra Applicaton. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to 
 								ensure the accuracy and completeness of the information provided.This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations.',
 
