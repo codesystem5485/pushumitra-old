@@ -85,7 +85,7 @@ class BreederController extends BaseController
 	{
 		$id = $request->breeder_id;
 		$breeder = Breeder::leftJoin('breeds', 'breeds.id', '=', 'breeders.animal_breed')
-		->select('breeders.*','breeds.breed as ')
+		->select('breeders.*','breeds.breed as animal_breed')
 		->where('breeders.id',$id)
 		->first();
   
