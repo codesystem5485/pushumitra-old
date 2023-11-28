@@ -71,6 +71,11 @@ return [
     'animalsale_create' => 'Animal (:name) has been created for sale', 
     'animalsale_update' => 'Animal (:name) has been updated for sale',  
     'animalsale_delete' => 'Animal sale (:name) has been deleted',
+	
+	'breeder_create' => 'Breeder (:name) has been created', 
+    'breeder_update' => 'Breeder (:name) has been updated',  
+    'breeder_delete' => 'Breeder (:name) has been deleted',
+	
 	'email_password'=>'We have e-mailed your new password.',
 	'payments_create' =>'Payment created successfully',
 	'login_success_not_verified'=>'Dear  Pashumitra ,Thank you for registering with Pashumitra Applicaton. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to 

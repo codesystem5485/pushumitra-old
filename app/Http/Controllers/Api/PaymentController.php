@@ -28,14 +28,26 @@ class PaymentController extends BaseController
 	
 	public function getConfig(Request $request)
 	{
-		$response = Fee::orderBy('id','ASC')->get();
+		$feeArray = Fee::orderBy('id','ASC')->get()->toArray();
+		$createArray = [];
+		if(count($feeArray) > 0){
+			foreach($feeArray as $row){
+				$name = str_replace(' ', '_', $row['name']);
+				$createArray[$name]=$row['fee'];
+			}
+		}
+		
+		$response['fee'] = $createArray;
+		
+		//echo print_r($createArray);exit;
+		
 		$user_id = $request->user_id;
 		$role = $request->role;
 		
 		$completedProfile =0; 
 		$completedPayment =0;
 		$verified=0;		
-		 $filter = ['id'=>$user_id];
+		$filter = ['id'=>$user_id];
 		$select = ['*'];
         
 		$with  = ['getUserDetail'];			

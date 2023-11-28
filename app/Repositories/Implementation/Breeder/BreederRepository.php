@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Implementation\BreederRepository;
+namespace App\Repositories\Implementation\Breeder;
 
 use App\Base\BaseRepository;
 use App\Models\Breeder;

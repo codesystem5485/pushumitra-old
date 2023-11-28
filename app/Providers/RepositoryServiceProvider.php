@@ -25,6 +25,9 @@ use App\Repositories\Implementation\Addanimal\AddanimalRepository;
 use App\Repositories\Interfaces\Product\ProductRepositoryInterface;
 use App\Repositories\Implementation\Product\ProductRepository;
 
+use App\Repositories\Interfaces\Breeder\BreederRepositoryInterface;
+use App\Repositories\Implementation\Breeder\BreederRepository;
+
 class RepositoryServiceProvider extends ServiceProvider 
 {
     /**
@@ -43,7 +46,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AnimalsaleRepositoryInterface::class, AnimalsaleRepository::class);        
         $this->app->bind(ProductsaleRepositoryInterface::class, ProductsaleRepository::class);        
         $this->app->bind(AddanimalRepositoryInterface::class, AddanimalRepository::class);        
-        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);        
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+		$this->app->bind(BreederRepositoryInterface::class, BreederRepository::class);         
     } 
 
     /**
