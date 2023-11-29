@@ -86,7 +86,7 @@ Route::group([
 
 Route::middleware(['auth'])->group(function () {//,'check.role'
   Route::get('pashumitra/dashboard', [HomeController::class, 'index'])->name('home'); 
-	Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+	Route::get('pashumitra/profile', [HomeController::class, 'profile'])->name('profile');
 	Route::post('/update/{id?}/profile', [HomeController::class, 'updateProfile'])->name('update.profile');
 	Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
   Route::post('/mobile-verify', [HomeController::class, 'mobileVerify'])->name('mobile.verify');
@@ -248,7 +248,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [RegisteredvetController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [RegisteredvetController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [RegisteredvetController::class, 'delete'])->name('delete'); 
-        Route::get('/{id?}/detail', [RegisteredvetController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/detail', [RegisteredvetController::class, 'userDetail'])->name('detail');
+		Route::get('/{id?}/registeredvet-verify', [RegisteredvetController::class, 'registeredvetVerify'])->name('registeredvet-verify');        
     });
 
     //User module

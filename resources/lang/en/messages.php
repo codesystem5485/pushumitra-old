@@ -37,7 +37,7 @@ return [
     'otp_send' => 'Otp has been send to your registered number',
     'otp_invalid' => 'Otp is invalid',
     'otp_expired' => 'Otp has been expired',
-    'verify_success' => 'Verified sucessfully',
+    'verify_success' => 'Record has been verified sucessfully',
     'login_success' => 'You have logged in sucessfully.',
     'token_missing' => 'Please make sure authorization token',
     'token_invalid' => 'Authorization token is invalid',

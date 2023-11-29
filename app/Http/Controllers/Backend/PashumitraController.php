@@ -324,7 +324,7 @@ class PashumitraController extends BaseController
 	{
 		$inputDetail['is_verified'] = 1;
         $user = $this->userRepo->update($id,$inputDetail);
-		Session::flash('success', trans('messages.update_records'));
+		Session::flash('success', trans('messages.verify_success'));
 		## Store log
 		$message = trans('messages.verify_success'); 
 		storeActicityLog(trans('messages.verify'),$message,Auth::user(),$user);

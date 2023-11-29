@@ -12,6 +12,7 @@ use App\Repositories\Interfaces\Breeder\BreederRepositoryInterface;
 use DB;
 use Validator;
 use App\Traits\FileUpload;
+use App\Models\BreederImages;
 
 class BreederController extends BaseController
 {
@@ -59,6 +60,19 @@ class BreederController extends BaseController
         try{            
             $aInsertData = $request->all();
             $breeder = $this->breederRepo->create($aInsertData);
+			
+			if($request->animal_photo)
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'breederanimals');
+                    if($fileName)
+                    {
+                        $animalImage = BreederImages::create(['breeder_id'=>$breeder->id,'image_name' => $fileName]);
+                    }
+                } 
+            }
             
             DB::commit();
 			 ## Store log
@@ -76,8 +90,11 @@ class BreederController extends BaseController
 	
 	public function getBreederList(Request $request)
 	{
-		$response['breeders']  =   $this->breederRepo->getBreeder();
-		
+		$response['breeders']  =   Breeder::select( 'breeders.*',
+            DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
+           ->orderBy('breeders.id','ASC')->get();
+		   $response['breeder_image_path'] =  url("/upload/breederanimals/");
+			
 		return $this->sendResponse($response,"",200);
 	}
 	
@@ -88,10 +105,15 @@ class BreederController extends BaseController
 		->select('breeders.*','breeds.breed as animal_breed')
 		->where('breeders.id',$id)
 		->first();
-  
-        //$breeder = $this->breederRepo->getSingleBreeder($id);
-        if($breeder){
-			return $this->sendResponse($breeder,trans('messages.records_found'));
+		
+		$breederimages=array();
+		
+		if($breeder){
+			$breederimages = BreederImages::where('breeder_id',$breeder->id)->get();
+			$details = array('breederDetails'=>$breeder,'breederImages' =>$breederimages);
+			$details['breeder_image_path'] =  url("/upload/breederanimals/");
+			
+			return $this->sendResponse($details,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }

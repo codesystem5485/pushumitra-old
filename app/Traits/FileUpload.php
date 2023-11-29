@@ -33,7 +33,15 @@ trait FileUpload {
 
             case 'animalsale':
             $path = Config::get('constants.file.animalsale_file_path');
-            break; 
+            break;
+
+			case 'breederanimals':
+            $path = Config::get('constants.file.breederanimal_file_path');
+            break;
+			
+			case 'recommendation_letter':
+            $path = Config::get('constants.file.recommendationletter_file_path');
+            break;
 
             case 'profile_photo':
             $path = Config::get('constants.file.profile_photo_file_path');
@@ -99,6 +107,10 @@ trait FileUpload {
             case 'animalsale':
             $path = Config::get('constants.file.animalsale_file_path');
             break; 
+			
+			case 'breederanimals':
+            $path = Config::get('constants.file.breederanimal_file_path');
+            break;
 
             case 'book':
             $path = Config::get('constants.file.book_file_path');

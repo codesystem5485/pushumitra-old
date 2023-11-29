@@ -23,7 +23,7 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     @can('pashumitra-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_pashumitra') }}</a>
+                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_pashumitra') }}</a>-->
                     @endcan
                     
                     <p class="pull-right">
@@ -44,7 +44,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Mobile Number</th>
-                                <th>Role</th>
+                               <!-- <th>Role</th>-->
                                 <th>Created At</th>
                                 <th>Action</th>
                             </tr>
@@ -79,7 +79,7 @@
                 { data: 'first_name', name: 'first_name' },
                 { data: 'email', name: 'email' },
                 { data: 'mobile_number', name: 'mobile_number' },
-                { data: 'roles', name: 'roles',orderable: false, searchable: true},
+                /*{ data: 'roles', name: 'roles',orderable: false, searchable: true},*/
                 { data: 'created_date', name: 'created_date'},
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 

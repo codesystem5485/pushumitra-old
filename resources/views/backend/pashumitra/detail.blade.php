@@ -44,7 +44,7 @@
                     <div class="mb-5">
                         
                             <span class="">Name :</span>
-                            <span class="">{{ $user->first_name." ".$user->middle_name." ".$user->last_name}}</span>
+                            <span class="">{{ $user->full_name }}</span>
                         
                     </div>
 					 <div class="mb-5">
@@ -68,7 +68,7 @@
                     <div class="mb-5">
                         <div class="">
                             <span class="">Address :</span>
-                            <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
+                            <span class="">{{ $user->address_line_1." ".$user->state.", ".$user->city_town.", ".$user->district.", ".$user->taluka.", ".$user->pincode }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
@@ -78,12 +78,7 @@
                         </div>
                     </div>
                     
-                    <div class="mb-5">
-                        <div class="">
-                            <span class="">Collage Name/Address :</span>
-                            <span class="">{{ $user->getUserDetail->pm_collage_name}} {{$user->getUserDetail->pm_collage_address }}</span>
-                        </div>
-                    </div>
+                   
                     
                     <div class="mb-5">
                         <div class="">
@@ -96,12 +91,12 @@
                         </div>
                     </div>
 
-                    <div class="mb-5">
+               <!--     <div class="mb-5">
                         <div class="">
                             <span class="">Nationality :</span>
                             <span class="">{{ $user->nationality}}</span>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="mb-5">
                         <div class="">
@@ -109,62 +104,57 @@
                             <span class="">{{ $user->sex}}</span>
                         </div>
                     </div>
-
-                    <div class="mb-5">
-                        <div class="">
-                            <span class="">Naminee Name :</span>
-                            <span class="">{{ $user->getUserDetail->pm_nominee_name}}</span>
-                        </div>
-                        <div class="">
-                            <span class="">Naminee Date of birth :</span>
-                            <span class="">{{ $user->getUserDetail->pm_nominee_dob}}</span>
-                        </div>
-                        <div class="">
-                            <span class="">Naminee Relationship :</span>
-                            <span class="">{{ $user->getUserDetail->pm_nominee_relationship}}</span>
-                        </div>
-                    </div>
-
-                    <div class="mb-5">
-                        <div class="">
-                            <span class="">Marital Status :</span>
-                            <span class="">{{ $user->marital_status}}</span>
-                        </div>
-                    </div>
 					 <div class="mb-5">
                         <div class="">
                             <span class="">Job Type :</span>
-                            <span class="">{{ $user->getUserDetail->job_type}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->job_type}}@endif</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
+					
+                        <div class="">
+                            <span class="">Naminee Name :</span>
+                            <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_name}} @endif</span>
+                        </div>
+                        <div class="">
+                            <span class="">Naminee Date of birth :</span>
+                            <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_dob}} @endif</span>
+                        </div>
+                        <div class="">
+                            <span class="">Naminee Relationship :</span>
+                            <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_relationship}} @endif</span>
+                        </div>
+                    </div>
+					
+					
+					<div class="mb-5">
                         <div class="">
                             <span class="">Name of organization working with :</span>
-                            <span class="">{{ $user->getUserDetail->pm_name_of_org}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_name_of_org}} @endif</span>
                         </div>
                     </div>
 					
 					 <div class="mb-5">
                         <div class="">
                             <span class="">Aadhar card number :</span>
-                            <span class="">{{ $user->getUserDetail->pm_aadhar_no }}</span>
+                            <span class=""> @if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_aadhar_no }} @endif</span>
                         </div>
                         <div class="">
                             <span class="">PAN Card Number :</span>
-                            <span class="">{{ $user->getUserDetail->pm_pan_no}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_pan_no}} @endif</span>
                         </div>
                         <div class="">
                             <span class="">Bank Name :</span>
-                            <span class="">{{ $user->getUserDetail->pm_bank_name}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_bank_name}} @endif</span>
                         </div>
 						<div class="">
                             <span class="">Bank Account Number :</span>
-                            <span class="">{{ $user->getUserDetail->pm_account_no}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_account_no}} @endif</span>
                         </div>
 						<div class="">
                             <span class="">Bank IFSC Code :</span>
-                            <span class="">{{ $user->getUserDetail->pm_ifsc_code}}</span>
+                            <span class="">@if(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_ifsc_code}} @endif</span>
                         </div>
                     </div>
 					
@@ -178,34 +168,17 @@
 					<div class="mb-5">
                         <div class="">
                             <span class="">Cheque Photo :</span>
-                            <span class=""><a target="_blank" href="{{ url("/upload/cheque_photo/")}}/{{$user->getUserDetail->pm_cheque_photo}}">{{ $user->getUserDetail->pm_cheque_photo}}</a></span>
-                        </div>
-                    </div>
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">Aadhar Card Photo (Front) :</span>
-                            <span class=""><a target="_blank" href="{{ url("/upload/aadhar_photo_front/")}}/{{$user->getUserDetail->pm_aadhar_photo_front}}">{{ $user->getUserDetail->pm_aadhar_photo_front}}</a></span>
-                        </div>
-                    </div>
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">Aadhar Card Photo (Back) :</span>
-                            <span class=""><a target="_blank" href="{{ url("/upload/aadhar_photo_back/")}}/{{$user->getUserDetail->pm_aadhar_photo_back}}">{{ $user->getUserDetail->pm_aadhar_photo_back}}</a></span>
-                        </div>
-                    </div>
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">PAN Card Photo :</span>
-                            <span class=""><a target="_blank" href="{{ url("/upload/pan_photo/")}}/{{$user->getUserDetail->pm_pan_photo}}">{{ $user->getUserDetail->pm_pan_photo}}</a></span>
+                            <span class="">@if(isset($user->getUserDetail)) <a target="_blank" href="{{ url("/upload/cheque_photo/")}}/{{$user->getUserDetail->pm_cheque_photo}}">{{ $user->getUserDetail->pm_cheque_photo}} @endif</a></span>
                         </div>
                     </div>
 					
-					<!--<div class="mb-5">
+					
+					<div class="mb-5">
                         <div class="">
-                            <span class="">Certificate :</span>
-                            <span class=""><a href="{{ url("/upload/pashumitra_downloaded_certificate/")}}/{{$user->getUserDetail->pm_download_certificate}}">{{ $user->getUserDetail->pm_download_certificate}}</a></span>
+                            <span class="">Recommendation Letter :</span>
+                            <span class="">@if(isset($user->getUserDetail)) <a href="{{ url("/upload/recommendation_letter/")}}/{{$user->getUserDetail->pm_recommendation_letter}}">{{ $user->getUserDetail->pm_recommendation_letter}} @endif</a></span>
                         </div>
-                    </div>-->
+                    </div>
 					
                      
                 </div>

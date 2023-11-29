@@ -14,6 +14,8 @@ return [
         'vehicle_file_path'=>'upload/vehicle',
         'productsale_file_path'=>'upload/productsale',
         'animalsale_file_path'=>'upload/animalsale',
+		'breederanimal_file_path'=>'upload/breederanimals',
+		'recommendationletter_file_path'=>'upload/recommendation_letter',
         'profile_photo_file_path' => 'upload/profile_photo',
         'book_file_path' => 'upload/book',
         'education_certificate_file_path'=>'upload/education_certificate',

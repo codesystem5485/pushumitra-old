@@ -47,7 +47,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
      */
     public function getUsers(array $input = [])
     {     
-        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name,middle_name,last_name,mobile_number'])
+        return  $this->userModelRepo->with(['roles','getCreatedBy:id,full_name,mobile_number'])
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);
@@ -196,27 +196,40 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             return isset($user->roles[0]['name']) ? $user->roles[0]['name'] : "-";
         })
         ->editColumn('first_name', function ($user) { 
-            return $user->first_name." ".$user->middle_name." ".$user->last_name;
+            return $user->full_name;
         })
         ->editColumn('mobile_number', function ($user) { 
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
+        })
+		->editColumn('created_date', function ($user) { 
+            return date("d-m-Y",strtotime($user->created_at));
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
 			$actionBtn .= '<a href="'.route('pashumitra.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
-            if(auth()->user()->can('pashumitra-detail')){
+            /*if(auth()->user()->can('pashumitra-detail')){
                 $actionBtn .= '<a href="'.route('pashumitra.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
-            }
+            }*/
             if(auth()->user()->can('pashumitra-edit')){
-                $actionBtn .= '<a href="'.route('pashumitra.edit',['id' => $user->id]).'">
+               /* $actionBtn .= '<a href="'.route('pashumitra.edit',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
-                </button></a>';
+                </button></a>'; */
             }
 			
+			if($user->is_verified==0){
+			$actionBtn .= '<a href="'.route('pashumitra.pashumitra-verify',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Verify">Verify 
+                </button></a>';
+			}else{
+				$actionBtn .='<a href="javascript:void(0)">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Verify">Verified 
+                </button></a>';
+			}	
+				
             if(auth()->user()->can('pashumitra-delete')){
                 $actionBtn .= '<a href="'.route('pashumitra.delete',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
@@ -237,23 +250,37 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             return isset($user->roles[0]['name']) ? $user->roles[0]['name'] : "-";
         })
         ->editColumn('first_name', function ($user) { 
-            return $user->first_name." ".$user->middle_name." ".$user->last_name;
+            return $user->full_name;
         })
         ->editColumn('mobile_number', function ($user) { 
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
         })
+		->editColumn('created_date', function ($user) { 
+            return date("d-m-Y",strtotime($user->created_at));
+        })
         ->addColumn('action', function($user){
             $actionBtn = '';
-            if(auth()->user()->can('registeredvet-detail')){
+           /* if(auth()->user()->can('registeredvet-detail')){*/
                 $actionBtn .= '<a href="'.route('registered-vet.detail',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
-            }
-            if(auth()->user()->can('registeredvet-edit')){
+          /*  }*/
+           /* if(auth()->user()->can('registeredvet-edit')){
                 $actionBtn .= '<a href="'.route('registered-vet.edit',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
-            }
+            }*/
+			
+			if($user->is_verified==0){
+			$actionBtn .= '<a href="'.route('registered-vet.registeredvet-verify',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Verify">Verify 
+                </button></a>';
+			}else{
+				$actionBtn .='<a href="javascript:void(0)">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Verify">Verified 
+                </button></a>';
+			}
+			
             if(auth()->user()->can('registeredvet-delete')){
                 $actionBtn .= '<a href="'.route('registered-vet.delete',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
