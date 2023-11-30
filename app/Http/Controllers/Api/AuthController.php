@@ -32,11 +32,12 @@ class AuthController extends BaseController
     private $userRepo;
     private $userDetailRepo;
     protected $roleRepo;
+	 
 
     public function __construct(
         UserRepositoryInterface $userRepository,
         UserDetailRepositoryInterface $userDetailRepository,
-        Role $role
+        Role $role,
     )
     {
         $this->userRepo = $userRepository;
@@ -279,7 +280,7 @@ class AuthController extends BaseController
         $validator = Validator::make($postData, [
             'email_id_or_mobile_number' => 'required',
             'password' => 'required',
-			//'role'=>'required'
+			'role'=>'required'
         ]);
 		
         $response = [];
@@ -289,6 +290,7 @@ class AuthController extends BaseController
         }
 		
         $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number']]);
+		
         
        /* if (!$user) {
 
@@ -297,6 +299,12 @@ class AuthController extends BaseController
 
         if($user)
         {
+			//check role is available or not
+			if(!$user->hasRole($postData['role']))
+			{
+				return $this->sendError($response,trans('messages.invalid_role'),401);
+			}
+			
             ## check phone is verify
             $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $user->mobile_number,'is_phone_verify' => 1]);
             if(empty($aUserVerify)){

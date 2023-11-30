@@ -160,7 +160,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             return isset($user->roles[0]['name']) ? $user->roles[0]['name'] : "-";
         })
         ->editColumn('first_name', function ($user) { 
-            return $user->first_name." ".$user->middle_name." ".$user->last_name;
+            return $user->full_name;
         })
         ->editColumn('mobile_number', function ($user) { 
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
