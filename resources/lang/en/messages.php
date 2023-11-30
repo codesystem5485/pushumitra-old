@@ -77,9 +77,11 @@ return [
     'breeder_delete' => 'Breeder (:name) has been deleted',
 	
 	'email_password'=>'We have e-mailed your new password.',
+	'complete_profile'=>'Please complete your profile.',
+	'complete_payment'=>'Please complete your payment process.',
 	'payments_create' =>'Payment created successfully',
-	'login_success_not_verified'=>'Dear  Pashumitra ,Thank you for registering with Pashumitra Applicaton. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to 
+	'login_success_not_verified'=>'Dear  Pashumitra ,Thank you for registering with Pashumitra Application. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to
 								ensure the accuracy and completeness of the information provided.This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations.',
-
+	'user_not_verified'=>'Dear :role ,Thank you for registering with Pashumitra Application. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to ensure the accuracy and completeness of the information provided.This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations.',
    
 ];

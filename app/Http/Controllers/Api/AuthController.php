@@ -164,6 +164,7 @@ class AuthController extends BaseController
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
 				$param['state_id'] = $postData['state_id'];
+				$param['state_id'] = $postData['state_id'];
                 
                 $user = $this->userRepo->create($param);
 
@@ -443,15 +444,14 @@ class AuthController extends BaseController
             if(strtotime(now()) >strtotime($user->otp_expiration)){
                 return $this->sendError($response,trans('messages.otp_expired'),400); 
             }
-            
 					
-			if($postData['role'] == 'Pashumitra')
-			{
+			if($postData['role'] == 'Animal-owner')
+			{ 
 				$param = ['otp' => null,'otp_expiration' =>  null,
-                    'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 0];
+                    'is_phone_verify' => 1,'is_active' => 1,'is_verified' => 1];
 			}else{
 				$param = ['otp' => null,'otp_expiration' =>  null,
-                    'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 1];
+                    'is_phone_verify' => 1,'is_active' => 1, 'is_verified' => 0];
 			}
 					
             $this->userRepo->update($user->id,$param);  

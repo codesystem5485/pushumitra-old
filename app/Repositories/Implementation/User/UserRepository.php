@@ -4,6 +4,7 @@ namespace App\Repositories\Implementation\User;
 
 use App\Base\BaseRepository;
 use App\Models\User;
+use App\Models\Payments;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -369,4 +370,84 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->rawColumns(['log_name'])
         ->make(true);
     }
+	
+	public function checkUserRegistrationPayment($userId,$type)
+	{
+		$paymentflag= Payments::where('user_id',$userId)->where('type',$type)->where('status',1)->count();
+		return $paymentflag;
+	}
+	
+	public function checkProfilePaymentDetails($user_id,$role)
+	{
+		$filter = ['id'=>$user_id];
+		$profileArray = array();
+		$completedProfile =0; 
+		$completedPayment =1;
+		$verified=0;
+		$paymentMsg = '';
+		$verifyMsg = '';
+		$profileMsg ='';
+		
+		$select = ['*'];
+		$with  = ['getUserDetail'];			
+		$userDetail = $this->getSingleRecords($filter,$select,$with);
+		
+		
+		if($role=="Pashumitra")
+		{
+			//echo $userDetail->mobile;
+			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
+			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!=''){
+				 
+				 $completedProfile =1;
+			 }
+			 
+			 $registrationPaytype = 1; // fee table pashumitra registration
+			 $completedPayment = $this->checkUserRegistrationPayment($user_id,$registrationPaytype);
+			 if($completedPayment == 0){
+				 
+				 $paymentMsg = trans('messages.complete_payment');;
+				 $completedPayment =0;
+			 }
+		}
+		
+		if($role=="Registered-vet")
+		{
+			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
+			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='')
+			 {
+				 
+				 $completedProfile =1;
+			 }
+		}
+		
+		if($role=="Animal-owner")
+		{
+			$completedProfile =1;
+		}
+		
+		if($completedProfile==0)
+		{
+			$profileMsg = trans('messages.complete_profile');
+		}
+		 
+		 
+		 
+		 $verified=$userDetail->is_verified;
+		 if($verified==0){
+			 
+			 $verifyMsg = trans('messages.user_not_verified',['role' => $role]);
+		}
+		
+		 $profileArray['verifyMsg'] = $verifyMsg;
+		 $profileArray['profileMsg'] = $profileMsg;
+		 $profileArray['paymentMsg'] = $paymentMsg;
+		 $profileArray['completedProfile'] = $completedProfile;
+		 $profileArray['completedPayment'] = $completedPayment;
+		 $profileArray['verified'] = $verified; 
+		
+		return $profileArray;
+	}
 }

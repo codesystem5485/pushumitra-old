@@ -33,67 +33,40 @@ class PaymentController extends BaseController
 		if(count($feeArray) > 0){
 			foreach($feeArray as $row){
 				$name = str_replace(' ', '_', $row['name']);
-				$createArray[$name]=$row['fee'];
+				$createArray[$name]=array('fee'=>$row['fee'],'id'=>$row['id']);
 			}
 		}
 		
 		$response['fee'] = $createArray;
 		
-		//echo print_r($createArray);exit;
-		
 		$user_id = $request->user_id;
 		$role = $request->role;
 		
 		$completedProfile =0; 
-		$completedPayment =0;
-		$verified=0;		
-		$filter = ['id'=>$user_id];
-		$select = ['*'];
-        
-		$with  = ['getUserDetail'];			
-		$userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
+		$completedPayment =1;
+		$verified=0;
+		$paymentMsg = '';
+		$verifyMsg = '';
+		$profileMsg ='';
 		
-		if($userDetail->full_name!='' && $userDetail->mobile!='' && $userDetail->date_of_birth!='' &&
-		 $userDetail->gender!=''  && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
-		 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!=''){
-			 
-			 $completedProfile =1;
-		 }
-		 
-		 $verified=$userDetail->is_verified;
-		 
-		 $profileMsg ='';
-		 if($completedProfile==0){
-			 
-			 $profileMsg = "Please complete Your profile" ;
-		 }
-		 
-		 $paymentMsg = '';
-		 if($completedPayment==1){
-			 
-			 $paymentMsg = "Please complete Your payment process" ;
-		 }
-		 
-		 $verifyMsg = '';
-		 if($verified==0){
-			 
-			 $verifyMsg = "Dear  Pashumitra ,Thank you for registering with Pashumitra Applicaton. Your registration information has been successfully received, and we appreciate your interest in our platform. Our team is currently reviewing your registration details to ensure the accuracy and completeness of the information provided.This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations." ;
-		 }
+		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
+		
 		 
 		 
-		 
-		 $response['verifyMsg'] = $verifyMsg;
+		/* $response['verifyMsg'] = $verifyMsg;
 		 $response['profileMsg'] = $profileMsg;
 		 $response['paymentMsg'] = $paymentMsg;
 		 $response['completedProfile'] = $completedProfile;
 		 $response['completedPayment'] = $completedPayment;
-		 $response['verified'] = $verified;
+		 $response['verified'] = $verified;*/
 		 
 		 
 		//$userArray = $this->checkProfile($user_id,$role);
 		
 		return $this->sendResponse($response,"",200);
 	}
+	
+	
 	public function checkProfile($user_id,$role)
 	{
 		$completedProfile =0; 
