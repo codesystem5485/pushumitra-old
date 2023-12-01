@@ -42,10 +42,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>Mobile Number</th>
-                                <th>Role</th>
-                                <th>Created At</th>
+								<th>City/Village</th>
+                                <th>My Pets</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -77,10 +76,9 @@
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 { data: 'first_name', name: 'first_name' },
-                { data: 'email', name: 'email' },
                 { data: 'mobile_number', name: 'mobile_number' },
-                { data: 'roles', name: 'roles',orderable: false, searchable: true},
-                { data: 'created_date', name: 'created_date'},
+				{ data: 'city_town', name: 'city_town' },
+				{ data: 'mypets', name: 'mypets' },
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 
             ]

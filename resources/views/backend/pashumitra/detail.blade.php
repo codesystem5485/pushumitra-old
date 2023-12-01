@@ -83,12 +83,13 @@
                     <div class="mb-5">
                         <div class="">
                             <span class="">Date of Birth :</span>
+							@if($user->date_of_birth!=null && $user->date_of_birth!='0000-00-00')
                             <span class="">{{ date('d-m-Y',strtotime($user->date_of_birth))}}</span>
+							@else
+								<span class="">-</span>
+							@endif
                         </div>
-                        <div class="">
-                            <span class="">Age :</span>
-                            <span class="">{{ $user->age }}</span>
-                        </div>
+                        
                     </div>
 
                <!--     <div class="mb-5">
@@ -100,7 +101,7 @@
 
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Sex :</span>
+                            <span class="">Gender :</span>
                             <span class="">{{ $user->sex}}</span>
                         </div>
                     </div>
@@ -114,15 +115,15 @@
 					<div class="mb-5">
 					
                         <div class="">
-                            <span class="">Naminee Name :</span>
+                            <span class="">Nominee Name :</span>
                             <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_name}} @endif</span>
                         </div>
                         <div class="">
-                            <span class="">Naminee Date of birth :</span>
+                            <span class="">Nominee Date of birth :</span>
                             <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_dob}} @endif</span>
                         </div>
                         <div class="">
-                            <span class="">Naminee Relationship :</span>
+                            <span class="">Nominee Relationship :</span>
                             <span class="">@if(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_relationship}} @endif</span>
                         </div>
                     </div>

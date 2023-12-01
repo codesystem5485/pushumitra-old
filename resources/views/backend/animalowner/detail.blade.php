@@ -36,7 +36,7 @@
                     <div class="mb-5">
                         <div class="">
                             <span class="">Name :</span>
-                            <span class="">{{ $user->first_name." ".$user->middle_name." ".$user->last_name}}</span>
+                            <span class="">{{ $user->full_name }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
@@ -54,7 +54,25 @@
                     <div class="mb-5">
                         <div class="">
                             <span class="">Address :</span>
-                            <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
+                            <span class="">{{ $user->address_line_1." ".$user->state.", ".$user->city_town.", ".$user->district.", ".$user->taluka.", ".$user->pincode }}</span>
+                        </div>
+                    </div>
+					
+					
+					
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Date of Birth :</span>
+							@if($user->date_of_birth!=null && $user->date_of_birth!='0000-00-00')
+                            <span class="">{{ date('d-m-Y',strtotime($user->date_of_birth))}}</span>
+							@else
+								<span class="">-</span>
+							@endif
+                        </div>
+                        <div class="">
+                            <span class="">Gender :</span>
+                            <span class="">{{ $user->sex }}</span>
                         </div>
                     </div>
                     
