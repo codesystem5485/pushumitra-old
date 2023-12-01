@@ -25,7 +25,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'first_name','middle_name','last_name','email','password','country_code','profile_photo','mobile_number','alternate_mobile_number','is_phone_verify','otp','otp_expiration','address_line_1','address_line_2','village','city_id','city_town','state_id','state','pincode','nationality','sex','marital_status','date_of_birth','age','education','education_certificate','is_active','last_login',
-		'fcm_id','pm_code','is_verified','taluka','district','full_name'
+		'fcm_id','pm_code','is_verified','taluka','district','full_name','longitude','latitude'
     ]; 
 
     /**
@@ -119,7 +119,7 @@ class User extends Authenticatable
     
     public function getProfileImageAttribute()
     {
-        $path = Config::get('constants.file.user_file_path');
-        return url('/').'/'.$path.'/'.$this->profile_pic;
+        $path = Config::get('constants.file.profile_photo_file_path');
+        return url('/').'/'.$path.'/'.$this->profile_photo;
     }
 }

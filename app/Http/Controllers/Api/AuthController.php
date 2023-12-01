@@ -1797,4 +1797,41 @@ class AuthController extends BaseController
             }
     }
 	
+	public function resendOtp()
+	{
+		$postData = request()->all(); 
+        $validator = Validator::make($postData, [
+            'mobile_number' => 'required|max:10',
+            'role'=> 'required',
+        ]);
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+        $response = [];
+		
+		if($postData['role']=='Guest'){
+			$user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
+			
+		}else{
+			 $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+		}
+		
+		if(empty($user)){
+                return $this->sendError($response,trans('messages.mobile_not'),400);  
+            }
+		
+		$aOtpData = $this->userRepo->generateOtp();
+		if($postData['role']=='Guest'){
+				$user->otp = $aOtpData['otp'];
+				$user->otp_expiration = $aOtpData['otp_expiration'];
+				$user->save();
+		}else{
+			##Update user's OTP
+			$this->userRepo->update($user->id,$aOtpData);
+		}
+		return $this->sendResponse($response,trans('messages.otp_send'),200);
+	}
+	
 }   

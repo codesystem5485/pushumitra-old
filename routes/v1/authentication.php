@@ -31,6 +31,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('/get-states', [CommonController::class,'getStates']); 
     Route::get('/get-cities/{id?}', [CommonController::class,'getCities']);
 	Route::post('/forgot-password', [AuthController::class,'forgotPassword']);
+	Route::post('/resend-otp', [AuthController::class,'resendOtp']); 
 	
 	Route::get('/get-profile', [AuthController::class,'getProfile']);
 	//Route::post('/update-profile', [AuthController::class,'updateProfile']);

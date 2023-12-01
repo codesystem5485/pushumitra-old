@@ -466,4 +466,32 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		return $profileArray;
 	}
+	
+	public function getNearestPashumitraData($input)
+	{
+		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+            if(!empty($input['role'])){
+                $q->where('name', $input['role']);
+            }
+        })
+		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')
+		->where('is_verified',1)
+		->where('pm_code','!=','')
+		->orderBy('id', 'DESC')
+		->get();
+	}
+	
+	public function getNearestRegisteredVetData($input)
+	{
+		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+            if(!empty($input['role'])){
+                $q->where('name', $input['role']);
+            }
+        })
+		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')
+		->where('is_verified',1)
+		->orderBy('id', 'DESC')
+		->get();
+	}
+	
 }

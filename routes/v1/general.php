@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AnimalsaleController;
 use App\Http\Controllers\Api\PaymentController; 
 use App\Http\Controllers\Api\BreederController;
+use App\Http\Controllers\Api\PashumitraController;
+use App\Http\Controllers\Api\RegisteredvetController;
 
 Route::group(['middleware' => ['cors']], function () {
 	
@@ -27,6 +29,14 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
 	Route::post('/create-payment', [PaymentController::class,'addPayments']);
 	Route::get('/get-config', [PaymentController::class,'getConfig']);
+	
+	/* Nearest Pashumitra*/
+	Route::get('/nearest-pashumitra', [PashumitraController::class,'nearestPashumitraList']);
+	Route::get('/pashumitra-detail', [PashumitraController::class,'pashumitraDetail']);
+	
+	/* Nearest registeredvet*/
+	Route::get('/nearest-registeredvet', [RegisteredvetController::class,'nearestRegisteredVetList']);
+	Route::get('/registeredvet-detail', [RegisteredvetController::class,'registeredVetDetail']);
 	
 	Route::group(['middleware' => ['api-token']], function () {
         Route::get('/setting', [CommonController::class,'getSetting']); 
