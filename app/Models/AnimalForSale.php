@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class AnimalForSale extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = ['id','pm_code','species','breed','type','age','sex','UID_number','description','price','contact_number_of_owner','contact_name_of_owner','address','otp','otp_expiration','status','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id','pm_code','latitude','longitude','city_town','state','taluka','district','pincode','state_id','species','breed','type','age','sex','UID_number','description','price','contact_number_of_owner','contact_name_of_owner','address','otp','otp_expiration','status','created_at','updated_at','deleted_at'];
         
     public static  function boot()
     {

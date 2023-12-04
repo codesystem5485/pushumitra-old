@@ -14,6 +14,7 @@ use App\Models\AnimalType;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use Validator;
 
@@ -26,12 +27,14 @@ class AnimalsaleController extends BaseController
     use FileUpload;
     protected $url = '';
     protected $animalsaleRepo;
+	private $userRepo;
     /**
      * Animal Sale Construct 
      * @return url 
      */
-    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo){
+    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo, UserRepositoryInterface $userRepository){
 		$this->animalsaleRepo = $animalsaleRepo;
+		$this->userRepo = $userRepository;
     } 
 
     public function addAnimalForSale(Request $request){
@@ -47,6 +50,12 @@ class AnimalsaleController extends BaseController
 				'price' => 'required|numeric',
 				'description' => 'required',
 				'address' => 'required',
+				'state' => 'required|string',
+				'city_town' => 'required|string',
+				//'district' => 'string',
+                //'taluka' => 'string',
+                'pincode' => 'required|numeric',
+				'state_id' => 'required',
 				'contact_number_of_owner' => 'required|numeric|min:10',
 				'contact_name_of_owner' => 'required',
 				'pm_code'=>'required',
@@ -75,6 +84,11 @@ class AnimalsaleController extends BaseController
                     }
                 } 
             }
+			
+		$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
+		$animalsale->latitude=$coordinateArr['latitude'];
+		$animalsale->longitude=$coordinateArr['longitude'];
+		$animalsale->update();
             
             DB::commit();
 			 ## Store log

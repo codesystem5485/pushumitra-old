@@ -64,7 +64,7 @@ class AuthController extends BaseController
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'city_town' => 'required|string',
-				'district' => 'string',
+				//'district' => 'string',
                 //'taluka' => 'string',
                 'pincode' => 'required|numeric',
 				'state_id' => 'required',
