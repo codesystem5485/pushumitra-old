@@ -77,6 +77,7 @@ return [
     'breeder_delete' => 'Breeder (:name) has been deleted',
 	
 	'email_password'=>'We have e-mailed your new password.',
+	'forgot_password_send'=>'We have send your new password on your registered mobile number.',
 	'complete_profile'=>'Please complete your profile.',
 	'complete_payment'=>'Please complete your payment process.',
 	'payments_create' =>'Payment created successfully',

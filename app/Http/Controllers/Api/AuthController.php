@@ -253,6 +253,8 @@ class AuthController extends BaseController
                 $user = $this->userRepo->create($param);
             }
             if($user){
+				
+				
                 //asign role
                 $roleData = $this->roleRepo->where('name',$request->role)->first();
                 if($roleData){
@@ -261,6 +263,13 @@ class AuthController extends BaseController
                 $aOtpData = $this->userRepo->generateOtp();
                 ##Update user's OTP
                 $this->userRepo->update($user->id,$aOtpData);  
+				
+				$smsInfo =array(
+					'otp'=>$aOtpData['otp'],
+					'mobile_number'=>'91'.$param['mobile_number'],
+				);
+				$this->sendRegistrationSms($smsInfo);
+				
                 DB::commit();
                 $response = $aOtpData; 
                 return $this->sendResponse($response,trans('messages.otp_send'),200);
@@ -841,151 +850,6 @@ class AuthController extends BaseController
 	
 	public function forgotPassword(Request $request)
 	{
-		$password ='123222';
-		//Multiple mobiles numbers separated by comma
-$mobileNumber = "919421899373";
-
-//Sender ID,While using route4 sender id should be 6 characters long.
-$senderId = "PSHMTR";
-
-//Define route 
-$route = "4";
-$tempId = '1207170141291502413';
-
-$authKey ='409794AsfxhK43RuD5654f442cP1';
-		$msg = 'Hello! You have requested to send a password from your account.
-Your Password is : '.$password.'
-Please log in using this password and consider changing it after login.
-If you did not request this change, please contact the pashumitra support immediately.
---
-PASHU MITRA ENTERPRISES';
-
-$message =urlencode($msg);
-
-		 $postData = array(
-    'authkey' => $authKey,
-    'mobiles' => $mobileNumber,
-    'message' => $message,
-    'sender' => $senderId,
-    'route' => $route,
-	'country'=>'91',
-	'DLT_TE_ID'=>$tempId,
-);
-
-		 
-		 
-		$url1 = "http://sms.happysms.in/api/sendhttp.php";
-		
-		 $urlNw =$url1.'?'.http_build_query($postData);
-		
-		
-		$url = $urlNw;
-
-//  Initiate curl
-$ch = curl_init();
-
-// Disable SSL verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-// Will return the response, if false it print the response
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-// Set the url
-curl_setopt($ch, CURLOPT_URL,$url);
-
-// Execute
-$result=curl_exec($ch);
-
-// Closing
-curl_close($ch);
-
-// Print the return data
-print_r(json_decode($result, true));
-exit;
-		
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//curl_setopt($ch, CURLOPT_PROXY, $proxy); // $proxy is ip of proxy server
-curl_setopt($ch, CURLOPT_POST , $postData);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-curl_setopt($ch, CURLOPT_TIMEOUT, 1000);
-
-$httpCode = curl_getinfo($ch , CURLINFO_HTTP_CODE); // this results 0 every time
-$response = curl_exec($ch);
-
-if ($response === false) 
-    $response = curl_error($ch);
-
-echo stripslashes($response);
-
-curl_close($ch);
-exit;
- 
- //$url = 'https://www.example.com';
-$curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, $urlNw);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_HEADER, false);
-$data = curl_exec($curl);
-curl_close($curl);
- var_dump($data);
-exit;
-// Initialize a CURL session.
-$ch = curl_init(); 
- 
-// Return Page contents.
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
- 
-//grab URL and pass it to the variable.
-curl_setopt($ch, CURLOPT_URL, $urlNw);
-//Ignore SSL certificate verification
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-
-	//get response
-	$output = curl_exec($ch);
-
-	//Print error if any
-	if(curl_errno($ch))
-	{
-	    echo curl_error($ch);
-	}
- 
-
-var_dump($output );
-exit;
-
-/*
-		// From URL to get webpage contents.
-
- 
-echo $result; 
-exit;
-*/
-		$password='121212';
-		//For sending OTP
-$url="http://sms.happysms.in/api/otp.php";
-$postData = array(
-    'authkey' => "409794AsfxhK43RuD5654f442cP1",
-    'mobile' => "919421899373",
-    'message' => urlencode("Hello! You have requested to send a password from your account.
-Your Password is : '".$password."'
-Please log in using this password and consider changing it after login.
-If you did not request this change, please contact the pashumitra support immediately.
---
-PASHU MITRA ENTERPRISES"),
-    'sender' => "PSHMTR",
-    'otp' => '121212'
-);
-$paramArr['url'] = $url;
-$paramArr['postData'] = $postData;
-$this->sendRequest($paramArr);
-exit;
-		$res = $this->sendSms();exit;
 		$postData = request()->all();
         $validator = Validator::make($postData, [
             'mobile_number' => 'required',
@@ -1003,20 +867,20 @@ exit;
             try{
 				
 				$password =Str::random(8);
+				$input = array(
+					'mobile'=>'91'.$postData['mobile_number'],
+					'password'=>$password
 				
-				$meesageContent  = 'Hello! You have requested to send a password from your account.
-Your Password is : '.$password.'
-Please log in using this password and consider changing it after login.
-If you did not request this change, please contact the pashumitra support immediately.
---
-PASHU MITRA ENTERPRISES';
+				);
+				
+				$res = $this->sendForgotPasswordSms($input);
 
 				$param['password'] = $password;
                 ##Update user's password
                 $this->userRepo->update($user->id,$param);  
 				
 				
-             return $this->sendResponse($response,trans('messages.email_password'),200);
+             return $this->sendResponse($response,trans('messages.forgot_password_send'),200);
 
             }
             catch(\Exception $e){  
@@ -1600,128 +1464,159 @@ PASHU MITRA ENTERPRISES';
 		return $this->sendResponse($response,trans('messages.otp_send'),200);
 	}
 	
-	public function sendSms()
+	public function sendRegistrationSms($input)
 	{
-		$url = $url.http_build_query($postData);
-		$password = '123126';
-		$msg = 'Hello! You have requested to send a password from your account.
-Your Password is : '.$password.'
-Please log in using this password and consider changing it after login.
-If you did not request this change, please contact the pashumitra support immediately.
+			$otp =$input['otp'];
+			//Multiple mobiles numbers separated by comma
+			$mobileNumber = $input['mobile_number'];
+
+			//Sender ID,While using route4 sender id should be 6 characters long.
+			$senderId = "PSHMTR";
+
+			//Define route 
+			$route = "4";
+			$tempId = '1207170141100019840';
+
+			$authKey ='409794AsfxhK43RuD5654f442cP1';
+			$msg = 'Hello! Your pashumitra application verification code for the sign-up is "'.$otp.'". Please enter this code to verify your mobile number.
+Thank you.
 --
 PASHU MITRA ENTERPRISES';
+
+			$message =urlencode($msg);
+
+					 $postData = array(
+			   'authkey' => $authKey,
+				'mobiles' => $mobileNumber,
+				'message' => $message,
+				'sender' => $senderId,
+				'route' => $route,
+				'country'=>'91',
+				'DLT_TE_ID'=>$tempId,
+			);
+
+					 
+					 
+				//	$url1 = "http://sms.happysms.in/api/sendhttp.php";
+					
+					//API URL
+			//$url="http://sms.happysms.in/api/sendhttp11.php";
+
+			$url1 = "https://sms.happysms.in/api/sendhttp.php";
+					
+				 $urlNw =$url1.'?'.http_build_query($postData);
+
+
+			// init the resource
+			$ch = curl_init();
+			curl_setopt_array($ch, array(
+				CURLOPT_URL => $url1,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_POST => true,
+				CURLOPT_POSTFIELDS => $postData,
+				//CURLOPT_FOLLOWLOCATION => true
+			));
+
+
+			//Ignore SSL certificate verification
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+
+			//get response
+			$output = curl_exec($ch);
+
+			//Print error if any
+			if(curl_errno($ch))
+			{
+				echo 'error:' . curl_error($ch);
+			}
+			//echo $output;
+
+			curl_close($ch);
+			
+			return true;
+
 		
-		
-//Multiple mobiles numbers separated by comma
-$mobileNumber = "919421899373";
-
-//Sender ID,While using route4 sender id should be 6 characters long.
-$senderId = "PSHMTR";
-
-//Your message to send, Add URL encoding here.
-$message =$msg;// urlencode($msg);
-
-//Define route 
-$route = "4";
-$tempId = '1207170141291502413';
-
-$authKey ='409794AsfxhK43RuD5654f442cP1';
-
-
-// init the resource
-
-//API URL
-$url="http://sms.happysms.in/api/sendhttp.php";
-
-
- 
-		 
-		 $postData = array(
-    'authkey' => $authKey,
-    'mobiles' => $mobileNumber,
-    'message' => $message,
-    'sender' => $senderId,
-    'route' => $route,
-	'DLT_TE_ID'=>$tempId
-);
-
-		 
-		 
-		/*$params = http_build_query($postData);
-		//cURL Request
-		$ch = curl_init();
-		//set the url, number of POST vars, POST data
-		curl_setopt($ch, CURLOPT_URL, $url);
-		
-		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-		$result = curl_exec($ch);
-		
-		$response = json_decode($result);
-		var_dump($result);exit;
-		exit;*/
-		
-		$ch = curl_init();
-$curlConfig = array(
-	CURLOPT_HEADER=>false,
-    CURLOPT_URL            => "http://sms.happysms.in/api/sendhttp.php",
-    CURLOPT_POST           => true,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POSTFIELDS     => array(
-    'authkey' => $authKey,
-    'mobiles' => $mobileNumber,
-    'message' => 'Hello!%20You%20have%20requested%20to%20send%20a%20password%20from%20your%20account.%20Your%20Password%20is%20%3A%20123123%20Please%20log%20in%20using%20this%20password%20and%20consider%20changing%20it%20after%20login.%20If%20you%20did%20not%20request%20this%20change%2C%20please%20contact%20the%20pashumitra%20support%20immediately.%20--%20PASHU%20MITRA%20ENTERPRISES.',
-    'sender' => $senderId,
-    'route' => $route,
-	'DLT_TE_ID'=>$tempId
-    )
-);
-curl_setopt_array($ch, $curlConfig);
-$result = curl_exec($ch);
-//Print error if any
-if(curl_errno($ch))
-{
-    echo 'error:' . curl_error($ch);
-}
-curl_close($ch);
-
-var_dump($result);exit;
-
-exit;
-
-$ch = curl_init();
-curl_setopt_array($ch, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => $postData
-    //,CURLOPT_FOLLOWLOCATION => true
-));
-
-
-//Ignore SSL certificate verification
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-
-//get response
-$output = curl_exec($ch);
-
-var_dump($output);exit;
-
-//Print error if any
-if(curl_errno($ch))
-{
-    echo 'error:' . curl_error($ch);
-}
-
-curl_close($ch);
-
-echo $output;
 	}
+	
+	
+	public function sendForgotPasswordSms($input){
+			$password =$input['password'];
+		//Multiple mobiles numbers separated by comma
+			$mobileNumber = $input['mobile'];
+
+			//Sender ID,While using route4 sender id should be 6 characters long.
+			$senderId = "PSHMTR";
+
+			//Define route 
+			$route = "4";
+			$tempId = '1207170141291502413';
+
+			$authKey ='409794AsfxhK43RuD5654f442cP1';
+					$msg = 'Hello! You have requested to send a password from your account.
+			Your Password is : '.$password.'
+			Please log in using this password and consider changing it after login.
+			If you did not request this change, please contact the pashumitra support immediately.
+			--
+			PASHU MITRA ENTERPRISES';
+
+			$message =urlencode($msg);
+
+					 $postData = array(
+			   'authkey' => $authKey,
+				'mobiles' => $mobileNumber,
+				'message' => $message,
+				'sender' => $senderId,
+				'route' => $route,
+				'country'=>'91',
+				'DLT_TE_ID'=>$tempId,
+			);
+
+					 
+					 
+				//	$url1 = "http://sms.happysms.in/api/sendhttp.php";
+					
+					//API URL
+			//$url="http://sms.happysms.in/api/sendhttp11.php";
+
+			$url1 = "https://sms.happysms.in/api/sendhttp.php";
+					
+				 $urlNw =$url1.'?'.http_build_query($postData);
+
+
+			// init the resource
+			$ch = curl_init();
+			curl_setopt_array($ch, array(
+				CURLOPT_URL => $url1,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_POST => true,
+				CURLOPT_POSTFIELDS => $postData,
+				//CURLOPT_FOLLOWLOCATION => true
+			));
+
+
+			//Ignore SSL certificate verification
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+
+			//get response
+			$output = curl_exec($ch);
+
+			//Print error if any
+			if(curl_errno($ch))
+			{
+				echo 'error:' . curl_error($ch);
+			}
+			//echo $output;
+
+			curl_close($ch);
+			return true;
+
+		
+	}
+	
 	
 	public function sendRequest($param){
 	$url = $param['url'];
