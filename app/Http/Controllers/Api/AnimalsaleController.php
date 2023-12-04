@@ -7,6 +7,7 @@ use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Models\AnimalForSale;
 use App\Models\AnimalImages;
+
 use App\Models\Breeds;
 use App\Models\Species;
 use App\Models\AnimalType;
@@ -93,7 +94,9 @@ class AnimalsaleController extends BaseController
 	
 	public function getAnimalSaleList(Request $request)
 	{
-		$response['animalsale']  =   Animalforsale::select( 'animal_for_sales.*',
+		$response['animalsale']  =   Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
+		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select( 'animal_for_sales.*','breeds.breed','species.specie as species',
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
            ->orderBy('animal_for_sales.id','ASC')->get();
 		   $response['animalsale_image_path'] =  url("/upload/animalsale/");
@@ -104,7 +107,15 @@ class AnimalsaleController extends BaseController
 	public function animalSaleDetail(Request $request){
 		
 		$id = $request->animalsale_id;
-        $animalsale = Animalforsale::find($id);
+       // $animalsale = Animalforsale::find($id);
+		
+		$animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
+		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select('animal_for_sales.*','breeds.breed','species.specie as species')
+		->where('animal_for_sales.id',$id)
+		->first();
+		
+		
 		$animalimages=array();
 		if($animalsale){
 			$animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();

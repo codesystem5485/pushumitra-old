@@ -31,7 +31,7 @@ class FrontPagesController extends Controller
     }
 	
 	public function aboutus(){
-        
+          
         return view('front.aboutus'); 
     }
 	

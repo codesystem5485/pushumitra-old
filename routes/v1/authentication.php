@@ -19,7 +19,9 @@ use App\Http\Controllers\Api\AnimalsaleController;
 Route::group(['middleware' => ['cors']], function () {
 	
 
-
+	Route::post('/generate-otp', [AuthController::class,'addOtpMobileVerification']); 
+	Route::post('/verify-mobile-otp', [AuthController::class,'verifyMobileNumberWithOtp']);
+	
     Route::post('/signup', [AuthController::class,'signUp']); 
     // Route::post('/signin', [AuthController::class,'signIn']); 
     Route::post('/signin', [AuthController::class,'login']);  

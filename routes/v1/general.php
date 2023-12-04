@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\PashumitraController;
 use App\Http\Controllers\Api\RegisteredvetController;
 
 Route::group(['middleware' => ['cors']], function () {
-	
+	 
 	Route::get('/get-species', [CommonController::class,'getSpecies']); 
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
 	Route::get('/get-library', [AuthController::class,'getLibrary']);

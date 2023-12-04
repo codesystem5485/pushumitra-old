@@ -8,17 +8,22 @@ use Illuminate\Http\Request;
 
 use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use App\Repositories\Interfaces\City\CityRepositoryInterface;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Models\Breeds;
 use App\Models\Species;
+use App\Models\MobileVerification;
 
 class CommonController extends BaseController
 {
     protected $stateRepo;
+	protected $userRepo;
    
-    public function __construct(StateRepositoryInterface $stateRepo, CityRepositoryInterface $cityRepo)
+    public function __construct(StateRepositoryInterface $stateRepo, CityRepositoryInterface $cityRepo,
+	UserRepositoryInterface $userRepository)
     {
         $this->stateRepo = $stateRepo;
         $this->cityRepo = $cityRepo;
+		$this->userRepo = $userRepository;
     }
 
     public function getStates()
@@ -44,4 +49,22 @@ class CommonController extends BaseController
 	 $response['breeds'] = Breeds::where('is_active','1')->get();
 	   return $this->sendResponse($response,"",200);
     }
+	
+	public function addOtpMobileVerification(Request $request)
+	{
+		$postData = request()->all(); 
+        $validator = Validator::make($postData, [
+            'mobile_number' => 'required|max:10',
+            'role'=> 'required',
+        ]);
+
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+       
+		$response = $this->userRepo->generateOtpForMobileVerify($postData);
+		return $this->sendResponse($response,"",200);
+	}
 }

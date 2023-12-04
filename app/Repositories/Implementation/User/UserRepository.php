@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
 use DB;
 use DataTables;
 use Spatie\Activitylog\Models\Activity;
+use App\Models\MobileVerification;
+
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
     /**
@@ -494,4 +496,46 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->get();
 	}
 	
+	//get latitude longitude geolocation
+	public function getLatitudeLongitudes($input)
+	{
+		$address = $input['pincode'];
+		// Google Maps API Key 
+		$GOOGLE_API_KEY = 'AIzaSyBMNKT7xu6QAhJckofnXO_hFFB2OMs4u-s'; 
+		 
+		// Address from which the latitude and longitude will be retrieved 
+		$formatted_address = $address;
+		//$formatted_address = str_replace(' ', '+', $address);
+		// Get geo data from Google Maps API by address 
+		$geocodeFromAddr = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$formatted_address}&key={$GOOGLE_API_KEY}"); 
+		 
+		// Decode JSON data returned by API 
+		$apiResponse = json_decode($geocodeFromAddr); 
+		 
+		// Retrieve latitude and longitude from API data 
+		$response = array();
+		$response['latitude']='';$response['longitude']='';
+		
+		if(isset($apiResponse->results[0]->geometry->location->lat)){
+			$response['latitude']  = $apiResponse->results[0]->geometry->location->lat;
+		}
+		
+		if(isset($apiResponse->results[0]->geometry->location->lng)){
+			$response['longitude'] = $apiResponse->results[0]->geometry->location->lng;
+		}
+		return $response;
+	}
+	
+	public function generateOtpForMobileVerify($input)
+	{ 
+		$mobileverify = new MobileVerification();
+		$aOtpData = $this->generateOtp();
+		$mobileverify->role = $input['role'];
+		$mobileverify->module_type = $input['module_type'];
+		$mobileverify->mobile_number = $input['mobile_number'];
+		$mobileverify->otp = $aOtpData['otp'];
+		$mobileverify->otp_expiration = $aOtpData['otp_expiration'];
+		$mobileverify->save();
+		return $aOtpData;
+	}
 }

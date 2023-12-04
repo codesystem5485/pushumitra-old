@@ -37,7 +37,7 @@ class PaymentController extends BaseController
 			}
 		}
 		
-		$response['fee'] = $createArray;
+		
 		
 		$user_id = $request->user_id;
 		$role = $request->role;
@@ -50,6 +50,7 @@ class PaymentController extends BaseController
 		$profileMsg ='';
 		
 		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
+		$response['fee'] = $createArray;
 		
 		 
 		 
