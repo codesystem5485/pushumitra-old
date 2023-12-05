@@ -24,7 +24,7 @@ return [
         'pan_photo_file_path'=>'upload/pan_photo',
         'cheque_photo_file_path'=>'upload/cheque_photo',
     ],
-    'otp_expiration_min' => 1,
+    'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],
     'permissions' => [
         'role-list',

@@ -322,15 +322,33 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	public function generatePashumitraCode(){
 		
 		//$pm_code = str_rand(10 only digit);
-		$pm_code = $this->checkPashumitraCode();
+		$workingPmcode = 0;
+		$user=User::select('pm_code')->where('pm_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
+		
+		if($user){ 
+			 $existingPmcode = $user->pm_code;
+			if($existingPmcode!=''){
+				$existingPmcodeArr = explode('PM',$existingPmcode); 
+				if(count($existingPmcodeArr) ==2){
+				if(isset($existingPmcodeArr[1])){
+					$workingPmcode = $existingPmcodeArr[1];
+				}
+				}
+			}
+		}
+		
+		if($workingPmcode==0){
+			$workingPmcode = '0000000001';
+		}
+		//$pm_code = $this->checkPashumitraCode($checkCode);
+		$newGeneretedPmcode = $workingPmcode + 1;
+		$pm_code = "PM".$newGeneretedPmcode;
 		return $pm_code;
 	}
 	
-	public function checkPashumitraCode()
+	public function checkPashumitraCode($pm_code)
 	{
-		//$pm_code = str_rand(10 only digit);
-		$pm_code = random_int(1000000000, 9999999999);
-		$check = User::where('pm_code',$pm_code)->count();
+		/*$check = User::where('pm_code',$pm_code)->count();
 		if($check==0)
 		{
 			return $pm_code;
@@ -338,7 +356,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			
 			$pmcode = $this->checkPashumitraCode();
 			
-		}
+		}*/
 	}
 
     public function getLogsData($filter = []){

@@ -37,8 +37,6 @@ class PaymentController extends BaseController
 			}
 		}
 		
-		
-		
 		$user_id = $request->user_id;
 		$role = $request->role;
 		
@@ -51,18 +49,6 @@ class PaymentController extends BaseController
 		
 		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
 		$response['fee'] = $createArray;
-		
-		 
-		 
-		/* $response['verifyMsg'] = $verifyMsg;
-		 $response['profileMsg'] = $profileMsg;
-		 $response['paymentMsg'] = $paymentMsg;
-		 $response['completedProfile'] = $completedProfile;
-		 $response['completedPayment'] = $completedPayment;
-		 $response['verified'] = $verified;*/
-		 
-		 
-		//$userArray = $this->checkProfile($user_id,$role);
 		
 		return $this->sendResponse($response,"",200);
 	}
@@ -172,7 +158,7 @@ class PaymentController extends BaseController
 		
 		$paymentId =0;$status=0;$payment_request = '';
 		
-		if($aInsertData['payment_id']!=0 || $aInsertData['payment_id']!=''){
+		if($aInsertData['payment_id']!=3 || $aInsertData['payment_id']!=''){
 			$paymentId =$aInsertData['payment_id'];
 			
 			$status = 1;
@@ -193,6 +179,15 @@ class PaymentController extends BaseController
 			
 			
 			$payment = Payments::create($insertArray);
+			if($roleId==8 && $type==1){
+				if($payment)
+				{
+					//generate pm_code & update to user table
+					$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+					$this->userRepo->update($aInsertData['user_id'],$param);  
+				}
+			}
+			$response['payments'] =$payment; 
             DB::commit();
 			 ## Store log
             $message = trans('messages.payments_create',['name' => $paymentId]);

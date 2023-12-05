@@ -76,7 +76,7 @@ return [
     'breeder_update' => 'Breeder (:name) has been updated',  
     'breeder_delete' => 'Breeder (:name) has been deleted',
 	
-	'email_password'=>'We have e-mailed your new password.',
+	'verified_otp_mobile_success' => 'Your mobile number verified successfully',
 	'forgot_password_send'=>'We have send your new password on your registered mobile number.',
 	'complete_profile'=>'Please complete your profile.',
 	'complete_payment'=>'Please complete your payment process.',

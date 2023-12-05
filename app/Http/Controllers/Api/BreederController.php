@@ -9,6 +9,7 @@ use App\Models\Breeder;
 use App\Models\Species;
 use Spatie\Permission\Models\Permission;
 use App\Repositories\Interfaces\Breeder\BreederRepositoryInterface;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use Validator;
 use App\Traits\FileUpload;
@@ -23,8 +24,9 @@ class BreederController extends BaseController
     /**Breeder Construct 
      * @return url 
      */
-    public function __construct(BreederRepositoryInterface $breederRepo){
+    public function __construct(BreederRepositoryInterface $breederRepo, UserRepositoryInterface $userRepository){
 		$this->breederRepo = $breederRepo;
+		$this->userRepo = $userRepository;
     }
 
     public function addBreeder(Request $request){
@@ -73,6 +75,11 @@ class BreederController extends BaseController
                     }
                 } 
             }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($breeder);
+			$breeder->latitude=$coordinateArr['latitude'];
+			$breeder->longitude=$coordinateArr['longitude'];
+			$breeder->update();
             
             DB::commit();
 			 ## Store log

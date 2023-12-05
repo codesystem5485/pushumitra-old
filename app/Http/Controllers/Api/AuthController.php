@@ -175,7 +175,7 @@ class AuthController extends BaseController
             }
             if($postData['role']=='Pashumitra')
             {
-				$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+				//$param['pm_code'] = $this->userRepo->generatePashumitraCode();
 				$param['profile_photo'] =null;
 				/*$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
                 if(!empty($profile_photoName))
@@ -268,7 +268,7 @@ class AuthController extends BaseController
 					'otp'=>$aOtpData['otp'],
 					'mobile_number'=>'91'.$param['mobile_number'],
 				);
-				$this->sendRegistrationSms($smsInfo);
+				$res = $this->sendRegistrationSms($smsInfo);
 				
                 DB::commit();
                 $response = $aOtpData; 
@@ -1427,7 +1427,7 @@ class AuthController extends BaseController
             }
     }
 	
-	public function resendOtp()
+	public function resendOtp(Request $request)
 	{
 		$postData = request()->all(); 
         $validator = Validator::make($postData, [
@@ -1540,6 +1540,42 @@ PASHU MITRA ENTERPRISES';
 		
 	}
 	
+	//user profile change password
+	public function changeProfilePassword(Request $request)
+	{
+		$postData = request()->all(); 
+        $validator = Validator::make($postData, [
+            'old_password' => 'required',
+            'current_password'=> 'required',
+			'confirm_password'=> 'required',
+        ]);
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+		
+        
+        if(trim($postData['current_password']) != trim($postData['confirm_password'])) {
+           
+			return $this->sendError($response,trans('messages.not_match_password'),400);  
+        }
+		
+        $user_id = $postData['user_id'];
+		$user = $this->userRepo->getSingleRecords(['id' =>$user_id]);
+
+        $check = Hash::check($postData['old_password'], $user->password); 
+        if($check){
+           
+            $user->password = $postData['current_password']; 
+            $user->save();
+			return $this->sendError($response,trans('messages.change_password'),200); 
+
+        }else{
+           
+			return $this->sendError($response,trans('messages.not_old_match_password'),400); 
+		}
+	}
 	
 	public function sendForgotPasswordSms($input){
 			$password =$input['password'];
@@ -1572,19 +1608,8 @@ PASHU MITRA ENTERPRISES';
 				'country'=>'91',
 				'DLT_TE_ID'=>$tempId,
 			);
-
-					 
-					 
-				//	$url1 = "http://sms.happysms.in/api/sendhttp.php";
-					
-					//API URL
-			//$url="http://sms.happysms.in/api/sendhttp11.php";
-
 			$url1 = "https://sms.happysms.in/api/sendhttp.php";
-					
-				 $urlNw =$url1.'?'.http_build_query($postData);
-
-
+			
 			// init the resource
 			$ch = curl_init();
 			curl_setopt_array($ch, array(
@@ -1603,54 +1628,11 @@ PASHU MITRA ENTERPRISES';
 
 			//get response
 			$output = curl_exec($ch);
-
-			//Print error if any
-			if(curl_errno($ch))
-			{
-				echo 'error:' . curl_error($ch);
-			}
-			//echo $output;
-
+			
 			curl_close($ch);
 			return true;
-
-		
 	}
 	
-	
-	public function sendRequest($param){
-	$url = $param['url'];
-	$postData = $param['postData'];
-
-	$ch = curl_init();
-	curl_setopt_array($ch, array(
-	    CURLOPT_URL => $url,
-	    CURLOPT_RETURNTRANSFER => true,
-	    CURLOPT_POST => true,
-	    CURLOPT_POSTFIELDS => $postData
-	    //,CURLOPT_FOLLOWLOCATION => true
-	));
-
-
-	//Ignore SSL certificate verification
-	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-
-
-	//get response
-	$output = curl_exec($ch);
-
-	//Print error if any
-	if(curl_errno($ch))
-	{
-	    return curl_error($ch);
-	}
-
-	curl_close($ch);
-
-	return $output;
-}
-
 	public function addOtpMobileVerification(Request $request)
 	{
 		$postData = request()->all(); 
@@ -1667,6 +1649,12 @@ PASHU MITRA ENTERPRISES';
         }
       
 		$response = $this->userRepo->generateOtpForMobileVerify($postData);
+		$smsInfo =array(
+					'otp'=>$response['otp'],
+					'mobile_number'=>'91'.$postData['mobile_number'],
+				);
+		$res = $this->sendRegistrationSms($smsInfo);
+				
 		return $this->sendResponse($response,trans('messages.otp_send'),200);
 	}
 	
@@ -1692,7 +1680,6 @@ PASHU MITRA ENTERPRISES';
 										->where('is_verified',0)
 										->where('module_type',$postData['module_type'])->count();
 										
-										
 		if($checkOtp==0){
 			return $this->sendError($response,trans('messages.otp_invalid'),400);  
 		}
@@ -1701,24 +1688,17 @@ PASHU MITRA ENTERPRISES';
 		->where('otp',$postData['otp'])
 		->where('module_type',$postData['module_type'])
 		->where('is_verified',0)->first();
-		
-		
 
 		## check otp expiration time
 		if(strtotime(now()) >strtotime($checkOtpArr->otp_expiration)){
 			return $this->sendError($response,trans('messages.otp_expired'),400); 
 		}
 		
-		
 		$checkOtpArr->otp='';
 		$checkOtpArr->is_verified=1;
 		$checkOtpArr->otp_expiration='';
 		$checkOtpArr->update();
 		
-		return $this->sendResponse($response,trans('messages.otp_send'),200);
+		return $this->sendResponse($response,trans('messages.verified_otp_mobile_success'),200);
 	}
-
-	
-	
-	
 }   

@@ -9,7 +9,7 @@ use App\Models\AnimalForSale;
 use App\Models\AnimalImages;
 
 use App\Models\Breeds;
-use App\Models\Species;
+use App\Models\Species; 
 use App\Models\AnimalType;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
@@ -17,7 +17,7 @@ use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use Validator;
-
+use App\Models\Payments;
 use App\Traits\FileUpload;
 use Razorpay\Api\Api;
 
@@ -59,6 +59,7 @@ class AnimalsaleController extends BaseController
 				'contact_number_of_owner' => 'required|numeric|min:10',
 				'contact_name_of_owner' => 'required',
 				'pm_code'=>'required',
+				'payment_id'=>'required',
 			]);
 			
 		if ($validator->fails())
@@ -85,10 +86,14 @@ class AnimalsaleController extends BaseController
                 } 
             }
 			
-		$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
-		$animalsale->latitude=$coordinateArr['latitude'];
-		$animalsale->longitude=$coordinateArr['longitude'];
-		$animalsale->update();
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
+			$animalsale->latitude=$coordinateArr['latitude'];
+			$animalsale->longitude=$coordinateArr['longitude'];
+			$animalsale->update();
+			
+			$payment = Payments::find($postData['payment_id']);
+			$payment->module_type_id = $animalsale->id;
+			$payment->save();
             
             DB::commit();
 			 ## Store log
