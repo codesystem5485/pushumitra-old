@@ -14,6 +14,8 @@ use DB;
 use Validator;
 use App\Traits\FileUpload;
 use App\Models\BreederImages;
+use App\Models\Payments;
+use Carbon\Carbon;
 
 class BreederController extends BaseController
 {
@@ -76,9 +78,19 @@ class BreederController extends BaseController
                 } 
             }
 			
+			$payment = Payments::find($postData['payment_id']);
+			$payment->module_type_id = $breeder->id;
+			$payment->save();
+			
 			$coordinateArr = $this->userRepo->getLatitudeLongitudes($breeder);
+			$paymentArr = array( 'type'=>$payment->type,'animalsale_id'=>$breeder->id);
+			$subscriptionArr = $this->breederRepo->getSubscriptionDates($paymentArr);
+			
 			$breeder->latitude=$coordinateArr['latitude'];
 			$breeder->longitude=$coordinateArr['longitude'];
+			$breeder->subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
+			$breeder->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
+			
 			$breeder->update();
             
             DB::commit();
@@ -99,7 +111,8 @@ class BreederController extends BaseController
 	{
 		$response['breeders']  =   Breeder::select( 'breeders.*',
             DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
-           ->orderBy('breeders.id','ASC')->get();
+           ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('breeders.id','ASC')->get();
 		   $response['breeder_image_path'] =  url("/upload/breederanimals/");
 			
 		return $this->sendResponse($response,"",200);

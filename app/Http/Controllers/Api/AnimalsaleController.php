@@ -7,7 +7,6 @@ use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Models\AnimalForSale;
 use App\Models\AnimalImages;
-
 use App\Models\Breeds;
 use App\Models\Species; 
 use App\Models\AnimalType;
@@ -20,7 +19,7 @@ use Validator;
 use App\Models\Payments;
 use App\Traits\FileUpload;
 use Razorpay\Api\Api;
-
+use Carbon\Carbon;
 
 class AnimalsaleController extends BaseController
 {
@@ -86,21 +85,24 @@ class AnimalsaleController extends BaseController
                 } 
             }
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
-			$animalsale->latitude=$coordinateArr['latitude'];
-			$animalsale->longitude=$coordinateArr['longitude'];
-			$animalsale->update();
-			
 			$payment = Payments::find($postData['payment_id']);
 			$payment->module_type_id = $animalsale->id;
 			$payment->save();
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
+			$paymentArr = array( 'type'=>$payment->type,'animalsale_id'=>$animalsale->id);
+			$subscriptionArr = $this->animalsaleRepo->getSubscriptionDates($paymentArr);
+			
+			$animalsale->latitude=$coordinateArr['latitude'];
+			$animalsale->longitude=$coordinateArr['longitude'];
+			$animalsale->subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
+			$animalsale->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
+			$animalsale->update();
             
             DB::commit();
 			 ## Store log
             $message = trans('messages.animalsale_create',['name' => $request->UID_number]);
             storeActicityLog(trans('messages.animalsale_create'),$message);
-			
-			
 			return $this->sendResponse($response,trans('messages.animalsale_create'),200);
         }catch(\Exception $e){
             DB::rollback(); 
@@ -117,7 +119,8 @@ class AnimalsaleController extends BaseController
 		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select( 'animal_for_sales.*','breeds.breed','species.specie as species',
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
-           ->orderBy('animal_for_sales.id','ASC')->get();
+           ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('animal_for_sales.id','ASC')->get();
 		   $response['animalsale_image_path'] =  url("/upload/animalsale/");
 			
 		return $this->sendResponse($response,"",200);

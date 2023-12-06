@@ -596,7 +596,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'max:10240',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				'date_of_birth' => 'required|date',
+				'date_of_birth' => 'nullable|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -622,7 +622,7 @@ class AuthController extends BaseController
                 'taluka' => 'nullable|string',
                 'pincode' => 'required|numeric',
 				'state_id' => 'required',
-                'date_of_birth' => 'required|date',
+                'date_of_birth' => 'nullable|date',
                // 'age' => 'required',                
                 'sex' => 'required',
             ]);
@@ -634,7 +634,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'max:10240',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				'date_of_birth' => 'required|date',
+				'date_of_birth' => 'nullable|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -1015,43 +1015,6 @@ class AuthController extends BaseController
             ]);
         }
 		
-		if($postData['role']=='Registered-vet')
-        { 
-            $validator = Validator::make($postData, [
-                'profile_photo'=>'max:10240',
-                'first_name' => 'required|string|max:255',
-                'middle_name' => 'string|max:255',
-                'last_name' => 'required|string|max:255',
-               // 'email' => 'required|string|email|max:255|unique:users,email,'.$user_id,
-                //'mobile_number' => 'required|numeric|unique:users,mobile_number,'.$user_id,
-                //'password' => 'required',
-                //'confirm_password' => 'required',
-                'address_line_1' => 'required|string',
-                'address_line_2' => 'required|string',
-                'city_town' => 'required|string',
-                'state' => 'required|string',
-                'pincode' => 'required|numeric',
-               // 'education_certificate'=> 'max:10240',
-                'education'=> 'required|string',
-				'rv_state_verternity_council'=>'required',
-                'rv_state_verternity_council_no'=>'required|numeric',
-				'rv_current_working_address' => 'required|string',
-                'rv_working_place' => 'required|string',
-                'rv_working_city_town' => 'required|string',
-                'rv_working_state' => 'required|string',
-                'rv_working_pincode' => 'required|numeric',
-                'date_of_birth' => 'date',
-                'age' => 'required|numeric',
-                'sex' => 'required|string',
-                'job_type' => 'required|string',
-                'rv_name_of_working_org'=>'required|string',
-                'nationality' => 'required|string',
-                'alternate_mobile_number' => 'required|numeric',                
-                'rv_speciality'=>'required|string',
-            ]);
-        }
-       
-		
 		$response = [];
 		if ($validator->fails())
 		{
@@ -1111,108 +1074,6 @@ class AuthController extends BaseController
                 return $this->sendResponse($response,trans('messages.update_records'),200);
 				
             }
-			
-			if($postData['role']=='Animal-owner')
-            {
-				$param['first_name'] = $postData['first_name'];
-                $param['middle_name'] = $postData['middle_name'];
-                $param['last_name'] = $postData['last_name'];
-               // $param['email'] = $postData['email'];
-               // $param['password'] = $postData['password'];
-               // $param['mobile_number'] = $postData['mobile_number'];
-                $param['address_line_1'] = $postData['address_line_1'];
-                $param['address_line_2'] = $postData['address_line_2'];
-              //  $param['village'] = $postData['village'];
-                $param['city_town'] = $postData['city_town'];
-                $param['state'] = $postData['state'];
-                $param['pincode'] = $postData['pincode'];
-				$param['state_id'] = $postData['state_id'];
-                $param['city_id'] = $postData['city_id'];
-                
-				$this->userRepo->update($user_id,$param);
-				$paramDetail['user_id'] = $userData->id;
-				$userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
-				
-				if($userDetailId){
-                    $oUser = $this->userDetailRepo->update($userDetailId,$paramDetail); 
-                }else{
-                    $paramDetail['user_id'] = $userData->id;
-                    $oUser = $this->userDetailRepo->create($paramDetail);
-                }
-                DB::commit();
-                ## Store log
-                $message = trans('messages.update_user',['name' => $postData['first_name'].' '.$postData['last_name']]);
-                storeActicityLog(trans('messages.update'),$message,$userData,$oUser);
-                return $this->sendResponse($response,trans('messages.update_records'),200);
-				
-            }
-			
-			if($postData['role']=='Registered-vet')
-            {
-				/*if($request->education_certificate!=''){
-					$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-					if(!empty($education_certificateName))
-					{
-						$param['education_certificate']= $education_certificateName;
-					}
-					else{
-						$response['error'] = trans('messages.not_able_to_upload_edu_certi');
-						return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-					}
-				}*/
-                
-                $param['first_name'] = $postData['first_name'];
-                $param['middle_name'] = $postData['middle_name'];
-                $param['last_name'] = $postData['last_name'];
-              //  $param['email'] = $postData['email'];
-              //  $param['password'] = $postData['password'];
-              //  $param['mobile_number'] = $postData['mobile_number'];
-                $param['address_line_1'] = $postData['address_line_1'];
-                $param['address_line_2'] = $postData['address_line_2'];
-               // $param['village'] = $postData['village'];
-                $param['city_town'] = $postData['city_town'];
-                $param['state'] = $postData['state'];
-                $param['state_id'] = $postData['state_id'];
-                $param['city_id'] = $postData['city_id'];
-                $param['pincode'] = $postData['pincode']; 
-                $param['education']= $postData['education'];
-                $param['date_of_birth'] =$postData['date_of_birth'];
-                $param['age'] =$postData['age'];
-                $param['sex'] =$postData['sex'];
-                $param['nationality'] =$postData['nationality'];
-                $param['alternate_mobile_number'] =$postData['alternate_mobile_number'];
-                
-				$this->userRepo->update($user_id,$param);
-
-                $paramDetail['rv_state_verternity_council'] =$postData['rv_state_verternity_council'];
-                $paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
-                $paramDetail['rv_working_place'] =$postData['rv_working_place'];
-				$paramDetail['rv_current_working_address'] =$postData['rv_current_working_address'];
-                $paramDetail['rv_working_city_town'] =$postData['rv_working_city_town'];
-                $paramDetail['rv_working_city_id'] =$postData['rv_working_city_id'];
-                $paramDetail['rv_working_state'] =$postData['rv_working_state'];
-                $paramDetail['rv_working_state_id'] =$postData['rv_working_state_id'];
-                $paramDetail['rv_working_pincode'] =$postData['rv_working_pincode'];
-                $paramDetail['job_type'] =$postData['job_type'];
-                $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
-                $paramDetail['rv_speciality'] =$postData['rv_speciality'];
-                
-				$userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
-				
-				if($userDetailId){
-                    $oUser = $this->userDetailRepo->update($userDetailId,$paramDetail); 
-                }else{
-                    $paramDetail['user_id'] = $userData->id;
-                    $oUser = $this->userDetailRepo->create($paramDetail);
-                }
-                DB::commit();
-                ## Store log
-                $message = trans('messages.update_user',['name' => $postData['first_name'].' '.$postData['last_name']]);
-                storeActicityLog(trans('messages.update'),$message,$userData,$oUser);
-                return $this->sendResponse($response,trans('messages.update_records'),200);
-            }
-            
-			
 		}
 		catch(\Exception $e){  
                 DB::rollback();
@@ -1220,58 +1081,7 @@ class AuthController extends BaseController
                 ##store error log
                 storeActicityLog(trans('messages.error'),$response['error']);
                 return  $this->sendError($response,trans('messages.something'),500);
-            }	
-           
-		/*
-		
-        $userData = $this->getUserDataUsingToken($request);
-        if($userData){
-            ## Get user detail id
-            $userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
-            
-            $postData = request()->json()->all();
-            $validator = Validator::make($postData, [
-                'name' => 'required|max:10',
-                'email' => 'required|email|unique:users,email,'.$userData->id,
-            ]); 
-            $response = [];
-            if ($validator->fails())
-            {
-                return $this->sendError($response,implode(',',$validator->errors()->all()),400);
             }
-            DB::beginTransaction();
-            try{
-                ## Update user data
-                $inputData = ['name' => $postData['name'],'email' => $postData['email']];
-                $this->userRepo->update($userData->id,$inputData);
-                
-                ## Update user detail data
-                $inputDetail = skip_empty_field($request->except(['email','name']));
-                if($userDetailId){
-                    $oUser = $this->userDetailRepo->update($userDetailId,$inputDetail); 
-                }else{
-                    $inputDetail['user_id'] = $userData->id;
-                    $oUser = $this->userDetailRepo->create($inputDetail);
-                }
-                DB::commit();
-                ## Store log
-                $message = trans('messages.update_user',['name' => $postData['name']]);
-                storeActicityLog(trans('messages.update'),$message,$userData,$oUser);
-                return $this->sendResponse($response,trans('messages.update_records'),200); 
-            }
-            catch(\Exception $e){  
-                DB::rollback();
-                $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
-                ##store error log
-                storeActicityLog(trans('messages.error'),$response['error']);
-                return  $this->sendError($response,trans('messages.something'),500);
-            }
-        }
-        else{
-            return  $this->sendError([],trans('messages.records_not_found'),404);  
-        }  
-*/		
-          
     }
 
 	
@@ -1495,16 +1305,8 @@ PASHU MITRA ENTERPRISES';
 				'DLT_TE_ID'=>$tempId,
 			);
 
-					 
-					 
-				//	$url1 = "http://sms.happysms.in/api/sendhttp.php";
-					
-					//API URL
-			//$url="http://sms.happysms.in/api/sendhttp11.php";
-
 			$url1 = "https://sms.happysms.in/api/sendhttp.php";
-					
-				 $urlNw =$url1.'?'.http_build_query($postData);
+			$urlNw =$url1.'?'.http_build_query($postData);
 
 
 			// init the resource
@@ -1522,7 +1324,6 @@ PASHU MITRA ENTERPRISES';
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
-
 			//get response
 			$output = curl_exec($ch);
 
@@ -1536,8 +1337,6 @@ PASHU MITRA ENTERPRISES';
 			curl_close($ch);
 			
 			return true;
-
-		
 	}
 	
 	//user profile change password

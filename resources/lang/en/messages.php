@@ -68,9 +68,11 @@ return [
     'chemist_update' => 'Chemist (:name) has been updated',  
     'chemist_delete' => 'Chemist (:name) has been deleted',
 
-    'animalsale_create' => 'Animal (:name) has been created for sale', 
-    'animalsale_update' => 'Animal (:name) has been updated for sale',  
-    'animalsale_delete' => 'Animal sale (:name) has been deleted',
+    'animalsale_create' => 'Animal has been created for sale', 
+    'animalsale_update' => 'Animal has been updated for sale',  
+    'animalsale_delete' => 'Animal has been deleted',
+	
+	'add_animal_create' => 'Animal has been created', 
 	
 	'breeder_create' => 'Breeder (:name) has been created', 
     'breeder_update' => 'Breeder (:name) has been updated',  

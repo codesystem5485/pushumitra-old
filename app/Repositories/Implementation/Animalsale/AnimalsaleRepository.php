@@ -4,6 +4,7 @@ namespace App\Repositories\Implementation\Animalsale;
 
 use App\Base\BaseRepository;
 use App\Models\AnimalForSale;
+use App\Models\Fee;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -81,4 +82,24 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
         return  $this->animalSaleModel->with($input)->orderBy('id', 'ASC')
         ->get();
     }
+	
+	//get animal for sale subscriptions date 
+	public function getSubscriptionDates(array $input)
+	{
+		$subscriptionStartDate = date("Y-m-d");
+		$subscriptionEndDate = '';
+		$feeDetails = Fee::where('id',$input['type'])->first();
+		if($feeDetails){
+			$months =$feeDetails->valid_months;
+			$subscriptionEndDate = date('Y-m-d', strtotime($subscriptionStartDate. ' + '.$months.' months'));
+		}
+		
+		$dateArray =array(
+			'subscriptionStartDate'=>$subscriptionStartDate,
+			'subscriptionEndDate'=>$subscriptionEndDate,
+		);
+		
+		return $dateArray;
+		
+	}
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\BreederController;
 use App\Http\Controllers\Api\PashumitraController;
 use App\Http\Controllers\Api\RegisteredvetController;
+use App\Http\Controllers\Api\AddanimalController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -29,6 +30,11 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
 	Route::post('/create-payment', [PaymentController::class,'addPayments']);
 	Route::get('/get-config', [PaymentController::class,'getConfig']);
+	
+	/* Add animal*/
+	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
+	Route::get('/animal-list', [AddanimalController::class,'getAnimalList']);
+	Route::get('/animal-detail', [AddanimalController::class,'animalDetail']);
 	
 	/* Nearest Pashumitra*/
 	Route::get('/nearest-pashumitra', [PashumitraController::class,'nearestPashumitraList']);
