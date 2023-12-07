@@ -1,0 +1,128 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use DB;
+use Session;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
+use App\Repositories\Interfaces\Rxreminder\RxreminderRepositoryInterface;
+use Auth;
+use App\Http\Controllers\BaseController as BaseController;
+use App\Models\Rxreminder;
+use Validator;
+use App\Models\User;
+use App\Models\Animals;
+
+class RxreminderController extends BaseController
+{
+	protected $userRepository;
+    protected $rxreminderRepo;
+	
+    public function __construct(RxreminderRepositoryInterface $rxreminderRepo, UserRepositoryInterface $userRepository){
+
+        $this->userRepo = $userRepository;
+       
+        $this->rxreminderRepo = $rxreminderRepo;
+    }
+	
+	public function addRxreminder(Request $request){
+		
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'animal_owner_id' => 'required',
+				'animal_id' => 'required',
+				//'UID_number' => 'required',
+				'prescription' => "required",
+				'description' => "required",
+				//'scheduled_date' => 'required',
+				//'scheduled_message' => 'required',
+				'user_id' => 'required',
+				'role'=>'required'
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		 $response = [];
+		
+		DB::beginTransaction();
+        try{ 
+			$aInsertData = $request->all();
+			$roleId = null;
+			if($aInsertData['role']=="Pashumitra"){
+				$roleId = 8;
+			}elseif($aInsertData['role']=="Registered-vet")
+			{
+				$roleId = 7;
+			}
+			elseif($aInsertData['role']=="Animal-owner")
+			{
+				$roleId = 6;
+			}
+		
+			$response = [];		
+            
+			$aInsertData['role_id'] =$roleId;
+            $rxreminder = $this->rxreminderRepo->create($aInsertData);
+
+            DB::commit();
+            ## Store log
+            $message = trans('messages.rxreminder_create',['name' => $request->UID_number]);
+            storeActicityLog(trans('messages.rxreminder_create'),$message,$request->user_id,$rxreminder);
+			
+           return $this->sendResponse($response,trans('messages.rxreminder_create'),200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+           
+            return  $this->sendError($response,trans('messages.something'),500);
+        }
+	}
+	
+	public function getAnimalOwnerList(Request $request)
+	{
+		$input['sRoleName'] = 'Animal-Owner';
+		$getUsers =  User::whereHas('roles', function($q) use($input) {
+            if(!empty($input['sRoleName'])){
+                $q->where('name', $input['sRoleName']);
+            }
+        })
+		->select('id', 'full_name','mobile_number')
+		->orderBy('id', 'DESC')
+		->get();
+		$response = [];
+		$response = $getUsers;
+		return $this->sendResponse($response,'',200);
+	}
+	
+	public function getAnimalNameList(Request $request)
+	{
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'animal_owner_id' => 'required',
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+		$response = [];
+		 
+		$getAnimals =  Animals::select('id', 'name','UID_number')
+		->where('user_id',$postData['animal_owner_id'])
+		->orderBy('id', 'DESC')
+		->get();
+		$response = $getAnimals;
+		
+		return $this->sendResponse($response,'',200);
+	}
+	
+}

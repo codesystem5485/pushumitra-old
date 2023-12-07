@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\BreederController;
 use App\Http\Controllers\Api\PashumitraController;
 use App\Http\Controllers\Api\RegisteredvetController;
 use App\Http\Controllers\Api\AddanimalController;
+use App\Http\Controllers\Api\RxreminderController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -16,15 +17,18 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
 	Route::get('/get-library', [AuthController::class,'getLibrary']);
 	
+	 Route::group(['middleware' => ['api-token']], function () {
+	
 	/* Animal sale*/
 	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
-	Route::get('/animalsale-list', [AnimalsaleController::class,'getAnimalSaleList']);
-	Route::get('/animalsale-detail', [AnimalsaleController::class,'animalSaleDetail']);
 
 	/* Breeder */
-	Route::post('/add-breeder', [BreederController::class,'addBreeder']); 
-	Route::get('/breeder-list', [BreederController::class,'getBreederList']);
-	Route::get('/breeder-detail', [BreederController::class,'breederDetail']);	
+	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
+	
+	/* Rxreminder */
+	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
+	Route::get('/get-animalowner-list', [RxreminderController::class,'getAnimalOwnerList']);
+	Route::get('/get-animal-list', [RxreminderController::class,'getAnimalNameList']);
 	
 	/* payment */
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
@@ -33,6 +37,16 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
+	Route::get('/setting', [CommonController::class,'getSetting']); 
+    
+	});
+	
+	Route::get('/breeder-list', [BreederController::class,'getBreederList']);
+	Route::get('/breeder-detail', [BreederController::class,'breederDetail']);
+	
+	Route::get('/animalsale-list', [AnimalsaleController::class,'getAnimalSaleList']);
+	Route::get('/animalsale-detail', [AnimalsaleController::class,'animalSaleDetail']);
+	
 	Route::get('/animal-list', [AddanimalController::class,'getAnimalList']);
 	Route::get('/animal-detail', [AddanimalController::class,'animalDetail']);
 	
@@ -43,8 +57,4 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Nearest registeredvet*/
 	Route::get('/nearest-registeredvet', [RegisteredvetController::class,'nearestRegisteredVetList']);
 	Route::get('/registeredvet-detail', [RegisteredvetController::class,'registeredVetDetail']);
-	
-	Route::group(['middleware' => ['api-token']], function () {
-        Route::get('/setting', [CommonController::class,'getSetting']); 
-    });
 }); 

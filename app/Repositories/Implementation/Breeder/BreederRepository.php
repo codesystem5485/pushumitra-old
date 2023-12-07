@@ -53,8 +53,8 @@ class BreederRepository  extends BaseRepository implements BreederRepositoryInte
     {
         DB::beginTransaction();
         try {
-            $animalsale =  $this->breederModel->find($breederId);
-            $animalsale->update($request);
+            $breeder =  $this->breederModel->find($breederId);
+            $breeder->update($request);
             DB::commit();
             return true;
         } catch (\Exception $e) {  
@@ -69,8 +69,8 @@ class BreederRepository  extends BaseRepository implements BreederRepositoryInte
     public function deleteBreeder(int $breederId)
     { 
         try{
-            $animalsale =  $this->breederModel->findOrFail($breederId);
-            return $animalsale->delete();
+            $breeder =  $this->breederModel->findOrFail($breederId);
+            return $breeder->delete();
         } catch (\Exception $e) {  
             DB::rollback();
             return false;

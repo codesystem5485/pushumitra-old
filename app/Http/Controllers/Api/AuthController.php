@@ -337,7 +337,7 @@ class AuthController extends BaseController
 				$token = $this->createApiToken();
 				$param = ['api_token' => $token];
 				$this->userRepo->update($user->id,$param);
-                $response = ['id'=>$user->id,'first_name' => $user->first_name,'email' => $user->email,'api_token' => $token,
+                $response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified ];
 				if($user->is_verified==0)
 				{
@@ -484,7 +484,7 @@ class AuthController extends BaseController
 				$token = $this->createApiToken();
 				$param = ['api_token' => $token];
 				$this->userRepo->update($user->id,$param);
-                $response = ['first_name' => $user->first_name,'email' => $user->email,'role' => 
+                $response = ['first_name' => $user->full_name,'email' => $user->email,'role' => 
                 isset($user->roles[0]->name) ? $user->roles[0]->name : '','api_token' => $token];
             }
             

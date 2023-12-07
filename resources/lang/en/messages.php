@@ -41,6 +41,7 @@ return [
     'login_success' => 'You have logged in sucessfully.',
     'token_missing' => 'Please make sure authorization token',
     'token_invalid' => 'Authorization token is invalid',
+	'user_id_missing' => 'User id is missing',
     'logout' => 'logout sucessfull',
     'exist_number' => 'This number is already updated',
     'try_another_number' =>'This number is registered with us. Please try another',
@@ -53,7 +54,6 @@ return [
     'animal_type_create' => 'Animal type (:name) has been created', 
     'animal_type_update' => 'Animal type (:name) has been updated',  
     'animal_type_delete' => 'Animal type (:name) has been deleted',
-
     
     'setting_update' => 'Settings has been updated',
     'enter_old_password'=>'Please enter your current password',
@@ -72,7 +72,8 @@ return [
     'animalsale_update' => 'Animal has been updated for sale',  
     'animalsale_delete' => 'Animal has been deleted',
 	
-	'add_animal_create' => 'Animal has been created', 
+	'add_animal_create' => 'Animal has been created',
+	'rxreminder_create' => 'Rxreminder has been created',
 	
 	'breeder_create' => 'Breeder (:name) has been created', 
     'breeder_update' => 'Breeder (:name) has been updated',  
