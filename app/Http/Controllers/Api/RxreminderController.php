@@ -141,7 +141,7 @@ class RxreminderController extends BaseController
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
 			->select('animals.id','animals.name','animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where('rx_reminders.animal_owner_id',$postData['animal_owner_id'])->groupBy('animal_id')->get();
-		$response = $animals;
+		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal/");
 		
 		return $this->sendResponse($response,'',200);
@@ -164,7 +164,7 @@ class RxreminderController extends BaseController
 			->leftJoin('users', 'users.id', '=', 'rx_reminders.animal_owner_id')
 			->select('users.full_name as animal_owner_name','rx_reminders.*','animals.id','animals.name','animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where('rx_reminders.animal_id',$postData['animal_id'])->get();
-		$response = $animals;
+		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal/");
 		
 		return $this->sendResponse($response,'',200);
