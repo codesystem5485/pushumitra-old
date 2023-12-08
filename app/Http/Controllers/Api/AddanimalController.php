@@ -99,7 +99,7 @@ class AddanimalController extends BaseController
             DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
           
 		   ->orderBy('animals.id','ASC')->get();
-		   $response['animalsale_image_path'] =  url("/upload/animal/");
+		   $response['animal_image_path'] =  url("/upload/animal/");
 			
 		return $this->sendResponse($response,"",200);
 	}

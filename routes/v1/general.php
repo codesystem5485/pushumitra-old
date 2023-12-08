@@ -29,7 +29,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
 	Route::get('/get-animalowner-list', [RxreminderController::class,'getAnimalOwnerList']);
 	Route::get('/get-animal-list', [RxreminderController::class,'getAnimalNameList']);
-	Route::get('/get-animal-history', [RxreminderController::class,'getAnimalsHistory']);
+	Route::get('/get-animal-history-list', [RxreminderController::class,'getAnimalsHistory']);
+	Route::get('/get-animalwise-history', [RxreminderController::class,'getAnimalWiseHistory']);
 	
 	/* payment */
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
