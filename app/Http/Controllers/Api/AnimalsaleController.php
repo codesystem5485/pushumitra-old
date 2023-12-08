@@ -40,7 +40,7 @@ class AnimalsaleController extends BaseController
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'UID_number' => 'required',
+				//'UID_number' => 'required',
 				'species' => 'required',
 				'breed' => "required",
 				//'type' => "required",

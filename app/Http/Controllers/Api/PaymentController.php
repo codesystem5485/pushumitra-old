@@ -162,8 +162,14 @@ class PaymentController extends BaseController
 			$paymentId =$aInsertData['payment_id'];
 			
 			$status = 1;
-			
 		}
+		$jsonArr = '';
+			if(isset($aInsertData['name']) && isset($aInsertData['mobile_number'])){
+				$moduleDetails = array('name'=>$aInsertData['name'],'mobile_number'=>$aInsertData['mobile_number']);
+				$jsonArr = json_encode($moduleDetails);
+			}
+		
+		
 			$insertArray = array(
 					'role_id'=>$roleId,
 					'user_id'=>$aInsertData['user_id'],
@@ -175,8 +181,8 @@ class PaymentController extends BaseController
 					//'payment_request' =>$payment_request,
 					'amount' =>$amount,
 					'type' =>$type,
+					 'module_details'=>$jsonArr 
 				);
-			
 			
 			$payment = Payments::create($insertArray);
 			if($roleId==8 && $type==1){
@@ -187,12 +193,12 @@ class PaymentController extends BaseController
 					$this->userRepo->update($aInsertData['user_id'],$param);  
 				}
 			}
+			
 			$response['payments'] =$payment; 
             DB::commit();
 			 ## Store log
             $message = trans('messages.payments_create',['name' => $paymentId]);
             storeActicityLog(trans('messages.payments_create'),$message);
-			
 			
 			return $this->sendResponse($response,trans('messages.payments_create'),200);
         }catch(\Exception $e){

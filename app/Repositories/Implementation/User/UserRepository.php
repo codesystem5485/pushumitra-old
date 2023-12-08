@@ -326,23 +326,25 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$user=User::select('pm_code')->where('pm_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
 		
 		if($user){ 
-			 $existingPmcode = $user->pm_code;
+			$existingPmcode = $user->pm_code;
 			if($existingPmcode!=''){
 				$existingPmcodeArr = explode('PM',$existingPmcode); 
 				if(count($existingPmcodeArr) ==2){
-				if(isset($existingPmcodeArr[1])){
-					$workingPmcode = $existingPmcodeArr[1];
-				}
+					if(isset($existingPmcodeArr[1])){
+						$workingPmcode = $existingPmcodeArr[1];
+					}
 				}
 			}
 		}
 		
 		if($workingPmcode==0){
-			$workingPmcode = '0000000001';
+			$workingPmcode = intval('0000000000');
 		}
-		//$pm_code = $this->checkPashumitraCode($checkCode);
-		$newGeneretedPmcode = $workingPmcode + 1;
-		$pm_code = "PM".$newGeneretedPmcode;
+		
+		$new_index = str_pad($workingPmcode, 10, "0", STR_PAD_LEFT);
+		$newGeneretedPmcode = $new_index + 1;
+		$new_index1 = str_pad($newGeneretedPmcode, 10, "0", STR_PAD_LEFT);
+		$pm_code = "PM".$new_index1;
 		return $pm_code;
 	}
 	

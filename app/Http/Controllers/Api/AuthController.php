@@ -328,16 +328,17 @@ class AuthController extends BaseController
                 return $this->sendError($response,trans('messages.invalid_password'),401);
             }
             
-            DB::beginTransaction();
-            try{
+          //  DB::beginTransaction();
+           // try{
 				
 				
               //  $token = $user->createToken($user->email)->accessToken;
 			  
 				$token = $this->createApiToken();
-				$param = ['api_token' => $token];
-				$this->userRepo->update($user->id,$param);
-                $response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
+				$param=[];
+				$param['api_token'] = $token;
+				$res = $this->userRepo->update($user->id,$param);
+				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified ];
 				if($user->is_verified==0)
 				{
@@ -345,14 +346,14 @@ class AuthController extends BaseController
 				}else{
 					return $this->sendResponse($response,trans('messages.login_success'),200); 
 				}
-            }
+           /* }
             catch(\Exception $e){  
                DB::rollback();
                $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
                ##store error log
                storeActicityLog(trans('messages.error'),$response['error']);
                return  $this->sendError($response,trans('messages.something'),500);
-            }     
+            }  */   
         }
         else {
             return $this->sendError($response,trans('messages.user_not'),404);

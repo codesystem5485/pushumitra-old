@@ -125,4 +125,25 @@ class RxreminderController extends BaseController
 		return $this->sendResponse($response,'',200);
 	}
 	
+	public function getAnimalsHistory(Request $request)
+	{
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'animal_owner_id' => 'required',
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+		$response = [];
+		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
+			->select('animals.id','animals.name','animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
+			->where('rx_reminders.animal_owner_id',$postData['animal_owner_id'])->groupBy('animal_id')->get();
+		$response = $animals;
+		
+		return $this->sendResponse($response,'',200);
+	}
+	
 }
