@@ -1272,6 +1272,13 @@ class AuthController extends BaseController
 			##Update user's OTP
 			$this->userRepo->update($user->id,$aOtpData);
 		}
+		
+		$smsInfo =array(
+					'otp'=>$aOtpData['otp'],
+					'mobile_number'=>'91'.$postData['mobile_number'],
+				);
+		$res = $this->sendRegistrationSms($smsInfo);
+		
 		return $this->sendResponse($response,trans('messages.otp_send'),200);
 	}
 	
