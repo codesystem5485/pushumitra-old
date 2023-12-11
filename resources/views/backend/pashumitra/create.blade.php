@@ -41,33 +41,20 @@
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">First Name* :</span>
+                            <span class="input-group-text">Full Name* :</span>
                         </div>
-                        <input type="text" class="form-control" id="first_name" aria-describedby="basic-addon3" name="first_name" value="@if(empty($user)){{old('first_name')}}@else{{$user->first_name}}@endif"placeholder="First Name">
-                        <div><span>{{ $errors->first('first_name') }}</span></div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Middle Name* :</span>
-                        </div>
-                        <input type="text" class="form-control" id="middle_name" aria-describedby="basic-addon3" name="middle_name" value="@if(empty($user)){{old('middle_name')}}@else{{$user->middle_name}}@endif"placeholder="Middle Name">
-                        <div><span>{{ $errors->first('middle_name') }}</span></div>
+                        <input type="text" class="form-control" id="full_name" aria-describedby="basic-addon3" name="full_name" value="@if(empty($user)){{old('full_name')}}@else{{$user->full_name}}@endif"placeholder="Full name">
+                        <div><span>{{ $errors->first('full_name') }}</span></div>
                     </div>
                     
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Last Name* :</span>
+                            <span class="input-group-text">Email :</span>
                         </div>
-                        <input type="text" class="form-control" id="last_name" aria-describedby="basic-addon3" name="last_name" value="@if(empty($user)){{old('last_name')}}@else{{$user->last_name}}@endif"placeholder="Last Name">
-                        <div><span>{{ $errors->first('last_name') }}</span></div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Email* :</span>
-                        </div>
-                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="off" required>
+                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="off">
                         <div><span>{{ $errors->first('email') }}</span></div>
                     </div> 
+					
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Mobile Number* :</span>
@@ -100,16 +87,8 @@
                         <input type="text" id="address_line_1" class="form-control" aria-describedby="basic-addon3" name="address_line_1" value="@if(empty($user)){{old('address_line_1')}}@else{{$user->address_line_1}}@endif"placeholder="Address Line 1" required><br>
                         <div><span>{{ $errors->first('address_line_1') }}</span></div>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Address Line 2* :</span>
-                        </div>
-                        <input type="text" id="address_line_2" class="form-control" aria-describedby="basic-addon3" name="address_line_2" value="@if(empty($user)){{old('address_line_2')}}@else{{$user->address_line_2}}@endif"placeholder="Address Line 2" required><br>
-                        <div><span>{{ $errors->first('address_line_2') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
+					
+					<div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">State* :</span>
                         </div>
@@ -141,10 +120,18 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Village* :</span>
+                            <span class="input-group-text">Taluka:</span>
                         </div>
-                        <input type="text" id="village" class="form-control" aria-describedby="basic-addon3" name="village" value="@if(empty($user)){{old('village')}}@else{{$user->village}}@endif"placeholder="Village" required><br>
-                        <div><span>{{ $errors->first('village') }}</span></div>
+                        <input type="text" id="taluka" class="form-control" aria-describedby="basic-addon3" name="taluka" value="@if(empty($user)){{old('taluka')}}@else{{$user->taluka}}@endif"placeholder="Taluka"><br>
+                        <div><span>{{ $errors->first('taluka') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Disctrict :</span>
+                        </div>
+                        <input type="text" id="disctrict" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($user)){{old('disctrict')}}@else{{$user->disctrict}}@endif" placeholder="District"><br>
+                        <div><span>{{ $errors->first('disctrict') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
@@ -171,21 +158,17 @@
                         <div><span>{{ $errors->first('education_certificate') }}</span></div>
                     </div>
                     
-                    <div class="input-group mb-3">
+                   <!--  
+					
+					 <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Collage Name* :</span>
+                            <span class="input-group-text">Nationality* :</span>
                         </div>
-                        <input type="text" id="pm_collage_name" class="form-control" aria-describedby="basic-addon3" name="pm_collage_name" value="@if(empty($user)){{old('pm_collage_name')}}@else{{$user->getUserDetail->pm_collage_name}}@endif"placeholder="Collage Name" required><br>
-                        <div><span>{{ $errors->first('pm_collage_name') }}</span></div>
+                        <input type="text" id="nationality" class="form-control" aria-describedby="basic-addon3" name="nationality" value="@if(empty($user)){{old('nationality')}}@else{{$user->nationality}}@endif" placeholder="nationality" required><br>
+                        <div><span>{{ $errors->first('nationality') }}</span></div>
                     </div>
+					-->
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Collage Address* :</span>
-                        </div>
-                        <input type="text" id="pm_collage_address" class="form-control" aria-describedby="basic-addon3" name="pm_collage_address" value="@if(empty($user)){{old('pm_collage_address')}}@else{{$user->getUserDetail->pm_collage_address}}@endif" placeholder="Collage Address" required><br>
-                        <div><span>{{ $errors->first('pm_collage_address') }}</span></div>
-                    </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -195,22 +178,15 @@
                         <div><span>{{ $errors->first('date_of_birth') }}</span></div>
                     </div>
 
-                    <div class="input-group mb-3">
+                   <!-- <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Age* :</span>
                         </div>
                         <input type="text" id="age" class="form-control" aria-describedby="basic-addon3" name="age" value="@if(empty($user)){{old('age')}}@else{{$user->age}}@endif" placeholder="Age" required><br>
                         <div><span>{{ $errors->first('age') }}</span></div>
-                    </div>
+                    </div>-->
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Nationality* :</span>
-                        </div>
-                        <input type="text" id="nationality" class="form-control" aria-describedby="basic-addon3" name="nationality" value="@if(empty($user)){{old('nationality')}}@else{{$user->nationality}}@endif" placeholder="nationality" required><br>
-                        <div><span>{{ $errors->first('nationality') }}</span></div>
-                    </div>
-
+                   
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Sex* :</span>
@@ -224,117 +200,9 @@
                         <br>
                         <div><span>{{ $errors->first('sex') }}</span></div>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Marital Status* :</span>
-                        </div>
-                        <select id="marital_status" class="form-control" aria-describedby="basic-addon3" name="marital_status" required>
-                            <option value="">--Marital Status--</option>
-                            <option @if(empty($user->marital_status)) @if(old('marital_status')=='Single') selected='selected' @endif @elseif($user->marital_status=='Single') selected='selected' @endif value="Single">Single</option>
-                            <option @if(empty($user->marital_status)) @if(old('marital_status')=='Married') selected='selected' @endif @elseif($user->marital_status=='Married') selected='selected' @endif value="Married">Married</option>
-                            <option @if(empty($user->marital_status)) @if(old('marital_status')=='Divorced') selected='selected' @endif @elseif($user->marital_status=='Divorced') selected='selected' @endif value="Divorced">Divorced</option>
-                            <option @if(empty($user->marital_status)) @if(old('marital_status')=='Other') selected='selected' @endif @elseif($user->marital_status=='Other') selected='selected' @endif value="Other">Other</option>
-                        </select>    
-                        <br>
-                        <div><span>{{ $errors->first('marital_status') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Nominee Name* :</span>
-                        </div>
-                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@else{{$user->getUserDetail->pm_nominee_name}}@endif" placeholder="Nominee Name" required><br>
-                        <div><span>{{ $errors->first('pm_nominee_name') }}</span></div>
-                    </div>
-                    
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Nominee Date of Birth :</span>
-                        </div>
-                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="pm_nominee_dob" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_dob" value="@if(empty($user)){{old('pm_nominee_dob')}}@else{{$user->getUserDetail->pm_nominee_dob}}@endif" placeholder="Nominee Date of Birth" required><br>
-                        <div><span>{{ $errors->first('pm_nominee_dob') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Relation with Nominee* :</span>
-                        </div>
-                        <input type="text" id="pm_nominee_relationship" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_relationship" value="@if(empty($user)){{old('pm_nominee_relationship')}}@else{{$user->getUserDetail->pm_nominee_relationship}}@endif" placeholder="Relation with Nominee" required><br>
-                        <div><span>{{ $errors->first('pm_nominee_relationship') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar card number* :</span>
-                        </div>
-                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@else{{$user->getUserDetail->pm_aadhar_no}}@endif" placeholder="Aadhar card number" required><br>
-                        <div><span>{{ $errors->first('pm_aadhar_no') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar Card Photo (Front)* :</span>
-                        </div>
-                        <input type="file" id="pm_aadhar_photo_front" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_front" value="@if(empty($user)){{old('pm_aadhar_photo_front')}}@else{{$user->getUserDetail->pm_aadhar_photo_front}}@endif" placeholder="pm_aadhar_photo" required><br>
-                        <div><span>{{ $errors->first('pm_aadhar_photo_front') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar Card Photo (Back)* :</span>
-                        </div>
-                        <input type="file" id="pm_aadhar_photo_back" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_back" value="@if(empty($user)){{old('pm_aadhar_photo_back')}}@else{{$user->getUserDetail->pm_aadhar_photo_back}}@endif" placeholder="pm_aadhar_photo" required><br>
-                        <div><span>{{ $errors->first('pm_aadhar_photo_back') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">PAN Card Number* :</span>
-                        </div>
-                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@else{{$user->getUserDetail->pm_pan_no}}@endif" placeholder="PAN Card Number" required><br>
-                        <div><span>{{ $errors->first('pm_pan_no') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">PAN Card Photo* :</span>
-                        </div>
-                        <input type="file" id="pm_pan_photo" class="form-control" aria-describedby="basic-addon3" name="pm_pan_photo" value="@if(empty($user)){{old('pm_pan_photo')}}@else{{$user->getUserDetail->pm_pan_photo}}@endif" placeholder="pm_pan_photo" required><br>
-                        <div><span>{{ $errors->first('pm_pan_photo') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Bank Name* :</span>
-                        </div>
-                        <input type="text" id="pm_bank_name" class="form-control" aria-describedby="basic-addon3" name="pm_bank_name" value="@if(empty($user)){{old('pm_bank_name')}}@else{{$user->getUserDetail->pm_bank_name}}@endif" placeholder="Bank Name" required><br>
-                        <div><span>{{ $errors->first('pm_bank_name') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Bank Account Number* :</span>
-                        </div>
-                        <input type="text" id="pm_account_no" class="form-control" aria-describedby="basic-addon3" name="pm_account_no" value="@if(empty($user)){{old('pm_account_no')}}@else{{$user->getUserDetail->pm_account_no}}@endif" placeholder="Bank Account Number" required><br>
-                        <div><span>{{ $errors->first('pm_account_no') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Bank IFSC Code* :</span>
-                        </div>
-                        <input type="text" id="pm_ifsc_code" class="form-control" aria-describedby="basic-addon3" name="pm_ifsc_code" value="@if(empty($user)){{old('pm_ifsc_code')}}@else{{$user->getUserDetail->pm_ifsc_code}}@endif" placeholder="IFSC code" required><br>
-                        <div><span>{{ $errors->first('pm_ifsc_code') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Upload Cheque Photo* :</span>
-                        </div>
-                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@else{{$user->getUserDetail->pm_cheque_photo}}@endif" placeholder="Cheque Photo" required><br>
-                        <div><span>{{ $errors->first('pm_cheque_photo') }}</span></div>
-                    </div>
+					@php
+						$jobtypeArray=  Config::get('constants.jobtype_array');
+					@endphp
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -342,9 +210,10 @@
                         </div>
                         <select id="job_type" class="form-control" aria-describedby="basic-addon3" name="job_type" required>
                             <option value="">--Job Type--</option>
-                            <option @if(empty($user->getUserDetail->job_type)) @if(old('job_type')=='Public') selected='selected' @endif @elseif($user->getUserDetail->job_type=='Public') selected='selected' @endif value="Public">Public</option>
-                            <option @if(empty($user->getUserDetail->job_type)) @if(old('job_type')=='Private') selected='selected' @endif @elseif($user->getUserDetail->job_type=='Private') selected='selected' @endif value="Private">Private</option>
-                            
+							@foreach($jobtypeArray as $item)
+							 <option @if(empty($user->getUserDetail->job_type)) @if(old('job_type')==$item) selected='selected' @endif @elseif($user->getUserDetail->job_type==$item) selected='selected' @endif value="{{$item}}">{{$item}}</option>
+                            @endforeach
+                                
                         </select>    
                         <br>
                         <div><span>{{ $errors->first('job_type') }}</span></div>
@@ -354,10 +223,114 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Name of organization working with* :</span>
                         </div>
-                        <input type="text" id="pm_name_of_org" class="form-control" aria-describedby="basic-addon3" name="pm_name_of_org" value="@if(empty($user)){{old('pm_name_of_org')}}@else{{$user->getUserDetail->pm_name_of_org}}@endif" placeholder="Name of organization working with" required><br>
+                        <input type="text" id="pm_name_of_org" class="form-control" aria-describedby="basic-addon3" name="pm_name_of_org" value="@if(empty($user)){{old('pm_name_of_org')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_name_of_org}}@endif" placeholder="Name of organization working with" required><br>
                         <div><span>{{ $errors->first('pm_name_of_org') }}</span></div>
                     </div>
 
+                  <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Nominee Name* :</span>
+                        </div>
+                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_name}} @endif" placeholder="Nominee Name" required><br>
+                        <div><span>{{ $errors->first('pm_nominee_name') }}</span></div>
+                    </div>
+                    
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Nominee Date of Birth :</span>
+                        </div>
+                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="pm_nominee_dob" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_dob" value="@if(empty($user)){{old('pm_nominee_dob')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_dob}} @endif" placeholder="Nominee Date of Birth" required><br>
+                        <div><span>{{ $errors->first('pm_nominee_dob') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Relation with Nominee* :</span>
+                        </div>
+                        <input type="text" id="pm_nominee_relationship" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_relationship" value="@if(empty($user)){{old('pm_nominee_relationship')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_relationship}} @endif" placeholder="Relation with Nominee" required><br>
+                        <div><span>{{ $errors->first('pm_nominee_relationship') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Aadhar card number* :</span>
+                        </div>
+                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_aadhar_no }} @endif" placeholder="Aadhar card number" required><br>
+                        <div><span>{{ $errors->first('pm_aadhar_no') }}</span></div>
+                    </div>
+
+                  <!--  <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Aadhar Card Photo (Front)* :</span>
+                        </div>
+                        <input type="file" id="pm_aadhar_photo_front" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_front" value="@if(empty($user)){{old('pm_aadhar_photo_front')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_photo_front}}@endif" placeholder="pm_aadhar_photo" required><br>
+                        <div><span>{{ $errors->first('pm_aadhar_photo_front') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Aadhar Card Photo (Back)* :</span>
+                        </div>
+                        <input type="file" id="pm_aadhar_photo_back" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_back" value="@if(empty($user)){{old('pm_aadhar_photo_back')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_photo_back}}@endif" placeholder="pm_aadhar_photo" required><br>
+                        <div><span>{{ $errors->first('pm_aadhar_photo_back') }}</span></div>
+                    </div>-->
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">PAN Card Number* :</span>
+                        </div>
+                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_pan_no}} @endif" placeholder="PAN Card Number" required><br>
+                        <div><span>{{ $errors->first('pm_pan_no') }}</span></div>
+                    </div>
+
+                   <!-- <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">PAN Card Photo* :</span>
+                        </div>
+                        <input type="file" id="pm_pan_photo" class="form-control" aria-describedby="basic-addon3" name="pm_pan_photo" value="@if(empty($user)){{old('pm_pan_photo')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_pan_photo}}@endif" placeholder="pm_pan_photo" required><br>
+                        <div><span>{{ $errors->first('pm_pan_photo') }}</span></div>
+                    </div>-->
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Bank Name* :</span>
+                        </div>
+                        <input type="text" id="pm_bank_name" class="form-control" aria-describedby="basic-addon3" name="pm_bank_name" value="@if(empty($user)){{old('pm_bank_name')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_bank_name}} @endif" placeholder="Bank Name" required><br>
+                        <div><span>{{ $errors->first('pm_bank_name') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Bank Account Number* :</span>
+                        </div>
+                        <input type="text" id="pm_account_no" class="form-control" aria-describedby="basic-addon3" name="pm_account_no" value="@if(empty($user)){{old('pm_account_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_account_no}} @endif" placeholder="Bank Account Number" required><br>
+                        <div><span>{{ $errors->first('pm_account_no') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Bank IFSC Code* :</span>
+                        </div>
+                        <input type="text" id="pm_ifsc_code" class="form-control" aria-describedby="basic-addon3" name="pm_ifsc_code" value="@if(empty($user)){{old('pm_ifsc_code')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_ifsc_code}} @endif" placeholder="IFSC code" required><br>
+                        <div><span>{{ $errors->first('pm_ifsc_code') }}</span></div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Upload Cheque Photo* :</span>
+                        </div>
+                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@elseif(isset($user->getUserDetail)) {{$user->getUserDetail->pm_cheque_photo}}@endif" placeholder="Cheque Photo" required><br>
+                        <div><span>{{ $errors->first('pm_cheque_photo') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Upload Profile Photo* :</span>
+                        </div>
+                        <input type="file" id="profile_photo" class="form-control" aria-describedby="basic-addon3" name="profile_photo" value="@if(empty($user)){{old('profile_photo')}}@elseif(isset($user->profile_photo)) {{$user->profile_photo}}@endif" placeholder="Profile Photo" required><br>
+                        <div><span>{{ $errors->first('profile_photo') }}</span></div>
+                    </div>
+					
                     <div class="input-group mb-2">
                     @php if(isset($aRecord)) {$sButton = 'Update';} else { $sButton = 'Submit';} @endphp
                    

@@ -594,7 +594,7 @@ class AuthController extends BaseController
 		if($postData['role']=='Animal-owner')
         {
             $validator = Validator::make($postData, [
-                'profile_photo'=>'max:10240',
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
 				'date_of_birth' => 'nullable|date',
@@ -613,7 +613,7 @@ class AuthController extends BaseController
         if($postData['role']=='Pashumitra')
         { 
             $validator = Validator::make($postData, [
-                'profile_photo'=>'max:10240',
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
                 'address_line_1' => 'required|string',
@@ -632,7 +632,7 @@ class AuthController extends BaseController
 		if($postData['role']=='Registered-vet')
         { 
             $validator = Validator::make($postData, [
-                'profile_photo'=>'max:10240',
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
 				'date_of_birth' => 'nullable|date',

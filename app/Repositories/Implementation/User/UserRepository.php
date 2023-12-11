@@ -222,9 +222,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 </button></a>';
             }*/
             if(auth()->user()->can('pashumitra-edit')){
-               /* $actionBtn .= '<a href="'.route('pashumitra.edit',['id' => $user->id]).'">
+                $actionBtn .= '<a href="'.route('pashumitra.edit',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
-                </button></a>'; */
+                </button></a>'; 
             }
 			
 			if($user->is_verified==0){
@@ -284,11 +284,11 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
           /*  }*/
-           /* if(auth()->user()->can('registeredvet-edit')){
+            if(auth()->user()->can('registeredvet-edit')){
                 $actionBtn .= '<a href="'.route('registered-vet.edit',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
-            }*/
+            }
 			
 			if($user->is_verified==0){
 			$actionBtn .= '<a href="'.route('registered-vet.registeredvet-verify',['id' => $user->id]).'">
@@ -493,12 +493,11 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	{
 		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
-                $q->where('name', $input['role']);
+                $q->where('name', 'Pashumitra');
             }
         })
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')
 		->where('is_verified',1)
-		->where('pm_code','!=','')
 		->orderBy('id', 'DESC')
 		->get();
 	}
@@ -507,7 +506,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	{
 		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
-                $q->where('name', $input['role']);
+                $q->where('name', 'Registered-vet');
             }
         })
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')

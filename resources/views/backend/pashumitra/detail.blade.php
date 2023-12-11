@@ -173,6 +173,13 @@
                         </div>
                     </div>
 					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Profile Photo :</span>
+                            <span class="">@if(isset($user->profile_photo)) <a target="_blank" href="{{ url("/upload/profile_photo/")}}/{{$user->profile_photo}}">{{ $user->profile_photo}} @endif</a></span>
+                        </div>
+                    </div>
+					
 					
 					<div class="mb-5">
                         <div class="">

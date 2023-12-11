@@ -11,9 +11,10 @@ $("#all-chk").click(function () {
 });
 $(document).ready(function () {
     $("#state").on("change", function () {
-        var actionurl = webUrl + "pashumitra/get-cities";
+        var actionurl = webUrl + "/pashumitra/get-cities";
         var state_val = $(this).children("option:selected").attr("state_val");
         $("#state_id").val(state_val);
+		
         $.ajax({
             url: actionurl,
             type: "get",
@@ -38,7 +39,7 @@ $(document).ready(function () {
     });
 
     $("#city_town").on("change", function () {
-        var actionurl = webUrl + "pashumitra/get-cities";
+        var actionurl = webUrl + "/pashumitra/get-cities";
         var city_val = $(this).children("option:selected").attr("city_val");
         $("#city_id").val(city_val);
     });

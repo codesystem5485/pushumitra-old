@@ -63,38 +63,66 @@ class RegisteredvetController extends BaseController
         try{//set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
             //store user data
-            $aInsertData = $request->all();
-
-            $aInsertData['first_name'] = $request->first_name;
-            $aInsertData['middle_name'] = $request->middle_name;
-            $aInsertData['last_name'] = $request->last_name;
-            $aInsertData['email'] = $request->email;
-            $aInsertData['mobile_number'] = $request->mobile_number;
-            $aInsertData['password'] = $request->password;
-            $aInsertData['confirm_password'] = $request->confirm_password;
-            $aInsertData['address_line_1'] = $request->address_line_1;
-            $aInsertData['address_line_2'] = $request->address_line_2;
-            $aInsertData['village'] = $request->village;
-            $aInsertData['city_town'] = $request->city_town;
-            $aInsertData['state'] = $request->state;
-            $aInsertData['state_id'] = $request->state_id;
-            $aInsertData['city_id'] = $request->city_id;
-            $aInsertData['pincode'] = $request->pincode;
-            $aInsertData['education'] = $request->education;
+			
+			if($request->profile_photo!='')
+			{
+				$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+				if(!empty($profile_photoName))
+				{
+					 $param['profile_photo'] = $profile_photoName;
+				}
+			}
+				
+            if(!empty($request->education_certificate))
+            {
+				$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+				if(!empty(($education_certificateName)))
+				{
+					$param['education_certificate'] = $education_certificateName;
+				}
+            }
             
-            $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-            $aInsertData['education_certificate'] = $education_certificateName;
-
-            $aInsertData['date_of_birth']=date('Y-m-d',strtotime($request->date_of_birth));
-            $aInsertData['age']=$request->age;
-            $aInsertData['nationality']=$request->nationality;
-            $aInsertData['sex']=$request->sex;
-            $aInsertData['marital_status']=$request->marital_status;
-            $aInsertData['is_phone_verify'] = 1;
-            $aInsertData['is_active'] = 1;
-            $aInsertData['country_code'] = 'IN';
-            $aInsertData['dial_code'] = '+91'; 
-            $user = $this->userRepo->create($aInsertData); 
+			$birthDate = '';
+			if($request->date_of_birth!=''){
+				$birthDate = date('Y-m-d',strtotime($request->date_of_birth));
+			}
+			
+			$param['full_name'] = $request->full_name;
+			$param['email'] = $request->email;
+			$param['mobile_number'] = $request->mobile_number;
+			$param['address_line_1'] = $request->address_line_1;
+			$param['taluka'] = $request->taluka;
+			$param['district'] = $request->district;
+			$param['city_town'] = $request->city_town;
+			$param['state'] = $request->state;
+			$param['state_id'] = $request->state_id;
+			$param['pincode'] = $request->pincode; 
+			$param['sex'] = $request->sex;
+			$param['date_of_birth'] = $birthDate;
+			$param['education']= $request->education;
+			
+			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
+			$paramDetail['pm_pan_no'] = $request->pm_pan_no;
+			$paramDetail['job_type'] = $request->job_type;
+			$paramDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
+            $paramDetail['rv_speciality'] = $request->rv_speciality;
+            $paramDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
+			
+			
+			//get latitude , longitude
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
+			
+			$param['latitude'] = $coordinateArr['latitude'];
+			$param['longitude'] = $coordinateArr['longitude'];
+			
+			$param['is_phone_verify'] = 1;
+            $param['is_active'] = 1;
+            $param['country_code'] = 'IN';
+            $param['dial_code'] = '+91';
+            $user = $this->userRepo->create($param);
+			
+			$paramDetail['user_id'] = $user->id;
+			$oUser = $this->userDetailRepo->create($paramDetail);
             
             //asign role
             $roleData = $this->roleRepo->where('id','7')->first();
@@ -102,20 +130,6 @@ class RegisteredvetController extends BaseController
             if($roleData){
                 $user->assignRole($roleData->name);  
             }
-
-            $inputDetail['job_type'] = $request->job_type;
-            $inputDetail['rv_state_verternity_council'] = $request->rv_state_verternity_council;
-            $inputDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
-            $inputDetail['rv_speciality'] = $request->rv_speciality;
-            $inputDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
-            $inputDetail['rv_working_state'] = $request->rv_working_state;
-            $inputDetail['rv_working_state_id'] = $request->rv_working_state_id;
-            $inputDetail['rv_working_city_town'] = $request->rv_working_city_town;
-            $inputDetail['rv_working_city_id'] = $request->rv_working_city_id;
-            $inputDetail['rv_working_village'] = $request->rv_working_village;
-            $inputDetail['rv_working_pincode'] = $request->rv_working_pincode;
-            $inputDetail['user_id'] = $user->id;
-            $oUser = $this->userDetailRepo->create($inputDetail);
 
             DB::commit();
             Session::flash('success', trans('messages.user_register'));
@@ -152,56 +166,70 @@ class RegisteredvetController extends BaseController
         // try{
             //set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
-            $aUpdateData['first_name'] = $request->first_name;
-            $aUpdateData['middle_name'] = $request->middle_name;
-            $aUpdateData['last_name'] = $request->last_name;
-            if(!empty($request->email))
-            {
-                $aUpdateData['email'] = $request->email;
-            }
-            if(!empty($request->mobile_number))
-            {
-                $aUpdateData['mobile_number'] = $request->mobile_number;
-            }
-            if(!empty($request->password))
-            {
-                $aUpdateData['password'] = $request->password;
-            }
-            $aUpdateData['address_line_1'] = $request->address_line_1;
-            $aUpdateData['address_line_2'] = $request->address_line_2;
-            $aUpdateData['village'] = $request->village;
-            $aUpdateData['city_town'] = $request->city_town;
-            $aUpdateData['state'] = $request->state;
-            $aUpdateData['state_id'] = $request->state_id;
-            $aUpdateData['city_id'] = $request->city_id;
-            $aUpdateData['pincode'] = $request->pincode;
-            $aUpdateData['education'] = $request->education;
-            if(!empty($request->education_certificate)){
-            $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-            $aUpdateData['education_certificate'] = $education_certificateName;
-            }
-            $aUpdateData['date_of_birth']=date('Y-m-d',strtotime($request->date_of_birth));
-            $aUpdateData['age']=$request->age;
-            $aUpdateData['nationality']=$request->nationality;
-            $aUpdateData['sex']=$request->sex;
-            $aUpdateData['marital_status']=$request->marital_status;
-            $user = $this->userRepo->update($id,$aUpdateData);
             
-            if($userDetailId != null)
+			if($request->profile_photo!='')
+			{
+				$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+				if(!empty($profile_photoName))
+				{
+					 $param['profile_photo'] = $profile_photoName;
+				}
+			}
+				
+            if(!empty($request->education_certificate))
             {
-            $inputDetail['job_type'] = $request->job_type;
-            $inputDetail['rv_state_verternity_council'] = $request->rv_state_verternity_council;
-            $inputDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
-            $inputDetail['rv_speciality'] = $request->rv_speciality;
-            $inputDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
-            $inputDetail['rv_working_state'] = $request->rv_working_state;
-            $inputDetail['rv_working_state_id'] = $request->rv_working_state_id;
-            $inputDetail['rv_working_city_town'] = $request->rv_working_city_town;
-            $inputDetail['rv_working_city_id'] = $request->rv_working_city_id;
-            $inputDetail['rv_working_village'] = $request->rv_working_village;
-            $inputDetail['rv_working_pincode'] = $request->rv_working_pincode;
-            $oUser = $this->userDetailRepo->update($userDetailId,$inputDetail);            
+				$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+				if(!empty(($education_certificateName)))
+				{
+					$param['education_certificate'] = $education_certificateName;
+				}
             }
+            
+			$birthDate = '';
+			if($request->date_of_birth!=''){
+				$birthDate = date('Y-m-d',strtotime($request->date_of_birth));
+			}
+			
+			$param['full_name'] = $request->full_name;
+			$param['email'] = $request->email;
+			$param['address_line_1'] = $request->address_line_1;
+			$param['taluka'] = $request->taluka;
+			$param['district'] = $request->district;
+			$param['city_town'] = $request->city_town;
+			$param['state'] = $request->state;
+			$param['state_id'] = $request->state_id;
+			$param['pincode'] = $request->pincode; 
+			$param['sex'] = $request->sex;
+			$param['date_of_birth'] = $birthDate;
+			$param['education']= $request->education;
+			
+			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
+			$paramDetail['pm_pan_no'] = $request->pm_pan_no;
+			$paramDetail['job_type'] = $request->job_type;
+			
+			$paramDetail['rv_state_verternity_council_no'] = $request->rv_state_verternity_council_no;
+            $paramDetail['rv_speciality'] = $request->rv_speciality;
+            $paramDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
+			
+			
+			//get latitude , longitude
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
+			
+			$param['latitude'] = $coordinateArr['latitude'];
+			$param['longitude'] = $coordinateArr['longitude'];
+				
+				
+            $user = $this->userRepo->update($id,$param); 
+			
+			$userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
+				
+			if($userDetailId){
+				$oUser = $this->userDetailRepo->update($userDetailId,$paramDetail); 
+			}else{
+				$paramDetail['user_id'] = $userData->id;
+				$oUser = $this->userDetailRepo->create($paramDetail);
+			}
+			
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));
             ## Store log
