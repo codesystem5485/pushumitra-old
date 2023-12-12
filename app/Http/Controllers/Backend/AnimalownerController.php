@@ -13,10 +13,12 @@ use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Http\Requests\AnimalownerProcessRequest;
 use Auth;
+use App\Traits\FileUpload;
 
 use App\Http\Controllers\BaseController as BaseController;
 class AnimalownerController extends BaseController
 {
+	use FileUpload;
     protected $url = '';
     protected $userRepo;
     protected $stateRepo;
@@ -60,10 +62,32 @@ class AnimalownerController extends BaseController
             $this->userRepo->setCreateBy(Auth::user()->id);  
             //store user data
             $aInsertData = $request->all();
+			
+			if($request->profile_photo!='')
+			{
+				$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+				if(!empty($profile_photoName))
+				{
+					 $aInsertData['profile_photo'] = $profile_photoName;
+				}
+			}
+			
             $aInsertData['is_phone_verify'] = 1;
             $aInsertData['is_active'] = 1;
             $aInsertData['country_code'] = 'IN';
-            $aInsertData['dial_code'] = '+91'; 
+            $aInsertData['dial_code'] = '+91';
+
+			$aInsertData['date_of_birth'] = '';
+			if($request->date_of_birth!=''){
+				$aInsertData['date_of_birth'] = date('Y-m-d',strtotime($request->date_of_birth));
+			}
+			
+			//get latitude , longitude
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($aInsertData);
+			
+			$aInsertData['latitude'] = $coordinateArr['latitude'];
+			$aInsertData['longitude'] = $coordinateArr['longitude'];
+			
             $user = $this->userRepo->create($aInsertData); 
             
             //asign role
@@ -96,8 +120,32 @@ class AnimalownerController extends BaseController
         try{
             //set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
-            //store user data
-            $user = $this->userRepo->update($id,$request->except('_token','role'));
+           
+		   //store user data
+		    $aInsertData = $request->all();
+			
+			if($request->profile_photo!='')
+			{ 
+				$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+				if(!empty($profile_photoName))
+				{
+					 $aInsertData['profile_photo'] = $profile_photoName;
+				}
+			}
+			
+			$aInsertData['date_of_birth'] = '';
+			if($request->date_of_birth!=''){
+				$aInsertData['date_of_birth'] = date('Y-m-d',strtotime($request->date_of_birth));
+			}
+			
+			//get latitude , longitude
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($aInsertData);
+			
+			$aInsertData['latitude'] = $coordinateArr['latitude'];
+			$aInsertData['longitude'] = $coordinateArr['longitude'];
+			
+           
+			$user = $this->userRepo->update($id,$aInsertData); 
             
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));
@@ -109,7 +157,7 @@ class AnimalownerController extends BaseController
             DB::rollback();
             Session::flash('error', trans('messages.something'));
             return redirect()->route('animal-owner.edit',['id' => $id]);
-        } 
+        }
     }
 
     public function delete($id){

@@ -23,7 +23,7 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     @can('pashumitra-create')
-                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_pashumitra') }}</a>-->
+                   <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_pashumitra') }}</a>
                     @endcan
                     
                     <p class="pull-right">

@@ -179,9 +179,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 
             }*/
             if(auth()->user()->can('animal-owner-edit')){
-               /* $actionBtn .= '<a href="'.route('animal-owner.edit',['id' => $user->id]).'">
+                $actionBtn .= '<a href="'.route('animal-owner.edit',['id' => $user->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
-                </button></a>';*/
+                </button></a>';
             }
             if(auth()->user()->can('animal-owner-delete')){
                 $actionBtn .= '<a href="'.route('animal-owner.delete',['id' => $user->id]).'">

@@ -128,9 +128,9 @@
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Disctrict :</span>
+                            <span class="input-group-text">District :</span>
                         </div>
-                        <input type="text" id="disctrict" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($user)){{old('disctrict')}}@else{{$user->disctrict}}@endif" placeholder="District"><br>
+                        <input type="text" id="district" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($user)){{old('district')}}@else{{$user->district}}@endif" placeholder="District"><br>
                         <div><span>{{ $errors->first('disctrict') }}</span></div>
                     </div>
 
@@ -168,8 +168,6 @@
                         <div><span>{{ $errors->first('nationality') }}</span></div>
                     </div>
 					-->
-
-
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Date of Birth :</span>
@@ -231,7 +229,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Nominee Name* :</span>
                         </div>
-                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_name}} @endif" placeholder="Nominee Name" required><br>
+                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_nominee_name}}@endif" placeholder="Nominee Name" required><br>
                         <div><span>{{ $errors->first('pm_nominee_name') }}</span></div>
                     </div>
                     
@@ -255,31 +253,15 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Aadhar card number* :</span>
                         </div>
-                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_aadhar_no }} @endif" placeholder="Aadhar card number" required><br>
+                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_no}}@endif" placeholder="Aadhar card number" required><br>
                         <div><span>{{ $errors->first('pm_aadhar_no') }}</span></div>
                     </div>
-
-                  <!--  <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar Card Photo (Front)* :</span>
-                        </div>
-                        <input type="file" id="pm_aadhar_photo_front" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_front" value="@if(empty($user)){{old('pm_aadhar_photo_front')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_photo_front}}@endif" placeholder="pm_aadhar_photo" required><br>
-                        <div><span>{{ $errors->first('pm_aadhar_photo_front') }}</span></div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar Card Photo (Back)* :</span>
-                        </div>
-                        <input type="file" id="pm_aadhar_photo_back" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_photo_back" value="@if(empty($user)){{old('pm_aadhar_photo_back')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_photo_back}}@endif" placeholder="pm_aadhar_photo" required><br>
-                        <div><span>{{ $errors->first('pm_aadhar_photo_back') }}</span></div>
-                    </div>-->
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">PAN Card Number* :</span>
                         </div>
-                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_pan_no}} @endif" placeholder="PAN Card Number" required><br>
+                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_pan_no}}@endif" placeholder="PAN Card Number" required><br>
                         <div><span>{{ $errors->first('pm_pan_no') }}</span></div>
                     </div>
 
@@ -317,17 +299,17 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Upload Cheque Photo* :</span>
+                            <span class="input-group-text">Upload Cheque Photo :</span>
                         </div>
-                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@elseif(isset($user->getUserDetail)) {{$user->getUserDetail->pm_cheque_photo}}@endif" placeholder="Cheque Photo" required><br>
+                        <input type="file" id="pm_cheque_photo" class="form-control" aria-describedby="basic-addon3" name="pm_cheque_photo" value="@if(empty($user)){{old('pm_cheque_photo')}}@elseif(isset($user->getUserDetail)) {{$user->getUserDetail->pm_cheque_photo}}@endif" placeholder="Cheque Photo"><br>
                         <div><span>{{ $errors->first('pm_cheque_photo') }}</span></div>
                     </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Upload Profile Photo* :</span>
+                            <span class="input-group-text">Upload Profile Photo :</span>
                         </div>
-                        <input type="file" id="profile_photo" class="form-control" aria-describedby="basic-addon3" name="profile_photo" value="@if(empty($user)){{old('profile_photo')}}@elseif(isset($user->profile_photo)) {{$user->profile_photo}}@endif" placeholder="Profile Photo" required><br>
+                        <input type="file" id="profile_photo" class="form-control" aria-describedby="basic-addon3" name="profile_photo" value="@if(empty($user)){{old('profile_photo')}}@elseif(isset($user->profile_photo)) {{$user->profile_photo}}@endif" placeholder="Profile Photo"><br>
                         <div><span>{{ $errors->first('profile_photo') }}</span></div>
                     </div>
 					

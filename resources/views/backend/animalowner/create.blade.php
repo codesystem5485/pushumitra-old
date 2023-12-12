@@ -1,5 +1,6 @@
 @extends('backend.master')
 @section('css')
+<link rel="stylesheet" href="{{asset('/admin/assets/css/bootstrap-datepicker3.min.css')}}">
 @endsection 
 @section('content')
 <div id="main-content">
@@ -34,37 +35,23 @@
                     <!-- <h2>Role Permissions</h2> -->
                     
                 </div> 
-                <form action="@if(empty($user)){{route('animal-owner.store')}}@else{{route('animal-owner.update',['id' => $user->id])}}@endif" method="post"> 
+                <form action="@if(empty($user)){{route('animal-owner.store')}}@else{{route('animal-owner.update',['id' => $user->id])}}@endif" method="post" enctype="multipart/form-data"> 
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">First Name* :</span>
+                            <span class="input-group-text">Full Name* :</span>
                         </div>
-                        <input type="text" class="form-control" id="first_name" aria-describedby="basic-addon3" name="first_name" value="@if(empty($user)){{old('first_name')}}@else{{$user->first_name}}@endif"placeholder="First Name">
-                        <div><span>{{ $errors->first('first_name') }}</span></div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Middle Name* :</span>
-                        </div>
-                        <input type="text" class="form-control" id="middle_name" aria-describedby="basic-addon3" name="middle_name" value="@if(empty($user)){{old('middle_name')}}@else{{$user->middle_name}}@endif"placeholder="Middle Name">
-                        <div><span>{{ $errors->first('middle_name') }}</span></div>
+                        <input type="text" class="form-control" id="full_name" aria-describedby="basic-addon3" name="full_name" value="@if(empty($user)){{old('full_name')}}@else{{$user->full_name}}@endif"placeholder="Full Name">
+                        <div><span>{{ $errors->first('full_name') }}</span></div>
                     </div>
                     
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Last Name* :</span>
+                            <span class="input-group-text">Email :</span>
                         </div>
-                        <input type="text" class="form-control" id="last_name" aria-describedby="basic-addon3" name="last_name" value="@if(empty($user)){{old('last_name')}}@else{{$user->last_name}}@endif"placeholder="Last Name">
-                        <div><span>{{ $errors->first('last_name') }}</span></div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Email* :</span>
-                        </div>
-                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="off" required>
+                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="off">
                         <div><span>{{ $errors->first('email') }}</span></div>
                     </div> 
                     <div class="input-group mb-3">
@@ -99,15 +86,7 @@
                         <input type="text" id="address_line_1" class="form-control" aria-describedby="basic-addon3" name="address_line_1" value="@if(empty($user)){{old('address_line_1')}}@else{{$user->address_line_1}}@endif"placeholder="Address Line 1" required><br>
                         <div><span>{{ $errors->first('address_line_1') }}</span></div>
                     </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Address Line 2* :</span>
-                        </div>
-                        <input type="text" id="address_line_2" class="form-control" aria-describedby="basic-addon3" name="address_line_2" value="@if(empty($user)){{old('address_line_2')}}@else{{$user->address_line_2}}@endif"placeholder="Address Line 2" required><br>
-                        <div><span>{{ $errors->first('address_line_2') }}</span></div>
-                    </div>
-
+                    
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">State* :</span>
@@ -137,13 +116,21 @@
                         </select>
                         <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
-
-                    <div class="input-group mb-3">
+				
+					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Village* :</span>
+                            <span class="input-group-text">Taluka:</span>
                         </div>
-                        <input type="text" id="village" class="form-control" aria-describedby="basic-addon3" name="village" value="@if(empty($user)){{old('village')}}@else{{$user->village}}@endif"placeholder="Village" required><br>
-                        <div><span>{{ $errors->first('village') }}</span></div>
+                        <input type="text" id="taluka" class="form-control" aria-describedby="basic-addon3" name="taluka" value="@if(empty($user)){{old('taluka')}}@else{{$user->taluka}}@endif"placeholder="Taluka"><br>
+                        <div><span>{{ $errors->first('taluka') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">District :</span>
+                        </div>
+                        <input type="text" id="district" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($user)){{old('district')}}@else{{$user->district}}@endif" placeholder="District"><br>
+                        <div><span>{{ $errors->first('disctrict') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
@@ -152,6 +139,36 @@
                         </div>
                         <input type="text" id="pincode" class="form-control" aria-describedby="basic-addon3" name="pincode" value="@if(empty($user)){{old('pincode')}}@else{{$user->pincode}}@endif"placeholder="Pincode" required><br>
                         <div><span>{{ $errors->first('pincode') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Date of Birth :</span>
+                        </div>
+                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="date_of_birth" class="form-control" aria-describedby="basic-addon3" name="date_of_birth" value="@if(empty($user)){{old('date_of_birth')}}@else{{$user->date_of_birth}}@endif" placeholder="Date of Birth" required><br>
+                        <div><span>{{ $errors->first('date_of_birth') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Sex* :</span>
+                        </div>
+                        <select id="sex" class="form-control" aria-describedby="basic-addon3" name="sex" required>
+                            <option value="">--Sex--</option>
+                            <option @if(empty($user->sex)) @if(old('sex')=='Male') selected='selected' @endif @elseif($user->sex=='Male') selected='selected' @endif value="Male">Male</option>
+                            <option @if(empty($user->sex)) @if(old('sex')=='Female') selected='selected' @endif @elseif($user->sex=='Female') selected='selected' @endif value="Female">Female</option>
+                            <option @if(empty($user->sex)) @if(old('sex')=='Other') selected='selected' @endif @elseif($user->sex=='Other') selected='selected' @endif value="Other">Other</option>
+                        </select>    
+                        <br>
+                        <div><span>{{ $errors->first('sex') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Upload Profile Photo :</span>
+                        </div>
+                        <input type="file" id="profile_photo" class="form-control" aria-describedby="basic-addon3" name="profile_photo" value="@if(empty($user)){{old('profile_photo')}}@elseif(isset($user->profile_photo)) {{$user->profile_photo}}@endif" placeholder="Profile Photo"><br>
+                        <div><span>{{ $errors->first('profile_photo') }}</span></div>
                     </div>
 
                     <div class="input-group mb-2">
@@ -169,22 +186,27 @@
 @endsection 
 @push('scripts') 
 <script>
-        function check()
-        {
-            var mobile = document.getElementById('mobile');
-            var message = document.getElementById('message');
-            var goodColor = "white";
-            var badColor = "#FF9B37";
-       
-            if(mobile.value.length!=10){
-                mobile.style.backgroundColor = badColor;
-                message.style.color = badColor;
-                message.innerHTML = "Required 10 digits, match requested format!"
-            }else{
-                mobile.style.backgroundColor = goodColor;
-                message.innerHTML = '';
-            }
-        }
+$(document).ready(function(){
+   $("#date_of_birth").datepicker();
+});
+
+function check()
+{
+	var mobile = document.getElementById('mobile');
+	var message = document.getElementById('message');
+	var goodColor = "white";
+	var badColor = "#FF9B37";
+
+	if(mobile.value.length!=10){
+		mobile.style.backgroundColor = badColor;
+		message.style.color = badColor;
+		message.innerHTML = "Required 10 digits, match requested format!"
+	}else{
+		mobile.style.backgroundColor = goodColor;
+		message.innerHTML = '';
+	}
+}
 </script>
-<script src="{{asset('admin/assets/js/common.js')}}"></script>  
+<script src="{{asset('admin/assets/js/common.js')}}"></script>
+<script src="{{asset('/admin/assets/js/bootstrap-datepicker.min.js')}}"></script>
 @endpush

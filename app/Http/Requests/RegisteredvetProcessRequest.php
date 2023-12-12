@@ -48,8 +48,8 @@ class RegisteredvetProcessRequest extends FormRequest
             
         ];
         if(!$this->id){
-            $request['password'] = 'required';
-            $request['confirm_password'] = 'required';
+            $request['password'] = 'required|min:6';
+            $request['confirm_password'] = 'required|min:6';
         }
         return $request;
     }

@@ -44,7 +44,7 @@
                             @foreach($animals as $type)
                             <tr>
                                 <td>{{$type->UID_number}}</td>                                 
-                                <td>{{$type->getAnimalOwner->first_name." ".$type->getAnimalOwner->last_name." ".$type->getAnimalOwner->last_name}}</td>                                 
+                                <td>{{$type->getAnimalOwner->full_name}}</td>                                 
                                 <td>{{$type->mobile_number}}</td>                                 
                                 <td>{{$type->breed}}</td>                                 
                                 <td>{{$type->species}}</td>                                 

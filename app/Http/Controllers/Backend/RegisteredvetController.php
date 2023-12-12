@@ -108,6 +108,11 @@ class RegisteredvetController extends BaseController
             $paramDetail['rv_speciality'] = $request->rv_speciality;
             $paramDetail['rv_name_of_working_org'] = $request->rv_name_of_working_org;
 			
+			$param['is_phone_verify'] = 1;
+            $param['is_active'] = 1;
+            $param['country_code'] = 'IN';
+            $param['dial_code'] = '+91'; 
+			
 			
 			//get latitude , longitude
 			$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);

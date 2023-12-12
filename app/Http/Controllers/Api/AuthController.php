@@ -58,28 +58,17 @@ class AuthController extends BaseController
                // 'profile_photo'=>'required|max:10240',
 			    'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users',
-                'password' => 'required',
-                'confirm_password' => 'required',
-                'mobile_number' => 'required|numeric|unique:users',
+                'password' => 'required|min:6',
+                'confirm_password' => 'required|min:6',
+                'mobile_number' => 'required|max:10|numeric|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'city_town' => 'required|string',
 				//'district' => 'string',
                 //'taluka' => 'string',
-                'pincode' => 'required|numeric',
+                'pincode' => 'required|numeric|min:6',
 				'state_id' => 'required',
-                /*'education'=> 'required',
-                'education_certificate'=> 'required|max:10240',
-                'pm_collage_name' => 'required|string',
-                'pm_collage_address' => 'required|string',
-                'date_of_birth' => 'date',
-                'age' => 'required',                
-                'nationality' => 'required',
-                'sex' => 'required',
-                'marital_status' => 'required',
-				// 'address_line_2' => 'required|string',
-               // 'village' => 'required|string',
-                */
+               
             ]);
         }
         if($postData['role']=='Animal-owner')
@@ -87,16 +76,16 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
 				'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users',
-                'password' => 'required',
-                'confirm_password' => 'required',
-                'mobile_number' => 'required|numeric|unique:users',
+                'password' => 'required|min:6',
+                'confirm_password' => 'required|min:6',
+                'mobile_number' => 'required|max:10|numeric|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
 				'district' => 'nullable|string',
                 'taluka' => 'nullable|string',
-                'pincode' => 'required|numeric',
+                'pincode' => 'required|numeric|min:6',
                  
             ]);
         }
@@ -105,16 +94,16 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
 				'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users',
-                'password' => 'required',
-                'confirm_password' => 'required',
-                'mobile_number' => 'required|numeric|unique:users',
+                'password' => 'required|min:6',
+                'confirm_password' => 'required|min:6',
+                'mobile_number' => 'required|max:10|numeric|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
 				'district' => 'nullable|string',
                 'taluka' => 'nullable|string',
-                'pincode' => 'required|numeric',
+                'pincode' => 'required|numeric|min:6',
             ]);
         }
         if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
@@ -597,7 +586,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				'date_of_birth' => 'nullable|date',
+				//'date_of_birth' => 'nullable|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -623,7 +612,7 @@ class AuthController extends BaseController
                 'taluka' => 'nullable|string',
                 'pincode' => 'required|numeric',
 				'state_id' => 'required',
-                'date_of_birth' => 'nullable|date',
+              //  'date_of_birth' => 'nullable|date',
                // 'age' => 'required',                
                 'sex' => 'required',
             ]);
@@ -635,7 +624,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				'date_of_birth' => 'nullable|date',
+				//'date_of_birth' => 'nullable|date',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -1114,7 +1103,7 @@ class AuthController extends BaseController
             $validator = Validator::make($postData, [
                 //'education'=> 'required',
                 'education_certificate'=> 'max:10240',
-				'rv_state_verternity_council_no'=>'required|numeric',
+				'rv_state_verternity_council_no'=>'required',
 				'pm_pan_no'	=>'required',
 				'pm_aadhar_no'	=>'required|numeric',
 				'job_type'	=>'required',
@@ -1353,8 +1342,8 @@ PASHU MITRA ENTERPRISES';
 		$postData = request()->all(); 
         $validator = Validator::make($postData, [
             'old_password' => 'required',
-            'current_password'=> 'required',
-			'confirm_password'=> 'required',
+            'current_password'=> 'required|min:6',
+			'confirm_password'=> 'required|min:6',
         ]);
         $response = [];
         if ($validator->fails())

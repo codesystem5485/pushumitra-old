@@ -23,7 +23,7 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     @can('registeredvet-create')
-                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_registered_vet') }}</a>-->
+                   <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.create_registered_vet') }}</a>
                     @endcan
                     
                     <p class="pull-right">

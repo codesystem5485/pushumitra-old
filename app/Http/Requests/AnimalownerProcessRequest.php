@@ -24,23 +24,21 @@ class AnimalownerProcessRequest extends FormRequest
     public function rules()
     {
         $request =  [
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => "required|string|email|max:255|unique:users,email,{$this->id}",
-            'mobile_number' => "required|numeric|unique:users,mobile_number,{$this->id}",
-            //'password' => 'required',
-            //'confirm_password' => 'required',
+            'full_name' => 'required',
+            'email' => "nullable|unique:users,email,{$this->id}",
+            'mobile_number' => "required|max:10|unique:users,mobile_number,{$this->id}",
             'address_line_1' => 'required|string',
-            'address_line_2' => 'required|string',
-            'village' => 'required|string',
+            'district' => 'nullable|string',
+            'taluka' => 'nullable|string',
             'city_town' => 'required|string',
             'state' => 'required|string',
-            'pincode' => 'required|numeric',
+            'pincode' => 'required|numeric',      
+            'sex' => 'required',
+            'date_of_birth' => 'nullable|date|before:today',
         ];
         if(!$this->id){
-            $request['password'] = 'required';
-            $request['confirm_password'] = 'required';
+            $request['password'] = 'required|min:6';
+            $request['confirm_password'] = 'required|min:6';
         }
         return $request;
     }
