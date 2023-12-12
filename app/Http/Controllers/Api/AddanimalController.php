@@ -49,7 +49,7 @@ class AddanimalController extends BaseController
 				'age' => 'required|numeric',
 				'sex' => 'required|string',
 				'description' => 'required',
-				'animal_owner_id' => 'required',
+				//'animal_owner_id' => 'required',
 				
 			]);
 			
@@ -63,7 +63,7 @@ class AddanimalController extends BaseController
 			$response = [];		
            
 			$aInsertData['name'] = $postData['name'];
-			$aInsertData['animal_owner'] = $postData['animal_owner_id'];
+			$aInsertData['animal_owner'] = $postData['user_id'];
 			$aInsertData['description'] = $postData['description'];
 			$aInsertData['sex'] = $postData['sex'];
 			$aInsertData['age'] = $postData['age'];

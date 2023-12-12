@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PashumitraController;
 use App\Http\Controllers\Api\RegisteredvetController;
 use App\Http\Controllers\Api\AddanimalController;
 use App\Http\Controllers\Api\RxreminderController;
+use App\Http\Controllers\Api\NotificationController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -39,6 +40,10 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
+	
+	Route::get('/get-notifications', [NotificationController::class,'getNotificationList']); 
+	Route::get('/get-notification-details', [NotificationController::class,'getNotificationDetails']); 
+	
 	Route::get('/setting', [CommonController::class,'getSetting']); 
     
 	});

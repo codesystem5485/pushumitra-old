@@ -52,8 +52,10 @@ class RxreminderController extends BaseController
 		
 		DB::beginTransaction();
         try{ 
+		
 			$aInsertData = $request->all();
 			$roleId = null;
+			
 			if($aInsertData['role']=="Pashumitra"){
 				$roleId = 8;
 			}elseif($aInsertData['role']=="Registered-vet")
@@ -69,6 +71,12 @@ class RxreminderController extends BaseController
             
 			$aInsertData['role_id'] =$roleId;
             $rxreminder = $this->rxreminderRepo->create($aInsertData);
+			
+			//add to notifications
+			$aInsertData['sender_user_id'] = $aInsertData['animal_owner_id'];
+			$aInsertData['rx_reminder_id'] = $rxreminder->id;
+			$aInsertData['title'] = "Rx Reminder";
+			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
 
             DB::commit();
             ## Store log

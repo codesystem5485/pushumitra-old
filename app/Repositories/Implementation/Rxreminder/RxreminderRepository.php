@@ -4,6 +4,7 @@ namespace App\Repositories\Implementation\Rxreminder;
 
 use App\Base\BaseRepository;
 use App\Models\Rxreminder;
+use App\Models\Notifications;
 use App\Repositories\Interfaces\Rxreminder\RxreminderRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -82,4 +83,18 @@ class RxreminderRepository extends BaseRepository implements RxreminderRepositor
         return  $this->rxreminderModel->with($input)->orderBy('id', 'ASC')
         ->get();
     }
+	
+	public function addReminderToNotifications(array $input){
+		
+		$insertArray = array(
+				'message' =>$input['scheduled_message'],
+				'scheduled_date' => $input['scheduled_date'],
+				'sender_user_id' => $input['sender_user_id'],
+				'rx_reminder_id' => $input['rx_reminder_id'],
+				'title' => $input['title'],
+			);
+			
+		$response = Notifications::create($insertArray);
+			
+	}
 }
