@@ -41,7 +41,7 @@ class AddanimalController extends BaseController
     public function addAnimal(Request $request){
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'UID_number' => 'required',
+				//'UID_number' => 'required',
 				'name' => 'required',
 				'species' => 'required',
 				'breed' => "required",
@@ -49,6 +49,7 @@ class AddanimalController extends BaseController
 				'age' => 'required|numeric',
 				'sex' => 'required|string',
 				'description' => 'required',
+				'animal_owner_id' => 'required',
 				
 			]);
 			
@@ -60,7 +61,16 @@ class AddanimalController extends BaseController
         DB::beginTransaction();
         try{      
 			$response = [];		
-            $aInsertData = $request->all();
+           
+			$aInsertData['name'] = $postData['name'];
+			$aInsertData['animal_owner'] = $postData['animal_owner_id'];
+			$aInsertData['description'] = $postData['description'];
+			$aInsertData['sex'] = $postData['sex'];
+			$aInsertData['age'] = $postData['age'];
+			$aInsertData['species'] = $postData['species'];
+			$aInsertData['breed'] = $postData['breed'];
+			$aInsertData['user_id'] = $postData['user_id'];
+			
             $addAnimal = $this->addAnimalRepo->create($aInsertData);
             if($request->animal_photo)
             {
