@@ -26,7 +26,7 @@ class RegisteredvetProcessRequest extends FormRequest
         $request =  [
             'full_name' => 'required',
             'email' => "nullable|unique:users,email,{$this->id}",
-            'mobile_number' => "required|max:10|unique:users,mobile_number,{$this->id}",
+            'mobile_number' => "required|numeric|digits:10|unique:users,mobile_number,{$this->id}",
             'address_line_1' => 'required|string',
             'district' => 'nullable|string',
             'taluka' => 'nullable|string',

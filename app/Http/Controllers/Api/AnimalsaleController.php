@@ -53,9 +53,9 @@ class AnimalsaleController extends BaseController
 				'city_town' => 'required|string',
 				//'district' => 'string',
                 //'taluka' => 'string',
-                'pincode' => 'required|numeric',
+                'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
-				'contact_number_of_owner' => 'required|numeric|min:10',
+				'contact_number_of_owner' => 'required|numeric|digits:10',
 				'contact_name_of_owner' => 'required',
 				'pm_code'=>'required',
 				'payment_id'=>'required',
@@ -136,7 +136,6 @@ class AnimalsaleController extends BaseController
 		->select('animal_for_sales.*','breeds.breed','species.specie as species')
 		->where('animal_for_sales.id',$id)
 		->first();
-		
 		
 		$animalimages=array();
 		if($animalsale){

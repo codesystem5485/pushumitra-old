@@ -60,13 +60,13 @@ class AuthController extends BaseController
                 'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|max:10|numeric|unique:users',
+                'mobile_number' => 'required|numeric|digits:10|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'city_town' => 'required|string',
 				//'district' => 'string',
                 //'taluka' => 'string',
-                'pincode' => 'required|numeric|min:6',
+                'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
                
             ]);
@@ -78,14 +78,14 @@ class AuthController extends BaseController
                 'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|max:10|numeric|unique:users',
+                'mobile_number' => 'required|numeric|digits:10|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
 				'district' => 'nullable|string',
                 'taluka' => 'nullable|string',
-                'pincode' => 'required|numeric|min:6',
+                'pincode' => 'required|numeric|digits:6',
                  
             ]);
         }
@@ -96,14 +96,14 @@ class AuthController extends BaseController
                 'email' => 'nullable|string|email|max:255|unique:users',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|max:10|numeric|unique:users',
+                'mobile_number' => 'required|numeric|digits:10|unique:users',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
 				'city_town' => 'required|string',
 				'district' => 'nullable|string',
                 'taluka' => 'nullable|string',
-                'pincode' => 'required|numeric|min:6',
+                'pincode' => 'required|numeric|digits:6',
             ]);
         }
         if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
@@ -113,7 +113,7 @@ class AuthController extends BaseController
                 'middle_name' => 'string|max:255',
                 'last_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'mobile_number' => 'required|numeric|unique:users',
+                'mobile_number' => 'required|numeric|digits:10|unique:users',
                 'password' => 'required',
                 'confirm_password' => 'required',
             ]);

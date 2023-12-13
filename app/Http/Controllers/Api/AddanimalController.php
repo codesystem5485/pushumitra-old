@@ -57,6 +57,12 @@ class AddanimalController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
+		
+		$checkAnimalName = Animals::where('name',$postData['name'])->where('animal_owner',$postData['user_id'])->count();
+		if($checkAnimalName > 0){
+			
+			return  $this->sendError([],trans('messages.animal_name_exists'),400);
+		}
         
         DB::beginTransaction();
         try{      
@@ -103,17 +109,15 @@ class AddanimalController extends BaseController
 	
 	public function getAnimalList(Request $request)
 	{
+		$postData = request()->all();
 		$response['animals']  =   Animals::leftJoin('breeds', 'breeds.id', '=', 'animals.breed')
 		->leftJoin('species', 'species.id', '=', 'animals.species')
 		->select( 'animals.*','breeds.breed','species.specie as species',
             DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
-          
-		   ->orderBy('animals.id','ASC')->get();
-		   $response['animal_image_path'] =  url("/upload/animal/");
+          ->where('animals.animal_owner',$postData['user_id'])
+		  ->orderBy('animals.id','ASC')->get();
+		  $response['animal_image_path'] =  url("/upload/animal/");
 			
 		return $this->sendResponse($response,"",200);
 	}
-
-   
-
 }
