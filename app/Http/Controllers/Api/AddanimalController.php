@@ -40,9 +40,16 @@ class AddanimalController extends BaseController
      */
     public function addAnimal(Request $request){
 		$postData = request()->all();
+		
+		if($postData['name']=='' && $postData['UID_number']=='')
+		{
+			$errmessage = trans('messages.enter_name_or_uid');
+			return $this->sendError([],$errmessage,400);
+		}
+		
 		$validator = Validator::make($postData, [
 				//'UID_number' => 'required',
-				'name' => 'required',
+				//'name' => 'required',
 				'species' => 'required',
 				'breed' => "required",
 				'user_id' => "required",
@@ -76,6 +83,7 @@ class AddanimalController extends BaseController
 			$aInsertData['species'] = $postData['species'];
 			$aInsertData['breed'] = $postData['breed'];
 			$aInsertData['user_id'] = $postData['user_id'];
+			$aInsertData['UID_number'] = $postData['UID_number'];
 			
             $addAnimal = $this->addAnimalRepo->create($aInsertData);
             if($request->animal_photo)

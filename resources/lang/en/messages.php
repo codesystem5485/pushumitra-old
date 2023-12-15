@@ -75,6 +75,7 @@ return [
 	'add_animal_create' => 'Animal has been created',
 	'rxreminder_create' => 'Rxreminder has been created',
 	'animal_name_exists' => 'Animal name has been already taken.Please try another one',
+	'enter_name_or_uid' => 'Please enter animal name or UID number',
 	
 	'breeder_create' => 'Breeder (:name) has been created', 
     'breeder_update' => 'Breeder (:name) has been updated',  
