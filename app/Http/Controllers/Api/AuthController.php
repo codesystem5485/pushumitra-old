@@ -1557,7 +1557,9 @@ PASHU MITRA ENTERPRISES';
 		$checkOtpArr = MobileVerification::where('mobile_number',$postData['mobile_number'])
 		->where('otp',$postData['otp'])
 		->where('module_type',$postData['module_type'])
-		->where('is_verified',0)->first();
+		->where('is_verified',0)
+		->orderBy('id','DESC')
+		->first();
 
 		## check otp expiration time
 		if(strtotime(now()) >strtotime($checkOtpArr->otp_expiration)){
