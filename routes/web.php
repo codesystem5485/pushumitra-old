@@ -23,6 +23,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Front\FrontPagesController;
 use App\Http\Controllers\Backend\ContentManagementController;
+use App\Http\Controllers\Crons\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,7 @@ Front Website
 
 */
 
+Route::get('notifications/getNotificationsToSend', [NotificationController::class, 'getNotificationsToSend'])->name('getNotificationsToSend');
 
 Route::get('/home', [FrontPagesController::class, 'index'])->name('index');
 Route::get('/about-us', [FrontPagesController::class, 'aboutus'])->name('about-us');

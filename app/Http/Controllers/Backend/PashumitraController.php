@@ -212,6 +212,11 @@ class PashumitraController extends BaseController
 				$birthDate = date('Y-m-d',strtotime($request->date_of_birth));
 			}
 			
+			$nomineeBirthDate = '';
+			if($request->pm_nominee_dob!=''){
+				$nomineeBirthDate = date('Y-m-d',strtotime($request->pm_nominee_dob));
+			}
+			
 			$param['full_name'] = $request->full_name;
 			$param['email'] = $request->email;
 			$param['address_line_1'] = $request->address_line_1;
@@ -230,7 +235,7 @@ class PashumitraController extends BaseController
 			$paramDetail['job_type'] = $request->job_type;
 			$paramDetail['pm_name_of_org'] = $request->pm_name_of_org;
 			$paramDetail['pm_nominee_name'] = $request->pm_nominee_name;
-			$paramDetail['pm_nominee_dob'] = date('Y-m-d',strtotime($request->pm_nominee_dob));
+			$paramDetail['pm_nominee_dob'] = $nomineeBirthDate;
 			$paramDetail['pm_nominee_relationship'] = $request->pm_nominee_relationship;
 			$paramDetail['pm_bank_name'] = $request->pm_bank_name;
 			$paramDetail['pm_account_no'] = $request->pm_account_no;
@@ -255,8 +260,6 @@ class PashumitraController extends BaseController
 				$oUser = $this->userDetailRepo->create($paramDetail);
 			}
 			
-           
-            
             DB::commit(); 
             Session::flash('success', trans('messages.update_records'));
             ## Store log

@@ -27,7 +27,7 @@ return [
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],
 	'age_array' => ['0-6 months','6-12 months','1-3 years','3 & above'],
-	'jobtype_array' => ['Parivate','Public','Unemployed'],
+	'jobtype_array' => ['Private','Public','Unemployed'],
     'permissions' => [
         'role-list',
         'role-create',

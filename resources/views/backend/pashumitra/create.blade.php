@@ -51,7 +51,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Email :</span>
                         </div>
-                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="off">
+                        <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="email" value="@if(empty($user)){{old('email')}}@else{{$user->email}}@endif"placeholder="Email Id" autocomplete="false">
                         <div><span>{{ $errors->first('email') }}</span></div>
                     </div> 
 					
@@ -106,15 +106,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">City/Town* :</span>
                         </div>
-                        <input type="hidden"  id="city_id" name="city_id" value="@if(empty($user)){{old('city_id')}}@else{{$user->city_id}}@endif" />
-                        <select id="city_town" class="form-control" aria-describedby="basic-addon3" name="city_town">
-                            <option value="">{{ __('general.select_city') }}</option>
-                        @if(!empty($cities) && !empty($user))
-                            @foreach($cities as $city)
-                            <option @if($city->city_id==$user->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
-                            @endforeach
-                            @endif
-                        </select>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($user)){{old('city_town')}}@else{{$user->city_town}}@endif"placeholder="City/Town" autocomplete="off">
+                        
                         <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
 
@@ -168,6 +161,12 @@
                         <div><span>{{ $errors->first('nationality') }}</span></div>
                     </div>
 					-->
+					@php
+					if(isset($users))
+					{
+						if($user->date_of_birth!=''
+					}	
+					@endphp
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Date of Birth :</span>
@@ -219,17 +218,17 @@
 
                      <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Name of organization working with* :</span>
+                            <span class="input-group-text">Name of organization working with :</span>
                         </div>
-                        <input type="text" id="pm_name_of_org" class="form-control" aria-describedby="basic-addon3" name="pm_name_of_org" value="@if(empty($user)){{old('pm_name_of_org')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_name_of_org}}@endif" placeholder="Name of organization working with" required><br>
+                        <input type="text" id="pm_name_of_org" class="form-control" aria-describedby="basic-addon3" name="pm_name_of_org" value="@if(empty($user)){{old('pm_name_of_org')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_name_of_org}}@endif" placeholder="Name of organization working with"><br>
                         <div><span>{{ $errors->first('pm_name_of_org') }}</span></div>
                     </div>
 
                   <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Nominee Name* :</span>
+                            <span class="input-group-text">Nominee Name :</span>
                         </div>
-                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_nominee_name}}@endif" placeholder="Nominee Name" required><br>
+                        <input type="text" id="pm_nominee_name" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_name" value="@if(empty($user)){{old('pm_nominee_name')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_nominee_name}}@endif" placeholder="Nominee Name"><br>
                         <div><span>{{ $errors->first('pm_nominee_name') }}</span></div>
                     </div>
                     
@@ -237,31 +236,31 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Nominee Date of Birth :</span>
                         </div>
-                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="pm_nominee_dob" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_dob" value="@if(empty($user)){{old('pm_nominee_dob')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_dob}} @endif" placeholder="Nominee Date of Birth" required><br>
+                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="pm_nominee_dob" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_dob" value="@if(empty($user)){{old('pm_nominee_dob')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_dob}} @endif" placeholder="Nominee Date of Birth"><br>
                         <div><span>{{ $errors->first('pm_nominee_dob') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Relation with Nominee* :</span>
+                            <span class="input-group-text">Relation with Nominee :</span>
                         </div>
-                        <input type="text" id="pm_nominee_relationship" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_relationship" value="@if(empty($user)){{old('pm_nominee_relationship')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_relationship}} @endif" placeholder="Relation with Nominee" required><br>
+                        <input type="text" id="pm_nominee_relationship" class="form-control" aria-describedby="basic-addon3" name="pm_nominee_relationship" value="@if(empty($user)){{old('pm_nominee_relationship')}}@elseif(isset($user->getUserDetail)){{ $user->getUserDetail->pm_nominee_relationship}} @endif" placeholder="Relation with Nominee"><br>
                         <div><span>{{ $errors->first('pm_nominee_relationship') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Aadhar card number* :</span>
+                            <span class="input-group-text">Aadhar card number :</span>
                         </div>
-                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_no}}@endif" placeholder="Aadhar card number" required><br>
+                        <input type="text" id="pm_aadhar_no" class="form-control" aria-describedby="basic-addon3" name="pm_aadhar_no" value="@if(empty($user)){{old('pm_aadhar_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_aadhar_no}}@endif" placeholder="Aadhar card number"><br>
                         <div><span>{{ $errors->first('pm_aadhar_no') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">PAN Card Number* :</span>
+                            <span class="input-group-text">PAN Card Number :</span>
                         </div>
-                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_pan_no}}@endif" placeholder="PAN Card Number" required><br>
+                        <input type="text" id="pm_pan_no" class="form-control" aria-describedby="basic-addon3" name="pm_pan_no" value="@if(empty($user)){{old('pm_pan_no')}}@elseif(isset($user->getUserDetail)){{$user->getUserDetail->pm_pan_no}}@endif" placeholder="PAN Card Number"><br>
                         <div><span>{{ $errors->first('pm_pan_no') }}</span></div>
                     </div>
 
@@ -275,25 +274,25 @@
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Bank Name* :</span>
+                            <span class="input-group-text">Bank Name :</span>
                         </div>
-                        <input type="text" id="pm_bank_name" class="form-control" aria-describedby="basic-addon3" name="pm_bank_name" value="@if(empty($user)){{old('pm_bank_name')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_bank_name}} @endif" placeholder="Bank Name" required><br>
+                        <input type="text" id="pm_bank_name" class="form-control" aria-describedby="basic-addon3" name="pm_bank_name" value="@if(empty($user)){{old('pm_bank_name')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_bank_name}} @endif" placeholder="Bank Name"><br>
                         <div><span>{{ $errors->first('pm_bank_name') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Bank Account Number* :</span>
+                            <span class="input-group-text">Bank Account Number :</span>
                         </div>
-                        <input type="text" id="pm_account_no" class="form-control" aria-describedby="basic-addon3" name="pm_account_no" value="@if(empty($user)){{old('pm_account_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_account_no}} @endif" placeholder="Bank Account Number" required><br>
+                        <input type="text" id="pm_account_no" class="form-control" aria-describedby="basic-addon3" name="pm_account_no" value="@if(empty($user)){{old('pm_account_no')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_account_no}} @endif" placeholder="Bank Account Number"><br>
                         <div><span>{{ $errors->first('pm_account_no') }}</span></div>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Bank IFSC Code* :</span>
+                            <span class="input-group-text">Bank IFSC Code :</span>
                         </div>
-                        <input type="text" id="pm_ifsc_code" class="form-control" aria-describedby="basic-addon3" name="pm_ifsc_code" value="@if(empty($user)){{old('pm_ifsc_code')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_ifsc_code}} @endif" placeholder="IFSC code" required><br>
+                        <input type="text" id="pm_ifsc_code" class="form-control" aria-describedby="basic-addon3" name="pm_ifsc_code" value="@if(empty($user)){{old('pm_ifsc_code')}}@elseif(isset($user->getUserDetail)) {{ $user->getUserDetail->pm_ifsc_code}} @endif" placeholder="IFSC code"><br>
                         <div><span>{{ $errors->first('pm_ifsc_code') }}</span></div>
                     </div>
 

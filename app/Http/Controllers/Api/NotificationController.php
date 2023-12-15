@@ -57,11 +57,16 @@ class NotificationController extends BaseController
 		}
 		
 		$response = [];
-		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
-			->select('notifications.*')
-			->where('notifications.id',$postData['notification_id'])->get();
+		$notifications = Notifications::select('notifications.*')
+			->where('notifications.id',$postData['notification_id'])->first();
+			if($notifications){
+				if($notifications->read_flag==0){
+					$array = array('read_flag'=> 1);
+					$update = Notifications::where('id',$notifications->id)->update($array);
+				}
+					
+			}
 		$response['notifications'] = $notifications;
-		
 		return $this->sendResponse($response,'',200);
 	}
 	

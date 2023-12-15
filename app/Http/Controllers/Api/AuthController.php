@@ -657,6 +657,11 @@ class AuthController extends BaseController
 						return  $this->sendError($response,trans('messages.not_able_to_upload_profile_photo'),500);
 					}
 				}
+				
+				$birthDate = '';
+				if($request->date_of_birth!=''){
+					$birthDate = date('Y-m-d',strtotime($request->date_of_birth));
+				}
 		
 		 if($postData['role']=='Pashumitra')
             {
@@ -671,7 +676,7 @@ class AuthController extends BaseController
                 $param['pincode'] = $postData['pincode']; 
                 $param['sex'] = $postData['sex']; 
                //$param['age'] = $postData['age'];
-                $param['date_of_birth'] = $postData['date_of_birth'];
+                $param['date_of_birth'] = $birthDate;
 				
 				//get latitude , longitude
 				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
@@ -709,7 +714,7 @@ class AuthController extends BaseController
                 $param['pincode'] = $postData['pincode']; 
                 $param['sex'] = $postData['sex']; 
                //$param['age'] = $postData['age'];
-                $param['date_of_birth'] = $postData['date_of_birth'];
+                $param['date_of_birth'] = $birthDate;
 				//get latitude , longitude
 				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
 				
@@ -746,7 +751,7 @@ class AuthController extends BaseController
                 $param['pincode'] = $postData['pincode']; 
                 $param['sex'] = $postData['sex']; 
                //$param['age'] = $postData['age'];
-                $param['date_of_birth'] = $postData['date_of_birth'];
+                $param['date_of_birth'] = $birthDate;
 				
 				//get latitude , longitude
 				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
@@ -769,8 +774,6 @@ class AuthController extends BaseController
                 storeActicityLog(trans('messages.update'),$message,$userData,$oUser);
                 return $this->sendResponse($response,trans('messages.update_records'),200);
             }
-            
-			
 		}
 		catch(\Exception $e){  
                 DB::rollback();
@@ -1028,8 +1031,13 @@ class AuthController extends BaseController
 		
 		 if($postData['role']=='Pashumitra')
             {
+				$nomineeBirthDate = '';
+				if($request->pm_nominee_dob!=''){
+					$nomineeBirthDate = date('Y-m-d',strtotime($request->pm_nominee_dob));
+				}
+			
 				$paramDetail['pm_nominee_name'] = $request->pm_nominee_name;
-				$paramDetail['pm_nominee_dob'] = date('Y-m-d',strtotime($request->pm_nominee_dob));
+				$paramDetail['pm_nominee_dob'] = $nomineeBirthDate;
 				$paramDetail['pm_nominee_relationship'] = $request->pm_nominee_relationship;
 				$paramDetail['pm_bank_name'] = $request->pm_bank_name;
 				$paramDetail['pm_account_no'] = $request->pm_account_no;
@@ -1271,6 +1279,72 @@ class AuthController extends BaseController
 		return $this->sendResponse($response,trans('messages.otp_send'),200);
 	}
 	
+	public function sendMobileVerificationSms($input)
+	{
+			$otp =$input['otp'];
+			//Multiple mobiles numbers separated by comma
+			$mobileNumber = $input['mobile_number'];
+
+			//Sender ID,While using route4 sender id should be 6 characters long.
+			$senderId = "PSHMTR";
+
+			//Define route 
+			$route = "4";
+			$tempId = '1207170184646610591';
+
+			$authKey ='409794AsfxhK43RuD5654f442cP1';
+			$msg = 'Hello! Your pashumitra application verification code is "'.$otp.'". Please enter this code to verify your mobile number.
+Thank you.
+--
+PASHU MITRA ENTERPRISES';
+
+			$message =urlencode($msg);
+
+					 $postData = array(
+			   'authkey' => $authKey,
+				'mobiles' => $mobileNumber,
+				'message' => $message,
+				'sender' => $senderId,
+				'route' => $route,
+				'country'=>'91',
+				'DLT_TE_ID'=>$tempId,
+			);
+
+			$url1 = "https://sms.happysms.in/api/sendhttp.php";
+			$urlNw =$url1.'?'.http_build_query($postData);
+
+
+			// init the resource
+			$ch = curl_init();
+			curl_setopt_array($ch, array(
+				CURLOPT_URL => $url1,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_POST => true,
+				CURLOPT_POSTFIELDS => $postData,
+				//CURLOPT_FOLLOWLOCATION => true
+			));
+
+
+			//Ignore SSL certificate verification
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+			//get response
+			$output = curl_exec($ch);
+
+			//Print error if any
+			if(curl_errno($ch))
+			{
+				echo 'error:' . curl_error($ch);
+			}
+			//echo $output;
+
+			curl_close($ch);
+			
+			return true;
+	}
+	
+	
 	public function sendRegistrationSms($input)
 	{
 			$otp =$input['otp'];
@@ -1449,7 +1523,7 @@ PASHU MITRA ENTERPRISES';
 					'otp'=>$response['otp'],
 					'mobile_number'=>'91'.$postData['mobile_number'],
 				);
-		$res = $this->sendRegistrationSms($smsInfo);
+		$res = $this->sendMobileVerificationSms($smsInfo);
 				
 		return $this->sendResponse($response,trans('messages.otp_send'),200);
 	}

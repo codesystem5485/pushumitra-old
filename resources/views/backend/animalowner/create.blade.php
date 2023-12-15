@@ -105,15 +105,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">City/Town* :</span>
                         </div>
-                        <input type="hidden"  id="city_id" name="city_id" value="@if(!empty($user)){{$user->city_id}}@endif" />
-                        <select id="city_town" class="form-control" aria-describedby="basic-addon3" name="city_town">
-                            <option value="">{{ __('general.select_city') }}</option>
-                        @if(!empty($cities) && !empty($user))
-                            @foreach($cities as $city)
-                            <option @if($city->city_id==$user->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
-                            @endforeach
-                            @endif
-                        </select>
+                        
+						<input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($user)){{old('city_town')}}@else{{$user->city_town}}@endif"placeholder="City/Town" autocomplete="off">
                         <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
 				
