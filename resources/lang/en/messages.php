@@ -76,6 +76,7 @@ return [
 	'rxreminder_create' => 'Rxreminder has been created',
 	'animal_name_exists' => 'Animal name has been already taken.Please try another one',
 	'enter_name_or_uid' => 'Please enter animal name or UID number',
+	'invalid_schedule_date' => 'Schedule date is less than todays date',
 	
 	'breeder_create' => 'Breeder (:name) has been created', 
     'breeder_update' => 'Breeder (:name) has been updated',  

@@ -64,13 +64,13 @@
         </div>
     </div>
 
-    <div class="hero3 mb-90">
+    <!--<div class="hero3 mb-90">
         <div class="background-text">
             <h2 class="marquee_text"><img src="{{asset('front/assets/images/icon/marque-foot.svg')}}" alt="image"><span>Get exciting
                     Discount</span> Up To 50%<img src="{{asset('front/assets/images/icon/marque-foot.svg')}}" alt="image"><span>On Your
                     first buying</span> Up To 50%</h2>
         </div>
-    </div>
+    </div>-->
 
     <div class="h2-services-area">
         <div class="services-btm pt-120 mb-120">
@@ -111,7 +111,7 @@
     </div>
 
 
-    <div class="h2-team-area mb-120">
+   <!-- <div class="h2-team-area mb-120">
         <div class="vector1">
             <img src="{{asset('front/assets/images/bg/team/team-vector-1.png')}}" alt>
 			
@@ -507,4 +507,5 @@
           
         </div>
     </div>
+	-->
 	@endsection

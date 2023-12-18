@@ -48,7 +48,17 @@ class RxreminderController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
-		 $response = [];
+		
+		if($postData['scheduled_date']!=''){
+			$errDateMessage = trans('messages.invalid_schedule_date');
+			$scheduledDate = date("Y-m-d",strtotime($postData['scheduled_date']));
+			$currentDate =date("Y-m-d");
+			if($scheduledDate <= $currentDate){
+				return $this->sendError([],$errDateMessage,400);
+			}
+		}
+		
+		$response = [];
 		
 		DB::beginTransaction();
         try{ 

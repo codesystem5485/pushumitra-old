@@ -179,6 +179,9 @@
                               <a href="{{url('pashumitra/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
                            </li>
                            @endif
+						   <li class="@if (\Request::is('pashumitra/fees')) active  @endif">
+                              <a href="{{url('pashumitra/fees')}}" class="" ><i class="icon-hourglass"></i> <span>Fees </span></a>
+                           </li>
                            @if(auth()->user()->can('animal-sale-list') || auth()->user()->can('animal-sale-create') || auth()->user()->can('animal-sale-edit') || auth()->user()->can('animal-sale-delete')) 
                            <li class="">
                               <a href="{{url('pashumitra/animal-sale')}}" class="@if (\Request::is('pashumitra/animal-sale')) active  @endif" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>

@@ -216,6 +216,17 @@ return [
 'cms_image1'=>"Page Image 1",
 'cms_image2'=>"Page Image 2",
 
+//fees management
+'fees_list'=>'Fees List',
+'fees_add'=>'Add Fees',
+'fees_edit'=>'Edit Fees',
+'fees_create'=>'Create Fees',
+'fees'=>'Fees Management',
+'fees_name'=>'Fees Title',
+'fees_amount'=>'Fees Amount',
+'fees_months'=>'Validity (In Months)',
+
+
 
 
 

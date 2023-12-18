@@ -24,6 +24,7 @@ use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Front\FrontPagesController;
 use App\Http\Controllers\Backend\ContentManagementController;
 use App\Http\Controllers\Crons\NotificationController;
+use App\Http\Controllers\Backend\FeesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -204,6 +205,21 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [BookController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [BookController::class, 'delete'])->name('delete'); 
         Route::get('/{file_name?}/download', [BookController::class, 'getDownload'])->name('download'); 
+        
+    });
+	
+	 //fees module
+    Route::group([
+        'prefix' => 'pashumitra/fees',
+        'as' => 'fees.',
+      ], function () {
+        Route::get('/', [FeesController::class, 'index'])->name('index');
+        Route::get('/create', [FeesController::class, 'create'])->name('create');
+        Route::post('/store', [FeesController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [FeesController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [FeesController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [FeesController::class, 'delete'])->name('delete'); 
+       
         
     });
 
