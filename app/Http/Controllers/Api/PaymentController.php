@@ -176,9 +176,9 @@ class PaymentController extends BaseController
 			}
 			
 			//registered vet sign up
-			if($roleId==7 && $type==1){
+			if($roleId==7 && $type==6){
 				if($payment)
-				{
+				{ 
 					//generate rv_code & update to user table
 					$param['rv_code'] = $this->userRepo->generateRegisteredvetCode();
 					$this->userRepo->update($aInsertData['user_id'],$param);  
