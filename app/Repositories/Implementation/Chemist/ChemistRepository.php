@@ -4,6 +4,7 @@ namespace App\Repositories\Implementation\Chemist;
 
 use App\Base\BaseRepository;
 use App\Models\Chemist;
+use App\Models\Fee;
 use App\Repositories\Interfaces\Chemist\ChemistRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -81,4 +82,23 @@ class ChemistRepository  extends BaseRepository implements ChemistRepositoryInte
         return  $this->chemistModelRepo->with($input)->orderBy('id', 'ASC')
         ->get();
     }
+	
+	//get chemist subscriptions date 
+	public function getSubscriptionDates(array $input)
+	{
+		$subscriptionStartDate = date("Y-m-d");
+		$subscriptionEndDate = '';
+		$feeDetails = Fee::where('id',$input['type'])->first();
+		if($feeDetails){
+			$months =$feeDetails->valid_months;
+			$subscriptionEndDate = date('Y-m-d', strtotime($subscriptionStartDate. ' + '.$months.' months'));
+		}
+		
+		$dateArray =array(
+			'subscriptionStartDate'=>$subscriptionStartDate,
+			'subscriptionEndDate'=>$subscriptionEndDate,
+		);
+		
+		return $dateArray;
+	}
 }

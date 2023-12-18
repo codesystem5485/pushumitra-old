@@ -523,13 +523,14 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$GOOGLE_API_KEY = 'AIzaSyBMNKT7xu6QAhJckofnXO_hFFB2OMs4u-s'; 
 		 
 		// Address from which the latitude and longitude will be retrieved 
-		$formatted_address = $address;
+		$formatted_address =$address;
 		//$formatted_address = str_replace(' ', '+', $address);
 		// Get geo data from Google Maps API by address 
 		$geocodeFromAddr = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$formatted_address}&key={$GOOGLE_API_KEY}"); 
 		 
 		// Decode JSON data returned by API 
-		$apiResponse = json_decode($geocodeFromAddr); 
+		$apiResponse = json_decode($geocodeFromAddr);
+		
 		 
 		// Retrieve latitude and longitude from API data 
 		$response = array();

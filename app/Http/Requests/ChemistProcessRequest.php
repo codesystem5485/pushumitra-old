@@ -25,14 +25,14 @@ class ChemistProcessRequest extends FormRequest
     {
         $request =  [
             'shop_name' => 'required',
-            'owner_name' => 'required',
-            'mobile_number' => "required|max:10",
+            'owner_name' => 'required|string',
+            'mobile_number' => "required|numeric|digits:10",
             'address_line_1' => 'required|string',
-            'address_line_2' => 'required|string',
-            'village' => 'required|string',
             'city_town' => 'required|string',
             'state' => 'required|string',
             'pincode' => 'required|numeric',
+			'taluka' => 'nullable|string',
+			'district' => 'nullable|string',
         ];
         if(!$this->id){
             // $request['password'] = 'required';

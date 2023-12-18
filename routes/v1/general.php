@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\RegisteredvetController;
 use App\Http\Controllers\Api\AddanimalController;
 use App\Http\Controllers\Api\RxreminderController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ChemistController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -26,6 +27,12 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Breeder */
 	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
 	
+	/* Add animal*/
+	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
+	
+	/* Add chemist*/
+	Route::post('/add-chemist', [ChemistController::class,'addChemist']); 
+	
 	/* Rxreminder */
 	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
 	Route::get('/get-animalowner-list', [RxreminderController::class,'getAnimalOwnerList']);
@@ -38,9 +45,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/create-payment', [PaymentController::class,'addPayments']);
 	Route::get('/get-config', [PaymentController::class,'getConfig']);
 	
-	/* Add animal*/
-	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
-	
 	Route::get('/get-notifications', [NotificationController::class,'getNotificationList']); 
 	Route::get('/get-notification-details', [NotificationController::class,'getNotificationDetails']); 
 	
@@ -52,7 +56,10 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/breeder-detail', [BreederController::class,'breederDetail']);
 	
 	Route::get('/animalsale-list', [AnimalsaleController::class,'getAnimalSaleList']);
-	Route::get('/animalsale-detail', [AnimalsaleController::class,'animalSaleDetail']);
+	Route::get('/animalsale-detail', [AnimalsaleController::class,'animalSaleDetail']); 
+	
+	Route::get('/chemist-list', [ChemistController::class,'getChemistList']);
+	Route::get('/chemist-detail', [ChemistController::class,'chemistDetail']);
 	
 	Route::get('/animal-list', [AddanimalController::class,'getAnimalList']);
 	Route::get('/animal-detail', [AddanimalController::class,'animalDetail']);

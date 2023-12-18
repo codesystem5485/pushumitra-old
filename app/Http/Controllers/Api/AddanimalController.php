@@ -72,8 +72,9 @@ class AddanimalController extends BaseController
 		}
         
         DB::beginTransaction();
+		$response = [];
         try{      
-			$response = [];		
+					
            
 			$aInsertData['name'] = $postData['name'];
 			$aInsertData['animal_owner'] = $postData['user_id'];

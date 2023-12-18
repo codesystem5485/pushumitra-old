@@ -150,47 +150,5 @@ class AnimalsaleController extends BaseController
         }
     }
 
-    /**
-     * Delete Animal for sale
-     * @param int $id (Animal for sale Id)
-     * @return Route
-     */
-    public function delete($id){ 
-        $animalsale = Animalforsale::where('id',$id)->first();
-        $animalImages = AnimalImages::where('animal_sale_id',$id)->get();
-        if($animalImages)
-        {
-            if(count($animalImages)>0)
-            {
-                foreach($animalImages as $image)
-                {
-                    $this->removeFile($image->image_name,'animalsale');
-                }
-            }
-        }
-        $animalImages = AnimalImages::where('animal_sale_id',$id)->delete();
-        // $animalImages->delete();
-        $animalsale->delete();
-        Session::flash('success', trans('messages.delete_records'));
-        
-        ## Store log
-        $message = trans('messages.animalsale_delete',['name' => $animalsale->UID_number]);
-        storeActicityLog(trans('messages.animalsale_delete'),$message,Auth::user(),$animalsale);
-        return redirect()->route('animal-sale.index');
-    }
-
-    public function removeImage($id)
-    {
-        $animalImage = AnimalImages::where('id',$id)->first();
-        $this->removeFile($animalImage->image_name,'animalsale');
-        $animalImage->delete();
-        // Session::flash('success', trans('messages.delete_records'));
-        
-        ## Store log
-        $message = trans('messages.animalsale_remove',['name' => $animalImage->id]);
-        storeActicityLog(trans('messages.animalsale_remove'),$message,Auth::user(),$animalImage);
-        // return redirect()->route('animal-sale.edit',$animalImage->id);
-        return true;
-    }
 
 }
