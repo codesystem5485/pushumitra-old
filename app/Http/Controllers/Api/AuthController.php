@@ -328,7 +328,8 @@ class AuthController extends BaseController
 				$param['api_token'] = $token;
 				$res = $this->userRepo->update($user->id,$param);
 				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
-				'is_verified' =>$user->is_verified ];
+				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,'pm_code'=>$user->pm_code,
+				'rv_code'=>$user->rv_code];
 				if($user->is_verified==0)
 				{
 					return $this->sendResponse($response,trans('messages.login_success_not_verified'),200); 
@@ -561,7 +562,7 @@ class AuthController extends BaseController
 			$userDetail['chequephoto_url']=url("/upload/cheque_photo/");
 			$userDetail['pancard_url']=url("/upload/pan_photo/");
 			$userDetail['recommendation_letter_url']=url("/upload/recommendation_letter/");
-			$userDetail['recommendation_letter_downloadurl']=url("/upload/pashumitra_certificate.pdf");
+			$userDetail['recommendation_letter_downloadurl']=url("/public/pashumitra_certificate.pdf");
 			
             return $this->sendResponse($userDetail,trans('messages.records_found'));
         }else{
