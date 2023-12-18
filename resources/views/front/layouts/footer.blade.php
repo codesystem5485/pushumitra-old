@@ -24,7 +24,8 @@
                                 <li><a href="{{url('/about-us')}}">About Us</a></li>
                                 <li><a href="{{url('/library')}}">Library</a></li>
                                 <li><a href="{{url('/contact-us')}}">Contact</a></li>
-                                <li><a href="{{url('/terms-conditions')}}">terms & conditions</a></li>
+                                <li><a href="{{url('/terms-conditions')}}">Terms & Conditions</a></li>
+								<li><a href="{{url('/privacy-policy')}}">Privacy Policy</a></li>
                             </ul>
                         </div>
                     </div>

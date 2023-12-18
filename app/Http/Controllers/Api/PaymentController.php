@@ -53,28 +53,6 @@ class PaymentController extends BaseController
 		return $this->sendResponse($response,"",200);
 	}
 	
-	
-	public function checkProfile($user_id,$role)
-	{
-		$completedProfile =0; 
-		$completedPayment =0;
-		$verified=0;		
-		
-		$select = ['*'];
-        
-		$with  = ['getUserDetail'];			
-		$userDetail = $this->userRepo->getSingleRecords($filter,$select,$with);
-		if($userDetail['full_name']!='' && $userDetail['mobile']!='' && $userDetail['date_of_birth']!='' &&
-		 $userDetail['gender']!=''  && $userDetail['city_town']!='' && $userDetail['pm_aadhar_no']!='' && 
-		 $userDetail['pm_pan_no']!='' && $userDetail['job_type']!=''){
-			 
-			 $completedProfile =1;
-		 }
-		 $verified=$userDetail['is_verified'];
-		
-		
-	}
-	
 	public function generatePaymentOrderId(Request $request){
 		
 		$postData = $request->all();
@@ -156,11 +134,12 @@ class PaymentController extends BaseController
 		$type = $aInsertData['type'];
 		$order_id =$aInsertData['order_id'];
 		
-		$paymentId =0;$status=0;$payment_request = '';
+		$paymentId =0;
+		$status=0;
+		$payment_request = '';
 		
-		if($aInsertData['payment_id']!=3 || $aInsertData['payment_id']!=''){
+		if($aInsertData['payment_id']!=''){
 			$paymentId =$aInsertData['payment_id'];
-			
 			$status = 1;
 		}
 		$jsonArr = '';
@@ -181,15 +160,27 @@ class PaymentController extends BaseController
 					//'payment_request' =>$payment_request,
 					'amount' =>$amount,
 					'type' =>$type,
-					 'module_details'=>$jsonArr 
+					'module_details'=>$jsonArr 
 				);
 			
 			$payment = Payments::create($insertArray);
+			
+			//pashumitra sign up
 			if($roleId==8 && $type==1){
 				if($payment)
 				{
 					//generate pm_code & update to user table
 					$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+					$this->userRepo->update($aInsertData['user_id'],$param);  
+				}
+			}
+			
+			//registered vet sign up
+			if($roleId==7 && $type==1){
+				if($payment)
+				{
+					//generate rv_code & update to user table
+					$param['rv_code'] = $this->userRepo->generateRegisteredvetCode();
 					$this->userRepo->update($aInsertData['user_id'],$param);  
 				}
 			}

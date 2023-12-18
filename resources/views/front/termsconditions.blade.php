@@ -40,8 +40,22 @@
             <p>We reserve the right to refuse any order placed through the Site. We may, in our sole discretion, limit or cancel quantities purchased per person, per household, or per order. These restrictions may include orders placed by or under the same customer account, the same payment method, and/or orders that use the same billing or shipping address. We reserve the right to limit or prohibit orders that, in our sole judgment, appear to be placed by dealers, resellers, or distributors.</p>
 
 
-            <h4>REFUNDS POLICY</h4>
-            <p>Please review our Return Policy posted on the Site prior to making any purchases.</p>
+            <h4>REFUNDS POLICY & CANCELLATION POLICY</h4>
+            <p>Refund Policy:
+In the event of a payment transaction failure, the company is committed to refunding the
+associated amount to the user's bank account. The refund process will be initiated promptly, and
+users can expect the refunded amount to be credited to their bank account within 7 business
+days. We strive to expedite this process to ensure a swift resolution for our users. </p>
+<p>Cancellation Policy:
+As of now, there is no specific cancellation policy in place. The company acknowledges that
+circumstances may arise where cancellations are necessary, and we are committed to
+addressing such situations on a case-by-case basis. Users are encouraged to reach out to our
+customer support for assistance in the event of cancellations.
+We value the satisfaction of our users, and any inquiries or concerns related to refunds or
+cancellations will be handled with utmost attention and efficiency.
+This policy is subject to change, and any modifications will be communicated through updates to
+this document. Users are advised to review this policy periodically for any changes.
+If you have any questions or require further clarification, please contact our customer support</p>
             <h4>PROHIBITED ACTIVITIES</h4>
             <p>You may not access or use the Site for any purpose other than that for which we make the Site available. The Site may not be used in connection with any commercial endeavors except those that are specifically endorsed or approved by us.&nbsp;</p>
             <p>As a user of the Site, you agree not to:</p>
@@ -106,8 +120,8 @@
             <p>You acknowledge and agree that any questions, comments, suggestions, ideas, feedback, or other information regarding the Site or the Marketplace Offerings ("Submissions") provided by you to us are non-confidential and shall become our sole property. We shall own exclusive rights, including all intellectual property rights, and shall be entitled to the unrestricted use and dissemination of these Submissions for any lawful purpose, commercial or otherwise, without acknowledgment or compensation to you. You hereby waive all moral rights to any such Submissions, and you hereby warrant that any such Submissions are original with you or that you have the right to submit such Submissions. You agree there shall be no recourse against us for any alleged or actual infringement or misappropriation of any proprietary right in your Submissions.&nbsp;</p>
             <h4>SITE MANAGEMENT</h4>
             <p>We reserve the right, but not the obligation, to: (1) monitor the Site for violations of these Terms of Use; (2) take appropriate legal action against anyone who, in our sole discretion, violates the law or these Terms of Use, including without limitation, reporting such user to law enforcement authorities; (3) in our sole discretion and without limitation, refuse, restrict access to, limit the availability of, or disable (to the extent technologically feasible) any of your Contributions or any portion thereof; (4) in our sole discretion and without limitation, notice, or liability, to remove from the Site or otherwise disable all files and content that are excessive in size or are in any way burdensome to our systems; and (5) otherwise manage the Site in a manner designed to protect our rights and property and to facilitate the proper functioning of the Site and the Marketplace Offerings.</p>
-            <h4>PRIVACY POLICY</h4>
-            <p>We care about data privacy and security. By using the Site or the Marketplace Offerings, you agree to be bound by our Privacy Policy posted on the Site, which is incorporated into these Terms of Use. Please be advised the Site and the Marketplace Offerings are hosted in India. If you access the Site or the Marketplace Offerings from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in India, then through your continued use of the Site, you are transferring your data to India, and you agree to have your data transferred to and processed in India.</p>
+            <!--<h4>PRIVACY POLICY</h4>
+            <p>We care about data privacy and security. By using the Site or the Marketplace Offerings, you agree to be bound by our Privacy Policy posted on the Site, which is incorporated into these Terms of Use. Please be advised the Site and the Marketplace Offerings are hosted in India. If you access the Site or the Marketplace Offerings from any other region of the world with laws or other requirements governing personal data collection, use, or disclosure that differ from applicable laws in India, then through your continued use of the Site, you are transferring your data to India, and you agree to have your data transferred to and processed in India.</p>-->
             <h4>TERM AND TERMINATION</h4>
             <p>These Terms of Use shall remain in full force and effect while you use the Site. WITHOUT LIMITING ANY OTHER PROVISION OF THESE TERMS OF USE, WE RESERVE THE RIGHT TO, IN OUR SOLE DISCRETION AND WITHOUT NOTICE OR LIABILITY, DENY ACCESS TO AND USE OF THE SITE AND THE MARKETPLACE OFFERINGS (INCLUDING BLOCKING CERTAIN IP ADDRESSES), TO ANY PERSON FOR ANY REASON OR FOR NO REASON, INCLUDING WITHOUT LIMITATION FOR BREACH OF ANY REPRESENTATION, WARRANTY, OR COVENANT CONTAINED IN THESE TERMS OF USE OR OF ANY APPLICABLE LAW OR REGULATION. WE MAY TERMINATE YOUR USE OR PARTICIPATION IN THE SITE AND THE MARKETPLACE OFFERINGS OR DELETE YOUR ACCOUNT AND ANY CONTENT OR INFORMATION THAT YOU POSTED AT ANY TIME, WITHOUT WARNING, IN OUR SOLE DISCRETION.&nbsp;</p>
             <p>If we terminate or suspend your account for any reason, you are prohibited from registering and creating a new account under your name, a fake or borrowed name, or the name of any third party, even if you may be acting on behalf of the third party. In addition to terminating or suspending your account, we reserve the right to take appropriate legal action, including without limitation pursuing civil, criminal, and injunctive redress.</p>

@@ -50,6 +50,10 @@ class FrontPagesController extends Controller
         return view('front.termsconditions'); 
     }
 	
+	public function privacyPolicy(){
+        return view('front.privacypolicy'); 
+    }
+	
 	public function getDownload($file_name){
 		$file = public_path()."/upload/book/".urldecode($file_name);
         $headers = array('Content-Type: application/pdf',

@@ -51,6 +51,7 @@ Route::get('/about-us', [FrontPagesController::class, 'aboutus'])->name('about-u
 Route::get('/contact-us', [FrontPagesController::class, 'contactus'])->name('contact-us');
 Route::get('/library', [FrontPagesController::class, 'library'])->name('library');
 Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions'])->name('terms-conditions');
+Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->name('privacy-policy');
 
 //Route::get('/test', [TestController::class, 'test'])->name('test'); 
 Route::get('/update-permission', [TestController::class, 'updatePermission']); 

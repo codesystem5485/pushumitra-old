@@ -348,6 +348,34 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $pm_code;
 	}
 	
+	public function generateRegisteredvetCode(){
+		
+		$workingRvcode = 0;
+		$user=User::select('rv_code')->where('rv_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
+		
+		if($user){ 
+			$existingRvcode = $user->rv_code;
+			if($existingRvcode!=''){
+				$existingRvcodeArr = explode('PM',$existingRvcode); 
+				if(count($existingRvcodeArr) ==2){
+					if(isset($existingRvcodeArr[1])){
+						$workingRvcode = $existingRvcodeArr[1];
+					}
+				}
+			}
+		}
+		
+		if($workingRvcode==0){
+			$workingRvcode = intval('0000000000');
+		}
+		
+		$new_index = str_pad($workingRvcode, 10, "0", STR_PAD_LEFT);
+		$newGeneretedRvcode = $new_index + 1;
+		$new_index1 = str_pad($newGeneretedRvcode, 10, "0", STR_PAD_LEFT);
+		$rv_code = "RV".$new_index1;
+		return $rv_code;
+	}
+	
 	public function checkPashumitraCode($pm_code)
 	{
 		/*$check = User::where('pm_code',$pm_code)->count();
@@ -411,7 +439,10 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	
 	public function checkUserRegistrationPayment($userId,$type)
 	{
-		$paymentflag= Payments::where('user_id',$userId)->where('type',$type)->where('status',1)->count();
+		$paymentflag= Payments::where('user_id',$userId)
+							->where('payment_id','!=','')
+							->where('type',$type)->where('status',1)
+							->count();
 		return $paymentflag;
 	}
 	
@@ -456,8 +487,14 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
 			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='')
 			 {
-				 
 				 $completedProfile =1;
+			 }
+			 $registrationPaytype = 6; // fee table registered vet registration
+			 $completedPayment = $this->checkUserRegistrationPayment($user_id,$registrationPaytype);
+			 if($completedPayment == 0){
+				 
+				 $paymentMsg = trans('messages.complete_payment');;
+				 $completedPayment =0;
 			 }
 		}
 		
