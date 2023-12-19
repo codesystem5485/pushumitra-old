@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Permission;
 use DB;
 use Session;
 use Auth;
+use App\Models\Species;
+
 class BreedController extends Controller
 {
     protected $url = '';
@@ -35,7 +37,8 @@ class BreedController extends Controller
      * @return View
      */
     public function index(){
-        $breeds = Breeds::orderBy('id','ASC')->get();
+        $breeds = Breeds::leftJoin('species', 'species.id', '=', 'breeds.species')
+		->select( 'breeds.*','species.specie as specie_name')->orderBy('id','DESC')->get();
         return view('backend.breed.index',['breeds'=>$breeds,'url' => $this->url]); 
     }
 
@@ -45,7 +48,8 @@ class BreedController extends Controller
      */
     public function create(){
         $permission = Permission::get();
-        return view('backend.breed.create',['permission'=>$permission,'url' => $this->url]); 
+		$species = Species::where('is_active','1')->get();
+        return view('backend.breed.create',['species'=>$species,'permission'=>$permission,'url' => $this->url]); 
     }
     /**
      * Store Breed
@@ -55,12 +59,17 @@ class BreedController extends Controller
      */
     public function store(Request $request){
         $this->validate($request, [
-            'breed' => 'required|unique:breeds,breed',            
+            'breed' => 'required|unique:breeds,breed',
+			'species' => 'required',            
         ]);
         DB::beginTransaction();
         try{
             
-            $breed = Breeds::create(['breed' => $request->input('breed')]);
+			$insertArray = array(
+									'breed'=>$request->input('breed'),
+									'species'=>	$request->input('species'),
+								 );
+            $breed = Breeds::create($insertArray);
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
@@ -87,7 +96,8 @@ class BreedController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $breed = Breeds::find($id);
-        return view('backend.breed.create',['breeds' => $breed,'url' => $this->url]);  
+		$species = Species::where('is_active','1')->get();
+        return view('backend.breed.create',['species'=>$species,'breeds' => $breed,'url' => $this->url]);  
     }
 
      /**
@@ -100,12 +110,16 @@ class BreedController extends Controller
     {
         $this->validate($request, [
             'breed' => 'required|unique:breeds,breed,'.$id,
+			 'species' => 'required',
             
         ]);
+		
+		
         DB::beginTransaction();
         try{
             $breed = Breeds::find($id);
             $breed->breed = $request->input('breed');
+			$breed->species = $request->input('species');
             $breed->save();
             DB::commit();
             Session::flash('success', trans('messages.update_records'));

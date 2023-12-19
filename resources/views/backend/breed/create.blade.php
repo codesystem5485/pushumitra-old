@@ -36,6 +36,19 @@
                 <form action="@if(empty($breeds)){{route('breed.store')}}@else{{route('breed.update',['id' => $breeds->id])}}@endif" method="post"> 
                     @csrf  
                 <div class="body">
+				 <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.species') }}* :</span>
+                        </div>
+                        <select class="form-control"  aria-describedby="basic-addon3" name="species" value="@if(empty($breeds)){{old('species')}}@else{{$breeds->species}}@endif"> 
+                            <option value="" > {{ __('general.select_species') }} </option>
+                            @if(!empty($species))
+                            @foreach($species as $spe)
+                                    <option @if(old('species')==$spe->id) selected='selected' @endif @if(!empty($breeds)) @if($breeds->species==$spe->id) selected='selected' @endif  @endif value="{{$spe->id}}">{{$spe->specie}}</option>                            
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">{{ __('general.breed') }}* :</span>

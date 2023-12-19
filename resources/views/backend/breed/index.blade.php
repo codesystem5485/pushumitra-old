@@ -32,14 +32,16 @@
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
                             <thead>
                             <tr>
-                                <th>{{ __('general.breed') }}</th>                                
+                                <th>{{ __('general.breed') }}</th> 
+								<th>{{ __('general.species') }}</th> 								
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($breeds as $type)
                             <tr>
-                                <td>{{$type->breed}}</td>                                 
+                                <td>{{$type->breed}}</td> 
+								<td>{{$type->specie_name}}</td>                                 
                                 <td>
                                     @can('breed-edit')
                                     <a href="{{route('breed.edit',['id' => $type->id])}}">

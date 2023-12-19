@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class Breeds extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = ['id','breed','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id','breed','species','created_at','updated_at','deleted_at'];
         
     public static  function boot()
     {
