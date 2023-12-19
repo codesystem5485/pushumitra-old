@@ -69,19 +69,6 @@
                         </select>
                     </div>
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.type') }}* :</span>
-                        </div>
-                        <select class="form-control"  aria-describedby="basic-addon3" name="type"  >
-                            <option value="">{{ __('general.select_type') }}</option>
-                            @if(!empty($animalType))
-                            @foreach($animalType as $typ)
-                                    <option @if(!empty($animalsale)) @if($animalsale->type==$typ->animal_type) selected='selected' @endif  @endif value="{{$typ->animal_type}}">{{$typ->animal_type}}</option>                            
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

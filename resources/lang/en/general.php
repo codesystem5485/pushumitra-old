@@ -40,6 +40,7 @@ return [
 'action'=>'Action',
 'edit'=>'Edit',
 'remove'=>'Remove',
+'detail'=>'Details',
 
 //animal type
 'animal_type_list'=>'Animal Type List',
@@ -173,6 +174,10 @@ return [
 'enter_address'=>'Enter Address',
 'select_sex'=>'Select Sex',
 'select_type'=>'Select Type',
+'owner_contact_name'=>'Owner Name',
+'owner_contact_number'=>'Owner Contact Number',
+'added_by'=>'Added By',
+'added_on'=>'Added On',
 
 
 //product sale

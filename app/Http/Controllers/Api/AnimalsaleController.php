@@ -40,7 +40,7 @@ class AnimalsaleController extends BaseController
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				//'UID_number' => 'required',
+				'UID_number' => 'nullable|numeric|digits:12',
 				'species' => 'required',
 				'breed' => "required",
 				//'type' => "required",
@@ -133,7 +133,7 @@ class AnimalsaleController extends BaseController
 		
 		$animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
 		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-		->select('animal_for_sales.*','breeds.breed','species.specie as species')
+		->select('animal_for_sales.*','breeds.breed','species.specie as specie_name')
 		->where('animal_for_sales.id',$id)
 		->first();
 		

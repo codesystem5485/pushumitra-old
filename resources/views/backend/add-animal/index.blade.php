@@ -45,7 +45,7 @@
                             <tr>
                                 <td>{{$type->UID_number}}</td>                                 
                                 <td>{{$type->getAnimalOwner->full_name}}</td>                                 
-                                <td>{{$type->mobile_number}}</td>                                 
+                                <td>{{$type->getAnimalOwner->mobile_number}}</td>                                 
                                 <td>{{$type->breed}}</td>                                 
                                 <td>{{$type->species}}</td>                                 
                                 <td>

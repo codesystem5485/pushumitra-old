@@ -35,28 +35,35 @@
                                 <th>{{ __('general.UID_number') }}</th>                                
                                 <th>{{ __('general.species') }}</th>                                
                                 <th>{{ __('general.breed') }}</th>                                
-                                <th>{{ __('general.type') }}</th>                                
-                                <th>{{ __('general.age') }}</th>                                
-                                <th>{{ __('general.sex') }}</th>                                
-                                <th>{{ __('general.contact_name') }}</th>                                
-                                <th>{{ __('general.contact_number') }}</th>                                
+                                                               
+                                <th>{{ __('general.added_on') }}</th>                                
+                                <th>{{ __('general.added_by') }}</th>                                
+                                <th>{{ __('general.owner_contact_name') }}</th>                                
+                                <th>{{ __('general.owner_contact_number') }}</th>                                
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($animalsale as $sale)
                             <tr>
+							@php
+							$startdate = '';
+							if($sale->subscriptionStartDate!=''){
+								$startdate = date("d-M-Y",strtotime($sale->subscriptionStartDate));
+							}
+							
+							@endphp
                                 <td>{{$sale->UID_number}}</td>                                 
-                                <td>{{$sale->species}}</td>                                 
-                                <td>{{$sale->breed}}</td>                                 
-                                <td>{{$sale->type}}</td>                                 
-                                <td>{{$sale->age}}</td>                                 
-                                <td>{{$sale->sex}}</td>                                 
+                                <td>{{$sale->species_name}}</td>                                 
+                                <td>{{$sale->breed_name}}</td>                                 
+                                                        
+                                <td>{{$startdate}}</td>                                 
+                                <td>{{$sale->pm_code}}</td>                                 
                                 <td>{{$sale->contact_name_of_owner}}</td>                                 
                                 <td>{{$sale->contact_number_of_owner}}</td>                                 
                                 <td>
                                     @can('animal-sale-detail')
-                                    <a href="{{route('animal-sale.detail',['id' => $sale->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 
+                                    <a href="{{route('animal-sale.detail',['id' => $sale->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 
                                     </button></a>
                                     @endcan
 

@@ -48,7 +48,11 @@ class AddanimalController extends Controller
      * @return View
      */
     public function index(){
-        $animals = Animals::with('getAnimalOwner')->orderBy('id','ASC')->get();//dd($animals);
+      //  $animals = Animals::with('getAnimalOwner')->orderBy('id','desc')->get();//dd($animals);
+		
+		$animals = Animals::with('getAnimalOwner')->leftJoin('breeds', 'breeds.id', '=', 'animals.breed')
+		->leftJoin('species', 'species.id', '=', 'animals.species')
+		->select( 'animals.*','breeds.breed','species.specie as species')->get();
         return view('backend.add-animal.index',['animals'=>$animals,'url' => $this->url]); 
     }
 

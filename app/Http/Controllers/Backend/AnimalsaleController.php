@@ -45,7 +45,9 @@ class AnimalsaleController extends Controller
      * @return View
      */
     public function index(){
-        $animalsale = Animalforsale::orderBy('id','ASC')->get();
+        $animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
+		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name')->orderBy('id','DESC')->get();
         return view('backend.animal-sale.index',['animalsale'=>$animalsale,'url' => $this->url]); 
     }
 
@@ -159,8 +161,13 @@ class AnimalsaleController extends Controller
     }
 
     public function detail(Request $request, $id = ''){
-        $animalsale = Animalforsale::find($id);
-        return view('backend.animal-sale.detail',['animalsale' => $animalsale,'url' => $this->url]);  
+        $animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
+		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select('animal_for_sales.*','breeds.breed as breed_name','species.specie as specie_name')
+		->where('animal_for_sales.id',$id)
+		->first();
+		$animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
+        return view('backend.animal-sale.detail',['animalsale' => $animalsale,'animalimages'=>$animalimages,'url' => $this->url]);  
     }
 
     /**

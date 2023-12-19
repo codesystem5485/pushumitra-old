@@ -48,7 +48,7 @@ class AddanimalController extends BaseController
 		}
 		
 		$validator = Validator::make($postData, [
-				//'UID_number' => 'required',
+				'UID_number' => 'nullable|numeric|digits:12',
 				//'name' => 'required',
 				'species' => 'required',
 				'breed' => "required",
