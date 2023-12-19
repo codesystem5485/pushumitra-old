@@ -45,9 +45,14 @@ class CommonController extends BaseController
     }
    
     public function getBreeds(){
-	   
-	 $response['breeds'] = Breeds::where('is_active','1')->get();
-	   return $this->sendResponse($response,"",200);
+		$postData = request()->all(); 
+		$breeds = Breeds::where('is_active','1');
+		if(isset($postData['species_id'])){
+		   $breeds = $breeds->where('species',$postData['species_id']);
+		}
+        $breeds =$breeds->get();
+		$response['breeds'] = $breeds;
+		return $this->sendResponse($response,"",200);
     }
 	
 	public function addOtpMobileVerification(Request $request)

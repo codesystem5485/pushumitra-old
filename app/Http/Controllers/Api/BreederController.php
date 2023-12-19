@@ -50,7 +50,7 @@ class BreederController extends BaseController
 				'taluka'=>'nullable|string',
 				'district'=>'nullable|string',
 				'pincode'=>'required|numeric|digits:6',
-				'pm_code'=>'required',
+				//'pm_code'=>'required',
 			]);
 			
 		if ($validator->fails())

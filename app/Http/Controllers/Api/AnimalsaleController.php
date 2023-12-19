@@ -57,7 +57,7 @@ class AnimalsaleController extends BaseController
 				'state_id' => 'required',
 				'contact_number_of_owner' => 'required|numeric|digits:10',
 				'contact_name_of_owner' => 'required',
-				'pm_code'=>'required',
+				//'pm_code'=>'required',
 				'payment_id'=>'required',
 			]);
 			
