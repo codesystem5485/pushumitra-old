@@ -25,6 +25,7 @@ use App\Http\Controllers\Front\FrontPagesController;
 use App\Http\Controllers\Backend\ContentManagementController;
 use App\Http\Controllers\Crons\NotificationController;
 use App\Http\Controllers\Backend\FeesController;
+use App\Http\Controllers\Backend\BreederController;
 
 /*
 |--------------------------------------------------------------------------
@@ -366,9 +367,24 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/store', [ContentManagementController::class, 'store'])->name('store'); 
         Route::get('/{id?}/edit', [ContentManagementController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [ContentManagementController::class, 'update'])->name('update'); 
-        Route::get('/{id?}/delete', [ContentManagementController::class, 'delete'])->name('delete'); 
-       
-        
+        Route::get('/{id?}/delete', [ContentManagementController::class, 'delete'])->name('delete');
+    });
+	
+	//Breeder module
+    Route::group([
+        'prefix' => 'pashumitra/breeders',
+        'as' => 'breeders.', 
+      ], function () {
+        Route::get('/', [BreederController::class, 'index'])->name('index');
+        Route::get('/create', [BreederController::class, 'create'])->name('create');
+        Route::get('/user-list', [BreederController::class, 'getAjaxUser'])->name('list');
+        Route::get('/get-role-user', [BreederController::class, 'getRoleWiseUser'])->name('role');
+        Route::post('/store', [BreederController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [BreederController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [BreederController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [BreederController::class, 'delete'])->name('delete');  
+        Route::get('/{id?}/detail', [BreederController::class, 'detail'])->name('detail');        
+        Route::get('/{id?}/remove', [BreederController::class, 'removeImage'])->name('remove');        
     });
     
 });

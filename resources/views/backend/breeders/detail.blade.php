@@ -8,13 +8,13 @@
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
-                    {{ __('general.animal-sale_details')}}
+                    {{ __('general.breeder_details')}}
                    </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.animal-sale_list')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.breeder_list')}}</a></li>
                     <li class="breadcrumb-item">
-                    {{ __('general.animal-sale_details')}}
+                    {{ __('general.breeder_details')}}
                     
                     </li>
                 </ul>
@@ -35,74 +35,68 @@
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.UID_number') }} :</span>
-                            <span class="">{{ $animalsale->UID_number}}</span>
+                            <span class="">{{ __('general.breeder_name') }} :</span>
+                            <span class="">{{ $breeder->breeder_name}}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.species') }} :</span>
-                            <span class="">{{ $animalsale->species_name }}</span>
+                            <span class="">{{ __('general.breeder_firm_reg_no') }} :</span>
+                            <span class="">{{ $breeder->firm_registration_number }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.breed') }} :</span>
-                            <span class="">{{ $animalsale->breed_name }}</span>
+                            <span class="">{{ $breeder->animal_breed }}</span>
                         </div>
                     </div>
                     
 					 <div class="mb-5">
                         <div class="">
+                            <span class="">{{ __('general.breeder_mobile_number') }} :</span>
+                            <span class="">{{ $breeder->mobile_number }}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.breeder_animal_description') }} :</span>
+                            <span class="">{{ $breeder->breeder_animal_description }}</span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
                             <span class="">{{ __('general.age') }} :</span>
-                            <span class="">{{ $animalsale->age }}</span>
+                            <span class="">{{ $breeder->age }}</span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.breeder_vaccination_done') }} :</span>
+                            <span class="">{{ $breeder->vaccination_done }}</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.sex') }} :</span>
-                            <span class="">{{ $animalsale->sex }}</span>
-                        </div>
-                    </div>
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">{{ __('general.contact_name_of_owner') }} :</span>
-                            <span class="">{{ $animalsale->contact_name_of_owner }}</span>
-                        </div>
-                    </div>
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">{{ __('general.contact_number_of_owner') }} :</span>
-                            <span class="">{{ $animalsale->contact_number_of_owner }}</span>
-                        </div>
-                    </div>
-					
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">{{ __('general.price') }} :</span>
-                            <span class="">{{ $animalsale->price }}</span>
+                            <span class="">{{ __('general.breeder_expected_price') }} :</span>
+                            <span class="">{{ $breeder->expected_price }}</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
                         <div class="">
                             <span class="">Address :</span>
-                            <span class="">{{ $animalsale->address_line_1." ".$animalsale->state.", ".$animalsale->city_town." ".$animalsale->taluka." ".$animalsale->district.", ".$animalsale->pincode }}</span>
+                            <span class="">{{ $breeder->address_line_1." ".$breeder->state.", ".$breeder->city_town." ".$breeder->taluka." ".$breeder->district.", ".$breeder->pincode }}</span>
                         </div>
                     </div>
 					
-					<div class="mb-5">
-                        <div class="">
-                            <span class="">{{ __('general.description') }} :</span>
-                            <span class="">{{ $animalsale->description }}</span>
-                        </div>
-                    </div>
 					
 					<div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.added_by') }} :</span>
-                            <span class="">{{ $animalsale->pm_code }}</span>
+                            <span class="">{{ $breeder->user_code }}</span>
                         </div>
                     </div>
 					
@@ -112,7 +106,7 @@
                             
                                 <div class="input-group mb-10" style="align:left;">
 								@foreach($animalimages as $value)
-                                    <img height="100" width="100"style="margin-left:10px;" src="{{ url("/upload/animalsale/")}}/{{$value->image_name}}" />
+                                    <img height="100" width="100"style="margin-left:10px;" src="{{ url("/upload/breeder/")}}/{{$value->image_name}}" />
                                  @endforeach
                                 </div>
                             

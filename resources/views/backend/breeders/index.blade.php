@@ -24,7 +24,7 @@
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('breeder-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.breeder_add') }} </a>
+                  <!--  <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.breeder_add') }} </a>-->
                     @endcan
                 </div>
                 <div class="body">

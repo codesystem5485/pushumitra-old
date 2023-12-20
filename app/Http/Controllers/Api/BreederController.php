@@ -39,7 +39,7 @@ class BreederController extends BaseController
 				//'firm_registration_number' => 'required',
 				'mobile_number' => "required|numeric|digits:10",
 				'animal_breed' => 'required',
-				'animal_description' => 'required',
+				//'animal_description' => 'required',
 				'age' => 'required|numeric',
 				'vaccination_done' => 'required',
 				'expected_price' => 'required',
@@ -121,8 +121,7 @@ class BreederController extends BaseController
 	public function breederDetail(Request $request)
 	{
 		$id = $request->breeder_id;
-		$breeder = Breeder::leftJoin('breeds', 'breeds.id', '=', 'breeders.animal_breed')
-		->select('breeders.*','breeds.breed as animal_breed')
+		$breeder = Breeder::select('breeders.*')
 		->where('breeders.id',$id)
 		->first();
 		

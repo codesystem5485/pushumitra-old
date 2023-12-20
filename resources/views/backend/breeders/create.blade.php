@@ -8,14 +8,14 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
-                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>@if(!empty($animalsale))
+                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>@if(!empty($breeders))
                     {{ __('general.breeder_edit') }}
                     @else
-                    {{ __('general.breeder_create') }}
+                    {{ __('general.breeder_edit') }}
                     @endif </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.animal-sale_list') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.breeder_list') }}</a></li>
                     <li class="breadcrumb-item">
                     @if(!empty($breeder))
                     {{ __('general.breeder_edit') }}
@@ -150,8 +150,8 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{ __('general.added_by') }}* :</span>
                         </div>
-                        <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($breeder)){{old('user_code')}}@else{{$breeder->user_code}}@endif"placeholder="Pincode" readonly><br>
-                        <div><span>{{ $errors->first('pincode') }}</span></div>
+                        <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($breeder)){{old('user_code')}}@else{{$breeder->user_code}}@endif"placeholder="{{ __('general.added_by') }}" readonly><br>
+                        <div><span>{{ $errors->first('added_by') }}</span></div>
                     </div>
 
                     

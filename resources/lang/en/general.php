@@ -246,6 +246,7 @@ return [
 'breeder_animal_description'=>'Animal Description',
 'breeder_vaccination_done'=>'Vaccination Done',
 'breeder_expected_price'=>'Expected Price',
+'breeder_details'=>'Breeder details'
 
 
 
