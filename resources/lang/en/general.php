@@ -30,9 +30,12 @@ return [
 'select_state'=>'Select State',
 'select_city'=>'Select City',
 'state'=>'State',
-'city'=>'City',
+'city'=>'City/Town',
 'village'=>'Village',
 'pincode'=>'Pincode',
+'address'=>'Address',
+'taluka'=>'Taluka',
+'district'=>'District',
 //Button
 'btn_sending_pls_wait'=>'Sending, please wait...',
 
@@ -230,6 +233,22 @@ return [
 'fees_name'=>'Fees Title',
 'fees_amount'=>'Fees Amount',
 'fees_months'=>'Validity (In Months)',
+
+//breeder management
+'breeder_name'=>'Breeder Name',
+'breeder_list'=>'Breeder list',
+'breeder_edit'=>'Edit Breeder',
+'breeder_add'=>'Add Breeder',
+'breeder_mobile'=>'Mobile Number',
+'breeder_name'=>'Breeder Name',
+'breeder_firm_reg_no'=>'Firm Registration Number',
+'breeder_mobile_number'=>'Mobile Number',
+'breeder_animal_description'=>'Animal Description',
+'breeder_vaccination_done'=>'Vaccination Done',
+'breeder_expected_price'=>'Expected Price',
+
+
+
 
 
 

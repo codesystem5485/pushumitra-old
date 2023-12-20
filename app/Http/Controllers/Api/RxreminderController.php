@@ -37,7 +37,7 @@ class RxreminderController extends BaseController
 				'animal_id' => 'required',
 				//'UID_number' => 'required',
 				'prescription' => "required",
-				'description' => "required",
+				//'description' => "required",
 				//'scheduled_date' => 'required',
 				//'scheduled_message' => 'required',
 				'user_id' => 'required',
@@ -164,9 +164,7 @@ class RxreminderController extends BaseController
 		
 		$response = [];
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
-			->leftJoin('breeds', 'breeds.id', '=', 'animals.breed')
-			->leftJoin('species', 'species.id', '=', 'animals.species')
-			->select('animals.id as animal_id','animals.name','breeds.breed as breed_name','species.specie as species_name','animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
+			->select('animals.id as animal_id','animals.name','animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where('rx_reminders.user_id',$postData['user_id'])->groupBy('animal_id')->get();
 		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal/");
@@ -189,9 +187,7 @@ class RxreminderController extends BaseController
 		$response = [];
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
 			->leftJoin('users', 'users.id', '=', 'rx_reminders.animal_owner_id')
-			->leftJoin('breeds', 'breeds.id', '=', 'animals.breed')
-			->leftJoin('species', 'species.id', '=', 'animals.species')
-			->select('users.full_name as animal_owner_name','breeds.breed as breed_name','species.specie as species_name','rx_reminders.*','animals.id','animals.name','animals.UID_number',
+			->select('users.full_name as animal_owner_name','rx_reminders.*','animals.id','animals.name','animals.UID_number',
 			'animals.UID_number',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where('rx_reminders.animal_id',$postData['animal_id'])
 			->where('rx_reminders.user_id',$postData['user_id'])->get();

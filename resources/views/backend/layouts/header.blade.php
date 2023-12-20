@@ -187,6 +187,10 @@
                               <a href="{{url('pashumitra/animal-sale')}}" class="@if (\Request::is('pashumitra/animal-sale')) active  @endif" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>
                            </li>
                            @endif
+						   
+						   <li class="">
+                              <a href="{{url('pashumitra/breeders')}}" class="@if (\Request::is('pashumitra/breeders')) active  @endif" ><i class="icon-hourglass"></i> <span>Breeders </span></a>
+                           </li>
 
                            @if(auth()->user()->can('product-sale-list')) 
                            <li class="">

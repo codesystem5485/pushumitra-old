@@ -312,8 +312,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
     }
 
     public function generateOtp(){ 
-        $otp = random_number();
-		$otp = 123456;
+        //$otp = random_number();
+		$otp = rand(100000,999999);
+		//$otp = 123456;
         $expMin = '+'.config('constants.otp_expiration_min').' minutes';
         $newDate = date('Y-m-d H:i:s', strtotime($expMin));
         return ['otp' => $otp,'otp_expiration' =>  $newDate];

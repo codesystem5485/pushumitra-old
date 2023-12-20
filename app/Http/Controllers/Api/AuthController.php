@@ -992,16 +992,14 @@ class AuthController extends BaseController
 		$user_id=$postData['user_id'];
 		$userData = $this->getUserDetailsUsingId($request);
 		
-		
-		
-        if($postData['role']=='Pashumitra')
+		if($postData['role']=='Pashumitra' || $postData['role']=='Registered-vet')
         { 
             $validator = Validator::make($postData, [
                 'pm_account_holdername' =>'required|String',
 				'pm_bank_name'	=>'required|String',
 				'pm_account_no'	=>'required|numeric',
 				'pm_ifsc_code'	=>'required',
-				'pm_cheque_photo'	=>'required|max:10240',
+				'pm_cheque_photo'	=>'required|max:15000',
 				'pm_nominee_name'=>'required|String',
 				'pm_nominee_dob'	=>'required|date',
 				'pm_nominee_relationship'	=>'required|String',
@@ -1030,7 +1028,7 @@ class AuthController extends BaseController
 					}
 				}
 		
-		 if($postData['role']=='Pashumitra')
+		 if($postData['role']=='Pashumitra' || $postData['role']=='Registered-vet')
             {
 				$nomineeBirthDate = '';
 				if($request->pm_nominee_dob!=''){
