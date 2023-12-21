@@ -60,12 +60,7 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address_line_1" value="@if(empty($chemist)){{old('address_line_1')}}@else{{$chemist->address_line_1}}@endif"placeholder="{{ __('general.enter_address_line_1') }}">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.address_line_2') }}* :</span>
-                        </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address_line_2" value="@if(empty($chemist)){{old('address_line_2')}}@else{{$chemist->address_line_2}}@endif"placeholder="{{ __('general.enter_address_line_2') }}">
-                    </div>
+                   
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.state') }}* :</span>
@@ -80,30 +75,47 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.city') }}* :</span>
+                            <span class="input-group-text">{{ __('general.city') }}* :</span>
                         </div>
-                        <input type="hidden" value="@if(empty($chemist)){{old('city_id')}}@else{{$chemist->city_id}}@endif" name="city_id" id="city_id" />
-
-                        <select id="city_town" class="form-control"  aria-describedby="basic-addon3" name="city_town" >
-                            <option value="">{{ __('general.select_city') }}</option>
-                            @if(!empty($cities))
-                            @foreach($cities as $city)
-                            <option @if($city->city_id==$chemist->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
-                            @endforeach
-                            @endif
-                        </select>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($chemist)){{old('city_town')}}@else{{$chemist->city_town}}@endif"placeholder="{{ __('general.city') }}" autocomplete="off">
+                        
+                        <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
-                    <div class="input-group mb-3">
+                   <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.village') }}* :</span>
+                            <span class="input-group-text">{{ __('general.taluka') }}:</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="village" value="@if(empty($chemist)){{old('village')}}@else{{$chemist->village}}@endif"placeholder="{{ __('general.enter_village') }}">
+                        <input type="text" id="taluka" class="form-control" aria-describedby="basic-addon3" name="taluka" value="@if(empty($chemist)){{old('taluka')}}@else{{$chemist->taluka}}@endif"placeholder="{{ __('general.taluka') }}"><br>
+                        <div><span>{{ $errors->first('taluka') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.district') }} :</span>
+                        </div>
+                        <input type="text" id="district" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($chemist)){{old('district')}}@else{{$chemist->district}}@endif" placeholder="{{ __('general.district') }}"><br>
+                        <div><span>{{ $errors->first('disctrict') }}</span></div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.pincode') }}* :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="pincode" value="@if(empty($chemist)){{old('pincode')}}@else{{$chemist->pincode}}@endif"placeholder="{{ __('general.enter_pincode') }}">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.description') }} :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($chemist)){{old('description')}}@else{{$chemist->description}}@endif"placeholder="{{ __('general.enter_description') }}">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.added_by') }}* :</span>
+                        </div>
+                        <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($chemist)){{old('user_code')}}@else{{$chemist->user_code}}@endif"placeholder="{{ __('general.added_by') }}" readonly><br>
+                        <div><span>{{ $errors->first('added_by') }}</span></div>
                     </div>
                     <div class="input_fields_wrap input-group mb-3">
                         <div><input type="file" class="form-control" name="shop_photo[]"></div>
@@ -145,7 +157,7 @@
         if(confirm("Do you really want to delete this shop image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/chemist/"+image_val+"/remove";
+        var actionurl = webUrl+"/pashumitra/chemist/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

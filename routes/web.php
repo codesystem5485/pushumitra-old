@@ -59,7 +59,7 @@ Route::get('/update-permission', [TestController::class, 'updatePermission']);
 
 Route::get('/', [FrontPagesController::class, 'index'])->name('index');
 
-Route::get('/{file_name?}/library-download', [FrontPagesController::class, 'getDownload'])->name('library.download');
+Route::get('/{file_id?}/library-download', [FrontPagesController::class, 'getDownload'])->name('library.download');
 
 /*Route::get('/', function () {
     //return redirect('/auth/login');

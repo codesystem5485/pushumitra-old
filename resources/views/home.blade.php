@@ -100,6 +100,18 @@
                         </div>
                      </div>
 					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/breeders')}}">{{$breederCount}}</a></h3>
+                           <span>Breeders</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
 					 <div class="card overflowhidden col-md-3">
                         <div class="body ">
 						<div class="">

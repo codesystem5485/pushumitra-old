@@ -158,8 +158,8 @@ class ChemistController extends Controller
     public function detail(Request $request, $id = ''){
         $chemist = Chemist::find($id);
         $states = State::where('is_active','1')->get();
-        $cities = Cities::where('state_id',$chemist->state_id)->get();        
-        return view('backend.chemist.detail',['cities'=>$cities,'states'=>$states,'user' => $chemist,'url' => $this->url]);  
+        $shopimages = ChemistShopImages::where('chemist_id',$id)->get();           
+        return view('backend.chemist.detail',['shopimages'=>$shopimages,'states'=>$states,'chemist' => $chemist,'url' => $this->url]);  
     }
 
     /**

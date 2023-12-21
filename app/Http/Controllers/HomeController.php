@@ -18,6 +18,7 @@ use App\Models\Chemist;
 use App\Models\Transporters;
 use App\Models\ProductForSale;
 use App\Models\AnimalForSale;
+use App\Models\Breeder;
 
 class HomeController extends Controller
 {
@@ -50,10 +51,11 @@ class HomeController extends Controller
 		$chemistCount 	  = Chemist::whereDate('created_at', Carbon::today())->count();
 		$transporterCount = Transporters::whereDate('created_at', Carbon::today())->count();
 		$productSaleCount = ProductForSale::whereDate('created_at', Carbon::today())->count();
-		$animalSaleCount = AnimalForSale::whereDate('created_at', Carbon::today())->count();		
+		$animalSaleCount = AnimalForSale::whereDate('created_at', Carbon::today())->count();
+		$breederCount = Breeder::whereDate('created_at', Carbon::today())->count();		
         return view('home',compact('nTotalUusers','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
-									'animalSaleCount'));
+									'animalSaleCount','breederCount'));
     }
 
     /**

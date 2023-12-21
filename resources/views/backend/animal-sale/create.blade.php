@@ -109,7 +109,7 @@
                         <select id="state" class="form-control" aria-describedby="basic-addon3" name="state">
                             <option value="">{{ __('general.state') }}</option> 
                             @foreach($states as $state)
-                            <option @if(!empty($breeder)) @if($state->state_id == $breeder->state_id) selected='selected'@endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
+                            <option @if(!empty($animalsale)) @if($state->state_id == $animalsale->state_id) selected='selected'@endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
                             @endforeach
                         </select>
                         <div><span>{{ $errors->first('state') }}</span></div>

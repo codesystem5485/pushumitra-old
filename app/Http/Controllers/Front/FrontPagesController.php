@@ -54,15 +54,17 @@ class FrontPagesController extends Controller
         return view('front.privacypolicy'); 
     }
 	
-	public function getDownload($file_name){
+	public function getDownload($file_id){ 
+		
+		$books = Books::where('id',$file_id)->first();
+		$bookname = $books->book_name.'.pdf';
+		$file_name = $books->book_file;
 		$file = public_path()."/upload/book/".urldecode($file_name);
-        $headers = array('Content-Type: application/pdf',
-						'Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:
-		GET, POST, PUT, DELETE, OPTIONS');
-        return Response :: download($file);
+        $headers = array('Content-Type: application/pdf','Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:GET, POST, PUT, DELETE, OPTIONS');
+        //return Response :: download($file);
         
        //  return response()->download($file, $file_name, $headers);
-        return Response::download($file,$file_name, $headers);
+        return Response::download($file,$bookname, $headers);
     }
 	
 }

@@ -24,7 +24,7 @@
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('chemist-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.chemist_add') }} </a>
+                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.chemist_add') }} </a>-->
                     @endcan
                 </div>
                 <div class="body">
@@ -35,17 +35,26 @@
                                 <th>{{ __('general.chemist_shop_name') }}</th>                                
                                 <th>{{ __('general.shop_owner_name') }}</th>                                
                                 <th>{{ __('general.mobile_number') }}</th>                                
-                                <th>{{ __('general.address') }}</th>                                
+                                <th>{{ __('general.added_on') }}</th>                                
+                                <th>{{ __('general.added_by') }}</th>                              
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($chemist as $type)
                             <tr>
+							@php
+							$startdate = '';
+								if($type->subscriptionStartDate!=''){
+									$startdate = date("d-M-Y",strtotime($type->subscriptionStartDate));
+								}
+							@endphp
+							
                                 <td>{{$type->shop_name}}</td>                                 
                                 <td>{{$type->owner_name}}</td>                                 
-                                <td>{{$type->mobile_number}}</td>                                 
-                                <td>{{$type->address_line_1." ".$type->address_line_2." ".$type->state." ".$type->city_town.", ".$type->village." ".$type->pincode }}</td>                                 
+                                <td>{{$type->mobile_number}}</td>
+								<td>{{$startdate}}</td>                                 
+                                <td>{{$type->user_code}}</td>    								
                                 <td>
                                     @can('chemist-detail')
                                     <a href="{{route('chemist.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 

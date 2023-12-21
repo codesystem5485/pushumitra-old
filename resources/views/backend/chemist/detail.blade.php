@@ -29,34 +29,63 @@
                     <!-- <h2>Role Permissions</h2> -->
                     
                 </div> 
-                <form action="@if(empty($user)){{route('animal-owner.store')}}@else{{route('animal-owner.update',['id' => $user->id])}}@endif" method="post"> 
+                <form> 
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
                             <span class="">Shop Name :</span>
-                            <span class="">{{ $user->shop_name}}</span>
+                            <span class="">{{ $chemist->shop_name}}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">Owner Name :</span>
-                            <span class="">{{ $user->owner_name }}</span>
+                            <span class="">{{ $chemist->owner_name }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">Mobile Number :</span>
-                            <span class="">{{ $user->mobile_number }}</span>
+                            <span class="">{{ $chemist->mobile_number }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">Address :</span>
-                            <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
+                            <span class="">{{ $chemist->address_line_1." ".$chemist->state.", ".$chemist->city_town." ".$chemist->taluka." ".$chemist->district.", ".$chemist->pincode }}</span>
                         </div>
                     </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.description') }} :</span>
+                            <span class="">{{ $chemist->description }}</span>
+                        </div>
+                    </div>
+					
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.added_by') }} :</span>
+                            <span class="">{{ $chemist->user_code }}</span>
+                        </div>
+                    </div>
+					
+					 <div class="input_wrapper input-group mb-3">
+                    @if(!empty($shopimages))
+                        @if(count($shopimages))
+                            
+                                <div class="input-group mb-10" style="align:left;">
+								@foreach($shopimages as $value)
+                                    <img height="100" width="100"style="margin-left:10px;" src="{{ url("/upload/chemist/")}}/{{$value->image_name}}" />
+                                 @endforeach
+                                </div>
+                            
+                        @endif
+                    @endif
+                </div>
                    
                 </div>
                 </form>

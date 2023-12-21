@@ -17,126 +17,6 @@
 
 <div class="h1-story-area two mb-70 pt-70 book">
     <div class="container">
-        <!-- <div class="row g-4 justify-content-center">
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Azolla Production</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Cultivation-Practices</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Fodder & Water requirment</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Haydrophonic</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Hybrid Nepier</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-6">
-                <div class="collection-card">
-                    <div class="collection-img">
-                        <img class="img-gluid" src="assets/images/bg/book.svg" alt>    
-                    </div>
-                    <div class="collection-content text-center">
-                        <h4><a href="javascript:void(0)">Silage</a></h4>
-                        <div class="price">
-                            <a href="" class="primary-btn1">Download 
-                                <i class="bi bi-download ml-5"></i></a>
-                        </div>
-                        <span class="file-name"><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Sr No</th>
-                <th>Book Name</th>
-                <th>File Nmae</th>
-                <th>Download</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1.</td>
-                <td>Azolla Production</td>
-                <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>
-                <td><a href="" class="primary-btn1">Download 
-                    <i class="bi bi-download ml-5"></i></a>
-                </td>
-              </tr>
-             
-              
-            </tbody>
-          </table>
-        </div>
-        <br>
-        <br>
-        <br> -->
-
         <div class="tab-content2 table-responsive pt-0">
             <table class="table total-table2">
             <thead>
@@ -158,7 +38,7 @@
                 <td>{{$book->book_name}}</td>
                <!-- <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>-->
                 <td> @if(!empty($book->book_file))
-                        <a class="primary-btn1 sm-but" target="_new" href="{{route("library.download",['file_name'=>$book->book_file])}}" >Download<i class="bi bi-download ml-5"></i></a>
+                        <a class="primary-btn1 sm-but" target="_new" target="_bla" href="{{route("library.download",['file_id'=>$book->id])}}" >Download<i class="bi bi-download ml-5"></i></a>
                         @endif
 						<!--<a href="" class="primary-btn1 sm-but">Download 
                     <i class="bi bi-download ml-5"></i></a>-->

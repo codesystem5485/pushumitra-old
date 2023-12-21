@@ -118,7 +118,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">{{ __('general.city') }}* :</span>
                         </div>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($breeder)){{old('city_town')}}@else{{$breeder->city_town}}@endif"placeholder="City/Town" autocomplete="off">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($breeder)){{old('city_town')}}@else{{$breeder->city_town}}@endif"placeholder="{{ __('general.city') }}" autocomplete="off">
                         
                         <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
@@ -196,7 +196,7 @@
         if(confirm("Do you really want to delete this Animal sale image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/animal-sale/"+image_val+"/remove";
+        var actionurl = webUrl+"/pashumitra/breeder/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

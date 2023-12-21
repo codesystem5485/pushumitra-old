@@ -484,6 +484,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		if($role=="Registered-vet")
 		{
+			
 			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
 			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
 			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='')
@@ -513,8 +514,8 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		 
 		 $verified=$userDetail->is_verified;
 		 if($verified==0){
-			 
-			 $verifyMsg = trans('messages.user_not_verified',['role' => $role]);
+			 $user_name = $userDetail->full_name;
+			 $verifyMsg = trans('messages.user_not_verified',['name' => $user_name]);
 		}
 		
 		 $profileArray['verifyMsg'] = $verifyMsg;
