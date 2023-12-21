@@ -336,7 +336,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [AddanimalController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [AddanimalController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
-        Route::get('/{id?}/detail', [AddanimalController::class, 'userDetail'])->name('detail');        
+        Route::get('/{id?}/detail', [AddanimalController::class, 'detail'])->name('detail');        
         Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');        
     });
 

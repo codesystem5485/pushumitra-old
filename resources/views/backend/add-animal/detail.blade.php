@@ -8,13 +8,13 @@
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
-                    {{ __('general.chemist_details')}}
+                    {{ __('general.add_animal_details')}}
                    </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.chemist_list')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.add_animal_list')}}</a></li>
                     <li class="breadcrumb-item">
-                    {{ __('general.chemist_details')}}
+                    {{ __('general.add_animal_details')}}
                     
                     </li>
                 </ul>
@@ -29,34 +29,64 @@
                     <!-- <h2>Role Permissions</h2> -->
                     
                 </div> 
-                <form action="@if(empty($user)){{route('animal-owner.store')}}@else{{route('animal-owner.update',['id' => $user->id])}}@endif" method="post"> 
+                <form> 
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Shop Name :</span>
-                            <span class="">{{ $user->shop_name}}</span>
+                            <span class="">{{ __('general.animal_owner') }} :</span>
+                            <span class="">{{ $animal->getAnimalOwner->full_name}}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Owner Name :</span>
-                            <span class="">{{ $user->owner_name }}</span>
+                            <span class="">{{ __('general.mobile_number') }} :</span>
+                            <span class="">{{ $animal->getAnimalOwner->mobile_number }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Mobile Number :</span>
-                            <span class="">{{ $user->mobile_number }}</span>
+                            <span class="">{{ __('general.add_animal_name') }} :</span>
+                            <span class="">{{ $animal->name }}</span>
                         </div>
                     </div>
-                    <div class="mb-5">
+					<div class="mb-5">
                         <div class="">
-                            <span class="">Address :</span>
-                            <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
+                            <span class="">{{ __('general.UID_number') }} :</span>
+                            <span class="">{{ $animal->UID_number }}</span>
                         </div>
                     </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.age') }} :</span>
+                            <span class="">{{ $animal->age }}</span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.sex') }} :</span>
+                            <span class="">{{ $animal->sex }}</span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.description') }} :</span>
+                            <span class="">{{ $animal->description }}</span>
+                        </div>
+                    </div>
+				
+				<div class="input_wrapper input-group mb-10">
+                    @if(!empty($animalImages))
+                        @if(count($animalImages))
+                            <div class="input-group mb-10" style="align:left;">
+								@foreach($animalImages as $value)
+                                    <img height="100" width="100" style="margin-left:10px;" src="{{ url("/upload/animal/")}}/{{$value->image_name}}" />
+                                @endforeach 
+                              </div>
+                        @endif
+                    @endif
+                </div>
                    
                 </div>
                 </form>
@@ -65,5 +95,4 @@
         </div>
     </div>
     </div>
-@endsection 
-
+@endsection

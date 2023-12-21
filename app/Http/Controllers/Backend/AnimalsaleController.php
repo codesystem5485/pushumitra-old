@@ -12,6 +12,7 @@ use App\Models\AnimalType;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
+use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use DB;
 use Session;
 use Auth;
@@ -26,7 +27,7 @@ class AnimalsaleController extends Controller
      * Animal Sale Construct 
      * @return url 
      */
-    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo){
+    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo,StateRepositoryInterface $stateRepo){
 
         $this->middleware('permission:animal-sale-list|animal-sale-create|animal-sale-edit|animal-sale-delete', ['only' => ['index','show']]);
         $this->middleware('permission:animal-sale-create', ['only' => ['create','store']]);
@@ -38,6 +39,8 @@ class AnimalsaleController extends Controller
             'createUrl' => route('animal-sale.create')
         ];
         $this->animalsaleRepo = $animalsaleRepo;
+		$this->stateRepo = $stateRepo;
+
     } 
 
     /**
@@ -112,11 +115,10 @@ class AnimalsaleController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $animalsale = Animalforsale::find($id);
-        $species = Species::where('is_active','1')->get();
-        $breed = Breeds::where('is_active','1')->get();
+        $states = $this->stateRepo->getStates();
         $AnimalType = AnimalType::where('is_active','1')->get();
         $animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
-        return view('backend.animal-sale.create',['animalType'=>$AnimalType,'animalimages'=>$animalimages,'breed'=>$breed,'species'=>$species,'animalsale' => $animalsale,'url' => $this->url]);  
+        return view('backend.animal-sale.create',['states'=>$states,'animalType'=>$AnimalType,'animalimages'=>$animalimages,'animalsale' => $animalsale,'url' => $this->url]);  
     }
 
      /**

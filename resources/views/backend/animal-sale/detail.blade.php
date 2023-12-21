@@ -39,16 +39,11 @@
                             <span class="">{{ $animalsale->UID_number}}</span>
                         </div>
                     </div>
-                    <div class="mb-5">
-                        <div class="">
-                            <span class="">{{ __('general.species') }} :</span>
-                            <span class="">{{ $animalsale->species_name }}</span>
-                        </div>
-                    </div>
+                    
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.breed') }} :</span>
-                            <span class="">{{ $animalsale->breed_name }}</span>
+                            <span class="">{{ $animalsale->breed }}</span>
                         </div>
                     </div>
                     
@@ -102,7 +97,7 @@
 					<div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.added_by') }} :</span>
-                            <span class="">{{ $animalsale->pm_code }}</span>
+                            <span class="">{{ $animalsale->user_code }}</span>
                         </div>
                     </div>
 					

@@ -24,7 +24,7 @@
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('add-animal-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.add_animal_add') }} </a>
+                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.add_animal_add') }} </a>-->
                     @endcan
                 </div>
                 <div class="body">
@@ -35,8 +35,7 @@
                                 <th>{{ __('general.UID_number') }}</th>                                
                                 <th>{{ __('general.animal_owner') }}</th>                                
                                 <th>{{ __('general.mobile_number') }}</th>                                
-                                <th>{{ __('general.breed') }}</th>                                
-                                <th>{{ __('general.species') }}</th>
+                               
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -46,8 +45,7 @@
                                 <td>{{$type->UID_number}}</td>                                 
                                 <td>{{$type->getAnimalOwner->full_name}}</td>                                 
                                 <td>{{$type->getAnimalOwner->mobile_number}}</td>                                 
-                                <td>{{$type->breed}}</td>                                 
-                                <td>{{$type->species}}</td>                                 
+                                                                
                                 <td>
                                     @can('add-animal-detail')
                                     <a href="{{route('add-animal.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 

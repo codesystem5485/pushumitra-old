@@ -197,6 +197,7 @@ return [
 'add_animal_add'=>'Add Animal',
 'add_animal_edit'=>'Edit Animal',
 'add_animal_create'=>'Add Animal',
+'add_animal_name'=>'Animal Name',
 'add_animal_details'=>'Animals details',
 'select_animal_owner'=>'Select Animal Owner',
 'select_breed'=>'Select Breed',

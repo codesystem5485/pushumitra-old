@@ -25,14 +25,17 @@ class AnimalsaleProcessRequest extends FormRequest
     {
         $request =  [
             'UID_number' => 'required',
-            'species' => 'required',
+           // 'species' => 'required',
             'breed' => "required",
-            'type' => "required",
+           // 'type' => "required",
             'age' => 'required|numeric',
             'sex' => 'required|string',
             'price' => 'required|numeric',
-            'description' => 'required',
+          //  'description' => 'required',
+			'pincode'=> 'required',
+			//'state'=> 'required',
             'address' => 'required',
+			'city_town'=>'required',
             'contact_number_of_owner' => 'required|numeric|min:10',
             'contact_name_of_owner' => 'required',
         ];

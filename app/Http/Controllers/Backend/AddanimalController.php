@@ -121,6 +121,7 @@ class AddanimalController extends Controller
         $animal_owners = $this->userRepo->getUsers(['sRoleName'=>'Animal-owner']);//dd($animal_owners);
         $species = Species::where('is_active','1')->get();
         $breed = Breeds::where('is_active','1')->get();
+		$states = $this->stateRepo->getStates();
         $animalImages = AddAnimalImages::where('animal_id',$addAnimal->id)->get();   
         return view('backend.add-animal.create',['breed'=>$breed,'species'=>$species,'animal_owners'=>$animal_owners,'animalimages'=>$animalImages,'animal' => $addAnimal,'url' => $this->url]);  
     }
@@ -133,6 +134,12 @@ class AddanimalController extends Controller
      */
     public function update(AddAnimalProcessRequest $request, $id) 
     {
+		if($request->name=='' && $request->UID_number=='')
+		{
+			Session::flash('error', trans('messages.enter_name_or_uid'));
+            return back();
+		}
+		
         DB::beginTransaction();
         try{
             $aInsertData = $request->all();
@@ -168,9 +175,10 @@ class AddanimalController extends Controller
     }
 
     public function detail(Request $request, $id = ''){
-        $addAnimal = Animals::with('getAnimalOwner')->where('id',$id)->orderBy('id','ASC')->get();//dd($animals);
-        $animalImages = AddAnimalImages::where('animal_id',$id)->orderBy('id','ASC')->get();//dd($animals);
-        return view('backend.add-animal.detail',['animalImages'=>$animalImages,'cities'=>$cities,'states'=>$states,'animal' => $addAnimal,'url' => $this->url]);  
+        $addAnimal = Animals::with('getAnimalOwner')->where('id',$id)->orderBy('id','ASC')->first();//dd($animals);
+        $animalImages = AddAnimalImages::where('animal_id',$id)->orderBy('id','ASC')->get();
+		
+        return view('backend.add-animal.detail',['animalImages'=>$animalImages,'animal' => $addAnimal,'url' => $this->url]);  
     }
 
     /**

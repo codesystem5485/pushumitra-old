@@ -57,37 +57,17 @@
                         </div>
                         <input type="text" readonly class="form-control"  aria-describedby="basic-addon3" name="mobile_number" id="mobile_number" value="@if(empty($animal)){{old('mobile_number')}}@else{{$animal->mobile_number}}@endif" placeholder="{{ __('general.enter_mobile_number') }}">
                     </div>
-
-                    <div class="input-group mb-3">
+					
+					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.species') }}* :</span>
+                            <span class="input-group-text" >{{ __('general.add_animal_name') }} :</span>
                         </div>
-                        <select class="form-control"  aria-describedby="basic-addon3" name="species" value="@if(empty($animal)){{old('shop_name')}}@else{{$animal->shop_name}}@endif"> 
-                            <option value="" > {{ __('general.select_species') }} </option>
-                            @if(!empty($species))
-                            @foreach($species as $spe)
-                                    <option @if(old('species')==$spe->specie) selected='selected' @endif @if(!empty($animal)) @if($animal->species==$spe->specie) selected='selected' @endif  @endif value="{{$spe->specie}}">{{$spe->specie}}</option>                            
-                                @endforeach
-                            @endif
-                        </select>
-                    </div>
-                     <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.breed') }}* :</span>
-                        </div>
-                        <select class="form-control"  aria-describedby="basic-addon3" name="breed" value="@if(empty($animal)){{old('shop_name')}}@else{{$animal->shop_name}}@endif"> 
-                            <option value="" > {{ __('general.select_breed') }} </option>
-                         @if(!empty($breed))
-                            @foreach($breed as $bre)
-                                    <option @if(old('breed')==$bre->breed) selected='selected' @endif @if(!empty($animal)) @if($animal->breed==$bre->breed) selected='selected' @endif  @endif value="{{$bre->breed}}">{{$bre->breed}}</option>                            
-                                @endforeach
-                            @endif
-                        </select>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="name" id="name" value="@if(empty($animal)){{old('name')}}@else{{$animal->name}}@endif" placeholder="{{ __('general.add_animal_name') }}">
                     </div>
                    
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.UID_number') }}* :</span>
+                            <span class="input-group-text" >{{ __('general.UID_number') }} :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="UID_number" value="@if(empty($animal)){{old('UID_number')}}@else{{$animal->UID_number}}@endif"placeholder="{{ __('general.enter_UID_number') }}">
                     </div>
@@ -97,6 +77,14 @@
                             <span class="input-group-text" >{{ __('general.age') }}* :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="age" value="@if(empty($animal)){{old('age')}}@else{{$animal->age}}@endif"placeholder="{{ __('general.enter_age') }}">
+                    </div>
+					
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.description') }}*:</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($animal)){{old('description')}}@else{{$animal->description}}@endif"placeholder="{{ __('general.description') }}">
                     </div>
 
                     <div class="input-group mb-3">

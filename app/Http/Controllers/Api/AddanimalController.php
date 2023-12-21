@@ -75,8 +75,7 @@ class AddanimalController extends BaseController
 		$response = [];
         try{      
 					
-           
-			$aInsertData['name'] = $postData['name'];
+            $aInsertData['name'] = $postData['name'];
 			$aInsertData['animal_owner'] = $postData['user_id'];
 			$aInsertData['description'] = $postData['description'];
 			$aInsertData['sex'] = $postData['sex'];

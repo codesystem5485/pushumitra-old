@@ -102,7 +102,7 @@ class ChemistController extends BaseController
             ## Store log
             $message = trans('messages.chemist_create',['name' => $request->shop_name]);
             storeActicityLog(trans('messages.chemist_create'),$message,$request->user_id,$chemist);
-			return $this->sendResponse($response,trans('messages.chemist_create'),200);
+			return $this->sendResponse($response,$message,200);
         }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';

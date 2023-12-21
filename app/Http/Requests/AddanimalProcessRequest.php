@@ -26,11 +26,11 @@ class AddanimalProcessRequest extends FormRequest
         $request =  [
             'animal_owner' => 'required',            
             // 'mobile_number' => "required|max:10",
-            'species' => 'required|string',
-            'breed' => 'required|string',
+            //'species' => 'required|string',
+            //'breed' => 'required|string',
             'sex' => 'required|string',
             'age' => 'required|',
-            'UID_number' => 'required'
+           // 'UID_number' => 'required'
         ];
         if(!$this->id){
             // $request['password'] = 'required';

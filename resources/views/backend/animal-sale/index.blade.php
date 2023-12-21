@@ -24,7 +24,7 @@
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('animal-sale-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.animal-sale_add') }} </a>
+                    <!--<a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.animal-sale_add') }} </a>-->
                     @endcan
                 </div>
                 <div class="body">
@@ -33,7 +33,7 @@
                             <thead>
                             <tr>
                                 <th>{{ __('general.UID_number') }}</th>                                
-                                <th>{{ __('general.species') }}</th>                                
+                                                           
                                 <th>{{ __('general.breed') }}</th>                                
                                                                
                                 <th>{{ __('general.added_on') }}</th>                                
@@ -54,8 +54,8 @@
 							
 							@endphp
                                 <td>{{$sale->UID_number}}</td>                                 
-                                <td>{{$sale->species_name}}</td>                                 
-                                <td>{{$sale->breed_name}}</td>                                 
+                                                              
+                                <td>{{$sale->breed}}</td>                                 
                                                         
                                 <td>{{$startdate}}</td>                                 
                                 <td>{{$sale->pm_code}}</td>                                 
