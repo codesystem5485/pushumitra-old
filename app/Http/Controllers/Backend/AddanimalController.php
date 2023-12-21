@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AddanimalProcessRequest;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Repositories\Interfaces\Addanimal\AddanimalRepositoryInterface;
+use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use DB;
 use Session;
 use Auth;
@@ -24,11 +25,12 @@ class AddanimalController extends Controller
     protected $url = '';
     protected $userRepo;
     protected $addAnimalRepo;
+	protected $stateRepo;
     /**
      * Addanimal Construct 
      * @return url 
      */
-    public function __construct(UserRepositoryInterface $userRepo,AddanimalRepositoryInterface $addAnimalRepo){
+    public function __construct(UserRepositoryInterface $userRepo,AddanimalRepositoryInterface $addAnimalRepo,StateRepositoryInterface $stateRepo){
 
         $this->middleware('permission:add-animal-list|add-animal-create|add-animal-edit|add-animal-delete', ['only' => ['index','show']]);
         $this->middleware('permission:add-animal-create', ['only' => ['create','store']]);
@@ -41,6 +43,7 @@ class AddanimalController extends Controller
         ];
         $this->userRepo = $userRepo;
         $this->addAnimalRepo = $addAnimalRepo;
+		$this->stateRepo = $stateRepo;
     } 
 
     /**
