@@ -35,8 +35,10 @@
                                 <th>{{ __('general.chemist_shop_name') }}</th>                                
                                 <th>{{ __('general.shop_owner_name') }}</th>                                
                                 <th>{{ __('general.mobile_number') }}</th>                                
-                                <th>{{ __('general.added_on') }}</th>                                
-                                <th>{{ __('general.added_by') }}</th>                              
+                                                            
+                                <th>{{ __('general.added_by') }}</th> 
+								<th>{{ __('general.added_on') }}</th>    
+								<th>{{ __('general.expired_date') }}</th> 								
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -44,17 +46,22 @@
                             @foreach($chemist as $type)
                             <tr>
 							@php
-							$startdate = '';
+							$startdate = '';$enddate='';
 								if($type->subscriptionStartDate!=''){
 									$startdate = date("d-M-Y",strtotime($type->subscriptionStartDate));
+								}
+								if($type->subscriptionEndDate!=''){
+									$enddate = date("d-M-Y",strtotime($type->subscriptionEndDate));
 								}
 							@endphp
 							
                                 <td>{{$type->shop_name}}</td>                                 
                                 <td>{{$type->owner_name}}</td>                                 
                                 <td>{{$type->mobile_number}}</td>
-								<td>{{$startdate}}</td>                                 
-                                <td>{{$type->user_code}}</td>    								
+								<td>{{$type->user_code}}</td>
+								<td>{{$startdate}}</td>
+								<td>{{$enddate}}</td>								
+                                    								
                                 <td>
                                     @can('chemist-detail')
                                     <a href="{{route('chemist.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 

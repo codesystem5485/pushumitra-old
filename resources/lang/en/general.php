@@ -180,7 +180,8 @@ return [
 'owner_contact_name'=>'Owner Name',
 'owner_contact_number'=>'Owner Contact Number',
 'added_by'=>'Added By',
-'added_on'=>'Added On',
+'added_on'=>'Added Date',
+'expired_date'=>'Expire Date',
 
 
 //product sale

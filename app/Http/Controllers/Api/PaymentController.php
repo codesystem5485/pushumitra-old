@@ -169,8 +169,13 @@ class PaymentController extends BaseController
 			if($roleId==8 && $type==1){
 				if($payment)
 				{
+					//get subscriptions date
+					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
+					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
 					//generate pm_code & update to user table
 					$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
+					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
 					$this->userRepo->update($aInsertData['user_id'],$param);  
 				}
 			}
@@ -179,8 +184,13 @@ class PaymentController extends BaseController
 			if($roleId==7 && $type==6){
 				if($payment)
 				{ 
+					//get subscriptions date
+					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
+					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
 					//generate rv_code & update to user table
 					$param['rv_code'] = $this->userRepo->generateRegisteredvetCode();
+					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
+					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
 					$this->userRepo->update($aInsertData['user_id'],$param);  
 				}
 			}

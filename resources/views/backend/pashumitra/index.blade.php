@@ -44,9 +44,10 @@
                                 <th>Name</th>
                                 <th>Mobile Number</th>
                                 <th>City/village</th>
-                                <th>Rating</th>
 								<th>PM Code</th>
-                                <th>Action</th>
+								<th>Added Date</th>
+                                <th>Rating</th>
+								<th>Action</th>
                             </tr>
                             </thead>
                         </table>
@@ -79,8 +80,9 @@
                 { data: 'first_name', name: 'first_name' },
                 { data: 'mobile_number', name: 'mobile_number' },
                 { data: 'city_town', name: 'city_town' },
-                { data: 'rating', name: 'rating'},
 				{ data: 'pm_code', name: 'pm_code'},
+				{ data: 'added_date', name: 'added_date'},
+				{ data: 'rating', name: 'rating'},
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 
             ]

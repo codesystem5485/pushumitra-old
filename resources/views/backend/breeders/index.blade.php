@@ -33,13 +33,11 @@
                             <thead>
                             <tr>
                                 <th>{{ __('general.breeder_name') }}</th>                                
-                                                                
+                                <th>{{ __('general.breeder_mobile') }}</th>        
                                 <th>{{ __('general.breed') }}</th>                                
-                                                               
-                                <th>{{ __('general.added_on') }}</th>                                
-                                <th>{{ __('general.added_by') }}</th>                                
-                                                               
-                                <th>{{ __('general.breeder_mobile') }}</th>                                
+                                <th>{{ __('general.added_by') }}</th>                              
+                                <th>{{ __('general.added_on') }}</th>
+								<th>{{ __('general.expired_date') }}</th>                                 
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -47,20 +45,21 @@
                             @foreach($breeders as $row)
                             <tr>
 							@php
-							$startdate = '';
+							$startdate = '';$enddate='';
 							if($row->subscriptionStartDate!=''){
 								$startdate = date("d-M-Y",strtotime($row->subscriptionStartDate));
 							}
+							if($row->subscriptionEndDate!=''){
+									$enddate = date("d-M-Y",strtotime($row->subscriptionEndDate));
+								}
 							
 							@endphp
-                                <td>{{$row->breeder_name}}</td>                                 
-                                                               
+                                <td>{{$row->breeder_name}}</td>  
+								<td>{{$row->mobile_number}}</td> 								
                                 <td>{{$row->animal_breed}}</td>                                 
-                                                        
-                                <td>{{$startdate}}</td>                                 
                                 <td>{{$row->user_code}}</td>                                 
-                                <td>{{$row->contact_number_of_owner}}</td>                                 
-                                                               
+                                <td>{{$startdate}}</td> 
+								<td>{{$enddate}}</td>                                 
                                 <td>
                                     @can('animal-sale-detail')
                                     <a href="{{route('breeders.detail',['id' => $row->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 

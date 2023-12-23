@@ -208,6 +208,13 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->editColumn('mobile_number', function ($user) { 
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
         })
+		 ->editColumn('added_date', function ($user) { 
+		  $date ='-';
+		 if($user->subscriptionStartDate!=''){
+			 $date = date('d-M-Y',strtotime($user->subscriptionStartDate));
+		 }
+            return $date;
+        })
 		->editColumn('rating', function ($user) { 
             return '-';
         })
@@ -261,6 +268,13 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         ->editColumn('mobile_number', function ($user) { 
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
+        })
+		 ->editColumn('added_date', function ($user) { 
+		  $date ='-';
+		 if($user->subscriptionStartDate!=''){
+			 $date = date('d-M-Y',strtotime($user->subscriptionStartDate));
+		 }
+            return $date;
         })
 		->editColumn('rating', function ($user) { 
             return '-';
@@ -557,13 +571,47 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	//get latitude longitude geolocation
 	public function getLatitudeLongitudes($input)
 	{
-		$address = $input['pincode'];
+		$address1='';$address2='';$address3='';
+		$getAddress = '';
+		if(isset($input['address_line_1']))
+		{
+			$address1 = $input['address_line_1'];
+		}
+		
+		if(isset($input['address']))
+		{
+			$address1 = $input['address'];
+		}
+		if(isset($input['city_town']))
+		{
+			$address2 = $input['city_town'];
+		}
+		if(isset($input['pincode']))
+		{
+			$address3 = $input['pincode'];
+		}
+		if($address1!=''){
+			$getAddress =$address1;
+		}
+		if($address2!=''){
+			$getAddress.=" ".$address2;
+		}
+		
+		if($address3!=''){
+			$getAddress.=" ".$address3;
+		}
+		
+		
+		$address = $input['pincode']."".$input['pincode'];
+		
 		// Google Maps API Key 
 		$GOOGLE_API_KEY = 'AIzaSyBMNKT7xu6QAhJckofnXO_hFFB2OMs4u-s'; 
 		 
 		// Address from which the latitude and longitude will be retrieved 
-		$formatted_address =$address;
-		//$formatted_address = str_replace(' ', '+', $address);
+		//$formatted_address =$address;
+		
+		$formatted_address = str_replace(' ', '+', $getAddress);
+		
 		// Get geo data from Google Maps API by address 
 		$geocodeFromAddr = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$formatted_address}&key={$GOOGLE_API_KEY}"); 
 		 
@@ -596,5 +644,25 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$mobileverify->otp_expiration = $aOtpData['otp_expiration'];
 		$mobileverify->save();
 		return $aOtpData;
+	}
+	
+	//get breeder subscriptions date 
+	public function getSubscriptionDates(array $input)
+	{
+		$subscriptionStartDate = date("Y-m-d");
+		$subscriptionEndDate = '';
+		$feeDetails = Fee::where('id',$input['type'])->first();
+		if($feeDetails){
+			$months =$feeDetails->valid_months;
+			$subscriptionEndDate = date('Y-m-d', strtotime($subscriptionStartDate. ' + '.$months.' months'));
+		}
+		
+		$dateArray =array(
+			'subscriptionStartDate'=>$subscriptionStartDate,
+			'subscriptionEndDate'=>$subscriptionEndDate,
+		);
+		
+		return $dateArray;
+		
 	}
 }

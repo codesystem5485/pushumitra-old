@@ -15,6 +15,7 @@ use App\Traits\PassportToken;
 use App\Traits\FileUpload;
 use Lcobucci\JWT\Parser as JwtParser;
 use App\Models\User;
+use App\Models\TempUsersSignup;
 use App\Models\Guestusers;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
@@ -133,17 +134,7 @@ class AuthController extends BaseController
             if($postData['role']=='Animal-owner')
             {
                $param['profile_photo']=null;
-			   /* $profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
-                if(!empty($profile_photoName))
-                {
-                    $param['profile_photo'] = $profile_photoName;
-                }
-                else{
-
-                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
-                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }*/
-                
+			   
                 $param['full_name'] = $postData['full_name'];
                 $param['email'] = $postData['email'];
                 $param['password'] = $postData['password'];
@@ -155,37 +146,17 @@ class AuthController extends BaseController
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
 				$param['state_id'] = $postData['state_id'];
-				$param['state_id'] = $postData['state_id'];
+				$user = TempUsersSignup::create($param);
                 
-                $user = $this->userRepo->create($param);
+               // $user = $this->userRepo->create($param);
 
-                $paramDetail['user_id'] = $user->id;
-                $userDetail = $this->userDetailRepo->create($paramDetail);
+               // $paramDetail['user_id'] = $user->id;
+               /// $userDetail = $this->userDetailRepo->create($paramDetail);
             }
             if($postData['role']=='Pashumitra')
             {
-				//$param['pm_code'] = $this->userRepo->generatePashumitraCode();
+				
 				$param['profile_photo'] =null;
-				/*$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
-                if(!empty($profile_photoName))
-                {
-                    $param['profile_photo'] = $profile_photoName;
-                }
-                else{
-                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
-                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }
-
-                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-                if(!empty($education_certificateName))
-                {
-                    $param['education_certificate']= $education_certificateName;
-                }
-                else{
-                    $response['error'] = trans('messages.not_able_to_upload_edu_certi');
-                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }*/
-                
 				$param['full_name'] = $postData['full_name'];
                 $param['email'] = $postData['email'];
                 $param['password'] = $postData['password'];
@@ -197,7 +168,8 @@ class AuthController extends BaseController
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
 				$param['state_id'] = $postData['state_id'];
-                $user = $this->userRepo->create($param);
+               // $user = $this->userRepo->create($param);
+				$user = TempUsersSignup::create($param);
 
                /* $paramDetail['user_id'] = $user->id;
                 $paramDetail['pm_collage_name'] = $postData['pm_collage_name'];
@@ -207,26 +179,6 @@ class AuthController extends BaseController
             if($postData['role']=='Registered-vet')
             {
                 $param['profile_photo']=null;
-				/*$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
-                if(!empty($profile_photoName))
-                {
-                    $param['profile_photo'] = $profile_photoName;
-                }
-                else{
-                    $response['error'] = trans('messages.not_able_to_upload_pro_photo');
-                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }
-
-                $education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
-                if(!empty($education_certificateName))
-                {
-                    $param['education_certificate']= $education_certificateName;
-                }
-                else{
-                    $response['error'] = trans('messages.not_able_to_upload_edu_certi');
-                    return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
-                }*/
-				
 				$param['full_name'] = $postData['full_name'];
                 $param['email'] 	= $postData['email'];
                 $param['password'] = $postData['password'];
@@ -238,20 +190,22 @@ class AuthController extends BaseController
                 $param['state'] = $postData['state'];
                 $param['pincode'] = $postData['pincode'];
 				$param['state_id'] = $postData['state_id'];
-				
-                $user = $this->userRepo->create($param);
+				$user = TempUsersSignup::create($param);
+               // $user = $this->userRepo->create($param);
             }
             if($user){
 				
 				
                 //asign role
-                $roleData = $this->roleRepo->where('name',$request->role)->first();
+               /* $roleData = $this->roleRepo->where('name',$request->role)->first();
                 if($roleData){
                     $user->assignRole($roleData->name);  
-                }
+                }*/
                 $aOtpData = $this->userRepo->generateOtp();
                 ##Update user's OTP
-                $this->userRepo->update($user->id,$aOtpData);  
+               // $this->userRepo->update($user->id,$aOtpData); 
+
+				$user = TempUsersSignup::where('id',$user->id)->update($aOtpData);				
 				
 				$smsInfo =array(
 					'otp'=>$aOtpData['otp'],
@@ -326,6 +280,10 @@ class AuthController extends BaseController
 				$token = $this->createApiToken();
 				$param=[];
 				$param['api_token'] = $token;
+				if(isset($postData['fcm_id']))
+				{
+					$param['fcm_id'] = $postData['fcm_id'];
+				}	
 				$res = $this->userRepo->update($user->id,$param);
 				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,'pm_code'=>$user->pm_code,
@@ -411,7 +369,10 @@ class AuthController extends BaseController
 			$user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
 			
 		}else{
-			 $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+			// $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
+			 $user = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
+											->orderBy('id','DESC')
+											->first();
 		}
        
         if ($user) {
@@ -442,35 +403,66 @@ class AuthController extends BaseController
 				
 			}
 			else{
-			
+			$checkOtp = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
+											//->where('otp' , $postData['otp'])
+											->orderBy('id','DESC')
+											->first();
             ## check otp is valid or not
             if($postData['otp']!='123456'){
-            $checkOtp = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number'],'otp' => $postData['otp']]);
-            if(empty($checkOtp)){
-                return $this->sendError($response,trans('messages.otp_invalid'),400);  
-            }
+				$checkOtp = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
+											->where('otp' , $postData['otp'])
+											->orderBy('id','DESC')
+											->first();
+				if(empty($checkOtp)){
+					return $this->sendError($response,trans('messages.otp_invalid'),400);  
+				}
 
-            ## check otp expiration time
-            if(strtotime(now()) >strtotime($user->otp_expiration)){
-                return $this->sendError($response,trans('messages.otp_expired'),400); 
-            }
+				## check otp expiration time
+				if(strtotime(now()) >strtotime($user->otp_expiration)){
+					return $this->sendError($response,trans('messages.otp_expired'),400); 
+				}
             }
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($user);
-			$param = ['otp' => null,'otp_expiration' =>  null,
-                    'is_phone_verify' => 1,'is_active' => 1,
-					'latitude'=>$coordinateArr['latitude'],'longitude'=>$coordinateArr['longitude']];
-					
-			if($postData['role'] == 'Animal-owner')
-			{ 
-				$param['is_verified'] = 1;
-			}else{
-				$param['is_verified'] = 0;
+			if($checkOtp){
+				$param['profile_photo']=null;
+				$param['full_name'] = $checkOtp->full_name;
+                $param['email'] 	= $checkOtp->email;
+                $param['password'] = $checkOtp->password;
+                $param['mobile_number'] = $checkOtp->mobile_number;
+                $param['address_line_1'] = $checkOtp->address_line_1;
+                $param['city_town'] = $checkOtp->city_town;
+				$param['district'] = $checkOtp->district;
+				$param['taluka'] = $checkOtp->taluka;
+                $param['state'] = $checkOtp->state;
+                $param['pincode'] = $checkOtp->pincode;
+				$param['state_id'] = $checkOtp->state_id;
+				$param['is_phone_verify'] =1;
+				$param['is_active'] =1;
+				if($checkOtp->role == 'Animal-owner')
+				{ 
+					$param['is_verified'] = 1;
+				}else{
+					$param['is_verified'] = 0;
+				}
+				
+				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
+				$param['latitude']  = $coordinateArr['latitude'];
+				$param['longitude'] = $coordinateArr['longitude'];
+			
+				$user = $this->userRepo->create($param);
+				
+				//asign role
+                $roleData = $this->roleRepo->where('name',$checkOtp->role)->first();
+                if($roleData){
+                    $user->assignRole($roleData->name);  
+                }
+				
+				//delete temp user table entry
+				$tempUser = TempUsersSignup::find($checkOtp->id);
+				$tempUser->delete();
 			}
-					
-            $this->userRepo->update($user->id,$param);  
-
-            ## display  login type wise data
+			
+			## display  login type wise data
             if($postData['login_type'] == 'signin'){
                 ## if verified otp then create token
                 //$token = $user->createToken($user->email)->accessToken;
@@ -862,7 +854,8 @@ class AuthController extends BaseController
  
             try{
 				
-				$password =Str::random(8);
+				//$password =Str::random(8);
+				$password =rand(100000,999999);
 				$input = array(
 					'mobile'=>'91'.$postData['mobile_number'],
 					'password'=>$password

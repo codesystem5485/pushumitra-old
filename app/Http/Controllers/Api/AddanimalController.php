@@ -126,4 +126,38 @@ class AddanimalController extends BaseController
 			
 		return $this->sendResponse($response,"",200);
 	}
+	
+	public function deleteAnimal(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'animal_id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->animal_id;
+        $addAnimal = Animals::where('id',$id)->first();
+	
+        $animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
+        // dd($animalImage);
+        if(count($animalImage)>0)
+        {
+            foreach($animalImage as $image)
+            {
+                $this->removeFile($image->image_name,'animal');
+                $image->delete();
+            }
+        }
+	
+        $addAnimal->delete();
+        $response=[];
+        ## Store log
+        $message = trans('messages.add-animal_delete',['name' => $addAnimal->id]);
+        storeActicityLog(trans('messages.delete'),$message,$postData['user_id'],$addAnimal);
+		return $this->sendResponse($response,trans('messages.add_animal_create'),200);
+        
+    }
 }

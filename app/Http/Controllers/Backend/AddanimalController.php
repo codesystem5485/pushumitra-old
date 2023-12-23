@@ -186,7 +186,7 @@ class AddanimalController extends Controller
 
     /**
      * Delete Animal
-     * @param int $id (Chemist Id)
+     * @param int $id (Animal Id)
      * @return Route
      */
     public function delete($id){ 

@@ -33,13 +33,13 @@
                             <thead>
                             <tr>
                                 <th>{{ __('general.UID_number') }}</th>                                
-                                                           
-                                <th>{{ __('general.breed') }}</th>                                
-                                                               
+                                <th>{{ __('general.breed') }}</th>
+								<th>{{ __('general.owner_contact_name') }}</th>                                
+                                <th>{{ __('general.owner_contact_number') }}</th>
+								<th>{{ __('general.added_by') }}</th>								
                                 <th>{{ __('general.added_on') }}</th>                                
-                                <th>{{ __('general.added_by') }}</th>                                
-                                <th>{{ __('general.owner_contact_name') }}</th>                                
-                                <th>{{ __('general.owner_contact_number') }}</th>                                
+                                <th>{{ __('general.expired_date') }}</th>                                
+                                                               
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -47,20 +47,23 @@
                             @foreach($animalsale as $sale)
                             <tr>
 							@php
-							$startdate = '';
+							$startdate = '';$enddate='';
 							if($sale->subscriptionStartDate!=''){
 								$startdate = date("d-M-Y",strtotime($sale->subscriptionStartDate));
 							}
+							if($sale->subscriptionEndDate!=''){
+									$enddate = date("d-M-Y",strtotime($sale->subscriptionEndDate));
+								}
 							
 							@endphp
                                 <td>{{$sale->UID_number}}</td>                                 
-                                                              
                                 <td>{{$sale->breed}}</td>                                 
-                                                        
-                                <td>{{$startdate}}</td>                                 
-                                <td>{{$sale->pm_code}}</td>                                 
                                 <td>{{$sale->contact_name_of_owner}}</td>                                 
-                                <td>{{$sale->contact_number_of_owner}}</td>                                 
+                                <td>{{$sale->contact_number_of_owner}}</td>
+								<td>{{$sale->user_code}}</td>								
+                                <td>{{$startdate}}</td> 
+								<td>{{$enddate}}</td>           
+                                                                
                                 <td>
                                     @can('animal-sale-detail')
                                     <a href="{{route('animal-sale.detail',['id' => $sale->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 

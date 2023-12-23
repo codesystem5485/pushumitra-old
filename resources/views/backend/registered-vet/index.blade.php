@@ -45,7 +45,10 @@
                                 <th>Mobile Number</th>
                                 <th>City/village</th>
                                 <th>Speciality</th>
+								<th>RVCode</th>
+								<th>Added Date</th>
 								<th>Rating</th>
+								
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -80,6 +83,8 @@
                 { data: 'mobile_number', name: 'mobile_number' },
                 { data: 'city_town', name: 'city_town' },
 				{ data: 'rv_speciality', name: 'rv_speciality' },
+				{ data: 'rv_code', name: 'rv_code'},
+				{ data: 'added_date', name: 'added_date'},
                 { data: 'rating', name: 'rating'},
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 
