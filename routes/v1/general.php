@@ -36,6 +36,7 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* Rxreminder */
 	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
+	Route::get('/get-user-info', [RxreminderController::class,'getUserInfoUsingMobile']);
 	Route::get('/get-animalowner-list', [RxreminderController::class,'getAnimalOwnerList']);
 	Route::get('/get-animal-list', [RxreminderController::class,'getAnimalNameList']);
 	Route::get('/get-rxreminder-history', [RxreminderController::class,'getRxReminderHistory']);
