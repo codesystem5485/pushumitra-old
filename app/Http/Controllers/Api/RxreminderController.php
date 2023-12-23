@@ -160,7 +160,7 @@ class RxreminderController extends BaseController
 		}
 		
 		$response = [];
-		$getAnimals =  Animals::select('id', 'name','UID_number')
+		$getAnimals =  Animals::select('id', 'name','UID_number',DB::raw('CONCAT(COALESCE(name," "),COALESCE(UID_number)) AS animal_name'))
 					->where('animal_owner',$postData['animal_owner_id'])
 					->where('is_active',1)
 					->orderBy('id', 'DESC')
