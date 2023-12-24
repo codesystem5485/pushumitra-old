@@ -27,6 +27,17 @@ class NotificationController extends BaseController
 	
 	public function getNotificationsToSend()
 	{
+		
+		$insertArray = array(
+				'message' =>"testing Cron",
+				'scheduled_date' => date("Y-m-d"),
+				'sender_user_id' => 32,
+				'rx_reminder_id' => 6666,
+				'title' => "test cron",
+			);
+			
+		$response = Notifications::create($insertArray);
+		exit;
 		DB::enableQueryLog();
 
 		$todayDate = date("Y-m-d");
