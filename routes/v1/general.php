@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\AddanimalController;
 use App\Http\Controllers\Api\RxreminderController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChemistController;
+use App\Http\Controllers\Api\SearchController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -50,8 +51,13 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-notifications', [NotificationController::class,'getNotificationList']); 
 	Route::get('/get-notification-details', [NotificationController::class,'getNotificationDetails']); 
 	
-	Route::get('/setting', [CommonController::class,'getSetting']); 
-    
+	Route::get('/setting', [CommonController::class,'getSetting']);
+
+	/* Search  */
+		Route::get('/search-registeredvet', [SearchController::class,'searchRegisteredVetDetails']);
+		Route::get('/search-animalsale', [SearchController::class,'searchAnimalForSalesDetails']);
+		Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);	
+	
 	});
 	
 	Route::get('/breeder-list', [BreederController::class,'getBreederList']);

@@ -665,4 +665,34 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $dateArray;
 		
 	}
+	
+	public function searchRegisteredVetDetails($input)
+	{
+		$speciality = $input['search_input'];
+		/*$details =  $this->userModelRepo->with(['roles','user_details'])
+        ->whereHas('roles', function($q) {
+           
+                $q->where('name','=','Registered-vet');
+            
+        })
+        ->where('user_details.rv_speciality',$speciality)
+		->where('is_verified',1)
+        ->orderBy('id', 'DESC')
+        ->get();*/
+		
+		$details = DB::table('users')->select('users.*', 'user_details.rv_speciality')
+				->join('user_details', 'user_details.user_id', '=', 'users.id')
+				->join('model_has_roles', function ($join) {
+				$join->on('users.id', '=', 'model_has_roles.model_id')
+					 ->where('model_has_roles.model_type', User::class);
+				})
+				->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+				//->where('user_details.rv_speciality',$speciality)
+				->where('user_details.rv_speciality','LIKE',"%{$speciality}%")
+				->where('is_verified',1)
+				->orderBy('id', 'DESC')
+				->get();
+		
+		return $details;
+	}
 }
