@@ -911,6 +911,13 @@ class AuthController extends BaseController
 		   }else{
 			  $user = Guestusers::create($aOtpData); 
 		   }
+		   
+		   $smsInfo =array(
+					'otp'=>$aOtpData['otp'],
+					'mobile_number'=>'91'.$postData['mobile_number'],
+				);
+		$res = $this->sendRegistrationSms($smsInfo);
+				
 			DB::commit();
 			$response = $aOtpData; 
 			return $this->sendResponse($response,trans('messages.otp_send'),200);
