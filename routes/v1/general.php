@@ -53,10 +53,7 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	Route::get('/setting', [CommonController::class,'getSetting']);
 
-	/* Search  */
-		Route::get('/search-registeredvet', [SearchController::class,'searchRegisteredVetDetails']);
-		Route::get('/search-animalsale', [SearchController::class,'searchAnimalForSalesDetails']);
-		Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);	
+	
 	
 	});
 	
@@ -79,4 +76,9 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Nearest registeredvet*/
 	Route::get('/nearest-registeredvet', [RegisteredvetController::class,'nearestRegisteredVetList']);
 	Route::get('/registeredvet-detail', [RegisteredvetController::class,'registeredVetDetail']);
+	
+	/* Search  */
+	Route::get('/search-registeredvet', [SearchController::class,'searchRegisteredVetDetails']);
+	Route::get('/search-animalsale', [SearchController::class,'searchAnimalForSalesDetails']);
+	Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);	
 }); 

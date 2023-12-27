@@ -22,7 +22,6 @@ use Illuminate\Support\Str;
 use App\Models\Books;
 use App\Models\MobileVerification;
 use Mail;
-use Response;
 
 class AuthController extends BaseController
 {
@@ -983,24 +982,6 @@ class AuthController extends BaseController
 		 $response['books_file_url']=url("/upload/book/");
 		 return $this->sendResponse($response,"",200);
 	}
-	
-	/*public function getDownload(Request $request){ 
-		$file_id = $request->file_id;
-		$books = Books::where('id',$file_id)->first();
-		$bookname = $books->book_name.'.pdf';
-		$file_name = $books->book_file;
-		$file = public_path()."/upload/book/".urldecode($file_name);
-		
-		$response['books_file_url']=$file;
-		
-		return $this->sendResponse($response,"",200);
-		
-      //  $headers = array('Content-Type: application/pdf','Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:GET, POST, PUT, DELETE, OPTIONS');
-        //return Response :: download($file);
-        
-       //  return response()->download($file, $file_name, $headers);
-      //  return Response::download($file,$bookname, $headers);
-    }*/
 	
 	public function updateBankProfile(Request $request){
 		
