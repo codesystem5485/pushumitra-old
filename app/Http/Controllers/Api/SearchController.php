@@ -72,7 +72,7 @@ class SearchController extends BaseController
            ->where('breed','LIKE',"%{$search_input}%")
 		   ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('animal_for_sales.id','DESC')->get();
-		   $response['animalsale_image_path'] =  url("/upload/animalsale/");
+		   $response['image_base_path'] =  url("/upload/animalsale/");
 		
 		//$details = $this->animalsaleRepo->searchAnimalForSalesDetails($postData);
 		return $this->sendResponse($response,"",200);
@@ -96,7 +96,7 @@ class SearchController extends BaseController
 			->where('animal_breed','LIKE',"%{$search_input}%")
             ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
 		    ->orderBy('breeders.id','DESC')->get();
-		   $response['breeder_image_path'] =  url("/upload/breederanimals/");
+		   $response['image_base_path'] =  url("/upload/breederanimals/");
 		   return $this->sendResponse($response,"",200);
 	}
 	

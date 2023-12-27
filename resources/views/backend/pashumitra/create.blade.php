@@ -347,7 +347,7 @@ $(document).ready(function(){
             }
         }
 
-        date_of_birth
+       
         
 </script>
 <script src="{{asset('admin/assets/js/common.js')}}"></script>  

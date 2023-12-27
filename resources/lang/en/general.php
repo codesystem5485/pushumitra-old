@@ -248,14 +248,25 @@ return [
 'breeder_animal_description'=>'Animal Description',
 'breeder_vaccination_done'=>'Vaccination Done',
 'breeder_expected_price'=>'Expected Price',
-'breeder_details'=>'Breeder details'
+'breeder_details'=>'Breeder details',
 
-
-
-
-
-
-
+//advertisement management
+'advertisement_title'=>'Title',
+'advertisement_list'=>'Advertisement list',
+'advertisement_edit'=>'Edit Advertisement',
+'advertisement_add'=>'Add Advertisement',
+'advertisement_create'=>'Create Advertisement',
+'advertiser_contactnumber'=>'Advertiser Mobile Number',
+'advertiser_name'=>'Advertiser Name',
+'advertiser_address'=>'Advertiser Address',
+'advertisement_startdate'=>'Start Date',
+'advertisement_enddate'=>'End Date',
+'advertisement_cost'=>'Advertisement Cost',
+'advertisement_paid_amount'=>'Advertisement Paid Amount',
+'advertisement_app_image'=>'Advertisement App Image',
+'advertisement_web_image'=>'Advertisement Website Image',
+'advertisement_details'=>'Advertisement Details',
+'advertisement_cost_paid'=>'Advertisement Cost Paid',
 
 ];
 

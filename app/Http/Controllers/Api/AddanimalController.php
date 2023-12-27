@@ -118,11 +118,11 @@ class AddanimalController extends BaseController
 	public function getAnimalList(Request $request)
 	{
 		$postData = request()->all();
-		$response['animals']  =   Animals::select( 'animals.*',
+		$response['results']  =   Animals::select( 'animals.*',
             DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
           ->where('animals.animal_owner',$postData['user_id'])
 		  ->orderBy('animals.id','ASC')->get();
-		  $response['animal_image_path'] =  url("/upload/animal/");
+		  $response['image_base_path'] =  url("/upload/animal/");
 			
 		return $this->sendResponse($response,"",200);
 	}

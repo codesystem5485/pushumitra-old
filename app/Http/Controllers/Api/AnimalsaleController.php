@@ -115,11 +115,11 @@ class AnimalsaleController extends BaseController
 	
 	public function getAnimalSaleList(Request $request)
 	{
-		$response['animalsale']  =   Animalforsale::select( 'animal_for_sales.*',
+		$response['results']  =   Animalforsale::select( 'animal_for_sales.*',
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
            ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('animal_for_sales.id','ASC')->get();
-		   $response['animalsale_image_path'] =  url("/upload/animalsale/");
+		   $response['image_base_path'] =  url("/upload/animalsale/");
 			
 		return $this->sendResponse($response,"",200);
 	}

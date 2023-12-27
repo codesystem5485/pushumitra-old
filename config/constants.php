@@ -23,6 +23,7 @@ return [
         'aadhar_photo_back_file_path'=>'upload/aadhar_photo_back',
         'pan_photo_file_path'=>'upload/pan_photo',
         'cheque_photo_file_path'=>'upload/cheque_photo',
+		'adevertisements_file_path'=>'upload/adevertisements',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],

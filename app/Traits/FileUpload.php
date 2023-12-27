@@ -70,6 +70,14 @@ trait FileUpload {
             case 'cheque_photo':
                 $path = Config::get('constants.file.cheque_photo_file_path');
             break;
+			
+			case 'adevertisements_app':
+                $path = Config::get('constants.file.adevertisements_file_path');
+            break;
+			
+			case 'adevertisements_web':
+                $path = Config::get('constants.file.adevertisements_file_path');
+            break;
             
             default:
             $path = '';    

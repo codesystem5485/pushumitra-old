@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommonController;
 use App\Http\Controllers\Api\AnimalsaleController;
+
+
 /*
 |--------------------------------------------------------------------------
 | User Routes
@@ -36,6 +38,10 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	//Route::get('/get-profile', [AuthController::class,'getProfile']);
 	//Route::post('/update-profile', [AuthController::class,'updateProfile']);
+	
+	
+	
+	Route::get('/getDownload', [AuthController::class, 'getDownload']);
 	
    
     Route::group(['middleware' => ['api-token']], function () {

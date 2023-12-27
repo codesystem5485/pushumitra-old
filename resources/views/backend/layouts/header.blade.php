@@ -179,19 +179,28 @@
                               <a href="{{url('pashumitra/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
                            </li>
                            @endif
+						   @if(auth()->user()->can('fees-list') || auth()->user()->can('fees-create') || auth()->user()->can('fees-edit') || auth()->user()->can('fees-delete')) 
+                           
 						   <li class="@if (\Request::is('pashumitra/fees')) active  @endif">
                               <a href="{{url('pashumitra/fees')}}" class="" ><i class="icon-hourglass"></i> <span>Fees </span></a>
                            </li>
+						   @endif
                            @if(auth()->user()->can('animal-sale-list') || auth()->user()->can('animal-sale-create') || auth()->user()->can('animal-sale-edit') || auth()->user()->can('animal-sale-delete')) 
                            <li class="">
                               <a href="{{url('pashumitra/animal-sale')}}" class="@if (\Request::is('pashumitra/animal-sale')) active  @endif" ><i class="icon-hourglass"></i> <span>Animal for sale </span></a>
                            </li>
                            @endif
-						   
+						   @if(auth()->user()->can('advertisement-list') || auth()->user()->can('advertisement-create') || auth()->user()->can('adevertisement-edit') || auth()->user()->can('adevertisement-delete')) 
+                           <li class="">
+                              <a href="{{url('pashumitra/advertisements')}}" class="@if (\Request::is('pashumitra/advertisements')) active  @endif" ><i class="icon-hourglass"></i> <span>Advertisements </span></a>
+                           </li>
+                           @endif
+						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 
+                           
 						   <li class="">
                               <a href="{{url('pashumitra/breeders')}}" class="@if (\Request::is('pashumitra/breeders')) active  @endif" ><i class="icon-hourglass"></i> <span>Breeders </span></a>
                            </li>
-
+							@endif
                            @if(auth()->user()->can('product-sale-list')) 
                            <li class="">
                               <a href="{{url('pashumitra/product-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>

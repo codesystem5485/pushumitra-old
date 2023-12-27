@@ -26,6 +26,7 @@ use App\Http\Controllers\Backend\ContentManagementController;
 use App\Http\Controllers\Crons\NotificationController;
 use App\Http\Controllers\Backend\FeesController;
 use App\Http\Controllers\Backend\BreederController;
+use App\Http\Controllers\Backend\AdvertisementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -221,6 +222,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [FeesController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [FeesController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [FeesController::class, 'delete'])->name('delete'); 
+       
+        
+    });
+	
+	//fees module
+    Route::group([
+        'prefix' => 'pashumitra/advertisements',
+        'as' => 'advertisements.',
+      ], function () {
+        Route::get('/', [AdvertisementController::class, 'index'])->name('index');
+        Route::get('/create', [AdvertisementController::class, 'create'])->name('create');
+        Route::post('/store', [AdvertisementController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [AdvertisementController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [AdvertisementController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [AdvertisementController::class, 'delete'])->name('delete'); 
+		 Route::get('/{id?}/detail', [AdvertisementController::class, 'detail'])->name('detail');
        
         
     });
