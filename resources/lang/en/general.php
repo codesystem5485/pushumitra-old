@@ -266,7 +266,9 @@ return [
 'advertisement_app_image'=>'Advertisement App Image',
 'advertisement_web_image'=>'Advertisement Website Image',
 'advertisement_details'=>'Advertisement Details',
-'advertisement_cost_paid'=>'Advertisement Cost Paid',
+'advertisement_cost_paid'=>'Advance Amount Paid',
+'advertisement_total_cost'=>'Total Amount Including 18% GST',
+'advertisement_balance_cost'=>'Balance Amount',
 
 ];
 

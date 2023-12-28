@@ -37,8 +37,10 @@
                                 <th>{{ __('general.advertiser_contactnumber') }}</th>                                
                                 <th>{{ __('general.advertisement_startdate') }}</th>                              
                                 <th>{{ __('general.advertisement_enddate') }}</th>
-								<th>{{ __('general.advertisement_cost') }}</th>                                 
-                                <th>{{ __('general.action') }}</th>
+								<th>{{ __('general.advertisement_total_cost') }}</th> 
+								<th>{{ __('general.advertisement_cost_paid') }}</th>
+								<th>{{ __('general.advertisement_balance_cost') }}</th>
+								<th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -52,14 +54,19 @@
 							if($row->advertisement_enddate!=''){
 									$enddate = date("d-M-Y",strtotime($row->advertisement_enddate));
 								}
+								
+								if($row->advertisement_enddate!=''){
+									$enddate = date("d-M-Y",strtotime($row->advertisement_enddate));
+								}
 							@endphp
                                 <td>{{$row->advertisement_title}}</td>  
 								<td>{{$row->advertiser_name}}</td> 								
                                 <td>{{$row->advertiser_contactnumber}}</td>                                 
-                                                                
                                 <td>{{$startdate}}</td> 
 								<td>{{$enddate}}</td> 
-								<td>{{$row->advertisement_cost}}</td>                                 
+								<td>{{$row->advertisement_total_cost}}</td>
+								<td>{{$row->advertisement_cost_paid}}</td>
+								<td>{{$row->advertisement_balance_cost}}</td>
                                 <td>
                                     @can('advertisement-detail')
                                   <!--  <a href="{{route('advertisements.detail',['id' => $row->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 

@@ -83,14 +83,28 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertisement_cost') }}* :</span>
                         </div>
-                        <input type="number" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost" value="@if(empty($advertisements)){{old('advertisement_cost')}}@else{{$advertisements->advertisement_cost}}@endif"placeholder="{{ __('general.advertisement_cost') }}">
+                        <input type="text" id="advertisement_cost" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost" value="@if(empty($advertisements)){{old('advertisement_cost')}}@else{{$advertisements->advertisement_cost}}@endif"placeholder="{{ __('general.advertisement_cost') }}">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.advertisement_total_cost') }}* :</span>
+                        </div>
+                        <input readonly type="text" class="form-control"  aria-describedby="basic-addon3" id="advertisement_tcost" name="advertisement_total_cost" value="@if(empty($advertisements)){{old('advertisement_total_cost')}}@else{{$advertisements->advertisement_total_cost}}@endif" placeholder="{{ __('general.advertisement_total_cost') }}">
                     </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertisement_cost_paid') }}* :</span>
                         </div>
-                        <input type="number" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost_paid" value="@if(empty($advertisements)){{old('advertisement_cost_paid')}}@else{{$advertisements->advertisement_cost_paid}}@endif"placeholder="{{ __('general.advertisement_cost_paid') }}">
+                        <input type="text" id="advertisement_cost_paid" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost_paid" value="@if(empty($advertisements)){{old('advertisement_cost_paid')}}@else{{$advertisements->advertisement_cost_paid}}@endif"placeholder="{{ __('general.advertisement_cost_paid') }}">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.advertisement_balance_cost') }}* :</span>
+                        </div>
+                        <input type="text" readonly id="advertisement_bcost" class="form-control"  aria-describedby="basic-addon3" name="advertisement_balance_cost" value="@if(empty($advertisements)){{old('advertisement_balance_cost')}}@else{{$advertisements->advertisement_balance_cost}}@endif" placeholder="{{ __('general.advertisement_balance_cost') }}">
                     </div>
 					
 					<div class="input-group mb-3">
@@ -134,48 +148,36 @@ $(document).ready(function(){
    $("#advertisement_enddate").datepicker();
 });
 
-   $(document).on('click',".removeAnimalImage",function(e){
-        e.preventDefault();
-        if(confirm("Do you really want to delete this Animal sale image?"))
-        {
-        var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/breeder/"+image_val+"/remove";
-         $.ajax({
-            url: actionurl,
-            type: "get",
-            dataType: "application/json",
-            data: { id: image_val },
-            dataType: "JSON",
-            success: function (res) {
-                // $("input_wrapper").refresh();
-                $(".input_wrapper").load(location.href + " .input_wrapper");
-
-                // animal-sale.edit
-            },
-        });
-        }
-        else{
-            return false;
-        }
-    })
     //$(document).on event
 $(document).ready(function() {
-    var max_fields      = 10; //maximum input boxes allowed
-    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
-    var add_button      = $(".add_field_button"); //Add button ID
-
-    var x = 1; //initlal text box count
-    $(add_button).click(function(e){ //on add input button click
-        e.preventDefault();
-        if(x < max_fields){ //max input box allowed
-            x++; //text box increment
-            $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="animal_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
-        }
-    });
-
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
+   
+  $("#advertisement_cost").blur(function(){
+	  var cost = $("#advertisement_cost").val();
+	  if(cost > 0 ){
+		  var gst  =18;
+		  var gst_cost = (parseInt(cost) * 18)/100;
+		  var total_cost = parseInt(gst_cost) + parseInt(cost);
+		  $("#advertisement_tcost").val(total_cost);
+	  }else{
+		  $("#advertisement_tcost").val(0);
+	  }
+	  
+    //alert("This input field has lost its focus.");
+  });
+  
+  $("#advertisement_cost_paid").blur(function(){
+	  var cost = $("#advertisement_cost_paid").val();
+	  var tcost = $("#advertisement_tcost").val();
+	  if(tcost > 0 ){
+		 
+		  var total_cost = parseInt(tcost) - parseInt(cost);
+		  $("#advertisement_bcost").val(total_cost);
+	  }else{
+		  $("#advertisement_tcost").val(0);
+	  }
+	  
+    //alert("This input field has lost its focus.");
+  });
 
     
 });    

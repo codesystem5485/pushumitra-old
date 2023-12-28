@@ -136,11 +136,12 @@ class AdvertisementController extends Controller
 			$advertisements->advertiser_contactnumber = $request->input('advertiser_contactnumber');
 			$advertisements->advertisement_cost = $request->input('advertisement_cost');
 			$advertisements->advertisement_cost_paid = $request->input('advertisement_cost_paid');
+			$advertisements->advertisement_total_cost = $request->input('advertisement_total_cost'); 
+			$advertisements->advertisement_balance_cost = $request->input('advertisement_balance_cost');
 			$advertisements->advertisement_app_image = $advertisement_app_image;
 			$advertisements->advertisement_website_image = $advertisement_web_image;
 			$advertisements->user_id = Auth::user()->id;
-			
-            $advertisements->save();
+			$advertisements->save();
             
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
@@ -198,8 +199,8 @@ class AdvertisementController extends Controller
 			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
 			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
 			if($advertisement_enddate > $advertisement_startdate){
-				Session::flash('error',$errDateMessage);
-				return redirect()->back();
+				//Session::flash('error',$errDateMessage);
+				//return redirect()->back();
 			}
 		}
 		
@@ -245,6 +246,8 @@ class AdvertisementController extends Controller
 			$advertisements->advertiser_contactnumber = $request->input('advertiser_contactnumber');
 			$advertisements->advertisement_cost = $request->input('advertisement_cost');
 			$advertisements->advertisement_cost_paid = $request->input('advertisement_cost_paid');
+			$advertisements->advertisement_total_cost = $request->input('advertisement_total_cost'); 
+			$advertisements->advertisement_balance_cost = $request->input('advertisement_balance_cost');
 			$advertisements->advertisement_app_image = $advertisement_app_image;
 			$advertisements->advertisement_website_image = $advertisement_web_image;
 			$advertisements->user_id = Auth::user()->id;
