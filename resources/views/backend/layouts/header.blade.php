@@ -211,6 +211,10 @@
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>
                            </li>
 						   @endif
+						   
+						    <li class="">
+                              <a href="{{url('pashumitra/paymentreport')}}" class="" ><i class="icon-hourglass"></i> <span>Payment Report</span></a>
+                           </li>
                            
                            {{-- <li class="">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Location</span></a>

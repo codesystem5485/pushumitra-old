@@ -27,6 +27,7 @@ use App\Http\Controllers\Crons\NotificationController;
 use App\Http\Controllers\Backend\FeesController;
 use App\Http\Controllers\Backend\BreederController;
 use App\Http\Controllers\Backend\AdvertisementController;
+use App\Http\Controllers\Backend\PaymentReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -402,6 +403,16 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [BreederController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [BreederController::class, 'detail'])->name('detail');        
         Route::get('/{id?}/remove', [BreederController::class, 'removeImage'])->name('remove');        
+    });
+	
+	//payment report module
+    Route::group([
+        'prefix' => 'pashumitra/paymentreport',
+        'as' => 'paymentreport.', 
+      ], function () {
+        Route::get('/', [PaymentReportController::class, 'index'])->name('index');
+        Route::get('/{id?}/detail', [PaymentReportController::class, 'detail'])->name('detail');        
+                
     });
     
 });

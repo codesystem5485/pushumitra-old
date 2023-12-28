@@ -52,12 +52,9 @@
 								$startdate = date("d-M-Y",strtotime($row->advertisement_startdate));
 							}
 							if($row->advertisement_enddate!=''){
-									$enddate = date("d-M-Y",strtotime($row->advertisement_enddate));
-								}
-								
-								if($row->advertisement_enddate!=''){
-									$enddate = date("d-M-Y",strtotime($row->advertisement_enddate));
-								}
+								$enddate = date("d-M-Y",strtotime($row->advertisement_enddate));
+							}
+							
 							@endphp
                                 <td>{{$row->advertisement_title}}</td>  
 								<td>{{$row->advertiser_name}}</td> 								
