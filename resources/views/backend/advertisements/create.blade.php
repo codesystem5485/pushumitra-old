@@ -12,7 +12,7 @@
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>@if(!empty($advertisements))
                     {{ __('general.advertisement_edit') }}
                     @else
-                    {{ __('general.advertisement_edit') }}
+                    {{ __('general.advertisement_create') }}
                     @endif </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
@@ -55,7 +55,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertisement_enddate') }}* :</span>
                         </div>
-                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_enddate" class="form-control" aria-describedby="basic-addon3" name="advertisement_enddate" value="@if(empty($advertisements)){{old('advertisement_enddate')}}@else{{$advertisements->advertisement_enddate}}@endif" placeholder="{{ __('general.advertiser_name') }}" required><br>
+                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_enddate" class="form-control" aria-describedby="basic-addon3" name="advertisement_enddate" value="@if(empty($advertisements)){{old('advertisement_enddate')}}@else{{$advertisements->advertisement_enddate}}@endif" placeholder="{{ __('general.advertisement_enddate') }}" required><br>
                      </div>
 					
 					<div class="input-group mb-3">
@@ -67,7 +67,7 @@
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.advertiser_address') }}:</span>
+                            <span class="input-group-text" >{{ __('general.advertiser_address') }}* :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="advertiser_address" value="@if(empty($advertisements)){{old('advertiser_address')}}@else{{$advertisements->advertiser_address}}@endif"placeholder="{{ __('general.advertiser_address') }}">
                     </div>
@@ -76,21 +76,21 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertiser_contactnumber') }}* :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="advertiser_contactnumber" value="@if(empty($advertisements)){{old('advertiser_contactnumber')}}@else{{$advertisements->advertiser_contactnumber}}@endif"placeholder="{{ __('general.advertiser_contactnumber') }}">
+                        <input type="number" class="form-control"  aria-describedby="basic-addon3" name="advertiser_contactnumber" value="@if(empty($advertisements)){{old('advertiser_contactnumber')}}@else{{$advertisements->advertiser_contactnumber}}@endif"placeholder="{{ __('general.advertiser_contactnumber') }}">
                     </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.advertisement_cost') }}:</span>
+                            <span class="input-group-text" >{{ __('general.advertisement_cost') }}* :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost" value="@if(empty($advertisements)){{old('advertisement_cost')}}@else{{$advertisements->advertisement_cost}}@endif"placeholder="{{ __('general.advertisement_cost') }}">
+                        <input type="number" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost" value="@if(empty($advertisements)){{old('advertisement_cost')}}@else{{$advertisements->advertisement_cost}}@endif"placeholder="{{ __('general.advertisement_cost') }}">
                     </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.advertisement_cost_paid') }}:</span>
+                            <span class="input-group-text" >{{ __('general.advertisement_cost_paid') }}* :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost_paid" value="@if(empty($advertisements)){{old('advertisement_cost_paid')}}@else{{$advertisements->advertisement_cost_paid}}@endif"placeholder="{{ __('general.advertisement_cost_paid') }}">
+                        <input type="number" class="form-control"  aria-describedby="basic-addon3" name="advertisement_cost_paid" value="@if(empty($advertisements)){{old('advertisement_cost_paid')}}@else{{$advertisements->advertisement_cost_paid}}@endif"placeholder="{{ __('general.advertisement_cost_paid') }}">
                     </div>
 					
 					<div class="input-group mb-3">
@@ -103,7 +103,7 @@
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">{{ __('general.advertisement_web_image') }} :</span>
+                            <span class="input-group-text">{{ __('general.advertisement_web_image') }}* :</span>
                         </div>
                         <input type="file" id="advertisement_website_image" class="form-control" aria-describedby="basic-addon3" name="advertisement_website_image" value="@if(empty($advertisements)){{old('advertisement_web_image')}}@elseif(isset($advertisements->advertisement_web_image)) {{$advertisements->advertisement_web_image}}@endif" placeholder="{{ __('general.advertisement_website_image') }}"><br>
                         <div><span>{{ $errors->first('advertisement_web_image') }}</span></div>

@@ -96,4 +96,6 @@ return [
 	Our team is currently reviewing your registration details to ensure the accuracy and completeness of the information provided.
 	This process usually takes 24 to 48 hours,but it may vary depending on the volume of registrations.',
     'invalid_role' => 'Please login with valid role',
+	'invalid_start_date'=>'Please enter start date greater than todays date',
+	'invalid_end_date'=>'Please enter end date greater than start date',
 ];

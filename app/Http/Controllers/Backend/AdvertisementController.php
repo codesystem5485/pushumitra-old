@@ -24,10 +24,10 @@ class AdvertisementController extends Controller
      */
     public function __construct(){
 
-       /* $this->middleware('permission:advertisements-list|advertisements-create|advertisements-edit|advertisements-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:advertisements-create', ['only' => ['create','store']]);
-        $this->middleware('permission:advertisements-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:advertisements-delete', ['only' => ['delete']]);*/
+        $this->middleware('permission:advertisement-list|advertisement-create|advertisement-edit|advertisement-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:advertisement-create', ['only' => ['create','store']]);
+        $this->middleware('permission:advertisement-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:advertisement-delete', ['only' => ['delete']]);
         
        $this->url = [   
             'listUrl' => route('advertisements.index'),
@@ -40,7 +40,7 @@ class AdvertisementController extends Controller
      * @return View
      */
     public function index(){
-        $advertisements = Advertisements::where('status',1)->orderBy('id','ASC')->get();
+        $advertisements = Advertisements::where('status',1)->orderBy('id','DESC')->get();
         return view('backend.advertisements.index',['advertisements'=>$advertisements,'url' => $this->url]); 
     }
 
@@ -59,20 +59,43 @@ class AdvertisementController extends Controller
      * @return Route
      */
     public function store(Request $request){
+		$postData = $request->all();
         $this->validate($request, [
             'advertisement_title' => 'required',            
             'advertisement_startdate' => 'required', 
 			'advertisement_enddate' => 'required',
 			'advertiser_name' => 'required',
 			'advertiser_address' => 'required',
-			'advertiser_contactnumber' => 'required',
+			'advertiser_contactnumber' => 'required|numeric|digits:10',
 			'advertisement_cost' => 'required',
 			'advertisement_cost_paid' => 'required',
 			'advertisement_app_image' => 'required|mimes:jpeg,jpg,png',
 			'advertisement_website_image' => 'required|mimes:jpeg,jpg,png', 			
         ]);
+		
+		if($postData['advertisement_startdate']!=''){
+			$errDateMessage = trans('messages.invalid_start_date');
+			$advertisement_startdate = date("Y-m-d",strtotime($postData['advertisement_startdate']));
+			$currentDate =date("Y-m-d");
+			if($advertisement_startdate <= $currentDate){
+				Session::flash('error',$errDateMessage);
+				return redirect()->back();
+			}
+		}
+		
+		if($postData['advertisement_enddate']!=''){
+			$errDateMessage = trans('messages.invalid_end_date');
+			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
+			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
+			if($advertisement_enddate > $advertisement_startdate){
+				Session::flash('error',$errDateMessage);
+				return redirect()->back();
+			}
+		}
+		
         DB::beginTransaction();
         try{
+
 			$advertisement_app_image='';
 			$advertisement_web_image='';
 			
@@ -156,8 +179,7 @@ class AdvertisementController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        
-
+		$postData = $request->all();
         $this->validate($request, [
            'advertisement_title' => 'required',            
             'advertisement_startdate' => 'required', 
@@ -170,6 +192,17 @@ class AdvertisementController extends Controller
 			'advertisement_app_image' => 'mimes:jpeg,jpg,png',
 			'advertisement_website_image' => 'mimes:jpeg,jpg,png', 
         ]);
+		
+		if($postData['advertisement_enddate']!=''){
+			$errDateMessage = trans('messages.invalid_end_date');
+			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
+			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
+			if($advertisement_enddate > $advertisement_startdate){
+				Session::flash('error',$errDateMessage);
+				return redirect()->back();
+			}
+		}
+		
         DB::beginTransaction();
         try{
             $advertisements = Advertisements::find($id);

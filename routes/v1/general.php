@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\RxreminderController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChemistController;
 use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\AdvertisementController;
+
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -80,5 +82,9 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Search  */
 	Route::get('/search-registeredvet', [SearchController::class,'searchRegisteredVetDetails']);
 	Route::get('/search-animalsale', [SearchController::class,'searchAnimalForSalesDetails']);
-	Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);	
+	Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);
+
+	/* advertisement Details */
+	Route::get('/advertisement-list', [AdvertisementController::class,'getAdvertisementList']);
+	Route::get('/advertisement-detail', [AdvertisementController::class,'advertisementDetail']);
 }); 
