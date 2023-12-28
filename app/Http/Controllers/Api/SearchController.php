@@ -19,6 +19,7 @@ use Validator;
 use App\Models\AnimalForSale;
 use Carbon\Carbon;
 use App\Models\Breeder;
+use App\Models\Books;
 
 class SearchController extends BaseController
 {
@@ -100,4 +101,23 @@ class SearchController extends BaseController
 		   return $this->sendResponse($response,"",200);
 	}
 	
+	public function searchLibraryDetails(Request $request){
+		
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'search_input' => 'required',
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+		$search_input = $postData['search_input'];
+		$response['results'] = Books::where('book_name','LIKE',"%{$search_input}%")
+								->orderBy('id','ASC')->get();
+		$response['file_base_path']=url("/upload/book/");
+		return $this->sendResponse($response,"",200);
+		   
+	}
 }
