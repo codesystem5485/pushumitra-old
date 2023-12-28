@@ -22,7 +22,7 @@
                 <div class="card">
                 <div class="header">
                 @include('backend.layouts.flash-message')
-				 <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.fees_add') }} </a>
+				<!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.fees_add') }} </a>-->
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('fees-create')
                     <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.fees_add') }} </a>
@@ -46,13 +46,13 @@
 								<td>{{$row->fee}}</td>
 								<td>{{$row->valid_months}}</td>								
                                 <td>
-								<a href="{{route('fees.edit',['id' => $row->id])}}">
+								<!--<a href="{{route('fees.edit',['id' => $row->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
                                     </button></a>
 									
 									<a href="{{route('fees.delete',['id' => $row->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
-                                    </button></a>
+                                    </button></a>-->
                                     @can('fees-edit')
                                     <a href="{{route('fees.edit',['id' => $row->id])}}">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 

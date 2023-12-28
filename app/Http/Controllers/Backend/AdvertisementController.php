@@ -88,8 +88,8 @@ class AdvertisementController extends Controller
 			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
 			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
 			if($advertisement_enddate > $advertisement_startdate){
-				Session::flash('error',$errDateMessage);
-				return redirect()->back();
+				/*Session::flash('error',$errDateMessage);
+				return redirect()->back();*/
 			}
 		}
 		
