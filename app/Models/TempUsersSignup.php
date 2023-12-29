@@ -83,11 +83,11 @@ class TempUsersSignup extends Authenticatable
     }
 	
    
-    public function setPasswordAttribute($password)
+   /* public function setPasswordAttribute($password)
     {
         if(!empty($password)){
             $this->attributes['password'] = Hash::make($password);
         }
-    }
+    }*/
 
 }

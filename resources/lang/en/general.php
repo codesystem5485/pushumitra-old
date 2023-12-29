@@ -270,6 +270,17 @@ return [
 'advertisement_total_cost'=>'Total Amount Including 18% GST',
 'advertisement_balance_cost'=>'Balance Amount',
 
+//testimonials management
+
+'testimonial_list'=>'Testimonials list',
+'testimonial_edit'=>'Edit Testimonial',
+'testimonial_add'=>'Add Testimonial',
+'testimonial_create'=>'Create Testimonial',
+'testimonial_name'=>'Testimonial User Name',
+'testimonial_designation'=>'Testimonial Designation',
+'testimonial_message'=>'Testimonial Message',
+'testimonial_photo'=>'Testimonial Photo',
+
 ];
 
 ?>

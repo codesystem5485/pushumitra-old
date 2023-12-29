@@ -11,6 +11,7 @@ use DB;
 use DataTables;
 use Spatie\Activitylog\Models\Activity;
 use App\Models\MobileVerification;
+use App\Models\Fee;
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
@@ -371,7 +372,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		if($user){ 
 			$existingRvcode = $user->rv_code;
 			if($existingRvcode!=''){
-				$existingRvcodeArr = explode('PM',$existingRvcode); 
+				$existingRvcodeArr = explode('RV',$existingRvcode); 
 				if(count($existingRvcodeArr) ==2){
 					if(isset($existingRvcodeArr[1])){
 						$workingRvcode = $existingRvcodeArr[1];

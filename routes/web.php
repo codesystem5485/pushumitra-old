@@ -28,6 +28,7 @@ use App\Http\Controllers\Backend\FeesController;
 use App\Http\Controllers\Backend\BreederController;
 use App\Http\Controllers\Backend\AdvertisementController;
 use App\Http\Controllers\Backend\PaymentReportController;
+use App\Http\Controllers\Backend\TestimonialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -227,7 +228,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         
     });
 	
-	//fees module
+	//advertisements module
     Route::group([
         'prefix' => 'pashumitra/advertisements',
         'as' => 'advertisements.',
@@ -241,6 +242,19 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 		 Route::get('/{id?}/detail', [AdvertisementController::class, 'detail'])->name('detail');
        
         
+    });
+	
+	//advertisements module
+    Route::group([
+        'prefix' => 'pashumitra/testimonials',
+        'as' => 'testimonials.',
+      ], function () {
+        Route::get('/', [TestimonialController::class, 'index'])->name('index');
+        Route::get('/create', [TestimonialController::class, 'create'])->name('create');
+        Route::post('/store', [TestimonialController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [TestimonialController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [TestimonialController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [TestimonialController::class, 'delete'])->name('delete');
     });
 
     //Animal Owner module

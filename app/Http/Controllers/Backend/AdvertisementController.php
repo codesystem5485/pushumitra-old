@@ -207,16 +207,13 @@ class AdvertisementController extends Controller
         DB::beginTransaction();
         try{
             $advertisements = Advertisements::find($id);
-            
-            $advertisement_app_image='';
-			$advertisement_web_image='';
-			
-			if(!empty($request->advertisement_app_image))
+            if(!empty($request->advertisement_app_image))
 			{
 				$advertisement_app_imagename = $this->uploadFile($request->advertisement_app_image,'adevertisements_app');
 				if(!empty($advertisement_app_imagename))
 				{
 					$advertisement_app_image = $advertisement_app_imagename;
+					$advertisements->advertisement_app_image = $advertisement_app_image;
 				}
 			}
 			
@@ -226,6 +223,7 @@ class AdvertisementController extends Controller
 				if(!empty($advertisement_web_imagename))
 				{
 					$advertisement_web_image = $advertisement_web_imagename;
+					$advertisements->advertisement_website_image = $advertisement_web_image;
 				}
 			}
 			$advertisement_startdate = '';
@@ -248,8 +246,6 @@ class AdvertisementController extends Controller
 			$advertisements->advertisement_cost_paid = $request->input('advertisement_cost_paid');
 			$advertisements->advertisement_total_cost = $request->input('advertisement_total_cost'); 
 			$advertisements->advertisement_balance_cost = $request->input('advertisement_balance_cost');
-			$advertisements->advertisement_app_image = $advertisement_app_image;
-			$advertisements->advertisement_website_image = $advertisement_web_image;
 			$advertisements->user_id = Auth::user()->id;
 			
             $advertisements->save();

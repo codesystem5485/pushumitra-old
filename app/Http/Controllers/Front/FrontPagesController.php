@@ -10,6 +10,7 @@ use Auth;
 use App\Traits\FileUpload;
 use App\Models\Books;
 use Response;
+use App\Models\Testimonials;
 
 class FrontPagesController extends Controller
 {
@@ -26,8 +27,8 @@ class FrontPagesController extends Controller
      * @return View
      */
     public function index(){
-        
-        return view('front.index'); 
+        $testimonials = Testimonials::where('status',1)->orderBy('id','DESC')->get();
+        return view('front.index',compact('testimonials')); 
     }
 	
 	public function aboutus(){
@@ -42,7 +43,7 @@ class FrontPagesController extends Controller
 	
 	public function library(){
        // $books = Books::orderBy('id','ASC')->paginate(15);
-	   $books = Books::orderBy('id','ASC')->paginate(200);
+	   $books = Books::orderBy('id','ASC')->paginate(300);
         return view('front.library',compact('books')); 
     }
 	

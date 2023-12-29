@@ -399,7 +399,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="h2-testimonial-area mb-90">
         <div class="container">
@@ -422,6 +422,7 @@
             <div class="mb-50">
                 <div class="swiper h2-testimonial-slider">
                     <div class="swiper-wrapper">
+					@foreach($testimonials as $testimonial)
                         <div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-content text-center">
@@ -440,12 +441,15 @@
 											
                                     </div>
                                     <div class="author-name-deg">
-                                        <h3>Sebastian Ethan</h3>
-                                        <span>Customer</span>
+                                        <h3>{{$testimonial->testimonial_name}}</h3>
+                                        <span>{{$testimonial->testimonial_designation}}</span>
                                     </div>
-                                    <p>Pellentesque maximus augue orci, quisdal andosp
-                                        Pellentesque maximus augue orci, quisoki congue
-                                        Nullam egestas, nisi id mollis elementum.</p>
+									@php
+									$testimonial_message = $testimonial->testimonial_message;
+									if (strlen($testimonial->testimonial_message) > 280)
+										$testimonial_message = substr($testimonial->testimonial_message, 0, 265).'.. Read more';
+									@endphp
+                                    <p>{{$testimonial_message}}.</p>
                                     <div class="review">
                                         <ul>
                                             <li><i class="bi bi-star-fill"></i></li>
@@ -457,12 +461,16 @@
                                     </div>
                                 </div>
                                 <div class="testimonial-img">
-                                    <img src="{{asset('front/assets/images/bg/h2-testi-1.png')}}" alt>
-									
+								@if($testimonial->testimonial_photo!='')
+                                    <img  src="{{ url("/upload/testimonials/")}}/{{$testimonial->testimonial_photo}}" alt>
+								@else
+									<img src="{{asset('front/assets/images/user_default.png')}}" alt>
+								@endif	
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
+                    @endforeach   
+					   <!--<div class="swiper-slide">
                             <div class="testimonial-wrap">
                                 <div class="testimonial-content text-center">
                                     <div class="quat-icon">
@@ -501,11 +509,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    -->
+					</div>
                 </div>
             </div>
           
         </div>
     </div>
-	-->
+
 	@endsection

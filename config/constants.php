@@ -24,6 +24,7 @@ return [
         'pan_photo_file_path'=>'upload/pan_photo',
         'cheque_photo_file_path'=>'upload/cheque_photo',
 		'adevertisements_file_path'=>'upload/adevertisements',
+		'testimonials_file_path'=>'upload/testimonials',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],

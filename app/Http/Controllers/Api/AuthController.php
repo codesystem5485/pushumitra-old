@@ -978,8 +978,8 @@ class AuthController extends BaseController
 	
 	public function getLibrary(Request $request)
 	{ 
-		 $response['books'] = Books::orderBy('id','ASC')->get();
-		 $response['books_file_url']=url("/upload/book/");
+		 $response['results'] = Books::orderBy('id','ASC')->get();
+		 $response['image_base_path']=url("/upload/book/");
 		 return $this->sendResponse($response,"",200);
 	}
 	
@@ -1001,7 +1001,7 @@ class AuthController extends BaseController
 				'pm_bank_name'	=>'required|String',
 				'pm_account_no'	=>'required|numeric',
 				'pm_ifsc_code'	=>'required',
-				'pm_cheque_photo'	=>'required|max:15000',
+				//'pm_cheque_photo'	=>'required|max:15000',
 				'pm_nominee_name'=>'required|String',
 				'pm_nominee_dob'	=>'required|date',
 				'pm_nominee_relationship'	=>'required|String',

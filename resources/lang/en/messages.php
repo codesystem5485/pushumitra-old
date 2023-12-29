@@ -98,4 +98,10 @@ return [
     'invalid_role' => 'Please login with valid role',
 	'invalid_start_date'=>'Please enter start date greater than todays date',
 	'invalid_end_date'=>'Please enter end date greater than start date',
+	'advertisements_create'=>'Adevertisement has been created',
+	'advertisements_update'=>'Adevertisement has been updated',
+	'advertisements_delete'=>'Adevertisement has been deleted',
+	'testimonials_create'=>'Testimonial has been created',
+	'testimonials_update'=>'Testimonial has been updated', 
+	'testimonials_delete'=>'Testimonial has been deleted',
 ];

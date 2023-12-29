@@ -35,8 +35,8 @@ class PashumitraController extends BaseController
     public function nearestPashumitraList(Request $request){
 		
 		$postData = request()->all();
-		$users = $this->userRepo->getNearestPashumitraData($postData);
-		return $this->sendResponse($users,"",200);
+		$response['results'] = $this->userRepo->getNearestPashumitraData($postData);
+		return $this->sendResponse($response,"",200);
 	}
 	
 	public function pashumitraDetail(Request $request){
