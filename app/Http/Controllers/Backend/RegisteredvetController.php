@@ -259,7 +259,11 @@ class RegisteredvetController extends BaseController
             $userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
             
             $this->userRepo->delete($id);
-            $this->userDetailRepo->delete($userDetailId);
+           // $this->userDetailRepo->delete($userDetailId);
+			if($userDetailId!=''){
+                $this->userDetailRepo->delete($userDetailId);
+            }
+			
             DB::commit(); 
             Session::flash('success', trans('messages.delete_records'));
             return redirect()->route('registered-vet.index');
