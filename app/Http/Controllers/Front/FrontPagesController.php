@@ -43,8 +43,8 @@ class FrontPagesController extends Controller
 	
 	public function library(){
        // $books = Books::orderBy('id','ASC')->paginate(15);
-	   $books = Books::orderBy('id','ASC')->paginate(300);
-        return view('front.library',compact('books')); 
+	   $books = Books::orderBy('id','ASC')->paginate(20);
+       return view('front.library',compact('books')); 
     }
 	
 	public function termsConditions(){

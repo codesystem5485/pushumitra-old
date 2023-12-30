@@ -50,7 +50,6 @@ class SearchController extends BaseController
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
 		
-		
 		$response['results']  = $this->userRepo->searchRegisteredVetDetails($postData);
 		return $this->sendResponse($response,"",200);
 	}

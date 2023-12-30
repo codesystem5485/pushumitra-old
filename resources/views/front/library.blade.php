@@ -31,10 +31,11 @@
 			@php 
 				$i = 1;
 			@endphp
-			@foreach($books as $book)
+			@foreach($books as $index => $book)
 			
             <tr>
-                <td>{{$i}}.</td>
+                
+				<td>{{$index + $books->firstItem()}}.</td>
                 <td>{{$book->book_name}}</td>
                <!-- <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>-->
                 <td> @if(!empty($book->book_file))
@@ -53,20 +54,23 @@
             </tbody>
         </table>
         </div>
-		<!--<div class="paginations-area">
+		<div class="paginations-area">
+		<ul class="pagination">
         {{ $books->links() }}
-		</div>-->
+		</ul>
+		</div>
        
-        <div class="paginations-area">
+        <!-- <div class="paginations-area">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="javascript:void(0)"><i class="bi bi-arrow-left"></i></a></li>
+			{{ $books->links() }}
+               <li class="page-item"><a class="page-link" href="javascript:void(0)"><i class="bi bi-arrow-left"></i></a></li>
                 <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)">4</a></li>
                 <li class="page-item"><a class="page-link" href="javascript:void(0)"><i class="bi bi-arrow-right"></i></a></li>
             </ul>
-        </div>
+        </div>-->
     </div>
 </div>
 @endsection

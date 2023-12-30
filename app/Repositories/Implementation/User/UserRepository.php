@@ -681,7 +681,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->orderBy('id', 'DESC')
         ->get();*/
 		
-		$details = DB::table('users')->select('users.*', 'user_details.rv_speciality')
+		$details = $this->userModelRepo::select('users.*', 'user_details.rv_speciality')
 				->join('user_details', 'user_details.user_id', '=', 'users.id')
 				->join('model_has_roles', function ($join) {
 				$join->on('users.id', '=', 'model_has_roles.model_id')
