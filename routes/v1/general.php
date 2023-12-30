@@ -84,6 +84,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/search-animalsale', [SearchController::class,'searchAnimalForSalesDetails']);
 	Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);
 	Route::get('/search-library', [SearchController::class,'searchLibraryDetails']);
+	Route::get('/search-chemist', [SearchController::class,'searchChemistDetails']);
 
 	/* advertisement Details */
 	Route::get('/advertisement-list', [AdvertisementController::class,'getAdvertisementList']);

@@ -20,6 +20,8 @@ use App\Models\AnimalForSale;
 use Carbon\Carbon;
 use App\Models\Breeder;
 use App\Models\Books;
+use App\Models\Chemist;
+use App\Models\ChemistShopImages;
 
 class SearchController extends BaseController
 {
@@ -117,6 +119,21 @@ class SearchController extends BaseController
 								->orderBy('id','ASC')->get();
 		$response['file_base_path']=url("/upload/book/");
 		return $this->sendResponse($response,"",200);
-		   
+	}
+	
+	public function searchChemistDetails(Request $request)
+	{
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'search_input' => 'required',
+			]);
+		$search_input = $postData['search_input'];	
+		$response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'))
+           ->where('city_town','LIKE',"%{$search_input}%")
+		   ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('chemists.id','ASC')->get();
+		   $response['image_base_path'] =  url("/upload/chemist/");
+			
+		return $this->sendResponse($response,"",200);
 	}
 }
