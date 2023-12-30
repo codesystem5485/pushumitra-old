@@ -5,7 +5,8 @@
         <div class="swiper hero2-slider">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="hero-wrapper" style="background-image: url(asset('front/assets/images/bg/slider-1.jpg));">
+                    <div class="hero-wrapper" style="background-image: url({{asset('front/assets/images/bg/slider-2.jpg')}});">
+                       
 					
 					
                         <!-- <div class="slide-img">
@@ -15,11 +16,10 @@
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
                                     <div class="banner-content">
-                                        <h6>your pet our family</h6>
-                                        <h1>Your <span>pet</span> is part of our family.</h1>
+                                        <h6> </h6>
+                                       <!-- <h1>Your <span>pet</span> is part of our family.</h1>-->
                                         <div class="btn-group">
-                                            <a class="primary-btn2" href="{{url('/contact-us')}}">Make a Reservation</a>
-                                            <a class="primary-btn3" href="{{url('/about-us')}}">About More </a>
+                                             
                                         </div>
                                     </div>
                                 </div>
@@ -33,18 +33,18 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="hero-wrapper" style="background-image: url((asset('front/assets/images/bg/slider-2.jpg));">
+                    <div class="hero-wrapper" style="background-image: url({{asset('front/assets/images/bg/slider-2.jpg')}});">
                         <div class="container">
                             <div class="row align-items-center">
                                 <div class="col-lg-6">
-                                    <div class="banner-content">
+                                   <!-- <div class="banner-content">
                                         <h6>your pet our family</h6>
                                         <h1>Your <span>cat</span> is part of our family.</h1>
                                         <div class="btn-group">
                                             <a class="primary-btn2" href="{{url('/contact-us')}}">Make a Reservation</a>
                                             <a class="primary-btn3" href="{{url('/about-us')}}">About More </a>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                                 <!-- <div class="col-lg-6 d-flex justify-content-center">
                                     <div class="hero-img">
@@ -446,8 +446,9 @@
                                     </div>
 									@php
 									$testimonial_message = $testimonial->testimonial_message;
-									if (strlen($testimonial->testimonial_message) > 280)
-										$testimonial_message = substr($testimonial->testimonial_message, 0, 265).'.. Read more';
+									$length = mb_strlen($testimonial_message, 'UTF-8'); 
+									if ($length > 280)
+										$testimonial_message = mb_substr($testimonial->testimonial_message, 0, 265).'.. Read more';
 									@endphp
                                     <p>{{$testimonial_message}}.</p>
                                     <div class="review">
