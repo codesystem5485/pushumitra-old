@@ -96,49 +96,51 @@ if(!function_exists('calculatePrizePool')){
 
 	//sending push notifications to mobile devices
 	function sendNotifications($input)
-	{
-		$tokens = array($input['fcm_token']);
-		$msg 	= $input['message'];
-		$title	= $input['title'];
-		
-		/*$customParam = array(
-			'redirection_id' => '2',
-			'redirection_type' => 'post_page' //'post_page','category_page','blog_page'
-		);*/
-		
-		$url = 'https://fcm.googleapis.com/fcm/send';
-		$api_key = 'fcm_server_api_key';
-		
-		$messageArray = array();
-		$messageArray["notification"] = array (
-			'title' => $title,
-			'message' => $msg,
-			//'customParam' => $customParam,
-		);
-		$fields = array(
-			'registration_ids' => $tokens,
-			'data' => $messageArray,
-		);
-		$headers = array(
-			'Authorization: key=' . $api_key, //GOOGLE_API_KEY
-			'Content-Type: application/json'
-		);
-		// Open connection
-		$ch = curl_init();
-		// Set the url, number of POST vars, POST data
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		// Disabling SSL Certificate support temporarly
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-		// Execute post
-		$result = curl_exec($ch);
-		if ($result === FALSE) {
-			echo 'Android: Curl failed: ' . curl_error($ch);
+	{ 
+		if($input['fcm_token']!=''){
+			$tokens = array($input['fcm_token']);
+			$msg 	= $input['message'];
+			$title	= $input['title'];
+			
+			/*$customParam = array(
+				'redirection_id' => '2',
+				'redirection_type' => 'post_page' //'post_page','category_page','blog_page'
+			);*/
+			
+			$url = 'https://fcm.googleapis.com/fcm/send';
+			$api_key = 'AAAA3VOatmM:APA91bH0smliP78ILBQ96TDyZvZoTkCaWQOZaBhMXROKgEXlmUjdJIkEHqFbk5B5zET51aFicM_tdH72oFtml_fkPPkuWR2ARpWFOnkVOne_LWlQ12sUuQ5t5UhWzx90dDMW0kqh5XAK';
+			
+			$messageArray = array();
+			$messageArray["notification"] = array (
+				'title' => $title,
+				'message' => $msg,
+				//'customParam' => $customParam,
+			);
+			$fields = array(
+				'registration_ids' => $tokens,
+				'data' => $messageArray,
+			);
+			$headers = array(
+				'Authorization: key=' . $api_key, //GOOGLE_API_KEY
+				'Content-Type: application/json'
+			);
+			// Open connection
+			$ch = curl_init();
+			// Set the url, number of POST vars, POST data
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			// Disabling SSL Certificate support temporarly
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+			// Execute post
+			$result = curl_exec($ch);
+			if ($result === FALSE) {
+				//echo 'Android: Curl failed: ' . curl_error($ch);
+			}
+			// Close connection
+			curl_close($ch);
+			return $result;
 		}
-		// Close connection
-		curl_close($ch);
-		return $result;
 	}

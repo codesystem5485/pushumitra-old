@@ -48,7 +48,7 @@ class AddanimalController extends BaseController
 		}
 		
 		$validator = Validator::make($postData, [
-				'UID_number' => 'nullable|numeric|digits:12',
+				//'UID_number' => 'nullable|numeric|digits:12',
 				//'name' => 'required',
 				//'species' => 'required',
 				//'breed' => "required",
@@ -73,17 +73,21 @@ class AddanimalController extends BaseController
         
         DB::beginTransaction();
 		$response = [];
-        try{      
-					
-            $aInsertData['name'] = $postData['name'];
+        try{   
+
+			$aInsertData['name'] = $postData['name'];
 			$aInsertData['animal_owner'] = $postData['user_id'];
 			$aInsertData['description'] = $postData['description'];
 			$aInsertData['sex'] = $postData['sex'];
 			$aInsertData['age'] = $postData['age'];
-			//$aInsertData['species'] = $postData['species'];
-			//$aInsertData['breed'] = $postData['breed'];
 			$aInsertData['user_id'] = $postData['user_id'];
 			$aInsertData['UID_number'] = $postData['UID_number'];
+			if(isset($postData['species'])){
+				$aInsertData['species'] = $postData['species'];
+			}
+			if(isset($postData['species'])){
+				$aInsertData['breed'] = $postData['breed'];
+			}
 			
             $addAnimal = $this->addAnimalRepo->create($aInsertData);
             if($request->animal_photo)
@@ -118,7 +122,8 @@ class AddanimalController extends BaseController
 	public function getAnimalList(Request $request)
 	{
 		$postData = request()->all();
-		$response['results']  =   Animals::select( 'animals.*',
+		$response['results']  =   Animals::leftJoin('species', 'species.id', '=', 'animals.species')
+			->select( 'animals.*','species.specie as species_name',
             DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
           ->where('animals.animal_owner',$postData['user_id'])
 		  ->orderBy('animals.id','ASC')->get();

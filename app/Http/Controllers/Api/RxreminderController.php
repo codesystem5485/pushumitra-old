@@ -183,11 +183,14 @@ class RxreminderController extends BaseController
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
 		
+		$owner = $postData['user_id'];
+		
 		$response = [];
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
 			->select('animals.id as animal_id','animals.name','animals.UID_number','animals.sex','animals.age',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
-			->where('rx_reminders.user_id',$postData['user_id'])
-			->orWhere('rx_reminders.animal_owner_id',$postData['user_id'])
+			->where(function ($q) use ($owner) {
+				$q->where('rx_reminders.user_id',$owner)->orWhere('rx_reminders.animal_owner_id',$owner);
+			})
 			->groupBy('animal_id')->get();
 		
 		$response['animals'] = $animals;
@@ -198,6 +201,7 @@ class RxreminderController extends BaseController
 	
 	public function getRxReminderHistoryDetails(Request $request)
 	{
+		DB::enableQueryLog();
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
 				'animal_id' => 'required',
@@ -207,6 +211,7 @@ class RxreminderController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
+		$owner = $postData['user_id'];
 		
 		$response = [];
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
@@ -214,9 +219,10 @@ class RxreminderController extends BaseController
 			->select('users.full_name as animal_owner_name','rx_reminders.*','rx_reminders.id as rx_reminder_id','animals.id','animals.name','animals.UID_number',
 			'animals.UID_number','animals.sex','animals.age',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where('rx_reminders.animal_id',$postData['animal_id'])
-			->where('rx_reminders.user_id',$postData['user_id'])
-			->orWhere('rx_reminders.animal_owner_id',$postData['user_id'])
-			->get();
+			->where(function ($q) use ($owner) {
+				$q->where('rx_reminders.user_id',$owner)->orWhere('rx_reminders.animal_owner_id',$owner);
+			})->get();
+		
 		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal/");
 		

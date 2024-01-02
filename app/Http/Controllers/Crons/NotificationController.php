@@ -27,35 +27,97 @@ class NotificationController extends BaseController
 	
 	public function getNotificationsToSend()
 	{
-		
-		$insertArray = array(
-				'message' =>"testing Cron",
-				'scheduled_date' => date("Y-m-d"),
-				'sender_user_id' => 32,
-				'rx_reminder_id' => 6666,
-				'title' => "test cron",
-			);
-			
-		$response = Notifications::create($insertArray);
-		exit;
 		DB::enableQueryLog();
-
 		$todayDate = date("Y-m-d");
+		//echo $date = $todayDate->addDays(1);exit;
+		
+		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
+		$date = $todayDate1->addDays(1);
+		$newDate = date("Y-m-d",strtotime($date));
+
 		
 		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
-								//->whereDate('scheduled_date', '=', $todayDate)
-								->where( 'scheduled_date', '>', Carbon::now()->subDays(1))
+								->select('notifications.*','users.id','users.fcm_id')
+								->where( 'scheduled_date', '=', $newDate)
+								->where( 'type', 1)
 								->where('send_flag',0)
 								->get();
 								
-		print_r(DB::getQueryLog());exit;
-								
 		if($notifications)
 		{
-			foreach($notifications as $row){
+			foreach($notifications as $row)
+			{
 				$userFcmToken = $row->fcm_id;
 				$message = $row->message;
 				$title = $row->title;
+				$notificationId = $row->id;
+				
+				$sendArray = array(
+					'fcm_token'=> $userFcmToken,
+					'message' =>$message,
+					'title'=>$title
+				);
+				
+				//send notifications
+				sendNotifications($sendArray);
+				
+				//update send info in notifications
+				$updateArray = array(
+					'send_flag'=>1,
+					'send_date'=>$todayDate,
+					
+				);
+				
+				$update = Notifications::where('id',$row->id)->update($updateArray);
+				
+			}
+		}
+	}
+	
+	public function getPaymentNotificationsToSend()
+	{
+		DB::enableQueryLog();
+		$todayDate = date("Y-m-d");
+		//echo $date = $todayDate->addDays(1);exit;
+		
+		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
+		$date = $todayDate1->addDays(1);
+		$newDate = date("Y-m-d",strtotime($date));
+
+		
+		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
+								->select('notifications.*','users.id','users.fcm_id')
+								->where( 'scheduled_date', '=', $newDate)
+								->where( 'type', 2)
+								->where('send_flag',0)
+								->get();
+								
+		if($notifications)
+		{
+			foreach($notifications as $row)
+			{
+				$userFcmToken = $row->fcm_id;
+				$message = $row->message;
+				$title = $row->title;
+				$notificationId = $row->id;
+				
+				$sendArray = array(
+					'fcm_token'=> $userFcmToken,
+					'message' =>$message,
+					'title'=>$title
+				);
+				
+				//send notifications
+				sendNotifications($sendArray);
+				
+				//update send info in notifications
+				$updateArray = array(
+					'send_flag'=>1,
+					'send_date'=>$todayDate,
+					
+				);
+				
+				$update = Notifications::where('id',$row->id)->update($updateArray);
 				
 			}
 		}

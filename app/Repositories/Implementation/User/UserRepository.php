@@ -563,7 +563,8 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 $q->where('name', 'Registered-vet');
             }
         })
-		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')
+		->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
+		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude')
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
 		->get();
