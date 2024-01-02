@@ -36,6 +36,7 @@ class BreederController extends BaseController
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
 				'breeder_name' => 'required',
+				//'species' => 'required',
 				//'firm_registration_number' => 'required',
 				'mobile_number' => "required|numeric|digits:10",
 				'animal_breed' => 'required',
@@ -109,7 +110,8 @@ class BreederController extends BaseController
 	
 	public function getBreederList(Request $request)
 	{
-		$response['results']  =   Breeder::select( 'breeders.*',
+		$response['results']  =   Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
+				->select( 'breeders.*','species.specie as species_name',
             DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
            ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('breeders.id','ASC')->get();
@@ -121,7 +123,8 @@ class BreederController extends BaseController
 	public function breederDetail(Request $request)
 	{
 		$id = $request->breeder_id;
-		$breeder = Breeder::select('breeders.*')
+		$breeder = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
+		->select('breeders.*','species.specie as species_name')
 		->where('breeders.id',$id)
 		->first();
 		

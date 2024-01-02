@@ -40,7 +40,7 @@ class AnimalsaleController extends BaseController
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'UID_number' => 'nullable|numeric|digits:12',
+				//'UID_number' => 'nullable|numeric|digits:12',
 				//'species' => 'required',
 				'breed' => "required",
 				//'type' => "required",
@@ -115,7 +115,8 @@ class AnimalsaleController extends BaseController
 	
 	public function getAnimalSaleList(Request $request)
 	{
-		$response['results']  =   Animalforsale::select( 'animal_for_sales.*',
+		$response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+			->select( 'animal_for_sales.*','species.specie as species_name',
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
            ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('animal_for_sales.id','ASC')->get();
@@ -129,7 +130,8 @@ class AnimalsaleController extends BaseController
 		$id = $request->animalsale_id;
        // $animalsale = Animalforsale::find($id);
 		
-		$animalsale = Animalforsale::select('animal_for_sales.*')
+		$animalsale = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select('animal_for_sales.*','species.specie as species_name')
 		->where('animal_for_sales.id',$id)
 		->first();
 		

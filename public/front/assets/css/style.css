@@ -8239,7 +8239,11 @@ a.close.fileupload-exists{
 .h2-testimonial-area .testimonial-wrap .testimonial-img {
     display: flex;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    width: 107px;
+    height: 107px;
+    margin: auto;
+    overflow:hidden;
 }
 
 .h2-testimonial-area .testimonial-wrap .testimonial-img img {

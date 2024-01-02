@@ -131,7 +131,7 @@
         // Home Page Testimonial Slider
         var swiper = new Swiper(".h2-testimonial-slider", {
             spaceBetween: 24,
-            slidesPerView: 2,
+            slidesPerView: 1,
             loop: true,
             speed: 2000,
             autoplay: {
@@ -152,16 +152,16 @@
                     slidesPerView: 1
                 },
                 992: {
-                    slidesPerView: 2
+                    slidesPerView: 1
                 },
                 1200: {
-                    slidesPerView: 2
+                    slidesPerView: 1
                 },
                 1400: {
-                    slidesPerView: 2
+                    slidesPerView: 1
                 },
                 1600: {
-                    slidesPerView: 2
+                    slidesPerView: 1
                 },
             }
         });

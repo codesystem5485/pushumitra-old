@@ -69,7 +69,8 @@ class SearchController extends BaseController
 		}
 		
 		$search_input = $postData['search_input'];
-		$response['results']  =   Animalforsale::select( 'animal_for_sales.*',
+		$response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+			->select( 'animal_for_sales.*','species.specie as species_name',
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
            ->where('breed','LIKE',"%{$search_input}%")
 		   ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
@@ -93,7 +94,8 @@ class SearchController extends BaseController
 		}
 		
 		$search_input = $postData['search_input'];
-		$response['results']  =  Breeder::select('breeders.*',
+		$response['results']  =  Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
+			->select('breeders.*','species.specie as species_name',
             DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
 			->where('animal_breed','LIKE',"%{$search_input}%")
             ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())

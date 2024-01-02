@@ -12,7 +12,7 @@ class Breeder extends Model
 {
     use HasFactory,LogsActivity; 
 	protected $table = 'breeders';
-    protected $fillable = ['id','user_code','breeder_name','subscriptionStartDate','subscriptionEndDate','firm_registration_number','mobile_number','animal_breed','age','animal_description','vaccination_done','expected_price','address','state','state_id','city_town','taluka','district','user_id','pm_code','pincode',
+    protected $fillable = ['id','species','user_code','breeder_name','subscriptionStartDate','subscriptionEndDate','firm_registration_number','mobile_number','animal_breed','age','animal_description','vaccination_done','expected_price','address','state','state_id','city_town','taluka','district','user_id','pm_code','pincode',
 	'longitude','latitude','created_at','updated_at'];
         
     public static  function boot()
