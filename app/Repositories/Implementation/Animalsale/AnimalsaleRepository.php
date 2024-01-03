@@ -120,7 +120,7 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
 		$response = Notifications::create($insertArray);
 		
 		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
-								->select('notifications.*','users.id','users.fcm_id')
+								->select('notifications.*','users.id','users.fcm_id','notifications.id as notification_id')
 								->where( 'notifications.id', $response->id)
 								->first();
 								
@@ -129,7 +129,7 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
 				$userFcmToken = $notifications->fcm_id;
 				$message = $notifications->message;
 				$title = $notifications->title;
-				$notificationId = $notifications->id;
+				$notificationId = $notifications->notification_id;
 				$link = $notifications->link;
 				
 				$sendArray = array(
@@ -148,8 +148,7 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
 					
 				);
 				
-				$update = Notifications::where('id',$notifications->id)->update($updateArray);
-		
+				$update = Notifications::where('id',$notifications->notification_id)->update($updateArray);
 		}
 	}
 }

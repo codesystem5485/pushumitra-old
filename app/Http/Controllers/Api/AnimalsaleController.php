@@ -68,8 +68,8 @@ class AnimalsaleController extends BaseController
 		
         $response = [];
 		
-       // DB::beginTransaction();
-        //try{            
+        DB::beginTransaction();
+        try{            
             $aInsertData = $request->all();
             $animalsale = $this->animalsaleRepo->create($aInsertData);
             if($request->animal_photo)
@@ -103,30 +103,30 @@ class AnimalsaleController extends BaseController
 			//add to notifications
 			//$link = url().'receipt/download/'.$aInsertData['user_id'].'/'.$postData['payment_id'];
 			
-			$link = url("/receipt/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
 			
 			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
 			$aInsertData['rx_reminder_id'] = 0;
 			$aInsertData['type'] = 2;
 			$aInsertData['link'] = $link;
 			$aInsertData['scheduled_date'] = date("Y-m-d");
-			$aInsertData['scheduled_message'] ="Thank you.Please download your bill receipt.";
+			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
 			$aInsertData['title'] = "Payment Receipt for Animal Sale";
 			$notifications = $this->animalsaleRepo->addPaymentToNotifications($aInsertData);
 			
             
-          //  DB::commit();
+            DB::commit();
 			 ## Store log
             $message = trans('messages.animalsale_create',['name' => $request->UID_number]);
             storeActicityLog(trans('messages.animalsale_create'),$message);
 			return $this->sendResponse($response,trans('messages.animalsale_create'),200);
-    /*    }catch(\Exception $e){
+       }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
             storeActicityLog(trans('messages.error'),$error,$request->user_id);
 			return  $this->sendError($response,trans('messages.something'),500);			
-        }*/
+        }
     }
 	
 	public function getAnimalSaleList(Request $request)

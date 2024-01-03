@@ -29,6 +29,7 @@ use App\Http\Controllers\Backend\BreederController;
 use App\Http\Controllers\Backend\AdvertisementController;
 use App\Http\Controllers\Backend\PaymentReportController;
 use App\Http\Controllers\Backend\TestimonialController;
+use App\Http\Controllers\Front\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +57,10 @@ Route::get('/contact-us', [FrontPagesController::class, 'contactus'])->name('con
 Route::get('/library', [FrontPagesController::class, 'library'])->name('library');
 Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions'])->name('terms-conditions');
 Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->name('privacy-policy');
+
+//receipt download from mobile app notification
+Route::get('invoice/download/{uid}/{id}', [InvoiceController::class, 'downloadReceipt'])->name('downloadReceipt');
+
 
 //Route::get('/test', [TestController::class, 'test'])->name('test'); 
 Route::get('/update-permission', [TestController::class, 'updatePermission']); 

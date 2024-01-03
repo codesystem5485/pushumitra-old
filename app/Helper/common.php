@@ -99,63 +99,45 @@ if(!function_exists('calculatePrizePool')){
 	{ 
 		if($input['fcm_token']!=''){
 			$tokens = array($input['fcm_token']);
-			$msg 	= $input['message'];
+			$body 	= $input['message'];
 			$title	= $input['title'];
 			
-			/*$customParam = array(
-				'redirection_id' => '2',
-				'redirection_type' => 'post_page' //'post_page','category_page','blog_page'
-			);*/
+				$data = [
+				"notification" => [
+					"body"  => $body,
+					"title" => $title,
+				
+				],
+				"priority" =>  "high",
+				"data" => [
+					//"click_action"  =>  "FLUTTER_NOTIFICATION_CLICK",
+					"id"            =>  "1",
+					"status"        =>  "done",
+					"info"          =>  [
+						"title"  => $title,
+					]
+				],
+				"to" => $input['fcm_token']
+			];
 			
-			$url = 'https://fcm.googleapis.com/fcm/send';
-			$api_key = 'AAAA3VOatmM:APA91bH0smliP78ILBQ96TDyZvZoTkCaWQOZaBhMXROKgEXlmUjdJIkEHqFbk5B5zET51aFicM_tdH72oFtml_fkPPkuWR2ARpWFOnkVOne_LWlQ12sUuQ5t5UhWzx90dDMW0kqh5XAK';
-			
-			$messageArray = array();
-			$messageArray["notification"] = array (
-				'title' => $title,
-				'message' => $msg,
-				//'customParam' => $customParam,
-			);
-			
-		//	var_dump($messageArray);exit;
-			$fields = array(
-				'registration_ids' => $tokens,
-				'data' => $messageArray,
-			);
-			/*$headers = array(
-				'Authorization':'key='. $api_key, //GOOGLE_API_KEY
-				'Content-Type':'application/json'
-			);
-			
-			$headers = array
-			(
-				'Authorization'=> 'key='. $api_key,
-				'Content-Type'=> 'application/json'
-			);*/
-			
-			$headers = array(
-				'Authorization: key='.$api_key,
-				'Content-Type: application/json'
-				);
-
-			// Open connection
 			$ch = curl_init();
-			// Set the url, number of POST vars, POST data
-			curl_setopt($ch, CURLOPT_URL, $url);
-			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_POST, 1);
+
+			$headers = array();
+			$headers[] = 'Content-Type: application/json';
+			$headers[] = 'Authorization: key=AAAA3VOatmM:APA91bH0smliP78ILBQ96TDyZvZoTkCaWQOZaBhMXROKgEXlmUjdJIkEHqFbk5B5zET51aFicM_tdH72oFtml_fkPPkuWR2ARpWFOnkVOne_LWlQ12sUuQ5t5UhWzx90dDMW0kqh5XAK';
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-			// Disabling SSL Certificate support temporarly
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-			// Execute post
+
 			$result = curl_exec($ch);
+			curl_close ($ch);
 			
 			
 			//var_dump($result);//exit;
 			if ($result === FALSE) {
-				echo 'Android: Curl failed: ' . curl_error($ch);
+				//echo 'Android: Curl failed: ' . curl_error($ch);
 			}
 			// Close connection
 			curl_close($ch);
