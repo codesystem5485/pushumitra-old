@@ -117,15 +117,27 @@ if(!function_exists('calculatePrizePool')){
 				//'customParam' => $customParam,
 			);
 			
-			//var_dump($tokens);exit;
+		//	var_dump($messageArray);exit;
 			$fields = array(
 				'registration_ids' => $tokens,
 				'data' => $messageArray,
 			);
-			$headers = array(
-				'Authorization: key=' . $api_key, //GOOGLE_API_KEY
-				'Content-Type: application/json'
+			/*$headers = array(
+				'Authorization':'key='. $api_key, //GOOGLE_API_KEY
+				'Content-Type':'application/json'
 			);
+			
+			$headers = array
+			(
+				'Authorization'=> 'key='. $api_key,
+				'Content-Type'=> 'application/json'
+			);*/
+			
+			$headers = array(
+				'Authorization: key='.$api_key,
+				'Content-Type: application/json'
+				);
+
 			// Open connection
 			$ch = curl_init();
 			// Set the url, number of POST vars, POST data
@@ -133,11 +145,13 @@ if(!function_exists('calculatePrizePool')){
 			curl_setopt($ch, CURLOPT_POST, true);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 			// Disabling SSL Certificate support temporarly
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
 			// Execute post
 			$result = curl_exec($ch);
+			
 			
 			//var_dump($result);//exit;
 			if ($result === FALSE) {
