@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
 use DB;
 use DataTables;
 use Spatie\Activitylog\Models\Activity;
+use App\Models\Notifications;
+
 class AnimalsaleRepository  extends BaseRepository implements AnimalsaleRepositoryInterface
 {
     /**
@@ -100,6 +102,54 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
 		);
 		
 		return $dateArray;
+	}
+	
+	public function addPaymentToNotifications(array $input){
+	
+		$todayDate = date("Y-m-d");	
+		$insertArray = array(
+				'message' =>$input['scheduled_message'],
+				'scheduled_date' => $input['scheduled_date'],
+				'sender_user_id' => $input['sender_user_id'],
+				'rx_reminder_id' => $input['rx_reminder_id'],
+				'title' => $input['title'],
+				'type' => $input['type'],
+				'link'=> $input['link'],
+			);
+			
+		$response = Notifications::create($insertArray);
 		
+		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
+								->select('notifications.*','users.id','users.fcm_id')
+								->where( 'notifications.id', $response->id)
+								->first();
+								
+		if($notifications)
+		{
+				$userFcmToken = $notifications->fcm_id;
+				$message = $notifications->message;
+				$title = $notifications->title;
+				$notificationId = $notifications->id;
+				$link = $notifications->link;
+				
+				$sendArray = array(
+					'fcm_token'=> $userFcmToken,
+					'message' =>$message,
+					'title'=>$title
+				);
+				
+				//send notifications
+				sendNotifications($sendArray);
+				
+				//update send info in notifications
+				$updateArray = array(
+					'send_flag'=>1,
+					'send_date'=>$todayDate,
+					
+				);
+				
+				$update = Notifications::where('id',$notifications->id)->update($updateArray);
+		
+		}
 	}
 }

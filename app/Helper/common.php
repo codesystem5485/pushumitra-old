@@ -116,6 +116,8 @@ if(!function_exists('calculatePrizePool')){
 				'message' => $msg,
 				//'customParam' => $customParam,
 			);
+			
+			//var_dump($tokens);exit;
 			$fields = array(
 				'registration_ids' => $tokens,
 				'data' => $messageArray,
@@ -136,8 +138,10 @@ if(!function_exists('calculatePrizePool')){
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
 			// Execute post
 			$result = curl_exec($ch);
+			
+			//var_dump($result);//exit;
 			if ($result === FALSE) {
-				//echo 'Android: Curl failed: ' . curl_error($ch);
+				echo 'Android: Curl failed: ' . curl_error($ch);
 			}
 			// Close connection
 			curl_close($ch);
