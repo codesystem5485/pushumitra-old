@@ -550,7 +550,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 $q->where('name', 'Pashumitra');
             }
         })
-		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude')
+		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
 		->get();
@@ -564,7 +564,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             }
         })
 		->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
-		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude')
+		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
 		->get();
@@ -682,7 +682,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->orderBy('id', 'DESC')
         ->get();*/
 		
-		$details = $this->userModelRepo::select('users.*', 'user_details.rv_speciality')
+		$details = $this->userModelRepo::select('users.*', 'user_details.rv_speciality',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 				->join('user_details', 'user_details.user_id', '=', 'users.id')
 				->join('model_has_roles', function ($join) {
 				$join->on('users.id', '=', 'model_has_roles.model_id')

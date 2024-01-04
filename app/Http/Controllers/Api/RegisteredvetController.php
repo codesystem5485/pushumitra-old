@@ -14,6 +14,7 @@ use App\Repositories\Interfaces\State\StateRepositoryInterface;
 use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Http\Requests\RegisteredvetProcessRequest;
 use Auth;
+use App\Models\Ratings;
 use App\Http\Controllers\BaseController as BaseController;
 
 use App\Traits\PassportToken;
@@ -46,8 +47,16 @@ class RegisteredvetController extends BaseController
 		$filter = ['id'=>$id];
         $select = ['*'];//['id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','education','pm_code','latitude','longitude'];
         $with = ['getUserDetail']; 
-        $user = $this->userRepo->getSingleRecords($filter,$select,$with); 
-        
+        $user = $this->userRepo->getSingleRecords($filter,$select,$with);
+		$user['star_rating_count']  = Ratings::where('rateable_id',$id)->where('status',1)->avg('star_ratings');
+		if($user['star_rating_count']==null){
+			$user['star_rating_count'] = 0;
+		}
+		$user['review_exist'] = 0;
+		if(isset($request->user_id)){
+			$user['review_exist']  = Ratings::where('rateable_id',$id)->where('user_id',$request->user_id)->count();
+		}
+		
 		if($user){
 			return $this->sendResponse($user,trans('messages.records_found'),200);
         }else{
