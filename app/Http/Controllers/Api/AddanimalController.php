@@ -16,6 +16,7 @@ use App\Repositories\Interfaces\Addanimal\AddanimalRepositoryInterface;
 use DB;
 use Validator;
 use App\Traits\FileUpload;
+use App\Models\Rxreminder;
 
 class AddanimalController extends BaseController
 {
@@ -145,24 +146,26 @@ class AddanimalController extends BaseController
 	
 		$id = $request->animal_id;
         $addAnimal = Animals::where('id',$id)->first();
-	
-        $animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
-        // dd($animalImage);
-        if(count($animalImage)>0)
-        {
-            foreach($animalImage as $image)
-            {
-                $this->removeFile($image->image_name,'animal');
-                $image->delete();
-            }
-        }
-	
-        $addAnimal->delete();
+		if($addAnimal){
+			$animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
+			// dd($animalImage);
+			if(count($animalImage)>0)
+			{
+				foreach($animalImage as $image)
+				{
+					$this->removeFile($image->image_name,'animal');
+					$image->delete();
+				}
+			}
+		
+			$addAnimal->delete();
+			$rxreminder = Rxreminder::where('animal_id',$id)->delete();
+		}
         $response=[];
         ## Store log
-        $message = trans('messages.add-animal_delete',['name' => $addAnimal->id]);
+        $message = trans('messages.add-animal_delete',['name' => $id]);
         storeActicityLog(trans('messages.delete'),$message,$postData['user_id'],$addAnimal);
-		return $this->sendResponse($response,trans('messages.add_animal_create'),200);
+		return $this->sendResponse($response,trans('messages.animal_delete'),200);
         
     }
 }
