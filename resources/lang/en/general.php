@@ -269,7 +269,6 @@ return [
 'advertisement_cost_paid'=>'Amount Paid',
 'advertisement_total_cost'=>'Total Amount Including 18% GST',
 'advertisement_balance_cost'=>'Balance Amount',
-
 //testimonials management
 
 'testimonial_list'=>'Testimonials list',
@@ -280,6 +279,11 @@ return [
 'testimonial_designation'=>'Testimonial Designation',
 'testimonial_message'=>'Testimonial Message',
 'testimonial_photo'=>'Testimonial Photo',
+
+'ratings_list'=>'Ratings list',
+'rating_to_name'=>'Rating Given To',
+'rating_review'=>'Review',
+'star_ratings'=>'Rating Star'
 
 ];
 

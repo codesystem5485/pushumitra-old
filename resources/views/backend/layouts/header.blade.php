@@ -201,6 +201,11 @@
                               <a href="{{url('pashumitra/testimonials')}}" class="@if (\Request::is('pashumitra/testimonials')) active  @endif" ><i class="icon-hourglass"></i> <span>Testimonials </span></a>
                            </li>
                            @endif
+						    @if(auth()->user()->can('rating-list') || auth()->user()->can('rating-delete')) 
+						    <li class="">
+                              <a href="{{url('pashumitra/ratings')}}" class="" ><i class="icon-hourglass"></i> <span>Ratings</span></a>
+                           </li>
+						   @endif
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 
                            
 						   <li class="">

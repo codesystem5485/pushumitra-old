@@ -30,6 +30,7 @@ use App\Http\Controllers\Backend\AdvertisementController;
 use App\Http\Controllers\Backend\PaymentReportController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Front\InvoiceController;
+use App\Http\Controllers\Backend\RatingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -249,7 +250,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         
     });
 	
-	//advertisements module
+	//testimonials module
     Route::group([
         'prefix' => 'pashumitra/testimonials',
         'as' => 'testimonials.',
@@ -260,6 +261,15 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [TestimonialController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [TestimonialController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [TestimonialController::class, 'delete'])->name('delete');
+    });
+	
+	//rating module
+    Route::group([
+        'prefix' => 'pashumitra/ratings',
+        'as' => 'ratings.',
+      ], function () {
+        Route::get('/', [RatingsController::class, 'index'])->name('index');
+        Route::get('/{id?}/delete', [RatingsController::class, 'delete'])->name('delete');
     });
 
     //Animal Owner module
