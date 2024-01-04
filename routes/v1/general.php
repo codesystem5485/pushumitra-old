@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ChemistController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\AdvertisementController;
-
+use App\Http\Controllers\Api\RatingsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -54,8 +54,11 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-notification-details', [NotificationController::class,'getNotificationDetails']); 
 	
 	Route::get('/setting', [CommonController::class,'getSetting']);
-
 	
+	/* ratings Details */
+	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
+	Route::post('/add-ratings', [RatingsController::class,'addRatings']);
+	Route::get('/get-rating-details', [RatingsController::class,'showAllRatings']);
 	
 	});
 	
@@ -89,4 +92,6 @@ Route::group(['middleware' => ['cors']], function () {
 	/* advertisement Details */
 	Route::get('/advertisement-list', [AdvertisementController::class,'getAdvertisementList']);
 	Route::get('/advertisement-detail', [AdvertisementController::class,'advertisementDetail']);
+	
+	
 }); 

@@ -104,4 +104,6 @@ return [
 	'testimonials_create'=>'Testimonial has been created',
 	'testimonials_update'=>'Testimonial has been updated', 
 	'testimonials_delete'=>'Testimonial has been deleted',
+	'rating_create'=>'Thank you for your review. It has been submitted successfully',
+	'satrrating_or_review'=>'Please write review or add rating',
 ];
