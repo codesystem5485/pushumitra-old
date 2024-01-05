@@ -11,6 +11,7 @@ use Session;
 use Auth;
 use Response;
 use App\Traits\FileUpload;
+use Redirect;
 
 
 class AdvertisementController extends Controller
@@ -67,29 +68,31 @@ class AdvertisementController extends Controller
 			'advertiser_name' => 'required',
 			'advertiser_address' => 'required',
 			'advertiser_contactnumber' => 'required|numeric|digits:10',
-			'advertisement_cost' => 'required',
-			'advertisement_cost_paid' => 'required',
-			'advertisement_app_image' => 'required|mimes:jpeg,jpg,png',
-			'advertisement_website_image' => 'required|mimes:jpeg,jpg,png', 			
+			'advertisement_cost' => 'required|numeric',
+			'advertisement_cost_paid' => 'required|numeric',
+			'advertisement_app_image' => 'mimes:jpeg,jpg,png',
+			'advertisement_website_image' => 'mimes:jpeg,jpg,png', 			
         ]);
 		
-		if($postData['advertisement_startdate']!=''){
+		/*if($postData['advertisement_startdate']!=''){
 			$errDateMessage = trans('messages.invalid_start_date');
 			$advertisement_startdate = date("Y-m-d",strtotime($postData['advertisement_startdate']));
 			$currentDate =date("Y-m-d");
-			if($advertisement_startdate <= $currentDate){
+			if($advertisement_startdate < $currentDate){
 				Session::flash('error',$errDateMessage);
-				return redirect()->back();
+				//return redirect()->back();
+				return Redirect::back()->withInput(Input::all());
 			}
-		}
+		}*/
 		
 		if($postData['advertisement_enddate']!=''){
 			$errDateMessage = trans('messages.invalid_end_date');
 			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
 			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
-			if($advertisement_enddate > $advertisement_startdate){
-				/*Session::flash('error',$errDateMessage);
-				return redirect()->back();*/
+			if($advertisement_enddate < $advertisement_startdate){
+				Session::flash('error',$errDateMessage);
+				/*return redirect()->back();*/
+				return Redirect::back()->withInput($postData);
 			}
 		}
 		
@@ -198,9 +201,10 @@ class AdvertisementController extends Controller
 			$errDateMessage = trans('messages.invalid_end_date');
 			$advertisement_enddate = date("Y-m-d",strtotime($postData['advertisement_enddate']));
 			$advertisement_startdate =date("Y-m-d",strtotime($postData['advertisement_startdate']));;
-			if($advertisement_enddate > $advertisement_startdate){
-				//Session::flash('error',$errDateMessage);
-				//return redirect()->back();
+			if($advertisement_enddate < $advertisement_startdate){
+				Session::flash('error',$errDateMessage);
+				/*return redirect()->back();*/
+				return Redirect::back()->withInput($postData);
 			}
 		}
 		

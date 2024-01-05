@@ -47,7 +47,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertisement_startdate') }}* :</span>
                         </div>
-						<input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_startdate" class="form-control" aria-describedby="basic-addon3" name="advertisement_startdate" value="@if(empty($advertisements)){{old('advertisement_startdate')}}@else{{$advertisements->advertisement_startdate}}@endif" placeholder="{{ __('general.advertisement_startdate') }}" required><br>
+						<input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_startdate" class="form-control" aria-describedby="basic-addon3" name="advertisement_startdate" value="@if(empty($advertisements)){{old('advertisement_startdate')}}@else{{date('d-m-Y',strtotime($advertisements->advertisement_startdate))}}@endif" placeholder="{{ __('general.advertisement_startdate') }}" required><br>
                         
                        </div>
 					
@@ -55,7 +55,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.advertisement_enddate') }}* :</span>
                         </div>
-                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_enddate" class="form-control" aria-describedby="basic-addon3" name="advertisement_enddate" value="@if(empty($advertisements)){{old('advertisement_enddate')}}@else{{$advertisements->advertisement_enddate}}@endif" placeholder="{{ __('general.advertisement_enddate') }}" required><br>
+                        <input data-date-autoclose="true" data-provide="datepicker" type="text" id="advertisement_enddate" class="form-control" aria-describedby="basic-addon3" name="advertisement_enddate" value="@if(empty($advertisements)){{old('advertisement_enddate')}}@else{{date('d-m-Y',strtotime($advertisements->advertisement_enddate))}}@endif" placeholder="{{ __('general.advertisement_enddate') }}" required><br>
                      </div>
 					
 					<div class="input-group mb-3">
@@ -144,8 +144,13 @@
 </script>
 <script>
 $(document).ready(function(){
-   $("#advertisement_startdate").datepicker();
+   //$("#advertisement_startdate").datepicker();
    $("#advertisement_enddate").datepicker();
+   
+   $('#advertisement_startdate').datepicker({
+   format: 'dd-mm-yyyy',
+   startDate: new Date()
+ });
 });
 
     //$(document).on event
