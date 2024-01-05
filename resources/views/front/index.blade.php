@@ -5,10 +5,13 @@
         <div class="swiper hero2-slider">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="{{asset('front/assets/images/bg/slider-1.jpg')}}" alt="add">
+                    <img src="{{asset('front/assets/images/advertising-banner/banner-1.jpg')}}" alt="add">
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{asset('front/assets/images/bg/slider-3.jpg')}}" alt="add">
+                    <img src="{{asset('front/assets/images/advertising-banner/banner-2.jpg')}}" alt="add">
+                </div>
+                <div class="swiper-slide">
+                    <img src="{{asset('front/assets/images/advertising-banner/banner-3.jpg')}}" alt="add">
                 </div>
             </div>
         </div>

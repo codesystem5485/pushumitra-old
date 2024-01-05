@@ -101,7 +101,7 @@ class RatingsController extends BaseController
         }
 		$id = $postData['rateable_id'];
 		
-        $response['results']= Ratings::leftJoin('users', 'users.id', '=', 'review_ratings.rateable_id')
+        $response['results']= Ratings::leftJoin('users', 'users.id', '=', 'review_ratings.user_id')
 							->select('review_ratings.*','users.full_name','users.city_town')
 							->where('rateable_id',$postData['rateable_id'])->where('status',1)->orderBy('id','DESC')->get();
         return $this->sendResponse($response,"",200); 
