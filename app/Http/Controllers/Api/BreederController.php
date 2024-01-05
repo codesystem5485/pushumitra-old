@@ -93,6 +93,21 @@ class BreederController extends BaseController
 			$breeder->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
 			
 			$breeder->update();
+			
+			// Add payment notifications
+			//add to notifications
+			
+			
+			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+			
+			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+			$aInsertData['rx_reminder_id'] = 0;
+			$aInsertData['type'] = 2;
+			$aInsertData['link'] = $link;
+			$aInsertData['scheduled_date'] = date("Y-m-d");
+			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+			$aInsertData['title'] = "Payment Receipt for Breeder";
+			$notifications = $this->breederRepo->addPaymentToNotifications($aInsertData);
             
             DB::commit();
 			 ## Store log

@@ -196,9 +196,20 @@ class PaymentController extends BaseController
 					$param['rv_code'] = $this->userRepo->generateRegisteredvetCode();
 					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
 					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
-					$this->userRepo->update($aInsertData['user_id'],$param);  
+					$this->userRepo->update($aInsertData['user_id'],$param); 
 				}
 			}
+			
+			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+			
+			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+			$aInsertData['rx_reminder_id'] = 0;
+			$aInsertData['type'] = 2;
+			$aInsertData['link'] = $link;
+			$aInsertData['scheduled_date'] = date("Y-m-d");
+			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+			$aInsertData['title'] = 'Payment Receipt';
+			$notifications = $this->userRepo->addPaymentToNotifications($aInsertData);
 			
 			$response['payments'] =$payment; 
             DB::commit();

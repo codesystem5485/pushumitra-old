@@ -26,7 +26,7 @@ body {font-size:14px; font-family:Arial, serif;}
 </style>
 <body>
 
-	<div class="page-wrap" style="max-width:1000px;width:100%;margin:0 auto;">
+	<div class="page-wrap" style="max-width:1000px;width:100%;margin-left:20px auto;margin-right:20px">
 		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="padding-bottom:4px;font-size:14px; font-family:Arial, serif;">
 			
 			<tr>
@@ -162,8 +162,8 @@ body {font-size:14px; font-family:Arial, serif;}
 
 		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;">
 			<tr>
-		      <td style="line-height:20px;">Signature<br><strong></strong></td>
-		      <td style="line-height:20px;text-align: center;">Signature<br>(Receiver)</td>
+		      <td style="line-height:20px;">Signature<br><strong>{{$user_code}}</strong></td>
+		      <td style="line-height:20px;text-align: center;">Signature(Receiver)<br><strong>{{$user_name}}</strong></td>
 		  </tr>
 		  <tr><td colspan="2" style="height:30px"></td> </tr>
 		  <tr><td colspan="2" style="border-top: 1px solid #adadad;height:10px"></td> </tr>
@@ -182,6 +182,7 @@ body {font-size:14px; font-family:Arial, serif;}
 		</table>
 				
 	</div>
+
 </body>
 
 </html>

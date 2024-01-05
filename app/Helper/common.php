@@ -134,8 +134,6 @@ if(!function_exists('calculatePrizePool')){
 			$result = curl_exec($ch);
 			curl_close ($ch);
 			
-			
-			//var_dump($result);//exit;
 			if ($result === FALSE) {
 				//echo 'Android: Curl failed: ' . curl_error($ch);
 			}

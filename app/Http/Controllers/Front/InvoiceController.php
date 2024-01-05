@@ -30,26 +30,37 @@ class InvoiceController extends Controller
     public function downloadReceipt($userId,$paymentId){
 		
         $payments = Payments::leftJoin('users', 'users.id', '=', 'payments.user_id')
-		->select('payments.*','users.full_name','users.mobile_number','users.address_line_1','users.pincode')
+		->select('payments.*','users.full_name','users.mobile_number','users.address_line_1','users.pincode','users.rv_code','users.pm_code')
 		->where('payments.id',$paymentId)->first();
 		if($payments){
+			
+			$roleId =$payments->role_id;
+			$user_code = '';			
+			if($roleId==8)
+			{
+				$user_code = $payments->pm_code;
+			}elseif($roleId==7)
+			{
+				$user_code = $payments->rv_code;
+			}
 		
-		$type = Fee::where('id',$payments->type)->first();
-		$typeDetails='';
-		if($type){
-			$typeDetails = $type->name;
-		}
-		
-		$data = [
-            'user_name'    => $payments->full_name,
-            'mobile_number' => $payments->mobile_number,
-            'invoice_number'      => $paymentId,
-            'invoice_date' => date("d-m-Y",strtotime($payments->payment_date)),
-            'amount'        =>$payments->amount,
-			'type'        =>$typeDetails,
-        ];
-        $pdf = PDF::loadView('invoice', $data);
-        return $pdf->stream('invoice.pdf');
+			$type = Fee::where('id',$payments->type)->first();
+			$typeDetails='';
+			if($type){
+				$typeDetails = $type->name;
+			}
+			
+			$data = [
+				'user_name'    => $payments->full_name,
+				'mobile_number' => $payments->mobile_number,
+				'invoice_number'      => $paymentId,
+				'invoice_date' => date("d-m-Y",strtotime($payments->payment_date)),
+				'amount'        =>$payments->amount,
+				'type'        =>$typeDetails,
+				'user_code'        =>$user_code,
+			];
+			$pdf = PDF::loadView('invoice', $data);
+			return $pdf->stream('invoice.pdf');
 		}else{
 			
 		}
