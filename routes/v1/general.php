@@ -56,11 +56,13 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/setting', [CommonController::class,'getSetting']);
 	
 	/* ratings Details */
-	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
+	
 	Route::post('/add-ratings', [RatingsController::class,'addRatings']);
-	Route::get('/get-rating-details', [RatingsController::class,'showAllRatings']);
 	
 	});
+	
+	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
+	Route::get('/get-rating-details', [RatingsController::class,'showAllRatings']);
 	
 	Route::get('/breeder-list', [BreederController::class,'getBreederList']);
 	Route::get('/breeder-detail', [BreederController::class,'breederDetail']);

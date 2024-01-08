@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class Books extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = ['id','book_name','book_file','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id','book_name','book_file_changes','book_file','created_at','updated_at','deleted_at'];
         
     public static  function boot()
     {

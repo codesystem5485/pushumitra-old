@@ -40,7 +40,7 @@ return [
     'verify_success' => 'Record has been verified sucessfully',
     'login_success' => 'You have logged in sucessfully.',
     'token_missing' => 'Please make sure authorization token',
-    'token_invalid' => 'Authorization token is invalid',
+    'token_invalid' => 'Your session has been expired.Please Re-login',
 	'user_id_missing' => 'User id is missing',
     'logout' => 'logout sucessfull',
     'exist_number' => 'This number is already updated',

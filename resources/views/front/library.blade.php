@@ -39,7 +39,14 @@
                 <td>{{$book->book_name}}</td>
                <!-- <td><i class="bi bi-file-pdf mr-5"></i>(Marathi) (86KB)</td>-->
                 <td> @if(!empty($book->book_file))
-                        <a class="primary-btn1 sm-but" target="_new" target="_bla" href="{{route("library.download",['file_id'=>$book->id])}}" >Download<i class="bi bi-download ml-5"></i></a>
+                @php
+               
+               $file_name = $book->book_file;
+                 
+                @endphp
+                        <a class="primary-btn1 sm-but" target="_new" target="_blank" href="{{ url('/') }}/upload/book/<?php echo urldecode($file_name);?>" >Download<i class="bi bi-download ml-5"></i></a>
+                        <!-- <a class="primary-btn1 sm-but" target="_new" target="_blank" href="{{route("library.download",['file_id'=>$book->id])}}" >Download<i class="bi bi-download ml-5"></i></a>
+                        -->
                         @endif
 						<!--<a href="" class="primary-btn1 sm-but">Download 
                     <i class="bi bi-download ml-5"></i></a>-->

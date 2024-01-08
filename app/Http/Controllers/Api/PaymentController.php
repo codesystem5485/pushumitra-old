@@ -33,7 +33,7 @@ class PaymentController extends BaseController
 		if(count($feeArray) > 0){
 			foreach($feeArray as $row){
 				$name = str_replace(' ', '_', $row['name']);
-				$createArray[$name]=array('fee'=>$row['fee'],'id'=>$row['id']);
+				$createArray[$name]=array('fee'=>(string)$row['fee'],'id'=>$row['id']);
 			}
 		}
 		

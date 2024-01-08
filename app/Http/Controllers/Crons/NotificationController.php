@@ -27,7 +27,6 @@ class NotificationController extends BaseController
 	
 	public function getNotificationsToSend()
 	{
-		DB::enableQueryLog();
 		$todayDate = date("Y-m-d");
 		//echo $date = $todayDate->addDays(1);exit;
 		
@@ -37,10 +36,11 @@ class NotificationController extends BaseController
 
 		
 		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
-								->select('notifications.*','users.id','users.fcm_id')
+								->select('notifications.*','users.id','users.fcm_id','notifications.id as notification_id')
 								->where( 'scheduled_date', '=', $newDate)
 								->where( 'type', 1)
 								->where('send_flag',0)
+								->where('sender_user_id',104)
 								->get();
 								
 		if($notifications)
@@ -50,7 +50,7 @@ class NotificationController extends BaseController
 				$userFcmToken = $row->fcm_id;
 				$message = $row->message;
 				$title = $row->title;
-				$notificationId = $row->id;
+		$notificationId = $row->notification_id;
 				
 				$sendArray = array(
 					'fcm_token'=> $userFcmToken,
@@ -68,7 +68,8 @@ class NotificationController extends BaseController
 					
 				);
 				
-				$update = Notifications::where('id',$row->id)->update($updateArray);
+				$update = Notifications::where('id',$notificationId)->update($updateArray);
+			
 				
 			}
 		}

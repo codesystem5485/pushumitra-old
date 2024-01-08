@@ -539,7 +539,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		 $profileArray['paymentMsg'] = $paymentMsg;
 		 $profileArray['completedProfile'] = $completedProfile;
 		 $profileArray['completedPayment'] = $completedPayment;
-		 $profileArray['verified'] = $verified; 
+		 $profileArray['verified'] = (string)$verified; 
 		
 		return $profileArray;
 	}

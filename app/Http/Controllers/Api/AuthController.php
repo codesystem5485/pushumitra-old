@@ -259,7 +259,8 @@ class AuthController extends BaseController
 			}
 			
             ## check phone is verify
-            $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $user->mobile_number,'is_phone_verify' => 1]);
+			$select = ['id,full_name,email,is_verified,mobile_number,pm_code,rv_code,profile_photo'];
+            $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $user->mobile_number,'is_phone_verify' => 1],$select);
             if(empty($aUserVerify)){
                 return $this->sendError($response,trans('messages.verify_phone'),401);
             }
@@ -284,13 +285,19 @@ class AuthController extends BaseController
 				{
 					$param['fcm_id'] = $postData['fcm_id'];
 				}	
+				
 				$res = $this->userRepo->update($user->id,$param);
+				$profilePhoto =  url("/upload/profile_photo/".$user->profile_photo);
+				
 				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,'pm_code'=>$user->pm_code,
-				'rv_code'=>$user->rv_code];
+				'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto];
+				
+				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
+				
 				if($user->is_verified==0)
 				{
-					return $this->sendResponse($response,trans('messages.login_success_not_verified'),200); 
+					return $this->sendResponse($response,$message,200); 
 				}else{
 					return $this->sendResponse($response,trans('messages.login_success'),200); 
 				}

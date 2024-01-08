@@ -11,6 +11,7 @@ use App\Traits\FileUpload;
 use App\Models\Books;
 use Response;
 use App\Models\Testimonials;
+use File;
 
 class FrontPagesController extends Controller
 {
@@ -67,5 +68,37 @@ class FrontPagesController extends Controller
        //  return response()->download($file, $file_name, $headers);
         return Response::download($file,$bookname, $headers);
     }
+    
+    public function changeFiles(){
+		 $books = Books::orderBy('id','ASC')->get();
+		 foreach($books as $row){
+//96.189.181.72.196.125.36.
+			 echo $id= $row->id;echo "-";
+			 echo $bookname = $row->book_name.'.pdf'; echo "<br>";
+			 
+			 
+			 $file_name= $row->book_file;
+			 
+			$file = public_path()."/upload/book/".urldecode($file_name);
+			
+			//echo  $file = public_path()."/upload/book/".urldecode($file_name);exit;
+			File::move($file, public_path('upload/book_test/'.$bookname));
+			$updateArray = array(
+					'book_file_changes'=>$bookname,
+					
+					
+				);
+				
+				$update = Books::where('id',$id)->update($updateArray);
+		//	exit;
+			
+			//rename(public_path('/upload/book/'.$file_name), public_path('/upload/book_test/'.$bookname));
+			
+			
+			 
+			 
+		 }
+		
+	}
 	
 }
