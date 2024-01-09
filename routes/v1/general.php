@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\ChemistController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\AdvertisementController;
 use App\Http\Controllers\Api\RatingsController;
+use App\Http\Controllers\Api\TransporterController;
+use App\Http\Controllers\Api\ProductsaleController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -56,9 +58,11 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/setting', [CommonController::class,'getSetting']);
 	
 	/* ratings Details */
-	
 	Route::post('/add-ratings', [RatingsController::class,'addRatings']);
-	
+	/* Add Transporter */
+	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
+	/* Add Product sale */
+	Route::post('/add-productsale', [ProductsaleController::class,'addProductSale']);
 	});
 	
 	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
@@ -95,5 +99,9 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/advertisement-list', [AdvertisementController::class,'getAdvertisementList']);
 	Route::get('/advertisement-detail', [AdvertisementController::class,'advertisementDetail']);
 	
+	Route::get('/transporter-list', [TransporterController::class,'getTransporterList']);
+	Route::get('/transporter-detail', [TransporterController::class,'transporterDetail']);
 	
+	Route::get('/productsale-list', [ProductsaleController::class,'getProductsaleList']);
+	Route::get('/productsale-detail', [ProductsaleController::class,'productsaleDetail']);
 }); 

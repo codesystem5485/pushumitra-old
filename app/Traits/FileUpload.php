@@ -78,9 +78,11 @@ trait FileUpload {
 			case 'adevertisements_web':
                 $path = Config::get('constants.file.adevertisements_file_path');
             break;
-			
 			case 'testimonials':
                 $path = Config::get('constants.file.testimonials_file_path');
+            break; 
+			case 'rcbooks':
+                $path = Config::get('constants.file.rcbooks_file_path');
             break;
             
             default:

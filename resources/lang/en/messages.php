@@ -54,7 +54,6 @@ return [
     'animal_type_create' => 'Animal type (:name) has been created', 
     'animal_type_update' => 'Animal type (:name) has been updated',  
     'animal_type_delete' => 'Animal type (:name) has been deleted',
-    
     'setting_update' => 'Settings has been updated',
     'enter_old_password'=>'Please enter your current password',
     'enter_current_password'=>'Please enter your new password',
@@ -63,7 +62,6 @@ return [
     'not_able_to_upload_edu_certi'=>'Not able to upload education certificate, please upload another file.',
 	'not_able_to_upload_rec_letter'=>'Not able to upload recommendation letter, please upload again.',
     'not_able_to_upload_pro_photo'=>'Not able to upload profile photo, please upload another file.',
-
     'chemist_create' => 'Chemist (:name) has been created', 
     'chemist_update' => 'Chemist (:name) has been updated',  
     'chemist_delete' => 'Chemist (:name) has been deleted',
@@ -71,6 +69,8 @@ return [
     'animalsale_create' => 'Animal has been created for sale', 
     'animalsale_update' => 'Animal has been updated for sale',  
     'animalsale_delete' => 'Animal has been deleted',
+	'transporter_create' => 'Transporter :name has been created',
+	'productsale_create' => 'Product :name has been created for sale',
 	
 	'add_animal_create' => 'Animal has been created',
 	'rxreminder_create' => 'Rxreminder has been created',

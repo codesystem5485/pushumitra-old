@@ -151,4 +151,5 @@ class AnimalsaleRepository  extends BaseRepository implements AnimalsaleReposito
 				$update = Notifications::where('id',$notifications->notification_id)->update($updateArray);
 		}
 	}
+
 }

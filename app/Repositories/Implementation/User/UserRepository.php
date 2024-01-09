@@ -747,4 +747,73 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 				$update = Notifications::where('id',$notifications->notification_id)->update($updateArray);
 		}
 	}
+	
+	//get all subscriptions date 
+	public function getAllSubscriptionDates(array $input)
+	{
+		$subscriptionStartDate = date("Y-m-d");
+		$subscriptionEndDate = '';
+		$feeDetails = Fee::where('id',$input['type'])->first();
+		if($feeDetails){
+			$months =$feeDetails->valid_months;
+			$subscriptionEndDate = date('Y-m-d', strtotime($subscriptionStartDate. ' + '.$months.' months'));
+		}
+		
+		$dateArray =array(
+			'subscriptionStartDate'=>$subscriptionStartDate,
+			'subscriptionEndDate'=>$subscriptionEndDate,
+		);
+		
+		return $dateArray;
+		
+	}
+	
+	public function addAllPaymentToNotifications(array $input){
+	
+		$todayDate = date("Y-m-d");	
+		$insertArray = array(
+				'message' =>$input['scheduled_message'],
+				'scheduled_date' => $input['scheduled_date'],
+				'sender_user_id' => $input['sender_user_id'],
+				'rx_reminder_id' => $input['rx_reminder_id'],
+				'title' => $input['title'],
+				'type' => $input['type'],
+				'link'=> $input['link'],
+			);
+			
+		$response = Notifications::create($insertArray);
+		
+		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
+								->select('notifications.*','users.id','users.fcm_id','notifications.id as notification_id')
+								->where( 'notifications.id', $response->id)
+								->first();
+								
+		if($notifications)
+		{
+				$userFcmToken = $notifications->fcm_id;
+				$message = $notifications->message;
+				$title = $notifications->title;
+				$notificationId = $notifications->notification_id;
+				$link = $notifications->link;
+				
+				$sendArray = array(
+					'fcm_token'=> $userFcmToken,
+					'message' =>$message,
+					'title'=>$title
+				);
+				
+				//send notifications
+				sendNotifications($sendArray);
+				
+				//update send info in notifications
+				$updateArray = array(
+					'send_flag'=>1,
+					'send_date'=>$todayDate,
+					
+				);
+				
+				$update = Notifications::where('id',$notifications->notification_id)->update($updateArray);
+		}
+	}
+
 }

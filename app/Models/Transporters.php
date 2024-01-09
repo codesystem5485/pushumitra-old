@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class Transporters extends Model
 {
     use HasFactory,LogsActivity; 
-    protected $fillable = [	'id','transporter_name','vehicle_name','mobile_number','address_line_1','address_line_2','city_id','city_town','state_id','state','village','pincode','created_at','updated_at','deleted_at'];
+    protected $fillable = ['id','user_id','user_code','latitude','longitude','subscriptionStartDate','subscriptionEndDate','taluka','district','transporter_name','vehicle_name','description','mobile_number','address','address_line_2','city_id','city_town','state_id','state','pincode','created_at','updated_at','deleted_at'];
         
     public static  function boot()
     {
