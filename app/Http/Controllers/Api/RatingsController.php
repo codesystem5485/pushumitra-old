@@ -100,7 +100,7 @@ class RatingsController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
 		$id = $postData['rateable_id'];
-		$url = url('/upload/profile_photo/');
+		$url = url('/upload/profile_photo').'/';
 		
         $response['results']= Ratings::leftJoin('users', 'users.id', '=', 'review_ratings.user_id')
 		->select('review_ratings.*','full_name','city_town')
