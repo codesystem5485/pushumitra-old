@@ -8,7 +8,7 @@
 							
                         </div>
                         <div class="widget-title">
-                            <p> QR code For youtube channel</p>
+                            <p> QR code For Application</p>
                         </div>
                     
                     </div>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="download-link">
                             <ul>
-                                <li><a href="#"><img src="{{asset('front/assets/images/icon/google-play.svg')}}" alt></a></li>
+                                <li><a href="https://play.google.com/store/apps/details?id=com.codesystem.pashumitra&pcampaignid=web_share"><img src="{{asset('front/assets/images/icon/google-play.svg')}}" alt></a></li>
 								
                                 <li><a href="#"><img src="{{asset('front/assets/images/icon/app-store.svg')}}" alt></a></li>
 								
