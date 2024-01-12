@@ -25,6 +25,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-species', [CommonController::class,'getSpecies']); 
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
 	Route::get('/get-library', [AuthController::class,'getLibrary']);
+	Route::get('/get-subcategories', [CommonController::class,'getSubCategories']);
+	Route::get('/get-categories', [CommonController::class,'getParentCategories']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
 	

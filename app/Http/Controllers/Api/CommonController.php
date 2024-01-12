@@ -11,6 +11,8 @@ use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Models\Breeds;
 use App\Models\Species;
+use App\Models\Subcategories;
+use App\Models\Categories;
 use App\Models\MobileVerification;
 
 class CommonController extends BaseController
@@ -72,4 +74,24 @@ class CommonController extends BaseController
 		$response = $this->userRepo->generateOtpForMobileVerify($postData);
 		return $this->sendResponse($response,"",200);
 	}
+	
+	public function getSubCategories(){
+		$postData = request()->all(); 
+		$categories = Subcategories::where('status',1);
+		if(isset($postData['parent_category'])){
+		   $categories = $categories->where('parent_category',$postData['parent_category']);
+		}
+        $categories =$categories->get();
+		$response['results'] = $categories;
+		return $this->sendResponse($response,"",200);
+    }
+	
+	public function getParentCategories(){
+		$postData = request()->all(); 
+		$categories = Categories::where('status',1);
+		
+        $categories =$categories->get();
+		$response['results'] = $categories;
+		return $this->sendResponse($response,"",200);
+    }
 }
