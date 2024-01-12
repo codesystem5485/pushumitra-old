@@ -56,14 +56,13 @@ class PaymentController extends BaseController
 	public function generatePaymentOrderId(Request $request){
 		
 		$postData = $request->all();
-		
-		//$api_key='rzp_test_fbiwRvGp1057Ua';
-		//$api_secret='O4q2Dcq4PhZHNAwYvXifusHF';
 		//$api_key='rzp_test_bmd8yXq2RAx4Uy';
-	//	$api_secret='rQ9oPkuZ0CdQcL2A9TbPVf3g';
+		//$api_secret='rQ9oPkuZ0CdQcL2A9TbPVf3g';
 		
-		$api_key='rzp_live_bhuyXPXQEwDPjI';
-		$api_secret='Jw41w0fZnCUcobdfTp4w7oYb';
+		//$api_key='rzp_live_bhuyXPXQEwDPjI';
+		//$api_secret='Jw41w0fZnCUcobdfTp4w7oYb';
+		$api_key= env('RAZORPAY_KEY');
+		$api_secret=env('RAZORPAY_SECRET_KEY');
 		
 		$validator = Validator::make($postData, [
                 'amount'=>'required',
