@@ -84,6 +84,12 @@ trait FileUpload {
 			case 'rcbooks':
                 $path = Config::get('constants.file.rcbooks_file_path');
             break;
+			case 'hospitals':
+                $path = Config::get('constants.file.hospitals_file_path');
+            break;
+			case 'suppliers':
+                $path = Config::get('constants.file.suppliers_file_path');
+            break;
             
             default:
             $path = '';    
@@ -148,6 +154,15 @@ trait FileUpload {
 
             case 'pm_cheque_photo':
                 $path = Config::get('constants.file.pm_cheque_photo_file_path');
+            break;
+			case 'hospitals':
+                $path = Config::get('constants.file.hospitals_file_path');
+            break;
+			case 'rcbooks':
+                $path = Config::get('constants.file.rcbooks_file_path');
+            break;
+			case 'suppliers':
+                $path = Config::get('constants.file.suppliers_file_path');
             break;
 
             default:

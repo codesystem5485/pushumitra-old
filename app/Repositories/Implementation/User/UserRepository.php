@@ -13,6 +13,7 @@ use Spatie\Activitylog\Models\Activity;
 use App\Models\MobileVerification;
 use App\Models\Fee;
 use App\Models\Notifications;
+use App\Models\Subcategories;
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
@@ -814,6 +815,16 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 				
 				$update = Notifications::where('id',$notifications->notification_id)->update($updateArray);
 		}
+	}
+	
+	public function getCategoryName($category)
+	{
+		$name = '';
+		$details = Subcategories::where('id',$category)->first();
+		if($details){
+			$name=$details->name;
+		}
+		return $name;
 	}
 
 }

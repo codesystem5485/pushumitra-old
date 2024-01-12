@@ -71,6 +71,8 @@ return [
     'animalsale_delete' => 'Animal has been deleted',
 	'transporter_create' => 'Transporter :name has been created',
 	'productsale_create' => 'Product :name has been created for sale',
+	'hospital_create' =>':name has been created',
+	'supplier_create' =>':name has been created',
 	
 	'add_animal_create' => 'Animal has been created',
 	'rxreminder_create' => 'Rxreminder has been created',

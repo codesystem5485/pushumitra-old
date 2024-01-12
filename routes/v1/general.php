@@ -16,7 +16,9 @@ use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\AdvertisementController;
 use App\Http\Controllers\Api\RatingsController;
 use App\Http\Controllers\Api\TransporterController;
-use App\Http\Controllers\Api\ProductsaleController;
+use App\Http\Controllers\Api\ProductsaleController; 
+use App\Http\Controllers\Api\VetHospitalsController;
+use App\Http\Controllers\Api\SuppliersController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -63,6 +65,11 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
 	/* Add Product sale */
 	Route::post('/add-productsale', [ProductsaleController::class,'addProductSale']);
+	/* Add Hospital */
+	Route::post('/add-hospital', [VetHospitalsController::class,'addHospital']);
+	/* Add Supplier */
+	Route::post('/add-supplier', [SuppliersController::class,'addSupplier']);
+	
 	});
 	
 	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
@@ -104,4 +111,10 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	Route::get('/productsale-list', [ProductsaleController::class,'getProductsaleList']);
 	Route::get('/productsale-detail', [ProductsaleController::class,'productsaleDetail']);
+	
+	Route::get('/hospitals-list', [VetHospitalsController::class,'getHospitalList']);
+	Route::get('/hospital-detail', [VetHospitalsController::class,'hospitalDetail']); 
+	
+	Route::get('/suppliers-list', [SuppliersController::class,'getSupplierList']);
+	Route::get('/supplier-detail', [SuppliersController::class,'supplierDetail']);
 }); 
