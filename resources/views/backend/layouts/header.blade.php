@@ -46,7 +46,7 @@
                   <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                </div>  
                <div class="navbar-brand"> 
-                  <a href="{{url('/dashboard')}}"><img src="{{asset('admin/assets/images/logo.jpg')}}" alt="Lucid Logo" class="img-responsive logo"><strong class="logo-text"> &nbsp;{{ __('general.pashumitra') }}</strong></a>
+                  <a href="{{url('pashumitra/dashboard')}}"><img src="{{asset('admin/assets/images/logo.jpg')}}" alt="Lucid Logo" class="img-responsive logo"><strong class="logo-text"> &nbsp;{{ __('general.pashumitra') }}</strong></a>
                </div>
                <div class="navbar-right">
                   <div id="navbar-menu">
@@ -214,9 +214,15 @@
 							@endif
                            @if(auth()->user()->can('product-sale-list')) 
                            <li class="">
-                              <a href="{{url('pashumitra/product-sale')}}" class="" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
+                              <a href="{{url('pashumitra/product-sale')}}" class="@if (\Request::is('pashumitra/product-sale')) active  @endif" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
                            </li>
                            @endif
+						   <li class="">
+                              <a href="{{url('pashumitra/suppliers')}}" class="@if (\Request::is('pashumitra/suppliers')) active  @endif" ><i class="icon-hourglass"></i> <span>Suppliers </span></a>
+                           </li>
+						   <li class="">
+                              <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active  @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
+                           </li>
 						   @if(auth()->user()->can('cms-list')) 
 						    <li class="">
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>

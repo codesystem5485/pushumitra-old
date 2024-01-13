@@ -19,6 +19,8 @@ use App\Models\Transporters;
 use App\Models\ProductForSale;
 use App\Models\AnimalForSale;
 use App\Models\Breeder;
+use App\Models\Suppliers;
+use App\Models\Veterinaryhospitals;
 
 class HomeController extends Controller
 {
@@ -52,10 +54,12 @@ class HomeController extends Controller
 		$transporterCount = Transporters::whereDate('created_at', Carbon::today())->count();
 		$productSaleCount = ProductForSale::whereDate('created_at', Carbon::today())->count();
 		$animalSaleCount = AnimalForSale::whereDate('created_at', Carbon::today())->count();
-		$breederCount = Breeder::whereDate('created_at', Carbon::today())->count();		
+		$breederCount = Breeder::whereDate('created_at', Carbon::today())->count();
+		$hospitalCount = Veterinaryhospitals::whereDate('created_at', Carbon::today())->count();
+		$supplierCount = Suppliers::whereDate('created_at', Carbon::today())->count();		
         return view('home',compact('nTotalUusers','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
-									'animalSaleCount','breederCount'));
+									'animalSaleCount','breederCount','hospitalCount','supplierCount'));
     }
 
     /**

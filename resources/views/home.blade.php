@@ -123,6 +123,30 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/hospitals')}}">{{$hospitalCount}}</a></h3>
+                           <span>Vet Hospitals</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/suppliers')}}">{{$supplierCount}}</a></h3>
+                           <span>Supplier</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
                   </div>
                   </div>
                 

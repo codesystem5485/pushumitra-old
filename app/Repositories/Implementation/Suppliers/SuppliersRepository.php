@@ -84,4 +84,40 @@ class SuppliersRepository  extends BaseRepository implements SuppliersRepository
         return  $this->suppliersModelRepo->with($input)->orderBy('id', 'ASC')
         ->get();
     }
+	
+	public function getAjaxList(){
+        
+        $results = $this->getSuppliersList(); 
+        return Datatables::of($results)
+        ->addIndexColumn()
+        ->editColumn('added_date', function ($results) { 
+		  $date ='-';
+		 if($results->subscriptionStartDate!=''){
+			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+		 }
+            return $date;
+        })
+        ->addColumn('action', function($results){
+            $actionBtn = '';
+			$actionBtn .= '<a href="'.route('suppliers.detail',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
+                </button></a>';
+			$actionBtn .= '<a href="'.route('suppliers.edit',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
+                </button></a>';
+			$actionBtn .= '<a href="'.route('suppliers.delete',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
+           
+           
+            if(auth()->user()->can('suppliers-edit')){
+               
+            }
+            if(auth()->user()->can('suppliers-delete')){
+             }
+            return $actionBtn;
+           
+        })
+        ->rawColumns(['action','added_date'])
+        ->make(true);
+    }
 }

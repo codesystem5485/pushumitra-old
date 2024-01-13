@@ -31,6 +31,8 @@ use App\Http\Controllers\Backend\PaymentReportController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Backend\RatingsController;
+use App\Http\Controllers\Backend\SuppliersController;
+use App\Http\Controllers\Backend\VetHospitalsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,6 +191,38 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [ChemistController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [ChemistController::class, 'removeImage'])->name('remove'); 
+    });
+	
+	 //Supplier module
+    Route::group([
+        'prefix' => 'pashumitra/suppliers',
+        'as' => 'suppliers.',
+      ], function () {
+        Route::get('/', [SuppliersController::class, 'index'])->name('index');
+        Route::get('/create', [SuppliersController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [SuppliersController::class, 'detail'])->name('detail');
+        Route::post('/store', [SuppliersController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [SuppliersController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [SuppliersController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [SuppliersController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [SuppliersController::class, 'removeImage'])->name('remove');
+		Route::get('/suppliers-list', [SuppliersController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//Supplier module
+    Route::group([
+        'prefix' => 'pashumitra/hospitals',
+        'as' => 'hospitals.',
+      ], function () {
+        Route::get('/', [VetHospitalsController::class, 'index'])->name('index');
+        Route::get('/create', [VetHospitalsController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [VetHospitalsController::class, 'detail'])->name('detail');
+        Route::post('/store', [VetHospitalsController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [VetHospitalsController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [VetHospitalsController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [VetHospitalsController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [VetHospitalsController::class, 'removeImage'])->name('remove');
+		Route::get('/hospitals-list', [VetHospitalsController::class, 'getAjaxList'])->name('list');		
     });
     
     //Transporter module

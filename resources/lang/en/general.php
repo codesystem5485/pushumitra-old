@@ -114,6 +114,28 @@ return [
 'enter_village'=>'Enter Village',
 'enter_pincode'=>'Enter Pincode',
 
+//supplier
+'supplier_list'=>'Suppliers List',
+'supplier_add'=>'Add Supplier',
+'supplier_edit'=>'Edit Supplier',
+'supplier_create'=>'Create Suppliers',
+'supplier_details'=>'Supplier details',
+'supplier'=>'Suppliers',
+'supplier_name'=>'Supplier Name',
+
+//hospitals
+'hospital_list'=>'Hospital List',
+'hospital_add'=>'Add Hospital',
+'hospital_edit'=>'Edit Hospital',
+'hospital_create'=>'Create Hospital',
+'hospital_details'=>'Supplier details',
+'hospital'=>'Vet Hospitals',
+'hospital_name'=>'Hospital Name',
+'hospital_owner_name'=>'Veterinary Owner Name',
+'hospital_education'=>'Veterinary Education',
+'hospital_svc_registration_number'=>'SVC Registration Number',
+
+
 //transporter
 'transporter_list'=>'Transporter List',
 'transporter_add'=>'Add Transporter',
