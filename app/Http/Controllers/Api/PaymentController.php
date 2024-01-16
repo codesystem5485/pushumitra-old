@@ -168,11 +168,12 @@ class PaymentController extends BaseController
 				);
 			
 			$payment = Payments::create($insertArray);
-			
+			$createdPaymentId = 0;
 			//pashumitra sign up
 			if($roleId==8 && $type==1){
 				if($payment)
 				{
+					$createdPaymentId = $payment->id;
 					//get subscriptions date
 					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
 					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
@@ -188,6 +189,7 @@ class PaymentController extends BaseController
 			if($roleId==7 && $type==6){
 				if($payment)
 				{ 
+					$createdPaymentId = $payment->id;
 					//get subscriptions date
 					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
 					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
@@ -199,7 +201,7 @@ class PaymentController extends BaseController
 				}
 			}
 			
-			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$createdPaymentId);
 			
 			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
 			$aInsertData['rx_reminder_id'] = 0;

@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Models\Veterinaryhospitals;
-use App\Models\VeterinaryhospitalsImages;
+use App\Models\TrainingCenters;
+use App\Models\TrainingCenterImages;
 use App\Models\State;
-use App\Repositories\Interfaces\Vethospitals\VethospitalsRepositoryInterface;
+use App\Repositories\Interfaces\Trainingcenters\TrainingcentersRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use App\Traits\FileUpload;
@@ -16,20 +16,20 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class VetHospitalsController extends BaseController
+class TrainingCentersController extends BaseController
 {
     use FileUpload;
     protected $url = '';
-    protected $vethospitalsRepo;
+    protected $trainingcenterRepo;
 	private $userRepo;
 	
     /**
      * Transporter Construct 
      * @return url 
      */
-    public function __construct(VethospitalsRepositoryInterface $vethospitalsRepo, UserRepositoryInterface $userRepository){
+    public function __construct(TrainingcentersRepositoryInterface $trainingcenterRepo, UserRepositoryInterface $userRepository){
 
-        $this->vethospitalsRepo = $vethospitalsRepo;
+        $this->trainingcenterRepo = $trainingcenterRepo;
 		$this->userRepo = $userRepository;
     } 
 
@@ -37,20 +37,22 @@ class VetHospitalsController extends BaseController
      * Transporter Add
    
      */
-	 public function addHospital(Request $request){
+	 public function addTrainingCenter(Request $request){
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'hospital_name' => 'required',
-				'veterinary_owner_name' => 'required',
+				'training_center_name' => 'required',
+				'incharge_name' => 'required',
 				'sub_category'=>'required',
 				'mobile_number' => "required|numeric",
+				'type' => "required",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
 				'user_code'=>'required',
+				'registration_number'=>'required',
 				//'payment_id'=>'required',
 			]);
 			
@@ -61,43 +63,41 @@ class VetHospitalsController extends BaseController
 		
         $response = [];
 		
-       DB::beginTransaction();
+        DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
-            $hospitals = $this->vethospitalsRepo->create($aInsertData);
-			$category = $hospitals->sub_category;
+            $results = $this->trainingcenterRepo->create($aInsertData);
+			$category = $results->sub_category;
 			
 			$categoryName = $this->userRepo->getCategoryName($category);
 
-            if($request->hospitals_photo)
+            if($request->trainingcenter_photo)
             {
-                foreach($request->hospitals_photo as $photo)
+                foreach($request->trainingcenter_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'hospitals');
+                    $fileName = $this->uploadFile($photo,'trainingcenters');
                     if($fileName)
                     {
-                        VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
+                        TrainingCenterImages::create(['training_center_id'=>$results->id,'image_name' => $fileName]);
                     }
                 }
             }
+			
 			$subscriptionStartDate='';
 			$subscriptionEndDate='';
 			
-			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
+			if(isset($postData['payment_id']) && ($postData['payment_id']!='' || $postData['payment_id']!=0))
 			{
-			
 				$payment = Payments::find($postData['payment_id']);
-				$payment->module_type_id = $hospitals->id;
+				$payment->module_type_id = $results->id;
 				$payment->save();
 				
-				
-				$paymentArr = array( 'type'=>$payment->type,'hospitals_id'=>$hospitals->id);
+				$paymentArr = array( 'type'=>$payment->type,'tainingcenter_id'=>$results->id);
 				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
 				
 				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
 				$subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
-				
 				
 				// Add payment notifications
 				//add to notifications
@@ -113,17 +113,17 @@ class VetHospitalsController extends BaseController
 				$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
 			}
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
-			$hospitals->latitude=$coordinateArr['latitude'];
-			$hospitals->longitude=$coordinateArr['longitude'];
-			$hospitals->subscriptionStartDate=$subscriptionStartDate;
-			$hospitals->subscriptionEndDate=$subscriptionEndDate;
-			$hospitals->update();
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->subscriptionStartDate=$subscriptionStartDate;
+			$results->subscriptionEndDate=$subscriptionEndDate;
+			$results->update();
             
             DB::commit();
 			## Store log
-            $message = trans('messages.hospital_create',['name' => $request->hospital_name]);
-            storeActicityLog(trans('messages.hospital_create'),$message);
+            $message = trans('messages.trainingcenter_create',['name' => $request->training_center_name]);
+            storeActicityLog(trans('messages.trainingcenter_create'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
@@ -134,19 +134,20 @@ class VetHospitalsController extends BaseController
         }
     }
 	
-	public function getHospitalList(Request $request)
+	public function getTrainingCenterList(Request $request)
 	{
-		$response['results']  =   Veterinaryhospitals::select( 'veterinary_hospitals.*',
-            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
-			->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now())
-			->where('veterinary_hospitals.status', 1)
-		    ->orderBy('veterinary_hospitals.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/hospitals")."/";
+		$response['results']  =   TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','type','fees',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
+			->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now())
+			->where('training_centers.status', 1)
+		    ->orderBy('training_centers.id','DESC')->get();
+		   $response['image_base_path'] =  url("/upload/trainingcenters")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
 	
-	public function hospitalDetail(Request $request)
+	public function trainingCenterDetail(Request $request)
 	{
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
@@ -160,12 +161,12 @@ class VetHospitalsController extends BaseController
 		$response = [];
 		$id = $request->detail_id;
 		
-		$results =$this->vethospitalsRepo->getVethospital($id);
+		$results =$this->trainingcenterRepo->getTrainingcenter($id);
 		if($results){
-			$images_arr = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$results->id)->get();
+			$images_arr = TrainingCenterImages::where('training_center_id',$results->id)->get();
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
-			$response['image_base_path'] =  url("/upload/hospitals")."/";
+			$response['image_base_path'] =  url("/upload/trainingcenters")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

@@ -39,7 +39,7 @@ body {font-size:14px; font-family:Arial, serif;}
 	  	  <tr><td style="height:20px"></td> </tr>
 		</table>
 
-		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;margin-left:20px;">
 			<tr>
 				<td style="width:70%;">&nbsp;</td>
 				<td style="font-size:14px;color:#353535;border:none;padding:5px;width:30%;">
@@ -47,8 +47,8 @@ body {font-size:14px; font-family:Arial, serif;}
 					
 					<label style="font-weight:600;display:inline-block;line-height:22px">Details:&nbsp;&nbsp;</label>02-6366366<br>
 					-->
-					<label style="font-weight:600;display:inline-block;line-height:22px">Invoice No:&nbsp;&nbsp;</label>{{$invoice_number}}<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">Date:&nbsp;&nbsp;</label>{{$invoice_date}}
+					<label style="font-weight:600;display:inline-block;line-height:22px">Invoice No:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">{{$invoice_number}}</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">Date:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">{{$invoice_date}}</label>
 				</td>
 			</tr>
 			<tr><td colspan="2" style="height:10px"></td> </tr>
@@ -62,7 +62,7 @@ body {font-size:14px; font-family:Arial, serif;}
 			<tr><td colspan="2" style="height:20px">{{$mobile_number}}</td> </tr>
 		</table>
 
-		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:12px; font-family:Arial, serif;">
+		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:12px; font-family:Arial, serif;margin-left:20px;margin-right:20px">
 
 			<thead>
                 <tr>
@@ -79,24 +79,7 @@ body {font-size:14px; font-family:Arial, serif;}
 					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;">{{$amount}}<strong></strong></td>
 					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;border-right:1px solid #adadad">{{$amount}}</td>
 				</tr>
-				<!--<tr>
-					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad">2</td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad"></td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;"><strong></strong></td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;border-right:1px solid #adadad"></td>
-				</tr>
-				<tr>
-					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad">3</td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad"></td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;"><strong></strong></td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;border-right:1px solid #adadad"></td>
-				</tr>
-				<tr>
-					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad"></td>
-					<td style="padding:6px 8px; border-bottom:1px solid #adadad"></td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;background-color: #ededed;">Total</td>
-					<td style="padding:6px 8px;border-left:1px solid #adadad;border-bottom:1px solid #adadad;border-right:1px solid #adadad"></td>
-				</tr>-->
+				
 				<tr>
 					<td style="padding:6px 8px;border-left:1px solid #adadad; border-bottom:1px solid #adadad"></td>
 					<td style="padding:6px 8px; border-bottom:1px solid #adadad"></td>
@@ -131,17 +114,17 @@ body {font-size:14px; font-family:Arial, serif;}
 			</tbody>
 		</table>
 		
-		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;">
+		<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;margin-left:20px;margin-right:10px">
 			<tr><td style="height:30px"></td> </tr>
 			<tr>
 				<td style="font-size:14px;color:#353535;border:none;padding:5px;width:30%;">
 					<label style="font-weight:600;display:inline-block;line-height:22px"><strong>Account Details:</strong>&nbsp;&nbsp;</label><br><br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">Bank name:&nbsp;&nbsp;</label>IDBI BANK<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">A/c No:&nbsp;&nbsp;</label>0573102000021960<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">Account Name:&nbsp;&nbsp;</label>Pashumitra Enterprises<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">Branch:&nbsp;&nbsp;</label>Dwarka Circle Nashik<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">IFSCode:&nbsp;&nbsp;</label> IBKL0000573<br>
-					<label style="font-weight:600;display:inline-block;line-height:22px">PAN No:&nbsp;&nbsp;</label> ATLPM2646L<br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">Bank name:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">IDBI BANK</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">A/c No:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">0573102000021960</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">Account Name:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">Pashumitra Enterprises</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">Branch:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px">Dwarka Circle Nashik</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">IFSCode:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px"> IBKL0000573</label><br>
+					<label style="font-weight:600;display:inline-block;line-height:22px">PAN No:&nbsp;&nbsp;</label><label style="font-weight:600;display:inline-block;line-height:22px"> ATLPM2646L</label><br>
 				</td>
 			</tr>
 			<tr>
@@ -153,16 +136,16 @@ body {font-size:14px; font-family:Arial, serif;}
 				</td>
 			</tr>
 			<tr><td style="height:20px"></td> </tr>
-			<tr><td style="text-align: right;"><strong>E & O E</strong></td></tr>
+			<tr><td style="text-align: right;margin-right:20px;"><strong>E & O E</strong></td></tr>
 			<tr><td style="height:20px"></td> </tr>
 			<tr><td style=""><strong>Thank You, </strong></td></tr>
 			<tr><td style="">PASHUMITRA ENTERPRISES </td> </tr>
 			<tr><td style="height:30px"></td> </tr>
 		</table>
 
-		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:14px; font-family:Arial, serif;margin-left:20px;">
 			<tr>
-		      <td style="line-height:20px;">Signature<br><strong>{{$user_code}}</strong></td>
+		      <td style="line-height:20px;margin-left:20px;"><label style="">Signature</label><br><label style=""><strong>{{$user_code}}</strong></label></td>
 		      <td style="line-height:20px;text-align: center;">Signature(Receiver)<br><strong>{{$user_name}}</strong></td>
 		  </tr>
 		  <tr><td colspan="2" style="height:30px"></td> </tr>

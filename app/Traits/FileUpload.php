@@ -90,6 +90,9 @@ trait FileUpload {
 			case 'suppliers':
                 $path = Config::get('constants.file.suppliers_file_path');
             break;
+			case 'trainingcenters':
+                $path = Config::get('constants.file.trainingcenters_file_path');
+            break;
             
             default:
             $path = '';    
@@ -163,6 +166,9 @@ trait FileUpload {
             break;
 			case 'suppliers':
                 $path = Config::get('constants.file.suppliers_file_path');
+            break;
+			case 'trainingcenters':
+                $path = Config::get('constants.file.trainingcenters_file_path');
             break;
 
             default:

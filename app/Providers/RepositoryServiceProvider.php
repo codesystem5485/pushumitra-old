@@ -31,6 +31,8 @@ use App\Repositories\Interfaces\Vethospitals\VethospitalsRepositoryInterface;
 use App\Repositories\Implementation\Vethospitals\VethospitalsRepository;
 use App\Repositories\Interfaces\Suppliers\SuppliersRepositoryInterface;
 use App\Repositories\Implementation\Suppliers\SuppliersRepository;
+use App\Repositories\Interfaces\Trainingcenters\TrainingcentersRepositoryInterface;
+use App\Repositories\Implementation\Trainingcenters\TrainingcentersRepository;
 
 class RepositoryServiceProvider extends ServiceProvider 
 {
@@ -54,7 +56,8 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(BreederRepositoryInterface::class, BreederRepository::class); 
 		$this->app->bind(RxreminderRepositoryInterface::class, RxreminderRepository::class); 
 		$this->app->bind(VethospitalsRepositoryInterface::class, VethospitalsRepository::class); 
-		$this->app->bind(SuppliersRepositoryInterface::class, SuppliersRepository::class);        
+		$this->app->bind(SuppliersRepositoryInterface::class, SuppliersRepository::class);
+		$this->app->bind(TrainingcentersRepositoryInterface::class, TrainingcentersRepository::class);        
     } 
 
     /**

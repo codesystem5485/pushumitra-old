@@ -73,6 +73,7 @@ return [
 	'productsale_create' => 'Product :name has been created for sale',
 	'hospital_create' =>':name has been created',
 	'supplier_create' =>':name has been created',
+	'trainingcenter_create' =>':name has been created',
 	'image_remove' =>':name has been removed',
 	
 	'add_animal_create' => 'Animal has been created',

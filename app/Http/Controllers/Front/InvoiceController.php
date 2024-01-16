@@ -59,7 +59,7 @@ class InvoiceController extends Controller
 				'type'        =>$typeDetails,
 				'user_code'        =>$user_code,
 			];
-			$pdf = PDF::loadView('invoice', $data);
+			$pdf = PDF::setPaper('a4', 'portrait')->loadView('invoice', $data);
 			return $pdf->stream('invoice.pdf');
 		}else{
 			

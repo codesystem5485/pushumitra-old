@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\TransporterController;
 use App\Http\Controllers\Api\ProductsaleController; 
 use App\Http\Controllers\Api\VetHospitalsController;
 use App\Http\Controllers\Api\SuppliersController;
+use App\Http\Controllers\Api\TrainingCentersController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -61,7 +62,7 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	Route::get('/setting', [CommonController::class,'getSetting']);
 	
-	/* ratings Details */
+	/* Ratings Details */
 	Route::post('/add-ratings', [RatingsController::class,'addRatings']);
 	/* Add Transporter */
 	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
@@ -71,6 +72,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-hospital', [VetHospitalsController::class,'addHospital']);
 	/* Add Supplier */
 	Route::post('/add-supplier', [SuppliersController::class,'addSupplier']);
+	/* Add Training center */
+	Route::post('/add-training-center', [TrainingCentersController::class,'addTrainingCenter']);
 	
 	});
 	
@@ -119,4 +122,6 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	Route::get('/suppliers-list', [SuppliersController::class,'getSupplierList']);
 	Route::get('/supplier-detail', [SuppliersController::class,'supplierDetail']);
+	Route::get('/training-centers-list', [TrainingCentersController::class,'getTrainingCenterList']);
+	Route::get('/training-center-detail', [TrainingCentersController::class,'trainingCenterDetail']);
 }); 
