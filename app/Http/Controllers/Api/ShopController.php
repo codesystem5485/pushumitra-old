@@ -16,7 +16,7 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class FarmsController extends BaseController
+class ShopController extends BaseController
 {
     use FileUpload;
     protected $shopsRepo;
