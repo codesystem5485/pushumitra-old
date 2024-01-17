@@ -19,7 +19,6 @@ use Carbon\Carbon;
 class TrainingCentersController extends BaseController
 {
     use FileUpload;
-    protected $url = '';
     protected $trainingcenterRepo;
 	private $userRepo;
 	

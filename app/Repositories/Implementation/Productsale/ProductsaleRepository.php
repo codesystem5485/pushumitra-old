@@ -32,9 +32,10 @@ class ProductsaleRepository  extends BaseRepository implements ProductsaleReposi
      */
     public function getProductforsale()
     {     
-        return  $this->ProductsaleModel
+       /* return  $this->ProductsaleModel
             ->orderBy('id', 'DESC')
-            ->get();
+            ->get();*/
+		return Productforsale::orderBy('id','DESC')->get();
     }
 
     /**
@@ -80,5 +81,44 @@ class ProductsaleRepository  extends BaseRepository implements ProductsaleReposi
     {
         return  $this->ProductsaleModel->with($input)->orderBy('id', 'ASC')
         ->get();
+    }
+	
+	public function getAjaxList(){
+        
+        $results = $this->getProductforsale(); 
+        return Datatables::of($results)
+        ->addIndexColumn()
+        ->editColumn('added_date', function ($results) { 
+		  $date ='-';
+		 if($results->subscriptionStartDate!=''){
+			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+		 }
+            return $date;
+        })
+        ->addColumn('action', function($results){
+            $actionBtn = '';
+			$actionBtn .= '<a href="'.route('product-sale.detail',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
+                </button></a>';
+			
+			
+           
+            if(auth()->user()->can('product-sale-edit')){
+				$actionBtn .= '<a href="'.route('product-sale.edit',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
+                </button></a>';
+               
+            }
+            if(auth()->user()->can('product-sale-delete')){
+				
+				$actionBtn .= '<a href="'.route('product-sale.delete',['id' => $results->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
+           
+             }
+            return $actionBtn;
+           
+        })
+        ->rawColumns(['action','added_date'])
+        ->make(true);
     }
 }

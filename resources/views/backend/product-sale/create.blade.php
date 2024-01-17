@@ -42,12 +42,7 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="product_name" value="@if(empty($productsale)){{old('product_name')}}@else{{$productsale->product_name}}@endif"placeholder="{{ __('general.enter_product_name') }}">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.description') }}* :</span>
-                        </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($productsale)){{old('description')}}@else{{$productsale->description}}@endif"placeholder="{{ __('general.enter_description') }}">
-                    </div>
+                   
 
                      <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -78,8 +73,60 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address" value="@if(empty($productsale)){{old('address')}}@else{{$productsale->address}}@endif"placeholder="{{ __('general.enter_address') }}">
                     </div>
-
-                    
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.state') }}* :</span>
+                        </div>
+                        <input type="hidden" value="@if(empty($productsale)){{old('state_id')}}@else{{$productsale->state_id}}@endif" name="state_id" id="state_id" />
+                        <select id="state" class="form-control"  aria-describedby="basic-addon3" name="state" >
+                            <option value="">{{ __('general.select_state') }}</option>
+                            @foreach($states as $state)
+                            <option @if(!empty($productsale))@if($state->state_id == $productsale->state_id) selected='selected' @endif @endif state_val="{{$state->state_id}}" value="{{$state->state}}">{{$state->state}}</option> 
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.city') }}* :</span>
+                        </div>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($productsale)){{old('city_town')}}@else{{$productsale->city_town}}@endif"placeholder="{{ __('general.city') }}" autocomplete="off">
+                        
+                        <div><span>{{ $errors->first('city_town') }}</span></div>
+                    </div>
+                   <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.taluka') }}:</span>
+                        </div>
+                        <input type="text" id="taluka" class="form-control" aria-describedby="basic-addon3" name="taluka" value="@if(empty($productsale)){{old('taluka')}}@else{{$productsale->taluka}}@endif"placeholder="{{ __('general.taluka') }}"><br>
+                        <div><span>{{ $errors->first('taluka') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.district') }} :</span>
+                        </div>
+                        <input type="text" id="district" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($productsale)){{old('district')}}@else{{$productsale->district}}@endif" placeholder="{{ __('general.district') }}"><br>
+                        <div><span>{{ $errors->first('disctrict') }}</span></div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.pincode') }}* :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="pincode" value="@if(empty($productsale)){{old('pincode')}}@else{{$productsale->pincode}}@endif"placeholder="{{ __('general.enter_pincode') }}">
+                    </div>
+					 <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.description') }}* :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($productsale)){{old('description')}}@else{{$productsale->description}}@endif"placeholder="{{ __('general.enter_description') }}">
+                    </div>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.added_by') }}* :</span>
+                        </div>
+                        <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($productsale)){{old('user_code')}}@else{{$productsale->user_code}}@endif"placeholder="{{ __('general.added_by') }}" readonly><br>
+                        <div><span>{{ $errors->first('added_by') }}</span></div>
+                    </div>
 
                     <div class="input_fields_wrap input-group mb-3">
                         <div><input type="file" class="form-control" name="product_photo[]"></div>

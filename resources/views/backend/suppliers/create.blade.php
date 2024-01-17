@@ -182,7 +182,7 @@
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="shop_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="supplier_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
         }
     });
 

@@ -56,16 +56,11 @@
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.address_line_1') }}* :</span>
+                            <span class="input-group-text" >{{ __('general.address') }}* :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address_line_1" value="@if(empty($transporter)){{old('address_line_1')}}@else{{$transporter->address_line_1}}@endif"placeholder="{{ __('general.enter_address_line_1') }}">
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address" value="@if(empty($transporter)){{old('address')}}@else{{$transporter->address}}@endif"placeholder="{{ __('general.address') }}">
                     </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.address_line_2') }}* :</span>
-                        </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address_line_2" value="@if(empty($transporter)){{old('address_line_2')}}@else{{$transporter->address_line_2}}@endif"placeholder="{{ __('general.enter_address_line_2') }}">
-                    </div>
+                    
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.state') }}* :</span>
@@ -78,32 +73,42 @@
                             @endforeach
                         </select>
                     </div>
+                   
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.city') }}* :</span>
+                            <span class="input-group-text">{{ __('general.city') }}* :</span>
                         </div>
-                        <input type="hidden" value="@if(empty($transporter)){{old('city_id')}}@else{{$transporter->city_id}}@endif" name="city_id" id="city_id" />
-
-                        <select id="city_town" class="form-control"  aria-describedby="basic-addon3" name="city_town" >
-                            <option value="">{{ __('general.select_city') }}</option>
-                            @if(!empty($cities))
-                            @foreach($cities as $city)
-                            <option @if($city->city_id==$transporter->city_id) selected='selected' @endif city_val="{{$city->city_id}}" value="{{$city->city}}">{{$city->city}}</option> 
-                            @endforeach
-                            @endif
-                        </select>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="city_town" value="@if(empty($transporter)){{old('city_town')}}@else{{$transporter->city_town}}@endif"placeholder="{{ __('general.city') }}" autocomplete="off">
+                        
+                        <div><span>{{ $errors->first('city_town') }}</span></div>
                     </div>
-                    <div class="input-group mb-3">
+                   <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" >{{ __('general.village') }}* :</span>
+                            <span class="input-group-text">{{ __('general.taluka') }}:</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="village" value="@if(empty($transporter)){{old('village')}}@else{{$transporter->village}}@endif"placeholder="{{ __('general.enter_village') }}">
+                        <input type="text" id="taluka" class="form-control" aria-describedby="basic-addon3" name="taluka" value="@if(empty($transporter)){{old('taluka')}}@else{{$transporter->taluka}}@endif"placeholder="{{ __('general.taluka') }}"><br>
+                        <div><span>{{ $errors->first('taluka') }}</span></div>
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.district') }} :</span>
+                        </div>
+                        <input type="text" id="district" class="form-control" aria-describedby="basic-addon3" name="district" value="@if(empty($transporter)){{old('district')}}@else{{$transporter->district}}@endif" placeholder="{{ __('general.district') }}"><br>
+                        <div><span>{{ $errors->first('disctrict') }}</span></div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.pincode') }}* :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="pincode" value="@if(empty($transporter)){{old('pincode')}}@else{{$transporter->pincode}}@endif"placeholder="{{ __('general.enter_pincode') }}">
+                    </div>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">{{ __('general.added_by') }}* :</span>
+                        </div>
+                        <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($transporter)){{old('user_code')}}@else{{$transporter->user_code}}@endif"placeholder="{{ __('general.added_by') }}" readonly><br>
+                        <div><span>{{ $errors->first('added_by') }}</span></div>
                     </div>
                     <div class="input_fields_wrap input-group mb-3">
                         <div><input type="file" class="form-control" name="vehicle_photo[]"></div>

@@ -1,7 +1,6 @@
 @extends('backend.master')
 @section('css')
 <link rel="stylesheet" href="{{asset('admin/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css')}}">
-
 @endsection 
 @section('content')
 <div id="main-content">
@@ -24,41 +23,24 @@
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
                     @can('transporter-create')
-                    <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.transporter_create') }} </a>
+                   <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.chemist_add') }} </a>-->
                     @endcan
                 </div>
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
+                    <table class="table table-bordered table-hover table-custom" id="user_datatable">
                             <thead>
                             <tr>
-                                <th>{{ __('general.transporter_name') }}</th>                                
-                                <th>{{ __('general.transporter_vehicle_name') }}</th>                                
-                                <th>{{ __('general.mobile_number') }}</th>                                
-                                <th>{{ __('general.address') }}</th>                                
+								<th>{{ __('general.transporter_name') }}</th>
+								<th>{{ __('general.transporter_vehicle_name') }}</th> 	                                
+                                <th>{{ __('general.mobile_number') }}</th>
+                                <th>{{ __('general.added_by') }}</th> 
+								<th>{{ __('general.added_on') }}</th>
+								
+								<!--<th>{{ __('general.expired_date') }}</th>--> 								
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($transporter as $type)
-                            <tr>
-                                <td>{{$type->transporter_name}}</td>                                 
-                                <td>{{$type->vehicle_name}}</td>                                 
-                                <td>{{$type->mobile_number}}</td>                                 
-                                <td>{{$type->address_line_1." ".$type->address_line_2." ".$type->state." ".$type->city_town.", ".$type->village." ".$type->pincode }}</td>                                 
-                                <td>
-                                    <a href="{{route('transporter.detail',['id' => $type->id])}}"><button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-user" aria-hidden="true"></i> 
-                                    </button></a>
-                                    <a href="{{route('transporter.edit',['id' => $type->id])}}">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
-                                    </button></a>
-                                    <a href="{{route('transporter.delete',['id' => $type->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
-                                    </button></a>
-                                </td>
-                            </tr>
-                            @endforeach
-                           </tbody>
                         </table>
                     </div>
                 </div>
@@ -71,4 +53,37 @@
 @push('scripts')  
 <script src="{{asset('admin/assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/jquery-datatable/jquery-datatable.js')}}"></script>
+<script src="{{asset('admin/assets/js/common.js')}}"></script>
+<script>
+    $(document).ready( function () {
+       var table =  $('#user_datatable').DataTable({
+           processing: true,
+           serverSide: true,
+            ajax: {
+                "url":"{{ route('transporter.list') }}",
+                "type": "GET",
+                "data": function(d){
+                    //d.role = $("#role").val();
+                }
+            },
+            columns: [
+              
+                { data: 'transporter_name', name: 'transporter_name' },
+				{ data: 'vehicle_name', name: 'vehicle_name' },
+                { data: 'mobile_number', name: 'mobile_number' },
+				{ data: 'user_code', name: 'user_code' },
+				{ data: 'added_date', name: 'added_date' },
+                { data: 'action', name: 'action',orderable: false, 
+                searchable: false } 
+            ]
+        });
+    });
+    
+    function refreshTable(){
+        $('#user_datatable').each(function() {
+            dt = $(this).dataTable();
+            dt.fnDraw();
+        })
+    }
+</script>
 @endpush

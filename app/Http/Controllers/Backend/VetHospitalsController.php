@@ -15,7 +15,7 @@ use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
-use App\Http\Requests\VetHospitalsRepoProcessRequest;
+use App\Http\Requests\VetHospitalsProcessRequest;
 
 class VetHospitalsController extends Controller
 {
@@ -64,7 +64,7 @@ class VetHospitalsController extends Controller
      * @thorw exception
      * @return Route
      */
-    public function store(VetHospitalsRepoProcessRequest $request){
+    public function store(VetHospitalsProcessRequest $request){
         
         DB::beginTransaction();
         // try{            
@@ -121,7 +121,7 @@ class VetHospitalsController extends Controller
      * @thorw exception
      * @return Route
      */
-    public function update(VetHospitalsRepoProcessRequest $request, $id) 
+    public function update(VetHospitalsProcessRequest $request, $id) 
     {
         DB::beginTransaction();
         try{

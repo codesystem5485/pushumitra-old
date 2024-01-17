@@ -8,13 +8,13 @@
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
                     <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>
-                    {{ __('general.product-sale_details')}}
+                    {{ __('general.trainingcenter_details')}}
                    </h2>
                 <ul class="breadcrumb"> 
                     <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.product-sale_list')}}</a></li>
+                    <li class="breadcrumb-item"><a href="{{$url['listUrl']}}">{{ __('general.trainingcenter_list')}}</a></li>
                     <li class="breadcrumb-item">
-                    {{ __('general.product-sale_details')}}
+                    {{ __('general.trainingcenter_details')}}
                     
                     </li>
                 </ul>
@@ -35,42 +35,53 @@
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.product_name') }} :</span>
-                            <span class="">{{ $productsale->product_name}}</span>
+                            <span class="">{{ __('general.trainingcenter_name') }} :</span>
+                            <span class="">{{ $trainingcenters->training_center_name}}</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.contact_name_of_owner') }} :</span>
-                            <span class="">{{ $productsale->contact_name_of_owner}}</span>
+                            <span class="">{{ __('general.trainingcenter_incharge') }} :</span>
+                            <span class="">{{ $trainingcenters->incharge_name}}</span>
                         </div>
                     </div>
 					<div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.contact_number_of_owner') }} :</span>
-                            <span class="">{{ $productsale->contact_number_of_owner}}</span>
+                            <span class="">{{ __('general.trainingcenter_registration_number') }} :</span>
+                            <span class="">{{ $trainingcenters->registration_number}}</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
                         <div class="">
-                            <span class="">{{ __('general.price') }} :</span>
-                            <span class="">{{ $productsale->price}}</span>
+                            <span class="">{{ __('general.type') }} :</span>
+                            <span class="">{{ $trainingcenters->type}}</span>
                         </div>
                     </div>
-					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.trainingcenter_fees') }} :</span>
+                            <span class="">{{ $trainingcenters->fees}}</span>
+                        </div>
+                    </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.mobile_number') }} :</span>
+                            <span class="">{{ $trainingcenters->mobile_number }}</span>
+                        </div>
+                    </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.address') }} :</span>
-                            <span class="">{{ $productsale->address." ".$productsale->state.", ".$productsale->city_town." ".$productsale->taluka." ".$productsale->district.", ".$productsale->pincode }}</span>
+                            <span class="">{{ $trainingcenters->address." ".$trainingcenters->state.", ".$trainingcenters->city_town." ".$trainingcenters->taluka." ".$trainingcenters->district.", ".$trainingcenters->pincode }}</span>
                         </div>
                     </div>
 					
 					<div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.description') }} :</span>
-                            <span class="">{{ $productsale->description }}</span>
+                            <span class="">{{ $trainingcenters->description }}</span>
                         </div>
                     </div>
 					

@@ -33,6 +33,7 @@ use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Backend\RatingsController;
 use App\Http\Controllers\Backend\SuppliersController;
 use App\Http\Controllers\Backend\VetHospitalsController;
+use App\Http\Controllers\Backend\TrainingCentersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -209,7 +210,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 		Route::get('/suppliers-list', [SuppliersController::class, 'getAjaxList'])->name('list');		
     });
 	
-	//Supplier module
+	//hospitals module
     Route::group([
         'prefix' => 'pashumitra/hospitals',
         'as' => 'hospitals.',
@@ -224,6 +225,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/remove', [VetHospitalsController::class, 'removeImage'])->name('remove');
 		Route::get('/hospitals-list', [VetHospitalsController::class, 'getAjaxList'])->name('list');		
     });
+	
+	//hospitals module
+    Route::group([
+        'prefix' => 'pashumitra/trainingcenters',
+        'as' => 'trainingcenters.',
+      ], function () {
+        Route::get('/', [TrainingCentersController::class, 'index'])->name('index');
+        Route::get('/create', [TrainingCentersController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [TrainingCentersController::class, 'detail'])->name('detail');
+        Route::post('/store', [TrainingCentersController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [TrainingCentersController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [TrainingCentersController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [TrainingCentersController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [TrainingCentersController::class, 'removeImage'])->name('remove');
+		Route::get('/trainingcenters-list', [TrainingCentersController::class, 'getAjaxList'])->name('list');		
+    });
     
     //Transporter module
     Route::group([
@@ -237,7 +254,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [TransporterController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [TransporterController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [TransporterController::class, 'delete'])->name('delete'); 
-        Route::get('/{id?}/remove', [TransporterController::class, 'removeImage'])->name('remove'); 
+        Route::get('/{id?}/remove', [TransporterController::class, 'removeImage'])->name('remove');
+		Route::get('/transporters-list', [TransporterController::class, 'getAjaxList'])->name('list');		
     });
 
     //Library module
@@ -402,8 +420,9 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [ProductsaleController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [ProductsaleController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [ProductsaleController::class, 'delete'])->name('delete');  
-        Route::get('/{id?}/detail', [ProductsaleController::class, 'userDetail'])->name('detail');        
-        Route::get('/{id?}/remove', [ProductsaleController::class, 'removeImage'])->name('remove');        
+        Route::get('/{id?}/detail', [ProductsaleController::class, 'detail'])->name('detail');        
+        Route::get('/{id?}/remove', [ProductsaleController::class, 'removeImage'])->name('remove');
+		Route::get('/product-sale-list', [ProductsaleController::class, 'getAjaxList'])->name('list');        
     });
 
     //Animal add module

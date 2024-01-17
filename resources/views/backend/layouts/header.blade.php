@@ -223,6 +223,9 @@
 						   <li class="">
                               <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active  @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
                            </li>
+						   <li class="">
+                              <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="icon-hourglass"></i> <span>Training Centers </span></a>
+                           </li>
 						   @if(auth()->user()->can('cms-list')) 
 						    <li class="">
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>

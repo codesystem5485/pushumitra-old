@@ -72,8 +72,10 @@ return [
 	'transporter_create' => 'Transporter :name has been created',
 	'productsale_create' => 'Product :name has been created for sale',
 	'hospital_create' =>':name has been created',
+	'hospital_update' =>':name has been updated',
 	'supplier_create' =>':name has been created',
 	'trainingcenter_create' =>':name has been created',
+	'trainingcenter_update' =>':name has been updated',
 	'image_remove' =>':name has been removed',
 	
 	'add_animal_create' => 'Animal has been created',

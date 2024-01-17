@@ -13,6 +13,7 @@ use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
+use App\Models\State;
 
 class ProductsaleController extends Controller
 {
@@ -105,7 +106,8 @@ class ProductsaleController extends Controller
     public function edit(Request $request, $id = ''){
         $productsale = Productforsale::find($id);
         $productimages = ProductImages::where('product_sale_id',$productsale->id)->get();
-        return view('backend.product-sale.create',['productimages'=>$productimages,'productsale' => $productsale,'url' => $this->url]);  
+		$states = State::where('is_active','1')->get();
+        return view('backend.product-sale.create',['states'=>$states,'productimages'=>$productimages,'productsale' => $productsale,'url' => $this->url]);  
     }
 
      /**
@@ -151,7 +153,8 @@ class ProductsaleController extends Controller
 
     public function detail(Request $request, $id = ''){
         $productsale = Productforsale::find($id);
-        return view('backend.product-sale.detail',['productsale' => $productsale,'url' => $this->url]);  
+		 $productimages = ProductImages::where('product_sale_id',$productsale->id)->get();
+        return view('backend.product-sale.detail',['images'=>$productimages,'productsale' => $productsale,'url' => $this->url]);  
     }
 
     /**
@@ -195,6 +198,11 @@ class ProductsaleController extends Controller
         storeActicityLog(trans('messages.productsale_remove'),$message,Auth::user(),$animalImage);
         // return redirect()->route('product-sale.edit',$animalImage->id);
         return true;
+    }
+	
+	public function getAjaxList(Request $request){
+        $list = $this->productsaleRepo->getAjaxList();
+        return  $list;
     }
 
 }

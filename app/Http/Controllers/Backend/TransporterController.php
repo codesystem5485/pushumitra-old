@@ -165,8 +165,11 @@ class TransporterController extends Controller
     public function detail(Request $request, $id = ''){
         $transporter = Transporters::find($id);
         $states = State::where('is_active','1')->get();
-        $cities = Cities::where('state_id',$transporter->state_id)->get();        
-        return view('backend.transporter.detail',['cities'=>$cities,'states'=>$states,'user' => $transporter,'url' => $this->url]);  
+		
+		$images_arr = VehicleImages::where('transporter_id',$transporter->id)->get();
+		$images_rcbook_arr = VehicleImages::where('transporter_id',$transporter->id)->get();
+              
+        return view('backend.transporter.detail',['images'=>$images_arr,'images_rcbook'=>$images_rcbook_arr,'states'=>$states,'transporter' => $transporter,'url' => $this->url]);  
     }
 
     /**
@@ -180,7 +183,7 @@ class TransporterController extends Controller
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log
-        $message = trans('messages.transporter_delete',['name' => $transporter->owner_name]);
+        $message = trans('messages.transporter_delete',['name' => $transporter->transporter_name]);
         storeActicityLog(trans('messages.delete'),$message,Auth::user(),$transporter);
         return redirect()->route('transporter.index');
     }
@@ -198,5 +201,9 @@ class TransporterController extends Controller
         // return redirect()->route('product-sale.edit',$vehicleImage->id);
         return true;
     }
-
+	
+	public function getAjaxList(Request $request){
+        $list = $this->transporterRepo->getAjaxList();
+        return  $list;
+    }
 }

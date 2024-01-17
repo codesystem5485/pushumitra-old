@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TransporterProcessRequest extends FormRequest
+class TrainingCenterProcessRequest extends FormRequest
 {
     /**
      * Determine if the pet owner is authorized to make this request.
@@ -24,13 +24,18 @@ class TransporterProcessRequest extends FormRequest
     public function rules()
     {
         $request =  [
-            'transporter_name' => 'required',
-            'vehicle_name' => 'required',
-            'mobile_number' => "required|numeric|digits:10",
-            'address' => 'required',
-            'city_town' => 'required',
-            'state' => 'required',
+            'training_center_name' => 'required',
+			'incharge_name' => 'required',
+            'mobile_number' => 'required|numeric|digits:10',
+			'sub_category'=>'required',
+			'type' =>'required',
+			'fees' => 'required|numeric',
+            'address' => 'required|string',
+            'city_town' => 'required|string',
+            'state' => 'required|string',
             'pincode' => 'required|numeric|digits:6',
+			'taluka' => 'nullable|string',
+			'district' => 'nullable|string',
         ];
         if(!$this->id){
             // $request['password'] = 'required';

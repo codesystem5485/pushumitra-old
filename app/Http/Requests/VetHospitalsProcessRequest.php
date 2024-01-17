@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class VetHospitalsRepoProcessRequest extends FormRequest
+class VetHospitalsProcessRequest extends FormRequest
 {
     /**
      * Determine if the pet owner is authorized to make this request.

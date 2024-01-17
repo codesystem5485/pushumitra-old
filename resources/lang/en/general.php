@@ -124,17 +124,30 @@ return [
 'supplier_name'=>'Supplier Name',
 
 //hospitals
-'hospital_list'=>'Hospital List',
-'hospital_add'=>'Add Hospital',
-'hospital_edit'=>'Edit Hospital',
-'hospital_create'=>'Create Hospital',
-'hospital_details'=>'Supplier details',
+'hospital_list'=>'Vet Hospital List',
+'hospital_add'=>'Add Vet Hospital',
+'hospital_edit'=>'Edit Vet Hospital',
+'hospital_create'=>'Create Vet Hospital',
+'hospital_details'=>'Vet Hospital details',
 'hospital'=>'Vet Hospitals',
-'hospital_name'=>'Hospital Name',
+'hospital_name'=>'Veterinary Hospital Name',
 'hospital_owner_name'=>'Veterinary Owner Name',
 'hospital_education'=>'Veterinary Education',
 'hospital_svc_registration_number'=>'SVC Registration Number',
 
+//Training centers
+'trainingcenter_list'=>'Training Centers List',
+'trainingcenter_add'=>'Add Training Center',
+'trainingcenter_edit'=>'Edit Training Center',
+'trainingcenter_create'=>'Create Training Center',
+'trainingcenter_details'=>'Training Center details',
+'trainingcenter'=>'Training Centers',
+'trainingcenter_name'=>'Training Center Name',
+'trainingcenter_incharge'=>'Name of Incharge',
+'trainingcenter_registration_number'=>'Registration Number',
+'type'=>'Type',
+'trainingcenter_fees'=>'Fees',
+'subcategories'=>'Select Categories',
 
 //transporter
 'transporter_list'=>'Transporter List',

@@ -8,10 +8,10 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-5 col-md-8 col-sm-12">
-                <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>{{ __('general.product-sale_list') }}</h2>
+                <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a>{{ __('general.trainingcenter_list') }}</h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item">{{ __('general.product-sale_list') }}</li>
+                    <li class="breadcrumb-item">{{ __('general.trainingcenter_list') }}</li>
                 </ul>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="header">
                 @include('backend.layouts.flash-message')
                     <!-- <h2>Basic Table <small>Basic example without any additional modification classes</small> </h2> -->
-                    @can('transporter-create')
+                    @can('trainingcenter-create')
                    <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.chemist_add') }} </a>-->
                     @endcan
                 </div>
@@ -31,10 +31,9 @@
                     <table class="table table-bordered table-hover table-custom" id="user_datatable">
                             <thead>
                             <tr>
-								<th>{{ __('general.product_name') }}</th>                                
-                                <th>{{ __('general.contact_name') }}</th>                                
-                                <th>{{ __('general.contact_number') }}</th>                                
-                                <th>{{ __('general.price') }}</th>
+								<th>{{ __('general.trainingcenter_name') }}</th>                                
+                                <th>{{ __('general.mobile_number') }}</th>  
+								<th>{{ __('general.type') }}</th> 								
                                 <th>{{ __('general.added_by') }}</th> 
 								<th>{{ __('general.added_on') }}</th>
 								
@@ -61,7 +60,7 @@
            processing: true,
            serverSide: true,
             ajax: {
-                "url":"{{ route('product-sale.list') }}",
+                "url":"{{ route('trainingcenters.list') }}",
                 "type": "GET",
                 "data": function(d){
                     //d.role = $("#role").val();
@@ -69,10 +68,9 @@
             },
             columns: [
               
-                { data: 'product_name', name: 'product_name' },
-				{ data: 'contact_name_of_owner', name: 'contact_name_of_owner' },
-				{ data: 'contact_number_of_owner', name: 'contact_number_of_owner' },
-				{ data: 'price', name: 'price' },
+                { data: 'training_center_name', name: 'training_center_name' },
+                { data: 'mobile_number', name: 'mobile_number' },
+				 { data: 'type', name: 'type' },
 				{ data: 'user_code', name: 'user_code' },
 				{ data: 'added_date', name: 'added_date' },
                 { data: 'action', name: 'action',orderable: false, 

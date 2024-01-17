@@ -29,34 +29,69 @@
                     <!-- <h2>Role Permissions</h2> -->
                     
                 </div> 
-                <form action="@if(empty($user)){{route('animal-owner.store')}}@else{{route('animal-owner.update',['id' => $user->id])}}@endif" method="post"> 
+                <form> 
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Transporter Name :</span>
-                            <span class="">{{ $user->transporter_name}}</span>
+                            <span class="">{{ __('general.transporter_name') }} :</span>
+                            <span class="">{{ $transporter->transporter_name}}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.transporter_vehicle_name') }} :</span>
+                            <span class="">{{ $transporter->vehicle_name}}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">{{ __('general.mobile_number') }} :</span>
+                            <span class="">{{ $transporter->mobile_number }}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
-                            <span class="">Vehicle Name :</span>
-                            <span class="">{{ $user->vehicle_name }}</span>
+                            <span class="">{{ __('general.address') }} :</span>
+                            <span class="">{{ $transporter->address." ".$transporter->state.", ".$transporter->city_town." ".$transporter->taluka." ".$transporter->district.", ".$transporter->pincode }}</span>
                         </div>
                     </div>
-                    <div class="mb-5">
+					
+					<div class="mb-5">
                         <div class="">
-                            <span class="">Mobile Number :</span>
-                            <span class="">{{ $user->mobile_number }}</span>
+                            <span class="">{{ __('general.description') }} :</span>
+                            <span class="">{{ $transporter->description }}</span>
                         </div>
                     </div>
-                    <div class="mb-5">
-                        <div class="">
-                            <span class="">Address :</span>
-                            <span class="">{{ $user->address_line_1." ".$user->address_line_2." ".$user->state.", ".$user->city." ".$user->village.", ".$user->pincode }}</span>
-                        </div>
-                    </div>
+					
+					 <div class="input_wrapper input-group mb-3">
+                    @if(!empty($images))
+                        @if(count($images))
+                            <div class="input-group mb-10" style="align:left;">
+								@foreach($images as $value)
+                                    <img height="100" width="100"style="margin-left:10px;" src="{{ url("/upload/vehicle/")}}/{{$value->image_name}}" />
+                                 @endforeach
+                                </div>
+                            
+                        @endif
+                    @endif
+                </div>
+				
+				<div class="input_wrapper input-group mb-3">
+                    @if(!empty($images_rcbook))
+                        @if(count($images_rcbook))
+                            <div class="input-group mb-10" style="align:left;">
+								@foreach($images_rcbook as $row)
+                                    <img height="100" width="100"style="margin-left:10px;" src="{{ url("/upload/rcbooks/")}}/{{$row->image_name}}" />
+                                 @endforeach
+                                </div>
+                            
+                        @endif
+                    @endif
+                </div>
                    
                 </div>
                 </form>
