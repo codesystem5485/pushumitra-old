@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\ProductsaleController;
 use App\Http\Controllers\Api\VetHospitalsController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\Api\TrainingCentersController;
+use App\Http\Controllers\Api\ShopsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -74,6 +75,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-supplier', [SuppliersController::class,'addSupplier']);
 	/* Add Training center */
 	Route::post('/add-training-center', [TrainingCentersController::class,'addTrainingCenter']);
+	/* Add Shops */
+	Route::post('/add-shops', [ShopsController::class,'addShop']);
 	
 	});
 	
@@ -124,4 +127,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/supplier-detail', [SuppliersController::class,'supplierDetail']);
 	Route::get('/training-centers-list', [TrainingCentersController::class,'getTrainingCenterList']);
 	Route::get('/training-center-detail', [TrainingCentersController::class,'trainingCenterDetail']);
+	Route::get('/shops-list', [ShopsController::class,'getShopList']);
+	Route::get('/shop-detail', [ShopsController::class,'shopDetail']);
 }); 
