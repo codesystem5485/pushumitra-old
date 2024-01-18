@@ -144,7 +144,7 @@ class TrainingCentersController extends Controller
             Session::flash('success', trans('messages.update_records'));
 
             ## Store log
-            $message = trans('messages.trainingcenters_update',['name' => $request->input('hospital_name')]);
+            $message = trans('messages.trainingcenters_update',['name' => $request->input('training_center_name')]);
             storeActicityLog(trans('messages.update'),$message,Auth::user(),$trainingcenters);
             return redirect()->route('trainingcenters.index');    
        /* }catch(\Exception $e){ 
@@ -180,7 +180,7 @@ class TrainingCentersController extends Controller
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log trainingcenters
-        $message = trans('messages.trainingcenters_delete',['name' => $trainingcenters->hospital_name]);
+        $message = trans('messages.trainingcenters_delete',['name' => $trainingcenters->taining_center_name]);
         storeActicityLog(trans('messages.delete'),$message,Auth::user(),$trainingcenters);
         return redirect()->route('trainingcenters.index');
     }

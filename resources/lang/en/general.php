@@ -149,6 +149,16 @@ return [
 'trainingcenter_fees'=>'Fees',
 'subcategories'=>'Select Categories',
 
+//Farms
+'farm_list'=>'Farms List',
+'farm_add'=>'Add Farm',
+'farm_edit'=>'Edit Farm',
+'farm_create'=>'Create Farm',
+'farm_details'=>'Farm details',
+'farm'=>'Training Centers',
+'farm_name'=>'Farm Name',
+'farm_incharge'=>'Name of Incharge',
+
 //transporter
 'transporter_list'=>'Transporter List',
 'transporter_add'=>'Add Transporter',

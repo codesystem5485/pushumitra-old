@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\VetHospitalsController;
 use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\Api\TrainingCentersController;
 use App\Http\Controllers\Api\ShopsController;
+use App\Http\Controllers\Api\FarmsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -76,7 +77,10 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Add Training center */
 	Route::post('/add-training-center', [TrainingCentersController::class,'addTrainingCenter']);
 	/* Add Shops */
-	Route::post('/add-shops', [ShopsController::class,'addShop']);
+	Route::post('/add-shop', [ShopsController::class,'addShop']);
+	/* Add Farms */
+	Route::post('/add-farm', [FarmsController::class,'addFarm']);
+	
 	
 	});
 	
@@ -127,6 +131,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/supplier-detail', [SuppliersController::class,'supplierDetail']);
 	Route::get('/training-centers-list', [TrainingCentersController::class,'getTrainingCenterList']);
 	Route::get('/training-center-detail', [TrainingCentersController::class,'trainingCenterDetail']);
+	Route::get('/farms-list', [FarmsController::class,'getFarmList']);
+	Route::get('/farm-detail', [FarmsController::class,'farmDetail']);
 	Route::get('/shops-list', [ShopsController::class,'getShopList']);
 	Route::get('/shop-detail', [ShopsController::class,'shopDetail']);
 }); 

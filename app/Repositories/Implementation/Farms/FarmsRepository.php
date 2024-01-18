@@ -40,7 +40,7 @@ class FarmsRepository  extends BaseRepository implements FarmsRepositoryInterfac
     /**
      * {@inheritDoc}
      */
-    public function getFarms(int $farmId)
+    public function getFarm(int $farmId)
     {
 		return Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
 					->select('farms.*','subcategories.name as subcategory_name')
@@ -99,20 +99,20 @@ class FarmsRepository  extends BaseRepository implements FarmsRepositoryInterfac
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
-			$actionBtn .= '<a href="'.route('trainingcenters.detail',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('farms.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
-			$actionBtn .= '<a href="'.route('trainingcenters.edit',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('farms.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
-			$actionBtn .= '<a href="'.route('trainingcenters.delete',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('farms.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
            
-            if(auth()->user()->can('trainingcenters-edit')){
+            if(auth()->user()->can('farms-edit')){
                
             }
-            if(auth()->user()->can('trainingcenters-delete')){
+            if(auth()->user()->can('farms-delete')){
              }
             return $actionBtn;
            

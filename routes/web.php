@@ -33,7 +33,8 @@ use App\Http\Controllers\Front\InvoiceController;
 use App\Http\Controllers\Backend\RatingsController;
 use App\Http\Controllers\Backend\SuppliersController;
 use App\Http\Controllers\Backend\VetHospitalsController;
-use App\Http\Controllers\Backend\TrainingCentersController;
+use App\Http\Controllers\Backend\TrainingCentersController; 
+use App\Http\Controllers\Backend\FarmsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -226,7 +227,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 		Route::get('/hospitals-list', [VetHospitalsController::class, 'getAjaxList'])->name('list');		
     });
 	
-	//hospitals module
+	//training center module
     Route::group([
         'prefix' => 'pashumitra/trainingcenters',
         'as' => 'trainingcenters.',
@@ -240,6 +241,21 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [TrainingCentersController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [TrainingCentersController::class, 'removeImage'])->name('remove');
 		Route::get('/trainingcenters-list', [TrainingCentersController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	Route::group([
+        'prefix' => 'pashumitra/farms',
+        'as' => 'farms.',
+      ], function () {
+        Route::get('/', [FarmsController::class, 'index'])->name('index');
+        Route::get('/create', [FarmsController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [FarmsController::class, 'detail'])->name('detail');
+        Route::post('/store', [FarmsController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [FarmsController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [FarmsController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [FarmsController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [FarmsController::class, 'removeImage'])->name('remove');
+		Route::get('/farms-list', [FarmsController::class, 'getAjaxList'])->name('list');		
     });
     
     //Transporter module
