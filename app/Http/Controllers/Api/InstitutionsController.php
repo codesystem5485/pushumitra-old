@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Models\Farms;
-use App\Models\FarmsImages;
+use App\Models\Institutions;
+use App\Models\InstitutionImages;
 use App\Models\State;
-use App\Repositories\Interfaces\Farms\FarmsRepositoryInterface;
+use App\Repositories\Interfaces\Institutions\InstitutionsRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use App\Traits\FileUpload;
@@ -16,19 +16,19 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class FarmController extends BaseController
+class InstitutionsController extends BaseController
 {
     use FileUpload;
-    protected $farmsRepo;
+    protected $institutionsRepo;
 	private $userRepo;
 	
     /**
      * Transporter Construct 
      * @return url 
      */
-    public function __construct(FarmsRepositoryInterface $farmsRepo, UserRepositoryInterface $userRepository){
+    public function __construct(InstitutionsRepositoryInterface $institutionsRepo, UserRepositoryInterface $userRepository){
 
-        $this->farmsRepo = $farmsRepo;
+        $this->institutionsRepo = $institutionsRepo;
 		$this->userRepo = $userRepository;
     } 
 
@@ -36,11 +36,11 @@ class FarmController extends BaseController
      * Transporter Add
    
      */
-	 public function addFarm(Request $request){
+	 public function addInstitution(Request $request){
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'farm_name' => 'required',
+				'institution_name' => 'required',
 				'incharge_name' => 'required',
 				'sub_category'=>'required',
 				'mobile_number' => "required|numeric",
@@ -51,7 +51,8 @@ class FarmController extends BaseController
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
 				'user_code'=>'required',
-				'payment_id'=>'required',
+				'registration_number'=>'required',
+				//'payment_id'=>'required',
 			]);
 			
 		if ($validator->fails())
@@ -64,20 +65,20 @@ class FarmController extends BaseController
         DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
-            $results = $this->farmRepo->create($aInsertData);
+            $results = $this->institutionsRepo->create($aInsertData);
 			$category = $results->sub_category;
 			
 			$categoryName = $this->userRepo->getCategoryName($category);
 
-            if($request->farm_photo)
+            if($request->institution_photo)
             {
-                foreach($request->farm_photo as $photo)
+                foreach($request->institution_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'farms');
+                    $fileName = $this->uploadFile($photo,'institutions');
                     if($fileName)
                     {
-                        FarmsImages::create(['farm_id'=>$results->id,'image_name' => $fileName]);
+                        InstitutionImages::create(['institution_id'=>$results->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -91,7 +92,7 @@ class FarmController extends BaseController
 				$payment->module_type_id = $results->id;
 				$payment->save();
 				
-				$paymentArr = array( 'type'=>$payment->type,'tainingcenter_id'=>$results->id);
+				$paymentArr = array( 'type'=>$payment->type,'institution_id'=>$results->id);
 				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
 				
 				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
@@ -120,8 +121,8 @@ class FarmController extends BaseController
             
             DB::commit();
 			## Store log
-            $message = trans('messages.farm_create',['name' => $request->training_center_name]);
-            storeActicityLog(trans('messages.farm_create'),$message);
+            $message = trans('messages.institution_create',['name' => $request->institution_name]);
+            storeActicityLog(trans('messages.institution_create'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
@@ -132,19 +133,20 @@ class FarmController extends BaseController
         }
     }
 	
-	public function getFarmsList(Request $request)
+	public function getInstitutionList(Request $request)
 	{
-		$response['results']  =   Farm::select('id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from  training_center_images where training_center_id  = farms.id order by id asc limit 1) as image_name'))
-			->whereDate('farms.subscriptionEndDate', '>=', Carbon::now())
-			->where('farms.status', 1)
-		    ->orderBy('farms.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/farms")."/";
+		$response['results']  =   Institutions::select('id','institution_name','incharge_name','mobile_number','type',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'))
+			->whereDate('institutions.subscriptionEndDate', '>=', Carbon::now())
+			->where('institutions.status', 1)
+		    ->orderBy('institutions.id','DESC')->get();
+		   $response['image_base_path'] =  url("/upload/institutions")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
 	
-	public function farmDetail(Request $request)
+	public function institutionDetail(Request $request)
 	{
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
@@ -158,12 +160,12 @@ class FarmController extends BaseController
 		$response = [];
 		$id = $request->detail_id;
 		
-		$results =$this->farmsRepo->getTrainingcenter($id);
+		$results =$this->institutionsRepo->getInstitution($id);
 		if($results){
-			$images_arr = FarmsImages::where('farm_id',$results->id)->get();
+			$images_arr = InstitutionImages::where('institution_id',$results->id)->get();
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
-			$response['image_base_path'] =  url("/upload/farms")."/";
+			$response['image_base_path'] =  url("/upload/institutions")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

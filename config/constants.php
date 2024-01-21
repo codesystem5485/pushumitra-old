@@ -30,6 +30,7 @@ return [
 		'suppliers_file_path'=>'upload/suppliers',
 		'trainingcenters_file_path'=>'upload/trainingcenters',
 		'farms_file_path'=>'upload/farms',
+		'institutions_file_path'=>'upload/institutions',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],

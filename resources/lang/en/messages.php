@@ -75,6 +75,7 @@ return [
 	'hospital_update' =>':name has been updated',
 	'supplier_create' =>':name has been created',
 	'trainingcenter_create' =>':name has been created', 
+	'institution_create' =>':name has been created',
 	'farm_create' =>':name has been created',
 	'trainingcenter_update' =>':name has been updated',
 	'image_remove' =>':name has been removed',

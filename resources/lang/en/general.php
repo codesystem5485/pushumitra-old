@@ -171,6 +171,16 @@ return [
 'transporter_vehicle_name'=>'Vehicle Name',
 'enter_transporter_vehicle_name'=>'Enter Transporter Vehicle Name',
 
+//institutions
+'institution_list'=>'Institution List',
+'institution_add'=>'Add Institution',
+'institution_edit'=>'Edit Institution',
+'institution_create'=>'Create Institution',
+'institution_details'=>'Institution details',
+'institution'=>'Institutions',
+'institution_name'=>'Institution Name',
+'institution_incharge'=>'Name of Incharge',
+'institution_registration_number'=>'Registration Number',
 
 //animal owner
 'animal_owner_list'=>'Animal Owner List',

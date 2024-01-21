@@ -35,6 +35,7 @@ use App\Http\Controllers\Backend\SuppliersController;
 use App\Http\Controllers\Backend\VetHospitalsController;
 use App\Http\Controllers\Backend\TrainingCentersController; 
 use App\Http\Controllers\Backend\FarmsController;
+use App\Http\Controllers\Backend\InstitutionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -241,6 +242,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [TrainingCentersController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [TrainingCentersController::class, 'removeImage'])->name('remove');
 		Route::get('/trainingcenters-list', [TrainingCentersController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//Institutions module
+    Route::group([
+        'prefix' => 'pashumitra/institutions',
+        'as' => 'institutions.',
+      ], function () {
+        Route::get('/', [InstitutionsController::class, 'index'])->name('index');
+        Route::get('/create', [InstitutionsController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [InstitutionsController::class, 'detail'])->name('detail');
+        Route::post('/store', [InstitutionsController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [InstitutionsController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [InstitutionsController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [InstitutionsController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [InstitutionsController::class, 'removeImage'])->name('remove');
+		Route::get('/institutions-list', [InstitutionsController::class, 'getAjaxList'])->name('list');		
     });
 	
 	Route::group([

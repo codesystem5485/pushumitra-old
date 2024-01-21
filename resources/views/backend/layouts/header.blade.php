@@ -227,6 +227,9 @@
                               <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="icon-hourglass"></i> <span>Training Centers </span></a>
                            </li>
 						   <li class="">
+                              <a href="{{url('pashumitra/institutions')}}" class="@if (\Request::is('pashumitra/institutions')) active  @endif" ><i class="icon-hourglass"></i> <span>Institutions </span></a>
+                           </li>
+						   <li class="">
                               <a href="{{url('pashumitra/farms')}}" class="@if (\Request::is('pashumitra/farms')) active  @endif" ><i class="icon-hourglass"></i> <span>Farms </span></a>
                            </li>
 						   @if(auth()->user()->can('cms-list')) 

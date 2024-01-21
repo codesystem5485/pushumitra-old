@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\SuppliersController;
 use App\Http\Controllers\Api\TrainingCentersController;
 use App\Http\Controllers\Api\ShopsController;
 use App\Http\Controllers\Api\FarmsController;
+use App\Http\Controllers\Api\InstitutionsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -80,6 +81,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-shop', [ShopsController::class,'addShop']);
 	/* Add Farms */
 	Route::post('/add-farm', [FarmsController::class,'addFarm']);
+	/* Add institutions */
+	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
 	
 	
 	});
@@ -135,4 +138,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/farm-detail', [FarmsController::class,'farmDetail']);
 	Route::get('/shops-list', [ShopsController::class,'getShopList']);
 	Route::get('/shop-detail', [ShopsController::class,'shopDetail']);
+	Route::get('/institutions-list', [InstitutionsController::class,'getInstitutionList']);
+	Route::get('/institution-detail', [InstitutionsController::class,'institutionDetail']);
 }); 
