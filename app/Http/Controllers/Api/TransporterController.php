@@ -143,6 +143,7 @@ class TransporterController extends BaseController
 			->where('transporters.status', 1)
 		    ->orderBy('transporters.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/vehicle/");
+		   
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -163,7 +164,7 @@ class TransporterController extends BaseController
 		$results = Transporters::where('id',$id)->first();
 		if($results){
 			$images_arr = VehicleImages::where('transporter_id',$results->id)->get();
-			$images_rcbook_arr = VehicleImages::where('transporter_id',$results->id)->get();
+			$images_rcbook_arr = TransporterRcbookImages::where('transporter_id',$results->id)->get();
 			$response = array('results'=>$results,'module_images' =>$images_arr,'rcbooksImages'=>$images_rcbook_arr);
 			
 			$response['vehicles_image_path'] =  url("/upload/vehicle/");
@@ -174,5 +175,4 @@ class TransporterController extends BaseController
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
-
 }
