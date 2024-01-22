@@ -136,12 +136,25 @@ class VetHospitalsController extends BaseController
 	
 	public function getHospitalList(Request $request)
 	{
-		$response['results']  =   Veterinaryhospitals::select( 'veterinary_hospitals.*',
+		/*$response['results']  =   Veterinaryhospitals::select( 'veterinary_hospitals.*',
             DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
 			->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now())
 			->where('veterinary_hospitals.status', 1)
-		    ->orderBy('veterinary_hospitals.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/hospitals")."/";
+		    ->orderBy('veterinary_hospitals.id','DESC')->get();*/
+			$query = Veterinaryhospitals::select('veterinary_hospitals.*',
+            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Goverment')->where('veterinary_hospitals.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+				->where('veterinary_hospitals.status', 1)
+						->orderBy('veterinary_hospitals.id','DESC')->get();
+			$response['results']= $query;
+			$response['image_base_path'] =  url("/upload/hospitals")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
