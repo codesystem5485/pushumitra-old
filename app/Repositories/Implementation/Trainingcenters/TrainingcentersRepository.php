@@ -3,7 +3,7 @@
 namespace App\Repositories\Implementation\Trainingcenters;
 
 use App\Base\BaseRepository;
-use App\Models\Trainingcenters;
+use App\Models\TrainingCenters;
 use App\Repositories\Interfaces\Trainingcenters\TrainingcentersRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
