@@ -31,13 +31,13 @@
                     <table class="table table-bordered table-hover table-custom" id="user_datatable">
                             <thead>
                             <tr>
-								<th>{{ __('general.institution_name') }}</th>                                
+								<th>{{ __('general.institution_name') }}</th>
+								<th>{{ __('general.institution_incharge') }}</th>                                
                                 <th>{{ __('general.mobile_number') }}</th>  
 								<th>{{ __('general.type') }}</th> 								
                                 <th>{{ __('general.added_by') }}</th> 
 								<th>{{ __('general.added_on') }}</th>
-								
-								<!--<th>{{ __('general.expired_date') }}</th>--> 								
+								<th>{{ __('general.expired_date') }}</th>								
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -69,10 +69,12 @@
             columns: [
               
                 { data: 'institution_name', name: 'institution_name' },
+				{ data: 'incharge_name', name: 'incharge_name' },
                 { data: 'mobile_number', name: 'mobile_number' },
 				 { data: 'type', name: 'type' },
 				{ data: 'user_code', name: 'user_code' },
 				{ data: 'added_date', name: 'added_date' },
+				{ data: 'expire_date', name: 'expire_date' },
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 
             ]

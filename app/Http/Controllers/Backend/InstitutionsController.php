@@ -112,7 +112,7 @@ class InstitutionsController extends Controller
         $institutions = Institutions::find($id);
         $images = InstitutionImages::where('institution_id',$institutions->id)->get();
         $states = State::where('is_active','1')->get();
-		$subcategories = Subcategories::where('status',1)->where('parent_category',4)->get();
+		$subcategories = Subcategories::where('status',1)->where('parent_category',6)->get();
 		return view('backend.institutions.create',['subcategories'=>$subcategories,'images'=>$images,'states'=>$states,'institutions' => $institutions,'url' => $this->url]);  
     }
 
@@ -135,7 +135,7 @@ class InstitutionsController extends Controller
                     $fileName = $this->uploadFile($photo,'institutions');
                     if($fileName)
                     {
-                        InstitutionImages::create(['institution_id'=>$results->id,'image_name' => $fileName]);
+                        InstitutionImages::create(['institution_id'=>$institutions->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -199,7 +199,7 @@ class InstitutionsController extends Controller
     }
 	
 	public function getAjaxList(Request $request){
-        $list = $this->institutionRepo->getAjaxList();
+        $list = $this->institutionsRepo->getAjaxList();
         return  $list;
     }
 }

@@ -97,6 +97,13 @@ class InstitutionsRepository  extends BaseRepository implements InstitutionsRepo
 		 }
             return $date;
         })
+		->editColumn('expire_date', function ($results) { 
+		  $date ='-';
+		 if($results->subscriptionEndDate!='' || $results->subscriptionEndDate!='0000-00-00'){
+			 $date = date('d-M-Y',strtotime($results->subscriptionEndDate));
+		 }
+            return $date;
+        })
         ->addColumn('action', function($results){
             $actionBtn = '';
 			$actionBtn .= '<a href="'.route('institutions.detail',['id' => $results->id]).'">
