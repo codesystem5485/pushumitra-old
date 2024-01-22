@@ -148,7 +148,7 @@ class VetHospitalsController extends BaseController
                                  $query->where('type','Private')->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now());
                              })
 							 ->orWhere(function($query){
-                                 $query->where('type','Goverment')->where('veterinary_hospitals.subscriptionEndDate', '0000-00-00');
+                                 $query->where('type','Government')->where('veterinary_hospitals.subscriptionEndDate', '0000-00-00');
                              });
                          })
 				->where('veterinary_hospitals.status', 1)
