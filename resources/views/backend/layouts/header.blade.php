@@ -237,6 +237,7 @@
 						   <li class="">
                               <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="icon-hourglass"></i> <span>Dogshelters </span></a>
                            </li>
+						    @endif
 						   @if(auth()->user()->can('cms-list')) 
 						    <li class="">
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>

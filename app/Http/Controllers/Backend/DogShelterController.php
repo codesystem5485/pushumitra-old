@@ -134,7 +134,7 @@ class DogShelterController extends Controller
 				$fileName = $this->uploadFile($photo,'dogshelters');
 				if($fileName)
 				{ 
-					DogshelterImages::create(['dog_shelter_id'=>$results->id,'image_name' => $fileName]);
+					DogshelterImages::create(['dog_shelter_id'=>$dogshelters->id,'image_name' => $fileName]);
 				}
 			}
 		}

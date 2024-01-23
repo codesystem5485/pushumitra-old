@@ -104,17 +104,17 @@ class DogsheltersRepository  extends BaseRepository implements DogsheltersReposi
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
-			if(auth()->user()->can('dogshelters-detail')){
+			if(auth()->user()->can('dogshelter-detail')){
 				$actionBtn .= '<a href="'.route('dogshelters.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
 			}
-			if(auth()->user()->can('dogshelters-edit')){
+			if(auth()->user()->can('dogshelter-edit')){
 			$actionBtn .= '<a href="'.route('dogshelters.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
 			}
-			if(auth()->user()->can('dogshelters-delete')){
+			if(auth()->user()->can('dogshelter-delete')){
 			$actionBtn .= '<a href="'.route('dogshelters.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
