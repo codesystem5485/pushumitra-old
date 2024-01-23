@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\TrainingCentersController;
 use App\Http\Controllers\Api\ShopsController;
 use App\Http\Controllers\Api\FarmsController;
 use App\Http\Controllers\Api\InstitutionsController;
+use App\Http\Controllers\Api\DogShelterController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -83,6 +84,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-farm', [FarmsController::class,'addFarm']);
 	/* Add institutions */
 	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
+	/* Add dogshelter */
+	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	
 	
 	});
@@ -140,4 +143,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/shop-detail', [ShopsController::class,'shopDetail']);
 	Route::get('/institutions-list', [InstitutionsController::class,'getInstitutionList']);
 	Route::get('/institution-detail', [InstitutionsController::class,'institutionDetail']);
+	Route::get('/dogshelters-list', [DogShelterController::class,'getDogshelterList']);
+	Route::get('/dogshelter-detail', [DogShelterController::class,'dogshelterDetail']);
 }); 
