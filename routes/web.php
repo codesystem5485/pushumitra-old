@@ -36,6 +36,7 @@ use App\Http\Controllers\Backend\VetHospitalsController;
 use App\Http\Controllers\Backend\TrainingCentersController; 
 use App\Http\Controllers\Backend\FarmsController;
 use App\Http\Controllers\Backend\InstitutionsController;
+use App\Http\Controllers\Backend\DogShelterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -244,6 +245,21 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 		Route::get('/trainingcenters-list', [TrainingCentersController::class, 'getAjaxList'])->name('list');		
     });
 	
+	//dogshelters module
+    Route::group([
+        'prefix' => 'pashumitra/dogshelters',
+        'as' => 'dogshelters.',
+      ], function () {
+        Route::get('/', [DogShelterController::class, 'index'])->name('index');
+        Route::get('/create', [DogShelterController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [DogShelterController::class, 'detail'])->name('detail');
+        Route::post('/store', [DogShelterController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [DogShelterController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [DogShelterController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [DogShelterController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [DogShelterController::class, 'removeImage'])->name('remove');
+		Route::get('/dogshelters-list', [DogShelterController::class, 'getAjaxList'])->name('list');		
+    });
 	//Institutions module
     Route::group([
         'prefix' => 'pashumitra/institutions',

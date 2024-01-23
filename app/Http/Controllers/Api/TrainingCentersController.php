@@ -135,12 +135,26 @@ class TrainingCentersController extends BaseController
 	
 	public function getTrainingCenterList(Request $request)
 	{
-		$response['results']  =   TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','type','fees',
+		/*$response['results']  =   TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','duration','type','fees',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
 			->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now())
 			->where('training_centers.status', 1)
-		    ->orderBy('training_centers.id','DESC')->get();
+		    ->orderBy('training_centers.id','DESC')->get();*/
+		$query = TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','duration','type','fees',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('training_centers.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+				->where('training_centers.status', 1)
+						->orderBy('training_centers.id','DESC')->get();
+			$response['results']= $query;
 		   $response['image_base_path'] =  url("/upload/trainingcenters")."/";
 			
 		return $this->sendResponse($response,"",200);

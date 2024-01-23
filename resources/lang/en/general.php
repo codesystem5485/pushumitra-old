@@ -181,6 +181,16 @@ return [
 'institution_name'=>'Institution Name',
 'institution_incharge'=>'Name of Incharge',
 'institution_registration_number'=>'Registration Number',
+//dogshelters
+'dogshelter_list'=>'Dogshelter List',
+'dogshelter_add'=>'Add Dogshelter',
+'dogshelter_edit'=>'Edit Dogshelter',
+'dogshelter_create'=>'Create Dogshelter',
+'dogshelter_details'=>'Dogshelter details',
+'dogshelter'=>'Dogshelters',
+'dogshelter_name'=>'Dogshelter Name',
+'dogshelter_incharge'=>'Name of Incharge',
+'dogshelter_registration_number'=>'Registration Number',
 
 //animal owner
 'animal_owner_list'=>'Animal Owner List',
