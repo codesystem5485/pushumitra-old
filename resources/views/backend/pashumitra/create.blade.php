@@ -164,7 +164,7 @@
 					@php
 					if(isset($users))
 					{
-						if($user->date_of_birth!=''
+						//if($user->date_of_birth!='';
 					}	
 					@endphp
                     <div class="input-group mb-3">

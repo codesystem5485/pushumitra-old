@@ -175,11 +175,23 @@
                         <div><span>{{ $errors->first('sex') }}</span></div>
                     </div>
 
+                    @php
+                    $rv_speciality='';
+                    $rv_name_of_working_org='';
+                    $rv_state_verternity_council_no='';
+                    if(isset($user->getUserDetail)){
+                        $rv_speciality = $user->getUserDetail->rv_speciality;
+                        $rv_state_verternity_council_no= $user->getUserDetail->$rv_state_verternity_council_no;
+                         $rv_name_of_working_org= $user->getUserDetail->$rv_name_of_working_org;
+                    }
+                     
+                    
+                    @endphp
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Name of state veterinary council no :</span>
                         </div>
-                        <input type="text" id="rv_state_verternity_council_no" class="form-control" aria-describedby="basic-addon3" name="rv_state_verternity_council_no" value="@if(empty($user)){{old('rv_state_verternity_council_no')}}@else{{$user->getUserDetail->rv_state_verternity_council_no}}@endif" placeholder="Name of state veterinary council number"><br>
+                        <input type="text" id="rv_state_verternity_council_no" class="form-control" aria-describedby="basic-addon3" name="rv_state_verternity_council_no" value="@if(empty($user)){{old('rv_state_verternity_council_no')}}@else{{$rv_state_verternity_council_no}}@endif" placeholder="Name of state veterinary council number"><br>
                         <div><span>{{ $errors->first('rv_state_verternity_council_no') }}</span></div>
                     </div>
 					
@@ -199,12 +211,13 @@
                         <br>
                         <div><span>{{ $errors->first('job_type') }}</span></div>
                     </div>
+                   
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Speciality :</span>
                         </div>
-                        <input type="text" id="rv_speciality" class="form-control" aria-describedby="basic-addon3" name="rv_speciality" value="@if(empty($user)){{old('rv_speciality')}}@else{{$user->getUserDetail->rv_speciality}}@endif" placeholder="Speciality"><br>
+                        <input type="text" id="rv_speciality" class="form-control" aria-describedby="basic-addon3" name="rv_speciality" value="@if(empty($user)){{old('rv_speciality')}}@else{{$rv_speciality}}@endif" placeholder="Speciality"><br>
                         <div><span>{{ $errors->first('rv_speciality') }}</span></div>
                     </div>
 
@@ -218,7 +231,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Name of organization :</span>
                         </div>
-                        <input type="text" id="rv_name_of_working_org" class="form-control" aria-describedby="basic-addon3" name="rv_name_of_working_org" value="@if(empty($user)){{old('rv_name_of_working_org')}}@else{{$user->getUserDetail->rv_name_of_working_org}}@endif" placeholder="Name of organization working with"><br>
+                        <input type="text" id="rv_name_of_working_org" class="form-control" aria-describedby="basic-addon3" name="rv_name_of_working_org" value="@if(empty($user)){{old('rv_name_of_working_org')}}@else{{$rv_name_of_working_org}}@endif" placeholder="Name of organization working with"><br>
                         <div><span>{{ $errors->first('rv_name_of_working_org') }}</span></div>
                     </div>
 					

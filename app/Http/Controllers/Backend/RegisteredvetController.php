@@ -153,7 +153,7 @@ class RegisteredvetController extends BaseController
         
         $states = $this->stateRepo->getStates();
         $cities = $this->cityRepo->getCities(['state_id'=>$user->state_id]);
-        $rv_cities = $this->cityRepo->getCities(['state_id'=>$user->getUserDetail->rv_working_state_id]);
+        $rv_cities = $this->cityRepo->getCities(['state_id'=>$user->state_id]);
         $roles = $this->getRoles();
         return view('backend.registered-vet.create',['rv_cities'=>$rv_cities,'cities'=>$cities,'states'=>$states,'user' => $user,'roles' => $roles,'url' => $this->url]);
     }   
