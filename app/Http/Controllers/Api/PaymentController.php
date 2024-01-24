@@ -168,26 +168,28 @@ class PaymentController extends BaseController
 				);
 			
 			$payment = Payments::create($insertArray);
+			
 			$createdPaymentId = 0;
+			
 			//pashumitra sign up
 			if($roleId==8 && $type==1){
-				if($payment)
-				{
+				if(isset($payment->id))
+				{ 
 					$createdPaymentId = $payment->id;
 					//get subscriptions date
 					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
 					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
 					//generate pm_code & update to user table
 					$param['pm_code'] = $this->userRepo->generatePashumitraCode();
-					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
-					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
+					 $param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
+					 $param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
 					$this->userRepo->update($aInsertData['user_id'],$param);  
 				}
 			}
 			
 			//registered vet sign up
 			if($roleId==7 && $type==6){
-				if($payment)
+				if(isset($payment->id))
 				{ 
 					$createdPaymentId = $payment->id;
 					//get subscriptions date
