@@ -44,6 +44,7 @@ class RxreminderCron extends Command
     {
 		$todayDate = date("Y-m-d");
 		//echo $date = $todayDate->addDays(1);exit;
+	//	$todayDate ='2024-01-20';
 		
 		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
 		$date = $todayDate1->addDays(1);
@@ -55,7 +56,7 @@ class RxreminderCron extends Command
 								->where( 'scheduled_date', '=', $newDate)
 								->where( 'type', 1)
 								->where('send_flag',0)
-								->where('sender_user_id',104)
+								//->where('sender_user_id',104)
 								->get();
 								
 		if($notifications)
