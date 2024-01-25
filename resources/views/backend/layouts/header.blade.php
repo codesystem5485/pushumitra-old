@@ -227,15 +227,24 @@
                               <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
                            </li>
 						   @endif
+						   @if(auth()->user()->can('trainingcenter-list') || auth()->user()->can('trainingcenter-create') || auth()->user()->can('trainingcenter-edit') || auth()->user()->can('trainingcenter-delete')) 
+                           
 						   <li class="">
                               <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="icon-hourglass"></i> <span>Training Centers </span></a>
                            </li>
+						   @endif
+						   @if(auth()->user()->can('institution-list') || auth()->user()->can('institution-create') || auth()->user()->can('institution-edit') || auth()->user()->can('institution-delete')) 
+                           
 						   <li class="">
                               <a href="{{url('pashumitra/institutions')}}" class="@if (\Request::is('pashumitra/institutions')) active  @endif" ><i class="icon-hourglass"></i> <span>Institutions </span></a>
                            </li>
+						   @endif
+						    @if(auth()->user()->can('farm-list') || auth()->user()->can('farm-create') || auth()->user()->can('farm-edit') || auth()->user()->can('farm-delete')) 
+                           
 						   <li class="">
                               <a href="{{url('pashumitra/farms')}}" class="@if (\Request::is('pashumitra/farms')) active  @endif" ><i class="icon-hourglass"></i> <span>Farms </span></a>
                            </li>
+						    @endif
 						    @if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
                            
 						   <li class="">
