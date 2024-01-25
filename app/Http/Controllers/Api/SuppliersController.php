@@ -125,7 +125,7 @@ class SuppliersController extends BaseController
 	public function getSupplierList(Request $request)
 	{
 		$response['results'] = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
-		->select('suppliers.*','subcategories.name as sub_category',
+		->select('suppliers.*','subcategories.name as sub_category_name',
             DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'))
 			->whereDate('suppliers.subscriptionEndDate', '>=', Carbon::now())
 			->where('suppliers.status', 1)
