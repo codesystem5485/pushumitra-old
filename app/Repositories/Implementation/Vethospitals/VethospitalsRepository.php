@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use DB;
 use DataTables;
 use Spatie\Activitylog\Models\Activity;
-class VethospitalsRepository  extends BaseRepository implements VethospitalsRepositoryInterface
+class VethospitalsRepository extends BaseRepository implements VethospitalsRepositoryInterface
 {
     /**
      * @var vethospital
@@ -99,21 +99,22 @@ class VethospitalsRepository  extends BaseRepository implements VethospitalsRepo
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
+			if(auth()->user()->can('hospital-detail')){
 			$actionBtn .= '<a href="'.route('hospitals.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
+			}
+			if(auth()->user()->can('hospital-edit')){
 			$actionBtn .= '<a href="'.route('hospitals.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
+			}
+			if(auth()->user()->can('hospital-delete')){
 			$actionBtn .= '<a href="'.route('hospitals.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
-           
-            if(auth()->user()->can('suppliers-edit')){
-               
-            }
-            if(auth()->user()->can('suppliers-delete')){
-             }
+           }
+            
             return $actionBtn;
            
         })

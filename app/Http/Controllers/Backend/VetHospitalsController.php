@@ -28,10 +28,10 @@ class VetHospitalsController extends Controller
      */
     public function __construct(VethospitalsRepositoryInterface $vethospitalsRepo){
 
-      /*  $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
-        $this->middleware('permission:transporter-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:transporter-delete', ['only' => ['delete']]);*/
+        $this->middleware('permission:hospital-list|hospital-create|hospital-edit|hospital-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:hospital-create', ['only' => ['create','store']]);
+        $this->middleware('permission:hospital-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:hospital-delete', ['only' => ['delete']]);
 
         $this->url = [   
             'listUrl' => route('hospitals.index'),
@@ -45,7 +45,7 @@ class VetHospitalsController extends Controller
      * @return View
      */
     public function index(){
-        $hospitals = Veterinaryhospitals::orderBy('id','DESC')->get();
+        $hospitals =[];
         return view('backend.hospitals.index',['hospitals'=>$hospitals,'url' => $this->url]); 
     }
 

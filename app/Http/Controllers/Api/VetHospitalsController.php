@@ -141,7 +141,8 @@ class VetHospitalsController extends BaseController
 			->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now())
 			->where('veterinary_hospitals.status', 1)
 		    ->orderBy('veterinary_hospitals.id','DESC')->get();*/
-			$query = Veterinaryhospitals::select('veterinary_hospitals.*',
+			$query = Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
+			->select('veterinary_hospitals.*','subcategories.name as sub_category',
             DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){

@@ -28,10 +28,10 @@ class SuppliersController extends Controller
      */
     public function __construct(SuppliersRepositoryInterface $suppliersRepo){
 
-      /*  $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
-        $this->middleware('permission:transporter-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:transporter-delete', ['only' => ['delete']]);*/
+        $this->middleware('permission:supplier-list|supplier-create|supplier-edit|supplier-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:supplier-create', ['only' => ['create','store']]);
+        $this->middleware('permission:supplier-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:supplier-delete', ['only' => ['delete']]);
 
         $this->url = [   
             'listUrl' => route('suppliers.index'),
@@ -45,7 +45,7 @@ class SuppliersController extends Controller
      * @return View
      */
     public function index(){
-        $suppliers = Suppliers::orderBy('id','DESC')->get();
+        $suppliers = [];
         return view('backend.suppliers.index',['suppliers'=>$suppliers,'url' => $this->url]); 
     }
 

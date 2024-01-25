@@ -217,12 +217,16 @@
                               <a href="{{url('pashumitra/product-sale')}}" class="@if (\Request::is('pashumitra/product-sale')) active  @endif" ><i class="icon-hourglass"></i> <span>Product for sale </span></a>
                            </li>
                            @endif
-						   <li class="">
+						   @if(auth()->user()->can('supplier-list') || auth()->user()->can('supplier-create') || auth()->user()->can('supplier-edit') || auth()->user()->can('supplier-delete')) 
+                           <li class="">
                               <a href="{{url('pashumitra/suppliers')}}" class="@if (\Request::is('pashumitra/suppliers')) active  @endif" ><i class="icon-hourglass"></i> <span>Suppliers </span></a>
                            </li>
-						   <li class="">
-                              <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active  @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
+						    @endif
+						   @if(auth()->user()->can('hospital-list') || auth()->user()->can('hospital-create') || auth()->user()->can('hospital-edit') || auth()->user()->can('hospital-delete')) 
+                           <li class="">
+                              <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
                            </li>
+						   @endif
 						   <li class="">
                               <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="icon-hourglass"></i> <span>Training Centers </span></a>
                            </li>
