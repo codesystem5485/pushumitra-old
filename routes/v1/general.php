@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\ShopsController;
 use App\Http\Controllers\Api\FarmsController;
 use App\Http\Controllers\Api\InstitutionsController;
 use App\Http\Controllers\Api\DogShelterController;
+use App\Http\Controllers\Api\MilkCollectionController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -86,7 +87,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
 	/* Add dogshelter */
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
-	
+	/* Add milk collection */
+	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
 	
 	});
 	
@@ -145,4 +147,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/institution-detail', [InstitutionsController::class,'institutionDetail']);
 	Route::get('/dogshelters-list', [DogShelterController::class,'getDogshelterList']);
 	Route::get('/dogshelter-detail', [DogShelterController::class,'dogshelterDetail']);
+	Route::get('/milkcollections-list', [MilkCollectionController::class,'getMilkcollectionList']);
+	Route::get('/milkcollection-detail', [MilkCollectionController::class,'milkcollectionDetail']);
 }); 

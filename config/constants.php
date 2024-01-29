@@ -32,6 +32,7 @@ return [
 		'farms_file_path'=>'upload/farms',
 		'institutions_file_path'=>'upload/institutions',
 		'dogshelters_file_path'=>'upload/dogshelters',
+		'milkcollections_file_path'=>'upload/milkcollections',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],
