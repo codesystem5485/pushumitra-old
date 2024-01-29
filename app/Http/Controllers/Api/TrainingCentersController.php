@@ -141,8 +141,9 @@ class TrainingCentersController extends BaseController
 			->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now())
 			->where('training_centers.status', 1)
 		    ->orderBy('training_centers.id','DESC')->get();*/
-		$query = TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','duration','type','fees',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+		$query = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
+			->select('training_centers.id','training_center_name','incharge_name','mobile_number','duration','type','fees',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){

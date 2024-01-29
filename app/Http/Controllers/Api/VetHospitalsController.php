@@ -142,7 +142,7 @@ class VetHospitalsController extends BaseController
 			->where('veterinary_hospitals.status', 1)
 		    ->orderBy('veterinary_hospitals.id','DESC')->get();*/
 			$query = Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
-			->select('veterinary_hospitals.*','subcategories.name as sub_category_name',
+			->select('veterinary_hospitals.*','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){

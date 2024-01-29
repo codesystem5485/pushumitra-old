@@ -84,7 +84,7 @@ class FarmsController extends BaseController
 			$subscriptionStartDate='';
 			$subscriptionEndDate='';
 			
-			if(isset($postData['payment_id']) && ($postData['payment_id']!='' || $postData['payment_id']!=0))
+			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
 			{
 				$payment = Payments::find($postData['payment_id']);
 				$payment->module_type_id = $results->id;
@@ -133,9 +133,17 @@ class FarmsController extends BaseController
 	
 	public function getFarmList(Request $request)
 	{
-		$response['results']  =   Farms::select('id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
-			->whereDate('farms.subscriptionEndDate', '>=', Carbon::now())
+		$response['results']  = Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
+			->select('farms.id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('farms.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('farms.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
 			->where('farms.status', 1)
 		    ->orderBy('farms.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/farms")."/";
