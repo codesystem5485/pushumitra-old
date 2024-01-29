@@ -77,6 +77,7 @@ return [
 	'supplier_update' =>':name has been updated',
 	'trainingcenter_create' =>':name has been created',
 	'milkcollection_create' =>':name has been created',	
+	'poultryhatchery_create' =>':name has been created',
 	'institution_create' =>':name has been created',
 	'farm_create' =>':name has been created',
 	'farm_update' =>':name has been updated',

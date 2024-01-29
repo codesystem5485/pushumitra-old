@@ -43,6 +43,8 @@ use App\Repositories\Interfaces\Dogshelters\DogsheltersRepositoryInterface;
 use App\Repositories\Implementation\Dogshelters\DogsheltersRepository;
 use App\Repositories\Interfaces\Milkcollections\MilkCollectionRepositoryInterface;
 use App\Repositories\Implementation\Milkcollections\MilkcollectionsRepository;
+use App\Repositories\Interfaces\Poultryhatchery\PoultryhatcheryRepositoryInterface;
+use App\Repositories\Implementation\Poultryhatchery\PoultryhatcheryRepository;
 
 class RepositoryServiceProvider extends ServiceProvider 
 {
@@ -72,7 +74,8 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(FarmsRepositoryInterface::class, FarmsRepository::class);
 		$this->app->bind(InstitutionsRepositoryInterface::class, InstitutionsRepository::class); 
 		$this->app->bind(DogsheltersRepositoryInterface::class, DogsheltersRepository::class);
-		$this->app->bind(MilkCollectionRepositoryInterface::class, MilkcollectionsRepository::class); 		
+		$this->app->bind(MilkCollectionRepositoryInterface::class, MilkcollectionsRepository::class); 
+		$this->app->bind(PoultryhatcheryRepositoryInterface::class, PoultryhatcheryRepository::class);		
     } 
 
     /**

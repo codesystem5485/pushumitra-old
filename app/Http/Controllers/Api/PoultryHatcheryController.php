@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Models\MilkCollections;
-use App\Models\MilkCollectionImages;
+use App\Models\PoultryHatchery;
+use App\Models\PoultryHatcheryImages;
 use App\Models\State;
-use App\Repositories\Interfaces\Milkcollections\MilkCollectionRepositoryInterface;
+use App\Repositories\Interfaces\Poultryhatchery\PoultryhatcheryRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use App\Traits\FileUpload;
@@ -16,19 +16,19 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class MilkCollectionController extends BaseController
+class PoultryHatcheryController extends BaseController
 {
     use FileUpload;
-    protected $milkcollectionRepo;
+    protected $poultryhatcheryRepo;
 	private $userRepo;
 	
     /**
      * Transporter Construct 
      * @return url 
      */
-    public function __construct(MilkCollectionRepositoryInterface $milkcollectionRepo, UserRepositoryInterface $userRepository){
+    public function __construct(PoultryhatcheryRepositoryInterface $poultryhatcheryRepo, UserRepositoryInterface $userRepository){
 
-        $this->milkcollectionRepo = $milkcollectionRepo;
+        $this->poultryhatcheryRepo = $poultryhatcheryRepo;
 		$this->userRepo = $userRepository;
     } 
 
@@ -36,11 +36,11 @@ class MilkCollectionController extends BaseController
      * Transporter Add
    
      */
-	 public function addMilkcollection(Request $request){
+	 public function addPoultryhatchery(Request $request){
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'milkcollection_center_name' => 'required',
+				'poultryhatchery_center_name' => 'required',
 				'incharge_name' => 'required',
 				'mobile_number' => "required|numeric",
 				'type' => "required",
@@ -63,19 +63,19 @@ class MilkCollectionController extends BaseController
         DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
-            $results = $this->milkcollectionRepo->create($aInsertData);
+            $results = $this->poultryhatcheryRepo->create($aInsertData);
 			$category = $results->sub_category;
 			
 
-            if($request->milkcollection_photo)
+            if($request->poultryhatchery_photo)
             {
-                foreach($request->milkcollection_photo as $photo)
+                foreach($request->poultryhatchery_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'milkcollections');
+                    $fileName = $this->uploadFile($photo,'poultryhatchery');
                     if($fileName)
                     {
-                        MilkCollectionImages::create(['milkcollection_center_id'=>$results->id,'image_name' => $fileName]);
+                        PoultryHatcheryImages::create(['poultryhatchery_center_id'=>$results->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -89,7 +89,7 @@ class MilkCollectionController extends BaseController
 				$payment->module_type_id = $results->id;
 				$payment->save();
 				
-				$paymentArr = array( 'type'=>$payment->type,'milkcollection_id'=>$results->id);
+				$paymentArr = array( 'type'=>$payment->type,'poultry_id'=>$results->id);
 				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
 				
 				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
@@ -105,7 +105,7 @@ class MilkCollectionController extends BaseController
 				$aInsertData['link'] = $link;
 				$aInsertData['scheduled_date'] = date("Y-m-d");
 				$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
-				$aInsertData['title'] = "Payment Receipt for Milk Collection";
+				$aInsertData['title'] = "Payment Receipt for Poultry Hatchery";
 				$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
 			}
 			
@@ -118,8 +118,8 @@ class MilkCollectionController extends BaseController
             
             DB::commit();
 			## Store log
-            $message = trans('messages.milkcollection_create',['name' => $request->milkcollection_center_name]);
-            storeActicityLog(trans('messages.milkcollection_create'),$message);
+            $message = trans('messages.poultryhatchery_create',['name' => $request->poultryhatchery_center_name]);
+            storeActicityLog(trans('messages.poultryhatchery_create'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
@@ -130,28 +130,28 @@ class MilkCollectionController extends BaseController
         }
     }
 	
-	public function getMilkcollectionList(Request $request)
+	public function getPoultryHatcheryList(Request $request)
 	{
-		$query = MilkCollections::select('id','milkcollection_center_name','incharge_name','mobile_number','type',
+		$query = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from  milkcollection_center_images where milkcollection_center_id  = milkcollection_centers.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){
-                                 $query->where('type','Private')->whereDate('milkcollection_centers.subscriptionEndDate', '>=', Carbon::now());
+                                 $query->where('type','Private')->whereDate('poultryhatchery_centers.subscriptionEndDate', '>=', Carbon::now());
                              })
 							 ->orWhere(function($query){
-                                 $query->where('type','Government')->where('milkcollection_centers.subscriptionEndDate', '0000-00-00');
+                                 $query->where('type','Government')->where('poultryhatchery_centers.subscriptionEndDate', '0000-00-00');
                              });
                          })
-				->where('milkcollection_centers.status', 1)
-						->orderBy('milkcollection_centers.id','DESC')->get();
+				->where('poultryhatchery_centers.status', 1)
+						->orderBy('poultryhatchery_centers.id','DESC')->get();
 			$response['results']= $query;
-			$response['image_base_path'] =  url("/upload/milkcollections")."/";
+			$response['image_base_path'] =  url("/upload/poultryhatchery")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
 	
-	public function milkcollectionDetail(Request $request)
+	public function poultryHatcheryDetail(Request $request)
 	{
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
@@ -165,12 +165,12 @@ class MilkCollectionController extends BaseController
 		$response = [];
 		$id = $request->detail_id;
 		
-		$results =$this->milkcollectionRepo->getMilkcollection($id);
+		$results =$this->poultryhatcheryRepo->getPoultryHatchery($id);
 		if($results){
-			$images_arr = MilkCollectionImages::where('milkcollection_center_id',$results->id)->get();
+			$images_arr = PoultryHatcheryImages::where('poultryhatchery_center_id',$results->id)->get();
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
-			$response['image_base_path'] =  url("/upload/milkcollections")."/";
+			$response['image_base_path'] =  url("/upload/poultryhatchery")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

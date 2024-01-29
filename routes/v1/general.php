@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\FarmsController;
 use App\Http\Controllers\Api\InstitutionsController;
 use App\Http\Controllers\Api\DogShelterController;
 use App\Http\Controllers\Api\MilkCollectionController;
+use App\Http\Controllers\Api\PoultryHatcheryController;
+
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -89,6 +91,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	/* Add milk collection */
 	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
+	/* Add milk collection */
+	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
 	
 	});
 	
@@ -149,4 +153,6 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/dogshelter-detail', [DogShelterController::class,'dogshelterDetail']);
 	Route::get('/milkcollections-list', [MilkCollectionController::class,'getMilkcollectionList']);
 	Route::get('/milkcollection-detail', [MilkCollectionController::class,'milkcollectionDetail']);
+	Route::get('/poultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
+	Route::get('/poultryhatchery-detail', [PoultryHatcheryController::class,'poultryhatcheryDetail']);
 }); 

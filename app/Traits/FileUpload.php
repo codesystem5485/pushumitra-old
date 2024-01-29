@@ -105,6 +105,9 @@ trait FileUpload {
 			case 'milkcollections':
                 $path = Config::get('constants.file.milkcollections_file_path');
             break;
+			case 'poultryhatchery':
+                $path = Config::get('constants.file.poultryhatchery_file_path');
+            break;
             
             default:
             $path = '';    
@@ -193,6 +196,9 @@ trait FileUpload {
             break;
 			case 'milkcollections':
                 $path = Config::get('constants.file.milkcollections_file_path');
+            break;
+			case 'poultryhatchery':
+                $path = Config::get('constants.file.poultryhatchery_file_path');
             break;
 
             default:
