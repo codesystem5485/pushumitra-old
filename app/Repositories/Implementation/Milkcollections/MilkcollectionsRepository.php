@@ -3,7 +3,7 @@
 namespace App\Repositories\Implementation\Milkcollections;
 
 use App\Base\BaseRepository;
-use App\Models\Milkcollections;
+use App\Models\MilkCollections;
 use App\Repositories\Interfaces\Milkcollections\MilkCollectionRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -12,7 +12,7 @@ use Spatie\Activitylog\Models\Activity;
 class MilkcollectionsRepository  extends BaseRepository implements MilkCollectionRepositoryInterface
 {
     /**
-     * @var Milkcollections
+     * @var MilkCollections
      */
     protected $milkcollectionsModel; 
 
@@ -21,7 +21,7 @@ class MilkcollectionsRepository  extends BaseRepository implements MilkCollectio
      *
      * @param User $milkcollectionsModel
      */
-    public function __construct(Milkcollections $milkcollectionsModel)
+    public function __construct(MilkCollections $milkcollectionsModel)
     {
         parent::__construct($milkcollectionsModel);
         $this->milkcollectionsModelRepo = $milkcollectionsModel;
