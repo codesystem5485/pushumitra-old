@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Repositories\Implementation\Shops;
+namespace App\Repositories\Implementation\Panjarpol;
 
 use App\Base\BaseRepository;
-use App\Models\Shops;
-use App\Repositories\Interfaces\Shops\ShopsRepositoryInterface;
+use App\Models\Panjarpol;
+use App\Repositories\Interfaces\Panjarpol\PanjarpolRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
 use DataTables;
 use Spatie\Activitylog\Models\Activity;
-class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterface
+class PanjarpolRepository  extends BaseRepository implements PanjarpolRepositoryInterface
 {
     /**
-     * @var Shops
+     * @var Panjarpol
      */
-    protected $shopsModel; 
+    protected $panjarpolModel; 
 
     /**
-     * ShopsRepository constructor.
+     * PanjarpolRepository constructor.
      *
-     * @param User $shopsModel
+     * @param User $panjarpolModel
      */
-    public function __construct(Shops $shopsModel)
+    public function __construct(Panjarpol $panjarpolModel)
     {
-        parent::__construct($shopsModel);
-        $this->shopsModelRepo = $shopsModel;
+        parent::__construct($panjarpolModel);
+        $this->panjarpolModelRepo = $panjarpolModel;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getShopsList()
+    public function getPanjarpolList()
     {     
-        return  $this->shopsModelRepo
+        return  $this->panjarpolModelRepo
             ->orderBy('id', 'DESC')
             ->get();
     }
@@ -40,23 +40,21 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
     /**
      * {@inheritDoc}
      */
-    public function getShop(int $shopId)
+    public function getPanjarpol(int $panjarpolId)
     {
-		return Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
-					->select('shops.*','subcategories.name as subcategory_name')
-					->where('shops.id',$shopId)
+		return Panjarpol::where('id',$panjarpolId)
 					->first();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function updateShop($shopId, $request = []) 
+    public function updatePanjarpol($panjarpolId, $request = []) 
     {
         DB::beginTransaction();
         try {
-            $shops =  $this->shopModelRepo->find($shopId);
-            $shops->update($request);
+            $panjarpol =  $this->panjarpolModelRepo->find($panjarpolId);
+            $panjarpol->update($request);
             DB::commit();
             return true;
         } catch (\Exception $e) {  
@@ -68,11 +66,11 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
     /**
      * {@inheritDoc}
      */
-    public function deleteShop(int $shopId)
+    public function deletePanjarpol(int $panjarpolId)
     { 
         try{
-            $shop =  $this->shopModelRepo->findOrFail($shopId);
-            return $shop->delete();
+            $panjarpol =  $this->panjarpolModelRepo->findOrFail($panjarpolId);
+            return $panjarpol->delete();
         } catch (\Exception $e) {  
             DB::rollback();
             return false;
@@ -81,13 +79,13 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
 
     public function with(array $input)
     {
-        return  $this->shopModelRepo->with($input)->orderBy('id', 'ASC')
+        return  $this->panjarpolModelRepo->with($input)->orderBy('id', 'ASC')
         ->get();
     }
 	
 	public function getAjaxList(){
         
-        $results = $this->getShopsList(); 
+        $results = $this->getPanjarpolList(); 
         return Datatables::of($results)
         ->addIndexColumn()
         ->editColumn('added_date', function ($results) { 
@@ -99,20 +97,20 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
-			$actionBtn .= '<a href="'.route('shops.detail',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('panjarpols.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
-			$actionBtn .= '<a href="'.route('shops.edit',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('panjarpols.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
-			$actionBtn .= '<a href="'.route('shops.delete',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('panjarpols.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
            
-            if(auth()->user()->can('shops-edit')){
+            if(auth()->user()->can('panjarpol-edit')){
                
             }
-            if(auth()->user()->can('shops-delete')){
+            if(auth()->user()->can('panjarpol-delete')){
              }
             return $actionBtn;
            

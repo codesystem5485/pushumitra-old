@@ -66,7 +66,10 @@
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>-->
                                    <!-- @can('fees-edit')-->
-                                    <a href="{{route('paymentreport.detail',['id' => $row->id])}}">
+                                   <!-- <a href="{{route('paymentreport.detail',['id' => $row->id])}}">
+                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 
+                                    </button></a>-->
+									<a href="#">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 
                                     </button></a>
                                    <!-- @endcan-->

@@ -56,6 +56,14 @@ class FrontPagesController extends Controller
         return view('front.privacypolicy'); 
     }
 	
+	public function csrActivities(){
+        return view('front.csractivities'); 
+    }
+	
+	public function governmentSchemes(){
+        return view('front.governmentschemes'); 
+    }
+	
 	public function getDownload($file_id){ 
 		
 		$books = Books::where('id',$file_id)->first();

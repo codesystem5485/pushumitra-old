@@ -16,7 +16,7 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class ShopController extends BaseController
+class ShopsController extends BaseController
 {
     use FileUpload;
     protected $shopsRepo;
@@ -40,11 +40,10 @@ class ShopController extends BaseController
         
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
-				'farm_name' => 'required',
-				'incharge_name' => 'required',
+				'shop_name' => 'required',
+				'shop_owner_name' => 'required',
 				'sub_category'=>'required',
 				'mobile_number' => "required|numeric",
-				'type' => "required",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -120,8 +119,8 @@ class ShopController extends BaseController
             
             DB::commit();
 			## Store log
-            $message = trans('messages.trainingcenter_create',['name' => $request->training_center_name]);
-            storeActicityLog(trans('messages.trainingcenter_create'),$message);
+            $message = trans('messages.shop_create',['name' => $request->shop_name]);
+            storeActicityLog(trans('messages.shop_create'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
@@ -132,9 +131,10 @@ class ShopController extends BaseController
         }
     }
 	
-	public function getShopList(Request $request)
+	public function getShopsList(Request $request)
 	{
-		$response['results']  = Shops::select('id','farm_name','incharge_name','mobile_number','type','fees',
+		$response['results']  = Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
+			->select('shops.id','shop_name','shop_owner_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
 			->whereDate('shops.subscriptionEndDate', '>=', Carbon::now())
@@ -159,7 +159,7 @@ class ShopController extends BaseController
 		$response = [];
 		$id = $request->detail_id;
 		
-		$results =$this->shopsRepo->getFarms($id);
+		$results =$this->shopsRepo->getShop($id);
 		if($results){
 			$images_arr = ShopImages::where('shop_id',$results->id)->get();
 			

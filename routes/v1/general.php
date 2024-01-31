@@ -26,7 +26,7 @@ use App\Http\Controllers\Api\InstitutionsController;
 use App\Http\Controllers\Api\DogShelterController;
 use App\Http\Controllers\Api\MilkCollectionController;
 use App\Http\Controllers\Api\PoultryHatcheryController;
-
+use App\Http\Controllers\Api\PanjarpolController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -91,8 +91,10 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	/* Add milk collection */
 	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
-	/* Add milk collection */
+	/* Add poultryhatchery */
 	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
+	/* Add panjarpol */
+	Route::post('/add-panjarpol', [PanjarpolController::class,'addPanjarpol']);
 	
 	});
 	
@@ -145,7 +147,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/training-center-detail', [TrainingCentersController::class,'trainingCenterDetail']);
 	Route::get('/farms-list', [FarmsController::class,'getFarmList']);
 	Route::get('/farm-detail', [FarmsController::class,'farmDetail']);
-	Route::get('/shops-list', [ShopsController::class,'getShopList']);
+	Route::get('/shops-list', [ShopsController::class,'getShopsList']);
 	Route::get('/shop-detail', [ShopsController::class,'shopDetail']);
 	Route::get('/institutions-list', [InstitutionsController::class,'getInstitutionList']);
 	Route::get('/institution-detail', [InstitutionsController::class,'institutionDetail']);
@@ -155,4 +157,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/milkcollection-detail', [MilkCollectionController::class,'milkcollectionDetail']);
 	Route::get('/poultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
 	Route::get('/poultryhatchery-detail', [PoultryHatcheryController::class,'poultryhatcheryDetail']);
+	Route::get('/panjarpol-list', [PanjarpolController::class,'getPanjarpolList']);
+	Route::get('/panjarpol-detail', [PanjarpolController::class,'panjarpolDetail']);
+	
 }); 

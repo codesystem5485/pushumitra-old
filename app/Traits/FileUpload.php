@@ -108,7 +108,12 @@ trait FileUpload {
 			case 'poultryhatchery':
                 $path = Config::get('constants.file.poultryhatchery_file_path');
             break;
-            
+			case 'shops':
+                $path = Config::get('constants.file.shops_file_path');
+            break;
+			case 'panjarpol':
+                $path = Config::get('constants.file.panjarpol_file_path');
+            break;
             default:
             $path = '';    
         }
@@ -200,7 +205,12 @@ trait FileUpload {
 			case 'poultryhatchery':
                 $path = Config::get('constants.file.poultryhatchery_file_path');
             break;
-
+			case 'shops':
+                $path = Config::get('constants.file.shops_file_path');
+            break;
+			case 'panjarpol':
+                $path = Config::get('constants.file.panjarpol_file_path');
+            break;
             default:
             $path = '';    
         }

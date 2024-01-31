@@ -40,6 +40,8 @@
                     <li><a href="{{url('/about-us')}}">About</a></li>
                     <li><a href="{{url('/library')}}">Library</a></li>
                     <li><a href="{{url('/contact-us')}}">Contact</a></li>
+					<li><a href="{{url('/csr-activities')}}">CSR Activities</a></li>
+                    <li><a href="{{url('/government-schemes')}}">Government Schemes</a></li>
                     <li><a href="javascript:void(0)">Login</a></li>
 
                 </ul>

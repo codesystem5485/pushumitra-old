@@ -45,6 +45,8 @@ use App\Repositories\Interfaces\Milkcollections\MilkCollectionRepositoryInterfac
 use App\Repositories\Implementation\Milkcollections\MilkcollectionsRepository;
 use App\Repositories\Interfaces\Poultryhatchery\PoultryhatcheryRepositoryInterface;
 use App\Repositories\Implementation\Poultryhatchery\PoultryhatcheryRepository;
+use App\Repositories\Interfaces\Panjarpol\PanjarpolRepositoryInterface;
+use App\Repositories\Implementation\Panjarpol\PanjarpolRepository;
 
 class RepositoryServiceProvider extends ServiceProvider 
 {
@@ -75,7 +77,8 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(InstitutionsRepositoryInterface::class, InstitutionsRepository::class); 
 		$this->app->bind(DogsheltersRepositoryInterface::class, DogsheltersRepository::class);
 		$this->app->bind(MilkCollectionRepositoryInterface::class, MilkcollectionsRepository::class); 
-		$this->app->bind(PoultryhatcheryRepositoryInterface::class, PoultryhatcheryRepository::class);		
+		$this->app->bind(PoultryhatcheryRepositoryInterface::class, PoultryhatcheryRepository::class);
+		$this->app->bind(PanjarpolRepositoryInterface::class, PanjarpolRepository::class);		
     } 
 
     /**
