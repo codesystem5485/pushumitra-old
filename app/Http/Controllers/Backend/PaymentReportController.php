@@ -48,6 +48,15 @@ class PaymentReportController extends Controller
         return view('backend.payment_reports.index',['payments'=>$payments,'url' => $this->url]); 
     }
 	
+	public function registrationPaymentReport(){
+        $payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
+					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
+					->leftJoin('users', 'users.id', '=', 'payments.user_id')
+					->where('fee_structure.reg_flag',1)
+					->orderBy('id','DESC')->get();
+        return view('backend.payment_reports.reg_payment_report',['payments'=>$payments,'url' => $this->url]); 
+    }
+	
 	public function addPayments(Request $request)
 	{
 		$postData = request()->all();

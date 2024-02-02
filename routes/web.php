@@ -37,6 +37,7 @@ use App\Http\Controllers\Backend\TrainingCentersController;
 use App\Http\Controllers\Backend\FarmsController;
 use App\Http\Controllers\Backend\InstitutionsController;
 use App\Http\Controllers\Backend\DogShelterController;
+use App\Http\Controllers\Backend\PanjarpolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -245,6 +246,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [TrainingCentersController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [TrainingCentersController::class, 'removeImage'])->name('remove');
 		Route::get('/trainingcenters-list', [TrainingCentersController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//panjarpols module
+    Route::group([
+        'prefix' => 'pashumitra/panjarpols',
+        'as' => 'panjarpols.',
+      ], function () {
+        Route::get('/', [PanjarpolController::class, 'index'])->name('index');
+        Route::get('/create', [PanjarpolController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [PanjarpolController::class, 'detail'])->name('detail');
+        Route::post('/store', [PanjarpolController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [PanjarpolController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [PanjarpolController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [PanjarpolController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [PanjarpolController::class, 'removeImage'])->name('remove');
+		Route::get('/panjarpols-list', [PanjarpolController::class, 'getAjaxList'])->name('list');		
     });
 	
 	//dogshelters module
@@ -546,6 +563,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         'as' => 'paymentreport.', 
       ], function () {
         Route::get('/', [PaymentReportController::class, 'index'])->name('index');
+		Route::get('/regPaymentReport', [PaymentReportController::class, 'registrationPaymentReport'])->name('regPaymentReport');
         Route::get('/{id?}/detail', [PaymentReportController::class, 'detail'])->name('detail');        
                 
     });

@@ -245,6 +245,12 @@
                               <a href="{{url('pashumitra/farms')}}" class="@if (\Request::is('pashumitra/farms')) active  @endif" ><i class="icon-hourglass"></i> <span>Farms </span></a>
                            </li>
 						    @endif
+							@if(auth()->user()->can('panjarpol-list') || auth()->user()->can('panjarpol-create') || auth()->user()->can('panjarpol-edit') || auth()->user()->can('panjarpol-delete')) 
+                           
+						   <li class="">
+                              <a href="{{url('pashumitra/panjarpols')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="icon-hourglass"></i> <span>Panjarpols </span></a>
+                           </li>
+						    @endif
 						    @if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
                            
 						   <li class="">
@@ -259,6 +265,9 @@
 						   
 						    <li class="">
                               <a href="{{url('pashumitra/paymentreport')}}" class="" ><i class="icon-hourglass"></i> <span>Payment Report</span></a>
+                           </li>
+						   <li class="">
+                              <a href="{{url('pashumitra/paymentreport/regPaymentReport')}}" class="" ><i class="icon-hourglass"></i> <span>Registration Payments</span></a>
                            </li>
                            
                            {{-- <li class="">
