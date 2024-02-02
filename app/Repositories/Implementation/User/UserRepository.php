@@ -59,9 +59,10 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 $q->where('name', $input['sRoleName']);
             }
         })
-        //->where('id','!=',1)->where('is_phone_verify',1)
-            ->orderBy('id', 'DESC')
-            ->get();
+        //->where('id','!=',1)
+		->where('is_active',1)
+        ->orderBy('id', 'DESC')
+        ->get();
     }
 
     /**
