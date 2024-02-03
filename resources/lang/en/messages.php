@@ -85,8 +85,12 @@ return [
 	'farm_update' =>':name has been updated',
 	'dogshelter_create' =>':name has been created',
 	'trainingcenter_update' =>':name has been updated',
+	'trainingcenter_delete' =>':name has been deleted',
 	'image_remove' =>':name has been removed',
-	
+	'panjarpol_update' =>':name has been updated',
+	'panjarpol_delete' => ':name has been deleted',
+	'milkcollection_update' =>':name has been updated',
+	'milkcollection_delete' =>':name has been deleted',
 	'add_animal_create' => 'Animal has been created',
 	'rxreminder_create' => 'Rxreminder has been created',
 	'animal_name_exists' => 'Animal name has been already taken.Please try another one',

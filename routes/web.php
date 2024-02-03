@@ -38,6 +38,7 @@ use App\Http\Controllers\Backend\FarmsController;
 use App\Http\Controllers\Backend\InstitutionsController;
 use App\Http\Controllers\Backend\DogShelterController;
 use App\Http\Controllers\Backend\PanjarpolController;
+use App\Http\Controllers\Backend\MilkCollectionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -262,6 +263,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [PanjarpolController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [PanjarpolController::class, 'removeImage'])->name('remove');
 		Route::get('/panjarpols-list', [PanjarpolController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//milkcollection module
+    Route::group([
+        'prefix' => 'pashumitra/milkcollections',
+        'as' => 'milkcollections.',
+      ], function () {
+        Route::get('/', [MilkCollectionController::class, 'index'])->name('index');
+        Route::get('/create', [MilkCollectionController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [MilkCollectionController::class, 'detail'])->name('detail');
+        Route::post('/store', [MilkCollectionController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [MilkCollectionController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [MilkCollectionController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [MilkCollectionController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [MilkCollectionController::class, 'removeImage'])->name('remove');
+		Route::get('/milkcollections-list', [MilkCollectionController::class, 'getAjaxList'])->name('list');		
     });
 	
 	//dogshelters module

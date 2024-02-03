@@ -97,21 +97,22 @@ class PanjarpolRepository  extends BaseRepository implements PanjarpolRepository
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
+			if(auth()->user()->can('panjarpol-detail')){
 			$actionBtn .= '<a href="'.route('panjarpols.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
+			}
+			if(auth()->user()->can('panjarpol-edit')){
 			$actionBtn .= '<a href="'.route('panjarpols.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
+			}
+			if(auth()->user()->can('panjarpol-delete')){
 			$actionBtn .= '<a href="'.route('panjarpols.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
+           }
            
-            if(auth()->user()->can('panjarpol-edit')){
-               
-            }
-            if(auth()->user()->can('panjarpol-delete')){
-             }
             return $actionBtn;
            
         })

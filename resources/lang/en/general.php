@@ -148,6 +148,24 @@ return [
 'type'=>'Type',
 'trainingcenter_fees'=>'Fees',
 'subcategories'=>'Select Categories',
+//Panjarpol
+'panjarpol_list'=>'Panjarpol List',
+'panjarpol_add'=>'Add Panjarpol',
+'panjarpol_edit'=>'Edit Panjarpol',
+'panjarpol_create'=>'Create Panjarpol',
+'panjarpol_details'=>'Panjarpol details',
+'panjarpol'=>'Panjarpol',
+'panjarpol_name'=>'Panjarpol Name',
+'panjarpol_incharge'=>'Name of Manager',
+//milkcollection
+'milkcollection_list'=>'Milkcollection List',
+'milkcollection_add'=>'Add Milkcollection',
+'milkcollection_edit'=>'Edit Milkcollection',
+'milkcollection_create'=>'Create Milkcollection',
+'milkcollection_details'=>'Milkcollection details',
+'milkcollection'=>'Milkcollection',
+'milkcollection_name'=>'Milkcollection Center Name',
+'milkcollection_incharge'=>'Name of Incharge',
 
 //Farms
 'farm_list'=>'Farms List',

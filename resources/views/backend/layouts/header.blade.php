@@ -246,24 +246,26 @@
                            </li>
 						    @endif
 							@if(auth()->user()->can('panjarpol-list') || auth()->user()->can('panjarpol-create') || auth()->user()->can('panjarpol-edit') || auth()->user()->can('panjarpol-delete')) 
-                           
-						   <li class="">
+							<li class="">
                               <a href="{{url('pashumitra/panjarpols')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="icon-hourglass"></i> <span>Panjarpols </span></a>
-                           </li>
+							</li>
 						    @endif
-						    @if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
-                           
-						   <li class="">
+							@if(auth()->user()->can('milkcollection-list') || auth()->user()->can('milkcollection-create') || auth()->user()->can('milkcollection-edit') || auth()->user()->can('milkcollection-delete')) 
+							<li class="">
+                              <a href="{{url('pashumitra/milkcollections')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="icon-hourglass"></i> <span>Milkcollection Centers </span></a>
+							</li>
+						    @endif
+							@if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
+                            <li class="">
                               <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="icon-hourglass"></i> <span>Dogshelters </span></a>
-                           </li>
+                            </li>
 						    @endif
-						   @if(auth()->user()->can('cms-list')) 
+							@if(auth()->user()->can('cms-list')) 
 						    <li class="">
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>
-                           </li>
-						   @endif
-						   
-						    <li class="">
+							</li>
+							@endif
+						   <li class="">
                               <a href="{{url('pashumitra/paymentreport')}}" class="" ><i class="icon-hourglass"></i> <span>Payment Report</span></a>
                            </li>
 						   <li class="">
