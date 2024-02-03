@@ -173,7 +173,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
         })
 		->editColumn('mypets', function ($user) { 
-			$cnt = Animals::where('animals.animal_owner',$user->user_id)->count();
+			$cnt = Animals::where('animals.animal_owner',$user->id)->count();
 		  
             return $cnt;
         })
