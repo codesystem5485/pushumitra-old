@@ -14,6 +14,7 @@ use App\Models\MobileVerification;
 use App\Models\Fee;
 use App\Models\Notifications;
 use App\Models\Subcategories;
+use App\Models\Animals;
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
@@ -172,7 +173,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
         })
 		->editColumn('mypets', function ($user) { 
-            return 0;
+			$cnt = Animals::where('animals.animal_owner',$user->user_id)->count();
+		  
+            return $cnt;
         })
         ->addColumn('action', function($user){
             $actionBtn = '';
