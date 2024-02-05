@@ -164,8 +164,14 @@ return [
 'milkcollection_create'=>'Create Milkcollection',
 'milkcollection_details'=>'Milkcollection details',
 'milkcollection'=>'Milkcollection',
-'milkcollection_name'=>'Milkcollection Center Name',
-'milkcollection_incharge'=>'Name of Incharge',
+'poultryhatchery_name'=>'Poultry Hatchery Name',
+'poultryhatchery_incharge'=>'Name of Incharge',
+'poultryhatchery_list'=>'Poultry hatchery List',
+'poultryhatchery_add'=>'Add Poultry hatchery',
+'poultryhatchery_edit'=>'Edit Poultry hatchery',
+'poultryhatchery_create'=>'Create Poultry hatchery',
+'poultryhatchery_details'=>'Poultry hatchery details',
+'poultryhatchery'=>'Poultry hatchery',
 
 //Farms
 'farm_list'=>'Farms List',

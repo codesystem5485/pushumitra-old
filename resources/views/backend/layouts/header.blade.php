@@ -252,7 +252,12 @@
 						    @endif
 							@if(auth()->user()->can('milkcollection-list') || auth()->user()->can('milkcollection-create') || auth()->user()->can('milkcollection-edit') || auth()->user()->can('milkcollection-delete')) 
 							<li class="">
-                              <a href="{{url('pashumitra/milkcollections')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="icon-hourglass"></i> <span>Milkcollection Centers </span></a>
+                              <a href="{{url('pashumitra/milkcollections')}}" class="@if (\Request::is('pashumitra/milkcollections')) active  @endif" ><i class="icon-hourglass"></i> <span>Milkcollection Centers </span></a>
+							</li>
+						    @endif
+							@if(auth()->user()->can('poultryhatchery-list') || auth()->user()->can('poultryhatchery-create') || auth()->user()->can('poultryhatchery-edit') || auth()->user()->can('poultryhatchery-delete')) 
+							<li class="">
+                              <a href="{{url('pashumitra/poultryhatchery')}}" class="@if (\Request::is('pashumitra/poultryhatchery')) active  @endif" ><i class="icon-hourglass"></i> <span>Poultry Hatchery</span></a>
 							</li>
 						    @endif
 							@if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 

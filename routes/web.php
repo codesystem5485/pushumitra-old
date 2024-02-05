@@ -39,7 +39,7 @@ use App\Http\Controllers\Backend\InstitutionsController;
 use App\Http\Controllers\Backend\DogShelterController;
 use App\Http\Controllers\Backend\PanjarpolController;
 use App\Http\Controllers\Backend\MilkCollectionController;
-
+use App\Http\Controllers\Backend\PoultryHatcheryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -279,6 +279,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [MilkCollectionController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [MilkCollectionController::class, 'removeImage'])->name('remove');
 		Route::get('/milkcollections-list', [MilkCollectionController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//hatchery module
+    Route::group([
+        'prefix' => 'pashumitra/poultryhatchery',
+        'as' => 'poultryhatchery.',
+      ], function () {
+        Route::get('/', [PoultryHatcheryController::class, 'index'])->name('index');
+        Route::get('/create', [PoultryHatcheryController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [PoultryHatcheryController::class, 'detail'])->name('detail');
+        Route::post('/store', [PoultryHatcheryController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [PoultryHatcheryController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [PoultryHatcheryController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [PoultryHatcheryController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [PoultryHatcheryController::class, 'removeImage'])->name('remove');
+		Route::get('/poultryhatchery-list', [PoultryHatcheryController::class, 'getAjaxList'])->name('list');		
     });
 	
 	//dogshelters module
