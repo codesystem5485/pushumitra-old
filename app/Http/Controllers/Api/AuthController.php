@@ -1107,8 +1107,8 @@ class AuthController extends BaseController
                 //'education'=> 'required',
                 'education_certificate'=> 'max:10240',
 				'pm_recommendation_letter'=> 'max:10240',
-			    'pm_pan_no'	=>'required',
-				'pm_aadhar_no'	=>'required|numeric',
+			    //'pm_pan_no'	=>'required',
+				'pm_aadhar_no'	=>'nullable|numeric|digits:12',
 				'job_type'	=>'required',
 			    //'pm_name_of_org'	=>'String',
             ]);
@@ -1120,8 +1120,8 @@ class AuthController extends BaseController
                 //'education'=> 'required',
                 'education_certificate'=> 'max:10240',
 				'rv_state_verternity_council_no'=>'required',
-				'pm_pan_no'	=>'required',
-				'pm_aadhar_no'	=>'required|numeric',
+				//'pm_pan_no'	=>'required',
+				'pm_aadhar_no'	=>'nullable|numeric|digits:12',
 				'job_type'	=>'required',
 				//'rv_name_of_working_org'=>'required',
 				//'rv_speciality'=>'required',
@@ -1247,7 +1247,7 @@ class AuthController extends BaseController
 	{
 		$postData = request()->all(); 
         $validator = Validator::make($postData, [
-            'mobile_number' => 'required|max:10',
+            'mobile_number' => 'required|digits:10',
             'role'=> 'required',
         ]);
         $response = [];
