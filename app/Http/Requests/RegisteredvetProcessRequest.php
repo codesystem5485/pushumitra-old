@@ -34,7 +34,7 @@ class RegisteredvetProcessRequest extends FormRequest
             'state' => 'required|string',
             'pincode' => 'required|numeric',      
             'sex' => 'required',
-            'date_of_birth' => 'nullable|date|before:today',
+            //'date_of_birth' => 'nullable|date|before:today',
             'education'=> 'required',
             'education_certificate'=> 'nullable|max:15000',
             'pm_aadhar_no'	=>'nullable|numeric',
