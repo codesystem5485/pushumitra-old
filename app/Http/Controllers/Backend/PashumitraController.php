@@ -109,6 +109,7 @@ class PashumitraController extends BaseController
 			$param['sex'] = $request->sex;
 			$param['date_of_birth'] = $birthDate;
 			$param['education']= $request->education;
+			$param['password'] = $request->password;
 			
 			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
 			$paramDetail['pm_pan_no'] = $request->pm_pan_no;
@@ -229,6 +230,7 @@ class PashumitraController extends BaseController
 			$param['sex'] = $request->sex;
 			$param['date_of_birth'] = $birthDate;
 			$param['education']= $request->education;
+			$param['password'] = $request->password;
 			
 			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
 			$paramDetail['pm_pan_no'] = $request->pm_pan_no;

@@ -45,6 +45,7 @@
                                 <th>Mobile Number</th>
                                 <th>City/village</th>
 								<th>PM Code</th>
+								<th>My Pets</th>
 								<th>Added Date</th>
                                 <th>Rating</th>
 								<th>Action</th>
@@ -81,6 +82,7 @@
                 { data: 'mobile_number', name: 'mobile_number' },
                 { data: 'city_town', name: 'city_town' },
 				{ data: 'pm_code', name: 'pm_code'},
+				{ data: 'mypets', name: 'mypets' },
 				{ data: 'added_date', name: 'added_date'},
 				{ data: 'rating', name: 'rating'},
                 { data: 'action', name: 'action',orderable: false, 

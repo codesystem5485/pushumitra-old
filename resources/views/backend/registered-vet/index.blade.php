@@ -46,6 +46,7 @@
                                 <th>City/village</th>
                                 <th>Speciality</th>
 								<th>RVCode</th>
+								<th>My Pets</th>
 								<th>Added Date</th>
 								<th>Rating</th>
 								
@@ -84,6 +85,7 @@
                 { data: 'city_town', name: 'city_town' },
 				{ data: 'rv_speciality', name: 'rv_speciality' },
 				{ data: 'rv_code', name: 'rv_code'},
+				{ data: 'mypets', name: 'mypets' },
 				{ data: 'added_date', name: 'added_date'},
                 { data: 'rating', name: 'rating'},
                 { data: 'action', name: 'action',orderable: false, 

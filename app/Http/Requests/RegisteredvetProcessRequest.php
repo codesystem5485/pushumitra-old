@@ -41,14 +41,16 @@ class RegisteredvetProcessRequest extends FormRequest
             'job_type'	=>'required',
             'pm_pan_no'	=>'nullable',
             'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
-			'rv_state_verternity_council_no'=>'required|numeric',
+			//'rv_state_verternity_council_no'=>'required|numeric',
             'rv_speciality'=>'required|string',
-            'rv_name_of_working_org'=>'required|string',
+           // 'rv_name_of_working_org'=>'required|string',
+			'password' => 'nullable|min:6|required_with:confirm_password|same:confirm_password',
+			'confirm_password' => 'nullable|min:6'
            
             
         ];
         if(!$this->id){
-            $request['password'] = 'required|min:6';
+            $request['password'] = 'required|min:6|required_with:confirm_password|same:confirm_password';
             $request['confirm_password'] = 'required|min:6';
         }
         return $request;

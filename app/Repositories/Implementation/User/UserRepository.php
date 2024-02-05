@@ -222,6 +222,11 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		 }
             return $date;
         })
+		->editColumn('mypets', function ($user) { 
+			$cnt = Animals::where('animals.animal_owner',$user->id)->count();
+		  
+            return $cnt;
+        })
 		->editColumn('rating', function ($user) { 
             return '-';
         })
@@ -282,6 +287,11 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			 $date = date('d-M-Y',strtotime($user->subscriptionStartDate));
 		 }
             return $date;
+        })
+		->editColumn('mypets', function ($user) { 
+			$cnt = Animals::where('animals.animal_owner',$user->id)->count();
+		  
+            return $cnt;
         })
 		->editColumn('rating', function ($user) { 
             return '-';

@@ -62,6 +62,8 @@ class RegisteredvetController extends BaseController
         DB::beginTransaction();
         try{//set create by 
             $this->userRepo->setCreateBy(Auth::user()->id);  
+			
+			
             //store user data
 			
 			if($request->profile_photo!='')
@@ -100,6 +102,7 @@ class RegisteredvetController extends BaseController
 			$param['sex'] = $request->sex;
 			$param['date_of_birth'] = $birthDate;
 			$param['education']= $request->education;
+			$param['password'] = $request->password;
 			
 			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
 			$paramDetail['pm_pan_no'] = $request->pm_pan_no;
@@ -159,7 +162,7 @@ class RegisteredvetController extends BaseController
     }   
 
     public function update(RegisteredvetProcessRequest $request, $id) 
-    {
+    { 
         DB::beginTransaction();
         $filter = ['id'=>$id];
         $select = ['id'];
@@ -207,6 +210,7 @@ class RegisteredvetController extends BaseController
 			$param['sex'] = $request->sex;
 			$param['date_of_birth'] = $birthDate;
 			$param['education']= $request->education;
+			$param['password'] = $request->password;
 			
 			$paramDetail['pm_aadhar_no'] = $request->pm_aadhar_no;
 			$paramDetail['pm_pan_no'] = $request->pm_pan_no;

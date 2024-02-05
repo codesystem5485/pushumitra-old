@@ -40,7 +40,7 @@ class PashumitraProcessRequest extends FormRequest
             //'pm_collage_name' => 'required|string',
             //'pm_collage_address' => 'required|string',            
             'pm_nominee_name'=>'nullable|String',
-            'pm_nominee_dob'	=>'nullable|date',
+            //'pm_nominee_dob'	=>'nullable|date',
 			'pm_nominee_relationship'	=>'nullable|String',
             'pm_aadhar_no'	=>'nullable|numeric',
             'job_type'	=>'required',
@@ -49,10 +49,12 @@ class PashumitraProcessRequest extends FormRequest
             'pm_account_no'	=>'nullable|String',
             'pm_cheque_photo'=>'max:15000',
 			'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
+			'password' => 'nullable|min:6|required_with:confirm_password|same:confirm_password',
+			'confirm_password' => 'nullable|min:6'
             
         ];
         if(!$this->id){
-            $request['password'] = 'required|min:6';
+            $request['password'] = 'required|min:6|required_with:confirm_password|same:confirm_password';
             $request['confirm_password'] = 'required|min:6';
         }
         return $request;

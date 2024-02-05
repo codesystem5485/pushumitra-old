@@ -34,10 +34,12 @@ class AnimalownerProcessRequest extends FormRequest
             'state' => 'required|string',
             'pincode' => 'required|numeric',      
             'sex' => 'required',
-            'date_of_birth' => 'nullable|date|before:today',
+			'password' => 'nullable|min:6|required_with:confirm_password|same:confirm_password',
+			'confirm_password' => 'nullable|min:6'
+           // 'date_of_birth' => 'nullable|date|before:today',
         ];
         if(!$this->id){
-            $request['password'] = 'required|min:6';
+            $request['password'] = 'required|min:6|required_with:confirm_password|same:confirm_password';
             $request['confirm_password'] = 'required|min:6';
         }
         return $request;
