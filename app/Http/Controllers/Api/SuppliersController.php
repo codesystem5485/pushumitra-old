@@ -49,8 +49,8 @@ class SuppliersController extends BaseController
 				'city_town' => 'required|string',
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
-				'user_code'=>'required',
-				'payment_id'=>'required',
+				//'user_code'=>'required',
+				//'payment_id'=>'required',
 			]);
 			
 		if ($validator->fails())

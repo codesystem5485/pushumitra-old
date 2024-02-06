@@ -50,8 +50,8 @@ class TrainingCentersController extends BaseController
 				'city_town' => 'required|string',
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
-				'user_code'=>'required',
-				'registration_number'=>'required',
+				//'user_code'=>'required',
+				//'registration_number'=>'required',
 				//'payment_id'=>'required',
 			]);
 			
