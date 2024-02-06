@@ -265,6 +265,11 @@
                               <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="icon-hourglass"></i> <span>Dogshelters </span></a>
                             </li>
 						    @endif
+							@if(auth()->user()->can('shop-list') || auth()->user()->can('shop-create') || auth()->user()->can('shop-edit') || auth()->user()->can('shop-delete')) 
+                            <li class="">
+                              <a href="{{url('pashumitra/shops')}}" class="@if (\Request::is('pashumitra/shops')) active  @endif" ><i class="icon-hourglass"></i> <span>Shops </span></a>
+                            </li>
+						    @endif
 							@if(auth()->user()->can('cms-list')) 
 						    <li class="">
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>

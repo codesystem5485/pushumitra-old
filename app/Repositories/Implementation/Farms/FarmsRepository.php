@@ -17,7 +17,7 @@ class FarmsRepository  extends BaseRepository implements FarmsRepositoryInterfac
     protected $farmsModel; 
 
     /**
-     * TrainingcentersRepository constructor.
+     * FarmsRepository constructor.
      *
      * @param User $farmsModel
      */

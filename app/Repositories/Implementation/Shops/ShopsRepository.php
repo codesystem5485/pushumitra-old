@@ -99,21 +99,21 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
+			if(auth()->user()->can('shop-detail')){
 			$actionBtn .= '<a href="'.route('shops.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
+			}
+			if(auth()->user()->can('shop-edit')){
 			$actionBtn .= '<a href="'.route('shops.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
+			}
+			if(auth()->user()->can('shop-delete')){
 			$actionBtn .= '<a href="'.route('shops.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
-           
-            if(auth()->user()->can('shops-edit')){
-               
-            }
-            if(auth()->user()->can('shops-delete')){
-             }
+			}
             return $actionBtn;
            
         })

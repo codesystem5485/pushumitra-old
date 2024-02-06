@@ -91,8 +91,9 @@ return [
 	'panjarpol_delete' => ':name has been deleted',
 	'milkcollection_update' =>':name has been updated',
 	'milkcollection_delete' =>':name has been deleted',
-	'milkcollection_update' =>':name has been updated',
-	'milkcollection_delete' =>':name has been deleted',
+	
+	'shops_update' =>':name has been updated',
+	'shops_delete' =>':name has been deleted',
 	'add_animal_create' => 'Animal has been created',
 	'rxreminder_create' => 'Rxreminder has been created',
 	'animal_name_exists' => 'Animal name has been already taken.Please try another one',

@@ -172,7 +172,14 @@ return [
 'poultryhatchery_create'=>'Create Poultry hatchery',
 'poultryhatchery_details'=>'Poultry hatchery details',
 'poultryhatchery'=>'Poultry hatchery',
-
+'shop_name'=>'Shop Name',
+'shop_incharge'=>'Name of Owner',
+'shop_list'=>'Shops List',
+'shop_add'=>'Add Shop',
+'shop_edit'=>'Edit Shop',
+'shop_create'=>'Create Shop',
+'shop_details'=>'Shops details',
+'shop'=>'Shops',
 //Farms
 'farm_list'=>'Farms List',
 'farm_add'=>'Add Farm',

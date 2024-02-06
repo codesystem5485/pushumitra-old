@@ -4,82 +4,82 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\TrainingCenters;
-use App\Models\TrainingCenterImages;
+use App\Models\Shops;
+use App\Models\ShopImages;
 use App\Models\State;
-use App\Repositories\Interfaces\Trainingcenters\TrainingcentersRepositoryInterface;
+use App\Repositories\Interfaces\Shops\ShopsRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use Spatie\Permission\Models\Permission;
 use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
-use App\Http\Requests\TrainingCenterProcessRequest;
+use App\Http\Requests\ShopsProcessRequest;
 use App\Models\Subcategories;
 
 class ShopsController extends Controller
 {
     use FileUpload;
-    protected $trainingcenterRepo;
+    protected $shopsRepo;
 	
     /**
-     * TrainingCenters Construct 
+     * Shops Construct 
      * @return url 
      */
-    public function __construct(TrainingcentersRepositoryInterface $trainingcenterRepo){
+    public function __construct(ShopsRepositoryInterface $shopsRepo){
 
-      /*  $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
-        $this->middleware('permission:transporter-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:transporter-delete', ['only' => ['delete']]);*/
+       $this->middleware('permission:shop-list|shop-create|shop-edit|shop-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:shop-create', ['only' => ['create','store']]);
+        $this->middleware('permission:shop-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:shop-delete', ['only' => ['delete']]);
 
         $this->url = [   
-            'listUrl' => route('trainingcenters.index'),
-            'createUrl' => route('trainingcenters.create')
+            'listUrl' => route('shops.index'),
+            'createUrl' => route('shops.create')
         ];
-        $this->trainingcenterRepo = $trainingcenterRepo;
+        $this->shopsRepo = $shopsRepo;
     } 
 
     /**
-     * trainingcenters List
+     * shops List
      * @return View
      */
     public function index(){
-        $trainingcenters = TrainingCenters::orderBy('id','DESC')->get();
-        return view('backend.trainingcenters.index',['trainingcenters'=>$trainingcenters,'url' => $this->url]); 
+        
+        return view('backend.shops.index',['url' => $this->url]); 
     }
 
     /**
-     * Add trainingcenters View
+     * Add shops View
      * @return View
      */
     public function create(){
         $permission = Permission::get();
         $states = State::where('is_active','1')->get();
-        return view('backend.trainingcenters.create',['states'=>$states,'permission'=>$permission,'url' => $this->url]); 
+        return view('backend.shops.create',['states'=>$states,'permission'=>$permission,'url' => $this->url]); 
     }
     /**
-     * Store trainingcenters
+     * Store shops
      * @param Request $request
      * @thorw exception
      * @return Route
      */
-    public function store(TrainingCenterProcessRequest $request){
+    public function store(ShopsProcessRequest $request){
         
         DB::beginTransaction();
         // try{            
             $aInsertData = $request->all();
-            $trainingcenters = $this->trainingcenterRepo->create($aInsertData);
+            $shops = $this->shopsRepo->create($aInsertData);
 
-             if($request->trainingcenter_photo)
+             if($request->shop_photo)
             {
-                foreach($request->trainingcenter_photo as $photo)
+                foreach($request->shop_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'trainingcenters');
+                    $fileName = $this->uploadFile($photo,'shops');
                     if($fileName)
                     {
-                        TrainingCenterImages::create(['training_center_id'=>$results->id,'image_name' => $fileName]);
+                        ShopImages::create(['shop_id'=>$shops->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -88,54 +88,54 @@ class ShopsController extends Controller
             Session::flash('success', trans('messages.create_records'));
             
             ## Store log
-            $message = trans('messages.trainingcenters_create',['name' => $request->input('training_center_name')]);
-            storeActicityLog(trans('messages.trainingcenters_create'),$message,Auth::user(),$trainingcenters);
-            return redirect()->route('trainingcenters.index');
+            $message = trans('messages.shops_create',['name' => $request->input('shop_name')]);
+            storeActicityLog(trans('messages.shops_create'),$message,Auth::user(),$shops);
+            return redirect()->route('shops.index');
         // }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
             storeActicityLog(trans('messages.error'),$error,Auth::user());
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('trainingcenters.index');   
+            return redirect()->route('shops.index');   
             
         // }
      
     }
 
     /**
-     * Get Particular trainingcenters
-     * @param int $id (trainingcenters Id) Request $request
+     * Get Particular shops
+     * @param int $id (shops Id) Request $request
      * @return View
      */
     public function edit(Request $request, $id = ''){
-        $trainingcenters = TrainingCenters::find($id);
-        $images = TrainingCenterImages::where('training_center_id',$trainingcenters->id)->get();
+        $shops = Shops::find($id);
+        $images = ShopImages::where('shop_id',$shops->id)->get();
         $states = State::where('is_active','1')->get();
-		$subcategories = Subcategories::where('status',1)->where('parent_category',4)->get();
-		return view('backend.trainingcenters.create',['subcategories'=>$subcategories,'images'=>$images,'states'=>$states,'trainingcenters' => $trainingcenters,'url' => $this->url]);  
+		$subcategories = Subcategories::where('status',1)->where('parent_category',5)->get();
+		return view('backend.shops.create',['subcategories'=>$subcategories,'images'=>$images,'states'=>$states,'shops' => $shops,'url' => $this->url]);  
     }
 
      /**
-     * Update trainingcenters
+     * Update shops
      * @param Request $request
      * @thorw exception
      * @return Route
      */
-    public function update(TrainingCenterProcessRequest $request, $id) 
+    public function update(ShopsProcessRequest $request, $id) 
     {
        
-            $trainingcenters = $this->trainingcenterRepo->update($id,$request->all());
+            $shops = $this->shopsRepo->update($id,$request->all());
 
-             if($request->trainingcenter_photo)
+             if($request->shop_photo)
             {
-                foreach($request->trainingcenter_photo as $photo)
+                foreach($request->shop_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'trainingcenters');
+                    $fileName = $this->uploadFile($photo,'shops');
                     if($fileName)
                     {
-                        TrainingCenterImages::create(['training_center_id'=>$trainingcenters->id,'image_name' => $fileName]);
+                        ShopImages::create(['shop_id'=>$shops->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -144,51 +144,51 @@ class ShopsController extends Controller
             Session::flash('success', trans('messages.update_records'));
 
             ## Store log
-            $message = trans('messages.trainingcenters_update',['name' => $request->input('hospital_name')]);
-            storeActicityLog(trans('messages.update'),$message,Auth::user(),$trainingcenters);
-            return redirect()->route('trainingcenters.index');    
+            $message = trans('messages.shops_update',['name' => $request->input('shop_name')]);
+            storeActicityLog(trans('messages.update'),$message,Auth::user(),$shops);
+            return redirect()->route('shops.index');    
        /* }catch(\Exception $e){ 
             DB::rollback();
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
             storeActicityLog(trans('messages.error'),$error,Auth::user());
             Session::flash('error', trans('messages.something'));
-            return redirect()->route('trainingcenters.index'); 
+            return redirect()->route('shops.index'); 
         }*/
     }
 
     /**
-     * Get Particular trainingcenters
-     * @param int $id (trainingcenters Id) Request $request
+     * Get Particular shops
+     * @param int $id (shops Id) Request $request
      * @return View
      */
     public function detail(Request $request, $id = ''){
-        $trainingcenters = TrainingCenters::find($id);
-		$images = TrainingCenterImages::where('training_center_id',$trainingcenters->id)->get();
+        $shops = Shops::find($id);
+		$images = ShopImages::where('shop_id',$shops->id)->get();
         $states = State::where('is_active','1')->get();
-        return view('backend.trainingcenters.detail',['images'=>$images,'states'=>$states,'trainingcenters' => $trainingcenters,'url' => $this->url]);  
+        return view('backend.shops.detail',['images'=>$images,'states'=>$states,'shops' => $shops,'url' => $this->url]);  
     }
 
     /**
-     * Delete trainingcenters
-     * @param int $id (trainingcenters)
+     * Delete shops
+     * @param int $id (shops)
      * @return Route
      */
     public function delete($id){ 
-        $trainingcenters = TrainingCenters::where('id',$id)->first();
-        $trainingcenters->delete();
+        $shops = Shops::where('id',$id)->first();
+        $shops->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
-        ## Store log trainingcenters
-        $message = trans('messages.trainingcenters_delete',['name' => $trainingcenters->hospital_name]);
-        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$trainingcenters);
-        return redirect()->route('trainingcenters.index');
+        ## Store log shops
+        $message = trans('messages.shops_delete',['name' => $shops->hospital_name]);
+        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$shops);
+        return redirect()->route('shops.index');
     }
 
     public function removeImage($id)
     {
-        $image = TrainingCenterImages::where('id',$id)->first();
-        $this->removeFile($image->image_name,'trainingcenters');
+        $image = ShopImages::where('id',$id)->first();
+        $this->removeFile($image->image_name,'shops');
         $image->delete();
         // Session::flash('success', trans('messages.delete_records'));
         
@@ -199,7 +199,7 @@ class ShopsController extends Controller
     }
 	
 	public function getAjaxList(Request $request){
-        $list = $this->trainingcenterRepo->getAjaxList();
+        $list = $this->shopsRepo->getAjaxList();
         return  $list;
     }
 }

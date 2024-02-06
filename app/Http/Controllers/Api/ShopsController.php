@@ -135,7 +135,7 @@ class ShopsController extends BaseController
 	{
 		$response['results']  = Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
 			->select('shops.id','shop_name','shop_owner_name','mobile_number',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
 			->whereDate('shops.subscriptionEndDate', '>=', Carbon::now())
 			->where('shops.status', 1)
