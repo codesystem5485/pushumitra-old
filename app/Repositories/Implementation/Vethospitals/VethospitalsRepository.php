@@ -92,9 +92,20 @@ class VethospitalsRepository extends BaseRepository implements VethospitalsRepos
         ->addIndexColumn()
         ->editColumn('added_date', function ($results) { 
 		  $date ='-';
-		 if($results->subscriptionStartDate!=''){
-			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
-		 }
+		   if($results->type=='Private'){
+				 if($results->subscriptionStartDate!=''){
+					 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+				 }
+		   }
+            return $date;
+        })
+		->editColumn('expire_date', function ($results) { 
+		  $date ='-';
+		  if($results->type=='Private'){
+			 if($results->subscriptionEndDate!=''){
+				 $date = date('d-M-Y',strtotime($results->subscriptionEndDate));
+			 }
+		  }
             return $date;
         })
         ->addColumn('action', function($results){

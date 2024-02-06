@@ -35,7 +35,7 @@
                                 <th>{{ __('general.mobile_number') }}</th>                                
                                 <th>{{ __('general.added_by') }}</th> 
 								<th>{{ __('general.added_on') }}</th>    
-								<!--<th>{{ __('general.expired_date') }}</th>--> 								
+								<th>{{ __('general.expired_date') }}</th> 								
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
@@ -70,6 +70,7 @@
                 { data: 'mobile_number', name: 'mobile_number' },
 				{ data: 'user_code', name: 'user_code' },
 				{ data: 'added_date', name: 'added_date' },
+				{ data: 'expire_date', name: 'expire_date' },
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 
             ]

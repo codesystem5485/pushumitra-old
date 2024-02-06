@@ -92,28 +92,40 @@ class FarmsRepository  extends BaseRepository implements FarmsRepositoryInterfac
         ->addIndexColumn()
         ->editColumn('added_date', function ($results) { 
 		  $date ='-';
-		 if($results->subscriptionStartDate!=''){
-			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+		   if($results->type=='Private'){
+			 if($results->subscriptionStartDate!=''){
+				 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+			 }
 		 }
+            return $date;
+        })
+		->editColumn('expire_date', function ($results) { 
+		  $date ='-';
+		  if($results->type=='Private'){
+			 if($results->subscriptionEndDate!=''){
+				 $date = date('d-M-Y',strtotime($results->subscriptionEndDate));
+			 }
+		  }
             return $date;
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
+			if(auth()->user()->can('farm-detail')){
 			$actionBtn .= '<a href="'.route('farms.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
+			}
+			if(auth()->user()->can('farm-edit')){
 			$actionBtn .= '<a href="'.route('farms.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
+			}
+			if(auth()->user()->can('farm-delete')){
 			$actionBtn .= '<a href="'.route('farms.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
+			}
            
-            if(auth()->user()->can('farms-edit')){
-               
-            }
-            if(auth()->user()->can('farms-delete')){
-             }
             return $actionBtn;
            
         })
