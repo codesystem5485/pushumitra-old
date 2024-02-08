@@ -16,6 +16,9 @@ use Session;
 use Auth;
 use App\Traits\FileUpload;
 use App\Http\Requests\VetHospitalsProcessRequest;
+use Illuminate\Support\Facades\Storage;
+use File;
+
 
 class VetHospitalsController extends Controller
 {
@@ -26,7 +29,7 @@ class VetHospitalsController extends Controller
      * Hospitals Construct 
      * @return url 
      */
-    public function __construct(VethospitalsRepositoryInterface $vethospitalsRepo){
+    public function __construct(VethospitalsRepositoryInterface $vethospitalsRepo,UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:hospital-list|hospital-create|hospital-edit|hospital-delete', ['only' => ['index','show']]);
         $this->middleware('permission:hospital-create', ['only' => ['create','store']]);
@@ -38,6 +41,7 @@ class VetHospitalsController extends Controller
             'createUrl' => route('hospitals.create')
         ];
         $this->vethospitalsRepo = $vethospitalsRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -202,4 +206,59 @@ class VetHospitalsController extends Controller
         $list = $this->vethospitalsRepo->getAjaxList();
         return  $list;
     }
+	
+	public function importCsv()
+	{
+		$file   = public_path('/files/workingCSV.csv');
+		$fileD = fopen($file,"r"); 
+		$column=fgetcsv($fileD); 
+		while(!feof($fileD)){ 
+			$rowData[]=fgetcsv($fileD); 
+		} 
+		foreach ($rowData as $key => $value) 
+		{
+			$inserted_data=array(
+				'hospital_name'=>$value[0], 
+				'city_town'=>$value[1],
+				'district'=>$value[2],
+				'taluka'=>$value[3],
+				'pincode'=>$value[4],
+				'user_id'=>90,
+				'sub_category'=>1,
+				'user_code'=>'PM0000000001',
+				'state_id'=>'22',
+				'state'=>'Maharashtra',
+				'subscriptionStartDate'=>'0000-00-00',
+				'subscriptionEndDate'=>'0000-00-00',
+				
+			); 
+			$hospitals = $this->vethospitalsRepo->create($inserted_data);
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
+			$hospitals->latitude=$coordinateArr['latitude'];
+			$hospitals->longitude=$coordinateArr['longitude'];
+			
+			$hospitals->update();
+			
+			$fileName ='hospital_'.$hospitals->id.'.jpg';
+			$destPath = 'hospitals/'.$fileName;
+			$chk = public_path($destPath);
+			
+			
+
+
+			/*
+			*/
+			$image   = public_path('/files/hospital.jpg');
+			
+			//$file->move(public_path($path), $fileName);
+			\File::copy(public_path('files/hospital.jpg') , public_path('upload/hospitals/'.$fileName));
+			
+			//File::move(public_path('files/hospital.jpg'),public_path('hospitals/'.$fileName) );
+			if($fileName)
+			{
+				VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
+			}
+		}
+	}
 }

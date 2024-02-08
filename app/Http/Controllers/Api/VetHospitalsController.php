@@ -40,11 +40,11 @@ class VetHospitalsController extends BaseController
 	 public function addHospital(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'hospital_name' => 'required',
-				'veterinary_owner_name' => 'required',
+				//'veterinary_owner_name' => 'required',
 				'sub_category'=>'required',
-				'mobile_number' => "required|numeric",
+				//'mobile_number' => "required|numeric",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -58,7 +58,7 @@ class VetHospitalsController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
-		
+		*/
         $response = [];
 		
        DB::beginTransaction();

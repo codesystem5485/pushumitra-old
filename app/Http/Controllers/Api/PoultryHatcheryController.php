@@ -39,17 +39,17 @@ class PoultryHatcheryController extends BaseController
 	 public function addPoultryhatchery(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'poultryhatchery_center_name' => 'required',
-				'incharge_name' => 'required',
-				'mobile_number' => "required|numeric",
+				//'incharge_name' => 'required',
+				//'mobile_number' => "required|numeric",
 				'type' => "required",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
-				'user_code'=>'required',
+				//'user_code'=>'required',
 				//'payment_id'=>'required',
 			]);
 			
@@ -57,7 +57,7 @@ class PoultryHatcheryController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
-		
+		*/
         $response = [];
 		
         DB::beginTransaction();

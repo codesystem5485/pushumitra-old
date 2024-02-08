@@ -3,7 +3,7 @@
 namespace App\Repositories\Implementation\Poultryhatchery;
 
 use App\Base\BaseRepository;
-use App\Models\Poultryhatchery;
+use App\Models\PoultryHatchery;
 use App\Repositories\Interfaces\Poultryhatchery\PoultryhatcheryRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use DB;

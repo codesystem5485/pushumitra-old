@@ -41,7 +41,7 @@ class TransporterController extends BaseController
 	 public function addTransporter(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'transporter_name' => 'required',
 				'vehicle_name' => 'required',
 				'mobile_number' => "required|numeric",
@@ -57,7 +57,7 @@ class TransporterController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

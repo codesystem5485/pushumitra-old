@@ -34,7 +34,7 @@ class ProductsaleController extends BaseController
 	 public function addProductSale(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'product_name' => 'required',
 				'contact_name_of_owner' => 'required',
 				'contact_number_of_owner' => "required|numeric",
@@ -51,7 +51,7 @@ class ProductsaleController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

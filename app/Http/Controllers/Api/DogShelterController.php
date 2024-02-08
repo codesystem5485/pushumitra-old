@@ -39,11 +39,11 @@ class DogShelterController extends BaseController
 	 public function addDogshelter(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'dogshelter_name' => 'required',
-				'incharge_name' => 'required',
+				//'incharge_name' => 'required',
 				//'sub_category'=>'required',
-				'mobile_number' => "required|numeric",
+				//'mobile_number' => "required|numeric",
 				//'type' => "required",
 				'address' => 'required|string',
 				'state' => 'required|string',
@@ -59,7 +59,7 @@ class DogShelterController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
-		
+		*/
         $response = [];
 		
         DB::beginTransaction();

@@ -34,7 +34,7 @@ class BreederController extends BaseController
     public function addBreeder(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'breeder_name' => 'required',
 				//'species' => 'required',
 				//'firm_registration_number' => 'required',
@@ -57,7 +57,7 @@ class BreederController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

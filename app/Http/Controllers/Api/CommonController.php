@@ -81,7 +81,7 @@ class CommonController extends BaseController
 		if(isset($postData['parent_category'])){
 		   $categories = $categories->where('parent_category',$postData['parent_category']);
 		}
-        $categories =$categories->get();
+        $categories =$categories->orderBy('name')->get();
 		$response['results'] = $categories;
 		return $this->sendResponse($response,"",200);
     }

@@ -47,7 +47,7 @@ class ChemistController extends BaseController
 
     public function addChemist(Request $request){
        $postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'shop_name' => 'required',
 				'owner_name' => 'required|string',
 				'mobile_number' => "required|numeric|digits:10",
@@ -63,7 +63,7 @@ class ChemistController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
         DB::beginTransaction();
        try{   
 			$response = [];		

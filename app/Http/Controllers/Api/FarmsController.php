@@ -39,11 +39,11 @@ class FarmsController extends BaseController
 	 public function addFarm(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'farm_name' => 'required',
-				'incharge_name' => 'required',
+				//'incharge_name' => 'required',
 				'sub_category'=>'required',
-				'mobile_number' => "required|numeric",
+				//'mobile_number' => "required|numeric",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -56,7 +56,7 @@ class FarmsController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

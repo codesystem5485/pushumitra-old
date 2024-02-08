@@ -39,11 +39,11 @@ class ShopsController extends BaseController
 	 public function addShop(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'shop_name' => 'required',
-				'shop_owner_name' => 'required',
+				//'shop_owner_name' => 'required',
 				'sub_category'=>'required',
-				'mobile_number' => "required|numeric",
+				//'mobile_number' => "required|numeric",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -56,7 +56,7 @@ class ShopsController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

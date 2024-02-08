@@ -39,23 +39,23 @@ class PanjarpolController extends BaseController
 	 public function addPanjarpol(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'panjarpol_name' => 'required',
-				'manager_name' => 'required',
-				'mobile_number' => "required|numeric",
+				//'manager_name' => 'required',
+				//'mobile_number' => "required|numeric",
 				'address' => 'required|string',
 				'state' => 'required|string',
 				'city_town' => 'required|string',
 				'pincode' => 'required|numeric|digits:6',
 				'state_id' => 'required',
-				'user_code'=>'required',
+				//'user_code'=>'required',
 				//'payment_id'=>'required',
 			]);
 			
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

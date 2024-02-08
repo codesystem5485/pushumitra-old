@@ -69,6 +69,7 @@ Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions']
 Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/government-schemes', [FrontPagesController::class, 'governmentSchemes'])->name('government-schemes');
 Route::get('/csr-activities', [FrontPagesController::class, 'csrActivities'])->name('csr-activities');
+Route::get('/importCsv', [VetHospitalsController::class, 'importCsv'])->name('importCsv');
 
 //receipt download from mobile app notification
 Route::get('invoice/download/{uid}/{id}', [InvoiceController::class, 'downloadReceipt'])->name('downloadReceipt');

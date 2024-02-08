@@ -39,7 +39,7 @@ class InstitutionsController extends BaseController
 	 public function addInstitution(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'institution_name' => 'required',
 				'incharge_name' => 'required',
 				'sub_category'=>'required',
@@ -58,7 +58,7 @@ class InstitutionsController extends BaseController
 		if ($validator->fails())
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
-		}
+		}*/
 		
         $response = [];
 		

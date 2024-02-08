@@ -39,7 +39,7 @@ class AnimalsaleController extends BaseController
     public function addAnimalForSale(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				//'UID_number' => 'nullable|numeric|digits:12',
 				//'species' => 'required',
 				'breed' => "required",
@@ -65,7 +65,7 @@ class AnimalsaleController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
-		
+		*/
         $response = [];
 		
         DB::beginTransaction();

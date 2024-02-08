@@ -39,10 +39,10 @@ class MilkCollectionController extends BaseController
 	 public function addMilkcollection(Request $request){
         
 		$postData = request()->all();
-		$validator = Validator::make($postData, [
+		/*$validator = Validator::make($postData, [
 				'milkcollection_center_name' => 'required',
-				'incharge_name' => 'required',
-				'mobile_number' => "required|numeric",
+				//'incharge_name' => 'required',
+				//'mobile_number' => "required|numeric",
 				'type' => "required",
 				'address' => 'required|string',
 				'state' => 'required|string',
@@ -57,6 +57,7 @@ class MilkCollectionController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
+		*/
 		
         $response = [];
 		
