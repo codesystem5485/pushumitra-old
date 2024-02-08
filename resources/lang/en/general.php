@@ -347,6 +347,11 @@ return [
 'breeder_details'=>'Breeder details',
 
 //advertisement management
+'csractivities_list'=>'Csr Activities list',
+'csractivities_edit'=>'Edit Csr Activity',
+'csractivities_add'=>'Add Csr Activity',
+'csractivities_create'=>'Create Csr Activity',
+
 'advertisement_title'=>'Title',
 'advertisement_list'=>'Advertisement list',
 'advertisement_edit'=>'Edit Advertisement',

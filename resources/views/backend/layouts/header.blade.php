@@ -206,6 +206,9 @@
                               <a href="{{url('pashumitra/ratings')}}" class="" ><i class="icon-hourglass"></i> <span>Ratings</span></a>
                            </li>
 						   @endif
+						   <li class="">
+                              <a href="{{url('pashumitra/csractivities')}}" class="" ><i class="icon-hourglass"></i> <span>Csr Activities</span></a>
+                           </li>
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 
                            
 						   <li class="">

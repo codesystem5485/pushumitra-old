@@ -41,6 +41,7 @@ use App\Http\Controllers\Backend\PanjarpolController;
 use App\Http\Controllers\Backend\MilkCollectionController;
 use App\Http\Controllers\Backend\PoultryHatcheryController;
 use App\Http\Controllers\Backend\ShopsController;
+use App\Http\Controllers\Backend\CsrActivityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +70,7 @@ Route::get('/terms-conditions', [FrontPagesController::class, 'termsConditions']
 Route::get('/privacy-policy', [FrontPagesController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/government-schemes', [FrontPagesController::class, 'governmentSchemes'])->name('government-schemes');
 Route::get('/csr-activities', [FrontPagesController::class, 'csrActivities'])->name('csr-activities');
+Route::get('/csr-activity-detail/{id?}', [FrontPagesController::class, 'csrActivityDetails'])->name('csr-activity-detail');
 Route::get('/importCsv', [VetHospitalsController::class, 'importCsv'])->name('importCsv');
 
 //receipt download from mobile app notification
@@ -422,6 +424,23 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
        
         
     });
+	
+	//csr activities module
+    Route::group([
+        'prefix' => 'pashumitra/csractivities',
+        'as' => 'csractivities.',
+      ], function () {
+        Route::get('/', [CsrActivityController::class, 'index'])->name('index');
+        Route::get('/create', [CsrActivityController::class, 'create'])->name('create');
+        Route::post('/store', [CsrActivityController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [CsrActivityController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [CsrActivityController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [CsrActivityController::class, 'delete'])->name('delete'); 
+		 Route::get('/{id?}/detail', [CsrActivityController::class, 'detail'])->name('detail');
+       
+        
+    });
+	
 	
 	//testimonials module
     Route::group([

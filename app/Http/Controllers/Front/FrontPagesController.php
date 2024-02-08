@@ -12,9 +12,8 @@ use App\Models\Books;
 use Response;
 use App\Models\Testimonials;
 use File;
-use App\Models\VeterinaryhospitalsNashikImages;
-use App\Models\VeterinaryNashikhospitals;
-
+use App\Models\CsrActivities;
+use App\Models\CsrActivityImages;
 
 class FrontPagesController extends Controller
 {
@@ -60,7 +59,15 @@ class FrontPagesController extends Controller
     }
 	
 	public function csrActivities(){
-        return view('front.csractivities'); 
+		$csrActivities = CsrActivities::orderBy('id','DESC')->get();
+		$csrActivitiescnt = CsrActivities::count();
+        return view('front.csractivities',compact('csrActivities','csrActivitiescnt')); 
+    }
+	
+	public function csrActivityDetails(Request $request, $id = ''){
+		$csrActivities = CsrActivities::find($id);
+		$images = CsrActivityImages::where('csr_activity_id',$csrActivities->id)->get();
+        return view('front.csr_activity_detail',compact('csrActivities','images')); 
     }
 	
 	public function governmentSchemes(){

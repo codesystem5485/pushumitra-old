@@ -36,6 +36,7 @@ return [
 		'poultryhatchery_file_path'=>'upload/poultryhatchery',
 		'shops_file_path'=>'upload/shops',
 		'panjarpol_file_path'=>'upload/panjarpol',
+		'csractivities_file_path'=>'upload/csractivities',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],
