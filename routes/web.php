@@ -42,6 +42,7 @@ use App\Http\Controllers\Backend\MilkCollectionController;
 use App\Http\Controllers\Backend\PoultryHatcheryController;
 use App\Http\Controllers\Backend\ShopsController;
 use App\Http\Controllers\Backend\CsrActivityController;
+use App\Http\Controllers\Backend\CategoriesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -175,6 +176,19 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/edit', [SpeciesController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [SpeciesController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [SpeciesController::class, 'delete'])->name('delete'); 
+    });
+	
+	
+    Route::group([
+        'prefix' => 'pashumitra/categories',
+        'as' => 'categories.',
+      ], function () {
+        Route::get('/', [CategoriesController::class, 'index'])->name('index');
+        Route::get('/create', [CategoriesController::class, 'create'])->name('create');
+        Route::post('/store', [CategoriesController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [CategoriesController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [CategoriesController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [CategoriesController::class, 'delete'])->name('delete'); 
     });
 
     //Animal Characterestics module
