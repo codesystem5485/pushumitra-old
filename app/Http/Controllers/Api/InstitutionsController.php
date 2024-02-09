@@ -138,7 +138,17 @@ class InstitutionsController extends BaseController
 		$response['results']  =   Institutions::select('id','institution_name','incharge_name','mobile_number','type',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'))
-			->whereDate('institutions.subscriptionEndDate', '>=', Carbon::now())
+			
+			
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('institutions.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('institutions.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+						 
 			->where('institutions.status', 1)
 		    ->orderBy('institutions.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/institutions")."/";
