@@ -74,7 +74,7 @@
 						Private
 						<input @if(!empty($institutions))@if($institutions->type == 'Private') checked @endif @endif  type="radio" id="Private" name="type" value="Private">
 						  Goverment
-						  <input @if(!empty($institutions)) @if($institutions->type == 'Goverment') checked @endif @endif type="radio" id="Goverment" name="type" value="Goverment">
+						  <input @if(!empty($institutions)) @if($institutions->type == 'Government') checked @endif @endif type="radio" id="Goverment" name="type" value="Government">
 						</div>  
 					</div>
 					
