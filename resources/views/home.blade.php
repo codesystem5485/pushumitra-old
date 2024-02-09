@@ -147,6 +147,106 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/dogshelters')}}">{{$dogShelterCount}}</a></h3>
+                           <span>Dog Shelters</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/trainingcenters')}}">{{$trainingCenterCount}}</a></h3>
+                           <span>Training Centers</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/institutions')}}">{{$institutionCount}}</a></h3>
+                           <span>Institutions</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/farms')}}">{{$farmCount}}</a></h3>
+                           <span>Farms</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/shops')}}">{{$shopCount}}</a></h3>
+                           <span>Shops</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/milkcollections')}}">{{$milkCollectionCount}}</a></h3>
+                           <span>Milk Collections</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/poultryhatchery')}}">{{$poultryCount}}</a></h3>
+                           <span>Poultry Hatchery</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body ">
+						<div class="">
+                           <h3><a href="{{url('pashumitra/panjarpols')}}">{{$panjarpolCount}}</a></h3>
+                           <span>Panjarpol</span>
+						  </div>
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					 
+					 
                   </div>
                   </div>
                 

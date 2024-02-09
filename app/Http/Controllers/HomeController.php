@@ -20,7 +20,16 @@ use App\Models\ProductForSale;
 use App\Models\AnimalForSale;
 use App\Models\Breeder;
 use App\Models\Suppliers;
+
 use App\Models\Veterinaryhospitals;
+use App\Models\PoultryHatchery;
+use App\Models\Panjarpol;
+use App\Models\Shops;
+use App\Models\Farms;
+use App\Models\MilkCollections;
+use App\Models\DogShelters;
+use App\Models\TrainingCenters;
+use App\Models\Institutions;
 
 class HomeController extends Controller
 {
@@ -56,10 +65,20 @@ class HomeController extends Controller
 		$animalSaleCount = AnimalForSale::whereDate('created_at', Carbon::today())->count();
 		$breederCount = Breeder::whereDate('created_at', Carbon::today())->count();
 		$hospitalCount = Veterinaryhospitals::whereDate('created_at', Carbon::today())->count();
-		$supplierCount = Suppliers::whereDate('created_at', Carbon::today())->count();		
+		$supplierCount = Suppliers::whereDate('created_at', Carbon::today())->count();
+		
+		$shopCount = Shops::whereDate('created_at', Carbon::today())->count();
+		$farmCount = Farms::whereDate('created_at', Carbon::today())->count();
+		$trainingCenterCount = TrainingCenters::whereDate('created_at', Carbon::today())->count();
+		$institutionCount = Institutions::whereDate('created_at', Carbon::today())->count();
+		$milkCollectionCount = Suppliers::whereDate('created_at', Carbon::today())->count();
+		$panjarpolCount = Panjarpol::whereDate('created_at', Carbon::today())->count();
+		$poultryCount = PoultryHatchery::whereDate('created_at', Carbon::today())->count();
+		$dogShelterCount = DogShelters::whereDate('created_at', Carbon::today())->count();
+		
         return view('home',compact('nTotalUusers','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
-									'animalSaleCount','breederCount','hospitalCount','supplierCount'));
+									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount','breederCount','farmCount','hospitalCount','supplierCount','shopCount','poultryCount','milkCollectionCount','panjarpolCount'));
     }
 
     /**

@@ -164,6 +164,8 @@ return [
 'milkcollection_create'=>'Create Milkcollection',
 'milkcollection_details'=>'Milkcollection details',
 'milkcollection'=>'Milkcollection',
+'milkcollection_name'=>'Milk collection Name',
+'milkcollection_incharge'=>'Name of Incharge',
 'poultryhatchery_name'=>'Poultry Hatchery Name',
 'poultryhatchery_incharge'=>'Name of Incharge',
 'poultryhatchery_list'=>'Poultry hatchery List',
