@@ -133,9 +133,10 @@
                            </li>
                            
                            @endif
-						    <ul>
-                                 <li class="@if (\Request::is('pashumitra/categories')) active  @endif"><a href="{{url('pashumitra/categories')}}"><i class=" icon-globe"></i> <span>Categories</span></a></li>
-                              </ul>
+						    <li class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif">
+                              <a href="{{url('pashumitra/categories')}}" class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif" ><i class="icon-hourglass"></i> <span>Categories </span></a>
+                           </li>
+						    
                            @if(auth()->user()->can('animal-type-list') || auth()->user()->can('breed-list') ||  auth()->user()->can('species-list') ||  auth()->user()->can('characteristics-list'))
                            <li class="@if (\Request::is('pashumitra/animal') || \Request::is('pashumitra/breed') || \Request::is('pashumitra/species') || \Request::is('pashumitra/characteristics')) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Animal</span></a>

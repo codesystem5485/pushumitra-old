@@ -32,14 +32,16 @@
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
                             <thead>
                             <tr>
-                                <th>Type </th>                                
+                                <th>Type </th>
+<th>Category Name </th>                                
                                 <th>{{ __('general.action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($categories as $type)
                             <tr>
-                                <td>{{$type->name}}</td>                                 
+                                <td>{{$type->name}}</td> 
+<td>{{$type->category_name}}</td>                                 
                                 <td>
                                     @can('categories-edit')
                                     <a href="{{route('categories.edit',['id' => $type->id])}}">

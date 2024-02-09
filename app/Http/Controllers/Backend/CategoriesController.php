@@ -38,7 +38,9 @@ class CategoriesController extends Controller
      * @return View
      */
     public function index(){
-        $categories = Subcategories::orderBy('id','ASC')->get();
+        $categories = Subcategories::leftJoin('categories', 'categories.id', '=', 'subcategories.parent_category')
+		->select('subcategories.*','categories.name as category_name')
+		->orderBy('id','ASC')->get();
         return view('backend.categories.index',['categories'=>$categories,'url' => $this->url]); 
     }
 
@@ -96,7 +98,8 @@ class CategoriesController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $categories = Subcategories::find($id);
-        return view('backend.categories.create',['categories' => $categories,'url' => $this->url]);  
+		$parentcategories = Categories::get();
+        return view('backend.categories.create',['parentcategories'=>$parentcategories,'categories' => $categories,'url' => $this->url]);  
     }
 
      /**

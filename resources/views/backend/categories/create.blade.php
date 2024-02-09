@@ -41,7 +41,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >Category* :</span>
                         </div>
-                        <select class="form-control"  aria-describedby="basic-addon3" name="parent_category" value="@if(empty($categories)){{old('parent_category')}}@else{{$breeds->species}}@endif"> 
+                        <select class="form-control"  aria-describedby="basic-addon3" name="parent_category" value="@if(empty($categories)){{old('parent_category')}}@else{{$categories->parent_category}}@endif"> 
                             <option value="" > Select Category </option>
                             @if(!empty($parentcategories))
 								@foreach($parentcategories as $cat)
