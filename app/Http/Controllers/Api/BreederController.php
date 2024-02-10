@@ -130,7 +130,7 @@ class BreederController extends BaseController
             DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
            ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('breeders.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/breederanimals/");
+		   $response['image_base_path'] =  url("/upload/breederanimals/")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -142,15 +142,15 @@ class BreederController extends BaseController
 		->select('breeders.*','species.specie as species_name')
 		->where('breeders.id',$id)
 		->first();
-		
+		$response = [];
 		$breederimages=array();
 		
 		if($breeder){
 			$breederimages = BreederImages::where('breeder_id',$breeder->id)->get();
-			$details = array('breederDetails'=>$breeder,'breederImages' =>$breederimages);
-			$details['breeder_image_path'] =  url("/upload/breederanimals/");
+			$response = array('results'=>$breeder,'module_images' =>$breederimages);
+			$response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
-			return $this->sendResponse($details,trans('messages.records_found'));
+			return $this->sendResponse($response,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }

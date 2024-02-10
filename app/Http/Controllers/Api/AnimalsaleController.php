@@ -136,7 +136,7 @@ class AnimalsaleController extends BaseController
             DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
            ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('animal_for_sales.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/animalsale/");
+		   $response['image_base_path'] =  url("/upload/animalsale/")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -152,13 +152,18 @@ class AnimalsaleController extends BaseController
 		->first();
 		
 		$animalimages=array();
+		$response = [];
 		if($animalsale){
 			$animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
 		}
+		
 		if($animalsale){
-			$details = array('animalSaleDetails'=>$animalsale,'animalSaleImages' =>$animalimages);
-			$details['animalsale_image_path'] =  url("/upload/animalsale/");
-			return $this->sendResponse($details,trans('messages.records_found'));
+			
+			
+			$response = array('results'=>$animalsale,'module_images' =>$animalimages);
+			$response['image_base_path'] =  url("/upload/animalsale")."/";
+			
+			return $this->sendResponse($response,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }

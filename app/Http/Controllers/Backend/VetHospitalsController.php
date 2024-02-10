@@ -209,7 +209,7 @@ class VetHospitalsController extends Controller
 	
 	public function importCsv()
 	{
-		$file   = public_path('/files/workingCSV.csv');
+		$file   = public_path('/files/working_csv_cat.csv');
 		$fileD = fopen($file,"r"); 
 		$column=fgetcsv($fileD); 
 		while(!feof($fileD)){ 
@@ -218,18 +218,20 @@ class VetHospitalsController extends Controller
 		foreach ($rowData as $key => $value) 
 		{
 			$inserted_data=array(
-				'hospital_name'=>$value[0], 
-				'city_town'=>$value[1],
-				'district'=>$value[2],
-				'taluka'=>$value[3],
-				'pincode'=>$value[4],
+				'hospital_name'=>$value[1], 
+				'city_town'=>$value[2],
+				'district'=>$value[3],
+				'taluka'=>$value[4],
+				'pincode'=>$value[5],
 				'user_id'=>90,
-				'sub_category'=>1,
+				'sub_category'=>$value[0],
+				'type'=>'Government',
 				'user_code'=>'PM0000000001',
 				'state_id'=>'22',
 				'state'=>'Maharashtra',
 				'subscriptionStartDate'=>'0000-00-00',
 				'subscriptionEndDate'=>'0000-00-00',
+				'address'=>'',
 				
 			); 
 			$hospitals = $this->vethospitalsRepo->create($inserted_data);
@@ -252,7 +254,7 @@ class VetHospitalsController extends Controller
 			$image   = public_path('/files/hospital.jpg');
 			
 			//$file->move(public_path($path), $fileName);
-			\File::copy(public_path('files/hospital.jpg') , public_path('upload/hospitals/'.$fileName));
+			\File::copy(public_path('files/hospital.jpeg') , public_path('upload/hospitals/'.$fileName));
 			
 			//File::move(public_path('files/hospital.jpg'),public_path('hospitals/'.$fileName) );
 			if($fileName)

@@ -134,7 +134,7 @@ class ChemistController extends BaseController
 		$response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name')  )
            ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('chemists.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/chemist/");
+		   $response['image_base_path'] =  url("/upload/chemist/")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -143,15 +143,18 @@ class ChemistController extends BaseController
 		$id = $request->chemist_id;
         
 		$chemist = Chemist::where('id',$id)->first();
+		$response = [];
 		
 		$chemistimages=array();
 		if($chemist){
 			$chemistimages = ChemistShopImages::where('chemist_id',$chemist->id)->get();
 		}
 		if($chemist){
-			$details = array('chemistDetails'=>$chemist,'chemistImages' =>$chemistimages);
-			$details['chemist_image_path'] =  url("/upload/chemist/");
-			return $this->sendResponse($details,trans('messages.records_found'));
+			
+			$response = array('results'=>$chemist,'module_images' =>$chemistimages);
+			$response['image_base_path'] =  url("/upload/chemist")."/";
+			
+			return $this->sendResponse($response,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
