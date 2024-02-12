@@ -43,6 +43,7 @@ use App\Http\Controllers\Backend\PoultryHatcheryController;
 use App\Http\Controllers\Backend\ShopsController;
 use App\Http\Controllers\Backend\CsrActivityController;
 use App\Http\Controllers\Backend\CategoriesController;
+use App\Http\Controllers\Backend\PushNotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -217,6 +218,17 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [ChemistController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [ChemistController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [ChemistController::class, 'removeImage'])->name('remove'); 
+    });
+	
+	 //push notification send module
+    Route::group([
+        'prefix' => 'pashumitra/sendnotifications',
+        'as' => 'sendnotifications.',
+      ], function () {
+        
+        Route::get('/create', [PushNotificationController::class, 'create'])->name('create');
+        Route::post('/send', [PushNotificationController::class, 'sendNotifications'])->name('sendnotifications'); 
+        	
     });
 	
 	 //Supplier module

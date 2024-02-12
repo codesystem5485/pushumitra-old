@@ -36,7 +36,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 
     public function getSiteUsers()
     {     
-        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name,middle_name,last_name,mobile_number'])
+        return  $this->userModelRepo->with(['roles','getCreatedBy:id,first_name,middle_name,last_name,mobile_number,fcm_id'])
         ->whereHas('roles', function($q) {
             // if(!empty($input['sRoleName'])){
                 $q->where('name','=','Pashumitra')
@@ -54,7 +54,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
      */
     public function getUsers(array $input = [])
     {     
-        return  $this->userModelRepo->with(['roles','getCreatedBy:id,full_name,mobile_number'])
+        return  $this->userModelRepo->with(['roles','getCreatedBy:id,full_name,mobile_number,fcm_id'])
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);
@@ -62,6 +62,22 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
         //->where('id','!=',1)
 		->where('is_active',1)
+        ->orderBy('id', 'DESC')
+        ->get();
+    }
+	
+	public function getUsersFcmIds(array $input = [])
+    {     
+        return  $this->userModelRepo->with(['roles'])
+		->select('fcm_id')
+        ->whereHas('roles', function($q) use($input) {
+            if(!empty($input['sRoleName'])){
+                $q->where('name', $input['sRoleName']);
+            }
+        })
+        //->where('id','!=',1)
+		->where('is_active',1)
+		->where('fcm_id','!=','')
         ->orderBy('id', 'DESC')
         ->get();
     }

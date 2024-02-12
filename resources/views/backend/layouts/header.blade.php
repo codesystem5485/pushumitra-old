@@ -133,6 +133,13 @@
                            </li>
                            
                            @endif
+						     @if(auth()->user()->can('sendnotifications-create'))
+                                            
+                           <li class="@if (\Request::is('pashumitra/sendnotifications/create') || \Request::is('pashumitra/sendNotifications/create/*')) active  @endif">
+                              <a href="{{url('pashumitra/sendnotifications/create')}}" class="" ><i class="icon-book-open"></i> <span>Send Notifications</span></a>
+                           </li>                           
+                           @endif
+						   
 						    <li class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif">
                               <a href="{{url('pashumitra/categories')}}" class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif" ><i class="icon-hourglass"></i> <span>Categories </span></a>
                            </li>
