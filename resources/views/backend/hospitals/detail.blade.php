@@ -67,6 +67,12 @@
                             <span class="">{{ $hospitals->mobile_number }}</span>
                         </div>
                     </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Email Id :</span>
+                            <span class="">{{ $hospitals->email_id }}</span>
+                        </div>
+                    </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">Address :</span>

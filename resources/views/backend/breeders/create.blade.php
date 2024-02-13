@@ -65,6 +65,13 @@
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
+                            <span class="input-group-text" >Email Id :</span>
+                        </div>
+                        <input type="email" class="form-control"  aria-describedby="basic-addon3" name="email_id" value="@if(empty($breeder)){{old('email_id')}}@else{{$breeder->email_id}}@endif"placeholder="Enter Email Id">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.breeder_animal_description') }}:</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="animal_description" value="@if(empty($breeder)){{old('animal_description')}}@else{{$breeder->animal_description}}@endif"placeholder="{{ __('general.breed_animal_description') }}">

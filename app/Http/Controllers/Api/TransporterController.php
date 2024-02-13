@@ -142,7 +142,7 @@ class TransporterController extends BaseController
 			->whereDate('transporters.subscriptionEndDate', '>=', Carbon::now())
 			->where('transporters.status', 1)
 		    ->orderBy('transporters.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/vehicle/");
+		   $response['image_base_path'] =  url("/upload/vehicle")."/";
 		   
 			
 		return $this->sendResponse($response,"",200);
@@ -167,8 +167,8 @@ class TransporterController extends BaseController
 			$images_rcbook_arr = TransporterRcbookImages::where('transporter_id',$results->id)->get();
 			$response = array('results'=>$results,'module_images' =>$images_arr,'rcbooksImages'=>$images_rcbook_arr);
 			
-			$response['vehicles_image_path'] =  url("/upload/vehicle/");
-			$response['rcbooks_image_path'] =  url("/upload/rcbooks/");
+			$response['image_base_path'] =  url("/upload/vehicle")."/";
+			$response['rcbooks_image_path'] =  url("/upload/rcbooks")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

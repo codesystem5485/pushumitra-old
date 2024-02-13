@@ -49,6 +49,12 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="mobile_number" value="@if(empty($suppliers)){{old('mobile_number')}}@else{{$suppliers->mobile_number}}@endif"placeholder="{{ __('general.enter_mobile_number') }}">
                     </div>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Email Id :</span>
+                        </div>
+                        <input type="email" class="form-control"  aria-describedby="basic-addon3" name="email_id" value="@if(empty($suppliers)){{old('email_id')}}@else{{$suppliers->email_id}}@endif"placeholder="Enter Email Id">
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.address') }}* :</span>

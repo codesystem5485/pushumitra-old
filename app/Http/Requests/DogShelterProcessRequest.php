@@ -31,6 +31,7 @@ class DogShelterProcessRequest extends FormRequest
 			//'type' =>'required',
             'address' => 'required|string',
             'city_town' => 'required|string',
+			'email_id' => 'nullable|email',
             'state' => 'required|string',
             'pincode' => 'required|numeric|digits:6',
 			'taluka' => 'nullable|string',

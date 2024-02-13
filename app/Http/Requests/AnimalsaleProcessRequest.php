@@ -36,6 +36,7 @@ class AnimalsaleProcessRequest extends FormRequest
 			//'state'=> 'required',
             'address' => 'required',
 			'city_town'=>'required',
+			'email_id' => 'nullable|email',
             'contact_number_of_owner' => 'required|numeric|min:10',
             'contact_name_of_owner' => 'required',
         ];

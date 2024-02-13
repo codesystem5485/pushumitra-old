@@ -130,7 +130,7 @@ class BreederController extends BaseController
             DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
            ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('breeders.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/breederanimals/")."/";
+		   $response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

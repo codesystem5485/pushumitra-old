@@ -28,6 +28,10 @@ class ProductsaleProcessRequest extends FormRequest
             'description' => 'required',
             'price' => 'required',
             'address' => 'required',
+			'city_town' => 'required|string',
+			'state' => 'required|string',
+            'pincode' => 'required|numeric',
+			'email_id' => 'nullable|email',
             'contact_number_of_owner' => 'required|numeric|min:10',
             'contact_name_of_owner' => 'required',
         ];

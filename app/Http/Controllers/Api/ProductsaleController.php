@@ -122,7 +122,7 @@ class ProductsaleController extends BaseController
 			->whereDate('product_for_sales.subscriptionEndDate', '>=', Carbon::now())
 			->where('product_for_sales.status', 1)
 		    ->orderBy('product_for_sales.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/productsale/");
+		   $response['image_base_path'] =  url("/upload/productsale")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -144,7 +144,7 @@ class ProductsaleController extends BaseController
 		if($results){
 			$images_arr = ProductImages::where('product_sale_id',$results->id)->get();
 			$response = array('results'=>$results,'module_images' =>$images_arr);
-			$response['image_base_path'] =  url("/upload/productsale/");
+			$response['image_base_path'] =  url("/upload/productsale")."/";
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 

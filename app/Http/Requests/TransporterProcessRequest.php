@@ -29,6 +29,7 @@ class TransporterProcessRequest extends FormRequest
             'mobile_number' => "required|numeric|digits:10",
             'address' => 'required',
             'city_town' => 'required',
+			'email_id' => 'nullable|email',
             'state' => 'required',
             'pincode' => 'required|numeric|digits:6',
         ];

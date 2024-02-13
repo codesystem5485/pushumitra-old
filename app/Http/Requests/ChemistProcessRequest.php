@@ -29,6 +29,7 @@ class ChemistProcessRequest extends FormRequest
             'mobile_number' => "required|numeric|digits:10",
             'address_line_1' => 'required|string',
             'city_town' => 'required|string',
+			'email_id' => 'nullable|email',
             'state' => 'required|string',
             'pincode' => 'required|numeric',
 			'taluka' => 'nullable|string',

@@ -61,6 +61,13 @@
 					
 					<div class="mb-5">
                         <div class="">
+                            <span class="">Email Id :</span>
+                            <span class="">{{ $breeder->email_id }}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
                             <span class="">{{ __('general.breeder_animal_description') }} :</span>
                             <span class="">{{ $breeder->breeder_animal_description }}</span>
                         </div>

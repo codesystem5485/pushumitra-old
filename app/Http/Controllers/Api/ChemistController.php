@@ -134,7 +134,7 @@ class ChemistController extends BaseController
 		$response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name')  )
            ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('chemists.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/chemist/")."/";
+		   $response['image_base_path'] =  url("/upload/chemist")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

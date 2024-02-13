@@ -30,6 +30,7 @@ class ShopsProcessRequest extends FormRequest
             'mobile_number' => 'required|numeric|digits:10',
             'address' => 'required|string',
             'city_town' => 'required|string',
+			'email_id' => 'nullable|email',
             'state' => 'required|string',
             'pincode' => 'required|numeric|digits:6',
 			'taluka' => 'nullable|string',

@@ -38,6 +38,12 @@ class PushNotificationController extends BaseController
 	
 	public function sendNotifications(Request $request)
 	{
+	     $this->validate($request, [
+            'role' => 'required', 
+			'title' => 'required', 	
+				'message' => 'required', 	
+        ]);
+        
 		$sRoleName = $request->role;
 		$fcmArray = $this->userRepo->getUsersFcmIds(['sRoleName' => $sRoleName]);
 		$sendFcmArray =array();

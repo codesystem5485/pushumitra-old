@@ -35,6 +35,7 @@ class BreederProcessRequest extends FormRequest
 				'address' => 'required',
 				'state' => 'required',
 				'city_town'=>'required',
+				'email_id' => 'nullable|email',
 				'taluka'=>'nullable|string',
 				'district'=>'nullable|string',
 				'pincode'=>'required|numeric|digits:6',

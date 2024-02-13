@@ -52,6 +52,12 @@
                             <span class="">{{ $productsale->contact_number_of_owner}}</span>
                         </div>
                     </div>
+					<div class="mb-5">
+                        <div class="">
+                            <span class="">Email Id :</span>
+                            <span class="">{{ $productsale->email_id }}</span>
+                        </div>
+                    </div>
 					
 					<div class="mb-5">
                         <div class="">
