@@ -11,7 +11,8 @@ use Session;
 use Auth;
 use Response;
 use App\Traits\FileUpload;
-
+use File;
+use Config;
 
 class BookController extends Controller
 {
@@ -40,6 +41,9 @@ class BookController extends Controller
      * @return View
      */
     public function index(){
+		
+		//$res = DB::table('books')->whereRaw("find_in_set('Pashumitra',book_role)")->get();
+		//print_r($res);exit;
         $books = Books::orderBy('id','ASC')->get();
         return view('backend.book.index',['books'=>$books,'url' => $this->url]); 
     }
@@ -61,12 +65,30 @@ class BookController extends Controller
     public function store(Request $request){
         $this->validate($request, [
             'book_name' => 'required|unique:books,book_name',            
-            'book_file' => 'required|unique:books,book_file|max:10240',            
+            'book_file' => 'required|unique:books,book_file|max:10240', 
+			//'book_role' => 'required', 			
         ]);
         DB::beginTransaction();
         try{
-            $fileName = $this->uploadFile($request->book_file,'book');
-            $book = Books::create(['book_name' => $request->input('book_name'),'book_file'=>$fileName]);
+			
+			$file = $request->book_file;
+			$book_name = $request->book_name;
+			
+			$extension = $file->getClientOriginalExtension();
+	
+            //$fileName = $this->uploadFile($request->book_file,'book');
+			
+			$path = Config::get('constants.file.book_file_path');
+			
+			$fileName = $book_name.'.'.$file->extension();
+            $file->move(public_path($path), $fileName);
+			$str = '';
+			if($request->book_role!=''){
+				$array = $request->book_role;
+				$str = implode(",", $array);
+			}
+			
+            $book = Books::create(['book_name' => $request->input('book_name'),'book_file'=>$fileName,'book_role'=>$str]);
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
@@ -104,8 +126,6 @@ class BookController extends Controller
      */
     public function update(Request $request, $id) 
     {
-        
-
         $this->validate($request, [
             'book_name' => 'required|unique:books,book_name,'.$id,
             'book_file' => 'unique:books,book_file|max:10240',            
@@ -116,12 +136,27 @@ class BookController extends Controller
             if($request->book_file)
             {
                 $this->removeFile($book->book_file,'book');
-                $sFileName = $this->uploadFile($request->book_file,'book');
-                if(!empty($sFileName)) {
-                    $book->book_file = $sFileName;
-                }
+				
+				if($request->book_file!='')
+				{
+					$file = $request->book_file;
+					$book_name = $request->book_name;
+					$extension = $file->getClientOriginalExtension();
+					$path = Config::get('constants.file.book_file_path');
+				
+					$fileName = $book_name.'.'.$file->extension();
+					$file->move(public_path($path), $fileName);
+					 $book->book_file = $fileName;
+				}
+				
             }
+			$str = '';
+				if($request->book_role!=''){
+					$array = $request->book_role;
+					$str = implode(",", $array);
+				}
             $book->book_name = $request->input('book_name');
+			$book->book_role = $str;
             $book->save();
             DB::commit();
             Session::flash('success', trans('messages.update_records'));

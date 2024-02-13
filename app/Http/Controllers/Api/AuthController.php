@@ -985,7 +985,15 @@ class AuthController extends BaseController
 	
 	public function getLibrary(Request $request)
 	{ 
-		 $response['results'] = Books::orderBy('id','ASC')->get();
+		
+		if(isset($request->role)){
+			$role = $request->role;
+			//$response['results'] = Books::orderBy('id','ASC')->get();
+			$response['results'] = DB::table('books')->whereRaw("find_in_set('".$role."',book_role)")->orderBy('id','ASC')->get();
+		}else{
+			$response['results'] = Books::orderBy('id','ASC')->get();
+		}
+		 
 		 $response['image_base_path']=url("/upload/book/");
 		 return $this->sendResponse($response,"",200);
 	}

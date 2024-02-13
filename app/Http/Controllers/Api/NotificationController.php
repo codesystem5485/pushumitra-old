@@ -35,12 +35,40 @@ class NotificationController extends BaseController
 		}
 		
 		$response = [];
-		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
+		$rolename = '';
+		$getRoles = DB::table('model_has_roles')
+						->where('model_id',$postData['user_id'])
+						->first();
+			
+			if($getRoles->role_id == "8"){
+				$rolename = "Pashumitra";
+			}elseif($getRoles->role_id == "7")
+			{
+				$rolename = 'Registered-vet';
+			}
+			elseif($getRoles->role_id == "6")
+			{
+				$rolename = 'Animal-owner';
+			}
+			
+			$query = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
 			->select('notifications.*')
-			->where('notifications.sender_user_id',$postData['user_id'])
+			->where(function($query) use ($rolename,$postData){
+                            $query->where(function($query) use ($rolename){
+                                 $query->where('type','3')
+								 ->where('notifications.show_role',$rolename);
+                             })
+							 ->orWhere(function($query) use ($postData){
+                                 $query->where('type','<','3')
+								 ->where('notifications.sender_user_id',$postData['user_id']);
+                             });
+                         })
+				//->where('notifications.sender_user_id',$postData['user_id'])
 			->where('notifications.send_flag',1)->get();
 			
-		$response['notifications'] = $notifications;
+			
+		$response['notifications'] = $query;
+		//$response['notifications']= array_merge($notifications,$notifications_role);
 		
 		return $this->sendResponse($response,'',200);
 	}
