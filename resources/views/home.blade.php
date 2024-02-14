@@ -1,6 +1,10 @@
 @extends('backend.master')
 
 @section('content')
+<style>
+        .card-count{width: 100%;text-align: center;}
+        .card-count .counts{display:flex;justify-content: space-around;}
+    </style>
 <div id="main-content">
     <div class="container-fluid">
         <div class="block-header">
@@ -29,23 +33,26 @@
                      </div> -->
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
-                           <h3><a href="{{url('pashumitra/pashumitra')}}">{{$pashumitraCount}}</a></h3>
-                           <span>Pashumitra</span>
-						  </div>
-                        </div>
-                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                       <div class="body card-count">
+						<div class="counts">
+							<h3><a href="{{url('pashumitra/pashumitra')}}">{{$pashumitraCount}}</a></h3>
+							<h3><a href="{{url('pashumitra/pashumitra')}}"> {{$totalpashumitraCount}}</a></h3>
+						</div>
+						<span>Pashumitra</span>
+						</div>
+						<div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
-                     </div>
+                    </div>
 
 					<div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/registered-vet')}}">{{$registerVetCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/registered-vet')}}">{{$totalregisterVetCount}}</a></h3>
+						   </div>
                            <span>Registered-vet</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -53,11 +60,27 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/animal-owner')}}">{{$animalOwnerCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/animal-owner')}}">{{$totalanimalOwnerCount}}</a></h3>
+						   </div>
                            <span>Animal owner</span>
-						  </div>
+						  
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="{{url('pashumitra/add-animal')}}">{{$animalCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/add-animal')}}">{{$totalAnimalsCount}}</a></h3>
+						   </div>
+                           <span>Animals </span>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -65,11 +88,13 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/animal-sale')}}">{{$animalSaleCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/animal-sale')}}">{{$totalanimalSaleCount}}</a></h3>
+						    </div>
                            <span>Animal for sale</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -77,11 +102,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/product-sale')}}">{{$productSaleCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/product-sale')}}">{{$totalproductSaleCount}}</a></h3>
+						   </div>
                            <span>Product for sale</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -89,11 +116,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/chemist')}}">{{$chemistCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/chemist')}}">{{$totalchemistCount}}</a></h3>
+						   </div>
                            <span>Chemist</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -101,11 +130,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/breeders')}}">{{$breederCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/chemist')}}">{{$totalbreederCount}}</a></h3>
+						   </div>
                            <span>Breeders</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -113,11 +144,13 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/transporter')}}">{{$transporterCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/transporter')}}">{{$totaltransporterCount}}</a></h3>
+						    </div>
                            <span>Transporter</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -125,11 +158,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/hospitals')}}">{{$hospitalCount}}</a></h3>
+						    <h3><a href="{{url('pashumitra/hospitals')}}">{{$totalhospitalCount}}</a></h3>
+							</div>
                            <span>Vet Hospitals</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -137,23 +172,27 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/suppliers')}}">{{$supplierCount}}</a></h3>
-                           <span>Supplier</span>
+						   <h3><a href="{{url('pashumitra/suppliers')}}">{{$totalsupplierCount}}</a></h3>
+						   </div>
+                           <span>Suppliers</span>
 						  </div>
-                        </div>
+                        
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/dogshelters')}}">{{$dogShelterCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/dogshelters')}}">{{$totaldogShelterCount}}</a></h3>
+						    </div>
                            <span>Dog Shelters</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -161,11 +200,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/trainingcenters')}}">{{$trainingCenterCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/trainingcenters')}}">{{$totaltrainingCenterCount}}</a></h3>
+						    </div>
                            <span>Training Centers</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -173,11 +214,13 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/institutions')}}">{{$institutionCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/institutions')}}">{{$totalinstitutionCount}}</a></h3>
+						   </div>
                            <span>Institutions</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -185,11 +228,13 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/farms')}}">{{$farmCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/farms')}}">{{$totalfarmCount}}</a></h3>
+						    </div>
                            <span>Farms</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -198,11 +243,13 @@
 					 
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/shops')}}">{{$shopCount}}</a></h3>
+						    <h3><a href="{{url('pashumitra/shops')}}">{{$totalshopCount}}</a></h3>
+							</div>
                            <span>Shops</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -210,11 +257,13 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/milkcollections')}}">{{$milkCollectionCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/milkcollections')}}">{{$totalmilkCollectionCount}}</a></h3>
+						    </div>
                            <span>Milk Collections</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -222,11 +271,13 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/poultryhatchery')}}">{{$poultryCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/poultryhatchery')}}">{{$totalpoultryCount}}</a></h3>
+						   </div>
                            <span>Poultry Hatchery</span>
-						  </div>
+						  
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
@@ -234,19 +285,18 @@
                      </div>
 					 
 					 <div class="card overflowhidden col-md-3">
-                        <div class="body ">
-						<div class="">
+                        <div class="body card-count ">
+						<div class="counts">
                            <h3><a href="{{url('pashumitra/panjarpols')}}">{{$panjarpolCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/panjarpols')}}">{{$totalpanjarpolCount}}</a></h3>
+						    </div>
                            <span>Panjarpol</span>
-						  </div>
+						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
-					 
-					 
-					 
                   </div>
                   </div>
                 

@@ -984,8 +984,9 @@ class AuthController extends BaseController
     }
 	
 	public function getLibrary(Request $request)
-	{ 
-		
+	{ DB::connection()->enableQueryLog();
+		$user=User::select('rv_code','id')->where('rv_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
+		print_r(DB::getQueryLog());exit;
 		if(isset($request->role)){
 			$role = $request->role;
 			//$response['results'] = Books::orderBy('id','ASC')->get();

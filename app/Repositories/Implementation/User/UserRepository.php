@@ -371,7 +371,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		//$pm_code = str_rand(10 only digit);
 		$workingPmcode = 0;
-		$user=User::select('pm_code')->where('pm_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
+		$user=User::select('pm_code')->where('pm_code','!=','')->orderBy('pm_code', 'DESC')->limit(1)->first();
 		
 		if($user){ 
 			$existingPmcode = $user->pm_code;
@@ -399,7 +399,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	public function generateRegisteredvetCode(){
 		
 		$workingRvcode = 0;
-		$user=User::select('rv_code')->where('rv_code','!=','')->orderBy('id', 'DESC')->limit(1)->first();
+		$user=User::select('rv_code')->where('rv_code','!=','')->orderBy('rv_code', 'DESC')->limit(1)->first();
 		
 		if($user){ 
 			$existingRvcode = $user->rv_code;

@@ -30,6 +30,7 @@ use App\Models\MilkCollections;
 use App\Models\DogShelters;
 use App\Models\TrainingCenters;
 use App\Models\Institutions;
+use App\Models\Animals;
 
 class HomeController extends Controller
 {
@@ -75,10 +76,38 @@ class HomeController extends Controller
 		$panjarpolCount = Panjarpol::whereDate('created_at', Carbon::today())->count();
 		$poultryCount = PoultryHatchery::whereDate('created_at', Carbon::today())->count();
 		$dogShelterCount = DogShelters::whereDate('created_at', Carbon::today())->count();
+		$animalCount = Animals::whereDate('created_at', Carbon::today())->count();
 		
-        return view('home',compact('nTotalUusers','pashumitraCount','animalOwnerCount',
+		$totalpashumitraCount = User::role('Pashumitra')->count();
+		$totalanimalOwnerCount = User::role('Animal-owner')->count();
+		$totalregisterVetCount = User::role('Registered-vet')->count();
+		$totalchemistCount 	  = Chemist::count();
+		$totaltransporterCount = Transporters::count();
+		$totalproductSaleCount = ProductForSale::count();
+		$totalanimalSaleCount = AnimalForSale::count();
+		$totalbreederCount = Breeder::count();
+		$totalhospitalCount = Veterinaryhospitals::count();
+		$totalsupplierCount = Suppliers::count();
+		$totalshopCount = Shops::count();
+		$totalfarmCount = Farms::count();
+		$totaltrainingCenterCount = TrainingCenters::count();
+		$totalinstitutionCount = Institutions::count();
+		$totalmilkCollectionCount = Suppliers::count();
+		$totalpanjarpolCount = Panjarpol::count();
+		$totalpoultryCount = PoultryHatchery::count();
+		$totaldogShelterCount = DogShelters::count(); 
+		$totalAnimalsCount = Animals::count();
+		
+        return view('home',compact('nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
-									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount','breederCount','farmCount','hospitalCount','supplierCount','shopCount','poultryCount','milkCollectionCount','panjarpolCount'));
+									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount',
+									'breederCount','farmCount','hospitalCount','supplierCount',
+									'shopCount','poultryCount','milkCollectionCount','panjarpolCount',
+									'totalpashumitraCount','totalanimalOwnerCount','totalregisterVetCount','totalchemistCount','totaltransporterCount',
+									'totalproductSaleCount','totalanimalSaleCount','totalbreederCount','totalhospitalCount',
+									'totalsupplierCount','totalshopCount','totaltrainingCenterCount','totalinstitutionCount',
+									'totalmilkCollectionCount','totalfarmCount','totalpanjarpolCount','totalpoultryCount','totaldogShelterCount'
+									));
     }
 
     /**
