@@ -135,8 +135,9 @@ class InstitutionsController extends BaseController
 	
 	public function getInstitutionList(Request $request)
 	{
-		$response['results']  =   Institutions::select('id','institution_name','incharge_name','mobile_number','type',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+		$response['results']  =   Institutions::leftJoin('subcategories', 'subcategories.id', '=', 'institutions.sub_category')
+								->select('institutions.id','institution_name','incharge_name','mobile_number','type',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){
