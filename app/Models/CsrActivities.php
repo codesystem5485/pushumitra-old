@@ -12,7 +12,7 @@ class CsrActivities extends Model
 {
     use HasFactory,LogsActivity;
 	protected $table = 'csr_activities';
-    protected $fillable = ['id','title','user_id','description','schedule_date','address','city_town','state_id','state','pincode','created_at','updated_at','deleted_at','status'];
+    protected $fillable = ['id','category','title','user_id','description','schedule_date','address','city_town','state_id','state','pincode','created_at','updated_at','deleted_at','status'];
         
     public static function boot()
     {

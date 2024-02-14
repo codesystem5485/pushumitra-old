@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CsrActivities;
 use App\Models\CsrActivityImages;
+use App\Models\CsrActivityCategories;
 use Spatie\Permission\Models\Permission;
 use DB;
 use Session;
@@ -42,7 +43,9 @@ class CsrActivityController extends Controller
      * @return View
      */
     public function index(){
-        $csractivities = CsrActivities::where('status',1)->orderBy('id','DESC')->get();
+        $csractivities = CsrActivities::leftJoin('csr_activity_categories', 'csr_activity_categories.id', '=', 'csr_activities.category')
+											->select('csr_activities.*','csr_activity_categories.name as name')
+											->where('csr_activities.status',1)->orderBy('csr_activities.id','DESC')->get();
         return view('backend.csractivities.index',['csractivities'=>$csractivities,'url' => $this->url]); 
     }
 
@@ -53,7 +56,8 @@ class CsrActivityController extends Controller
     public function create(){
         $permission = Permission::get();
 		$states = State::where('is_active','1')->get();
-        return view('backend.csractivities.create',['states'=>$states,'permission'=>$permission,'url' => $this->url]); 
+		$categories = CsrActivityCategories::where('status',1)->get();
+        return view('backend.csractivities.create',['categories'=>$categories,'states'=>$states,'permission'=>$permission,'url' => $this->url]); 
     }
     /**
      * Store csractivities
@@ -89,6 +93,7 @@ class CsrActivityController extends Controller
 
 			$csractivities = new CsrActivities();
             $csractivities->title = $request->input('title');
+			$csractivities->category = $request->input('category');
 			$csractivities->description = $request->input('description');
 			$csractivities->schedule_date = date("Y-m-d",strtotime($request->input('schedule_date')));
 			$csractivities->address = $request->input('address');
@@ -139,9 +144,10 @@ class CsrActivityController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $csractivities = CsrActivities::find($id);
-		 $images = CsrActivityImages::where('csr_activity_id',$csractivities->id)->get();
+		$images = CsrActivityImages::where('csr_activity_id',$csractivities->id)->get();
+		$categories = CsrActivityCategories::where('status',1)->get();
 		$states = State::where('is_active','1')->get();
-        return view('backend.csractivities.create',['images'=>$images,'states'=>$states,'csractivities' => $csractivities,'url' => $this->url]);  
+        return view('backend.csractivities.create',['categories'=>$categories,'images'=>$images,'states'=>$states,'csractivities' => $csractivities,'url' => $this->url]);  
     }
 
      /**
@@ -168,6 +174,7 @@ class CsrActivityController extends Controller
             $csractivities = CsrActivities::find($id);
            
             $csractivities->title = $request->input('title');
+			$csractivities->category = $request->input('category');
 			$csractivities->description = $request->input('description');
 			$csractivities->schedule_date = date("Y-m-d",strtotime($request->input('schedule_date')));
 			$csractivities->address = $request->input('address');

@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('css')
 <link rel="stylesheet" href="{{asset('admin/assets/vendor/select2/select2.css')}}" />
+<link rel="stylesheet" href="{{asset('/admin/assets/css/bootstrap-datepicker3.min.css')}}">
 @endsection 
 @section('content')
 <div id="main-content">
@@ -36,7 +37,18 @@
                 <form action="@if(empty($csractivities)){{route('csractivities.store')}}@else{{route('csractivities.update',['id' => $csractivities->id])}}@endif" method="post" enctype="multipart/form-data"> 
                     @csrf  
                 <div class="body">
-				
+				<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Categories :</span>
+                        </div>
+                       
+                        <select id="category" class="form-control"  aria-describedby="basic-addon3" name="category" >
+                            <option value="">Select Categories</option>
+                            @foreach($categories as $row)
+                            <option @if(!empty($csractivities))@if($row->id == $csractivities->category) selected='selected' @endif @endif  value="{{$row->id}}">{{$row->name}}</option> 
+                            @endforeach
+                        </select>
+                    </div>
 				
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

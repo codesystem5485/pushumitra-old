@@ -33,6 +33,7 @@
                             <thead>
                             <tr>
                                 <th>Title</th> 
+								<th>Category</th>
 								<th>Schedule Date</th> 
 								<th>City Town</th> 
 								<th>{{ __('general.action') }}</th>
@@ -49,7 +50,8 @@
 							
 							
 							@endphp
-                                <td>{{$row->title}}</td>  
+                                <td>{{$row->title}}</td>
+								<td>{{$row->name}}</td>								
 								<td>{{$schedule_date}}</td> 
 								<td>{{$row->city_town}}</td>
 								<td>
