@@ -133,7 +133,7 @@ class MilkCollectionController extends BaseController
 	
 	public function getMilkcollectionList(Request $request)
 	{
-		$query = MilkCollections::select('id','milkcollection_center_name','incharge_name','mobile_number','type',
+		$query = MilkCollections::select('id','registration_number','milkcollection_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  milkcollection_center_images where milkcollection_center_id  = milkcollection_centers.id order by id asc limit 1) as image_name'))
 			->where(function($query){
