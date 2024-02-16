@@ -129,7 +129,7 @@ class PanjarpolController extends BaseController
 	
 	public function getPanjarpolList(Request $request)
 	{
-		$response['results']  = Panjarpol::select('panjarpol.id','panjarpol_name','manager_name','mobile_number',
+		$response['results']  = Panjarpol::select('panjarpol.id','registration_number','panjarpol_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from panjarpol_images where panjarpol_id  = panjarpol.id order by id asc limit 1) as image_name'))
 			->whereDate('panjarpol.subscriptionEndDate', '>=', Carbon::now())
