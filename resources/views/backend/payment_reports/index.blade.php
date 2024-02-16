@@ -24,6 +24,10 @@
                 @include('backend.layouts.flash-message')
 				
                 </div>
+				
+					 
+       
+		
                 <div class="body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
@@ -90,4 +94,13 @@
 @push('scripts')  
 <script src="{{asset('admin/assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/jquery-datatable/jquery-datatable.js')}}"></script>
+<script src="{{asset('/admin/assets/js/bootstrap-datepicker.min.js')}}"></script>
+<script>
+$(document).ready(function(){
+  
+   $("#from_date").datepicker();
+   $("#to_date").datepicker();
+   
+});
+</script>
 @endpush

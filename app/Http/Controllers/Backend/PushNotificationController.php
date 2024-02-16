@@ -65,7 +65,8 @@ class PushNotificationController extends BaseController
 			
 			$body 	= $request->message;
 			$title	= $request->title;
-				
+		//	$token1 = 'dIRGPbjfQymmDnn7FKoG4R:APA91bFobX7bcN8ALqFtgfsSaBWpWUjZXmqDqRodo8xe417YxB1kQv2K5trFupr5IDLLmQfuyb7Rfhaw9m3Sp_98Fl7yoNs-FwwXNYTgTn19_JTRTi0ohm5n4OGPsJ039e30ZXyt99io';
+		//			$sendFcmArray =array($token1);
 				$data = [
 					"registration_ids"=>$sendFcmArray,
 					"notification" => [

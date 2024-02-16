@@ -51,6 +51,13 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="manager_name" value="@if(empty($panjarpols)){{old('incharge_name')}}@else{{$panjarpols->manager_name}}@endif"placeholder="{{ __('general.panjarpol_incharge') }}">
                     </div>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Registration Number :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="registration_number" value="@if(empty($panjarpols)){{old('registration_number')}}@else{{$panjarpols->registration_number}}@endif"
+						placeholder="Registration Number">
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.mobile_number') }}* :</span>

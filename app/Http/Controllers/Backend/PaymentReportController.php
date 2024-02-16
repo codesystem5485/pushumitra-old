@@ -44,7 +44,7 @@ class PaymentReportController extends Controller
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',0)
-					->orderBy('id','DESC')->get();
+					->orderBy('payment_date','DESC')->get();
         return view('backend.payment_reports.index',['payments'=>$payments,'url' => $this->url]); 
     }
 	
@@ -53,7 +53,7 @@ class PaymentReportController extends Controller
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',1)
-					->orderBy('id','DESC')->get();
+					->orderBy('payment_date','DESC')->get();
         return view('backend.payment_reports.reg_payment_report',['payments'=>$payments,'url' => $this->url]); 
     }
 	

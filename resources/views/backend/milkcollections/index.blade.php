@@ -33,9 +33,11 @@
                             <tr>
 								<th>{{ __('general.milkcollection_name') }}</th>
 								<th>{{ __('general.milkcollection_incharge') }}</th>                                 
-                                <th>{{ __('general.mobile_number') }}</th> 
+                                <th>{{ __('general.mobile_number') }}</th>
+								
 								<th>{{ __('general.added_by') }}</th> 
 								<th>{{ __('general.added_on') }}</th>
+								
 								
 								<!--<th>{{ __('general.expired_date') }}</th>--> 								
                                 <th>{{ __('general.action') }}</th>

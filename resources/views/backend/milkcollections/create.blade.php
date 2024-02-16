@@ -51,6 +51,14 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="incharge_name" value="@if(empty($milkcollections)){{old('incharge_name')}}@else{{$milkcollections->incharge_name}}@endif"placeholder="{{ __('general.milkcollection_incharge') }}">
                     </div>
+					
+					 <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Registration Number :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="registration_number" value="@if(empty($milkcollections)){{old('registration_number')}}@else{{$milkcollections->registration_number}}@endif"
+						placeholder="Registration Number">
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.mobile_number') }}* :</span>
@@ -68,6 +76,22 @@
                             <span class="input-group-text" >{{ __('general.address') }}* :</span>
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="address" value="@if(empty($milkcollections)){{old('address')}}@else{{$milkcollections->address}}@endif"placeholder="{{ __('general.address') }}">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Total Milk Collctions :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="total_milk_collections" 
+						value="@if(empty($milkcollections)){{old('total_milk_collections')}}@else{{$milkcollections->total_milk_collections}}@endif" placeholder="Total Milk Collections">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Total Members :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="total_members" 
+						value="@if(empty($milkcollections)){{old('total_members')}}@else{{$milkcollections->total_members}}@endif" placeholder="Total Members">
                     </div>
                    
                     <div class="input-group mb-3">

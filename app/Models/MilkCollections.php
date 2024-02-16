@@ -12,7 +12,7 @@ class MilkCollections extends Model
 {
     use HasFactory,LogsActivity;
 	protected $table = 'milkcollection_centers';
-    protected $fillable = ['id','email_id','registration_number','user_id','user_code','latitude','longitude','subscriptionStartDate','subscriptionEndDate','taluka','district',
+    protected $fillable = ['id','total_milk_collections','total_members','email_id','registration_number','user_id','user_code','latitude','longitude','subscriptionStartDate','subscriptionEndDate','taluka','district',
 	'milkcollection_center_name','type','incharge_name','description','mobile_number','contact_number','address','city_id','city_town','state_id','state','pincode','created_at','updated_at','deleted_at','status'];
         
     public static function boot()
