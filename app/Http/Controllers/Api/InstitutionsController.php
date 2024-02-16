@@ -86,7 +86,7 @@ class InstitutionsController extends BaseController
 			$subscriptionStartDate='';
 			$subscriptionEndDate='';
 			
-			if(isset($postData['payment_id']) && ($postData['payment_id']!='' || $postData['payment_id']!=0))
+			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
 			{
 				$payment = Payments::find($postData['payment_id']);
 				$payment->module_type_id = $results->id;
