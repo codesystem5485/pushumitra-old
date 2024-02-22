@@ -107,7 +107,7 @@ class AuthController extends BaseController
                 'pincode' => 'required|numeric|digits:6',
             ]);
         }
-        if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
+       /* if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' )
         {
             $validator = Validator::make($postData, [
                 'first_name' => 'required|string|max:255',
@@ -122,14 +122,18 @@ class AuthController extends BaseController
         if ($validator->fails())
         {
             return $this->sendError([],implode(',',$validator->errors()->all()),400);
-        }
+        }*/
         $response = [];
         DB::beginTransaction();
         try{
             $param = $request->all();
-            if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care')
+            if($postData['role']=='Superadmin' || $postData['role']=='Administrator' || $postData['role']=='Accountant' || $postData['role']=='Support-team' || $postData['role']=='Customer-care' || $postData['role']=='Partner' || $postData['role']=='Advertising')
             {
                 $user = $this->userRepo->create($param);
+				 $roleData = $this->roleRepo->where('name',$request->role)->first();
+				if($roleData){
+					$user->assignRole($roleData->name);  
+				}
             }
             if($postData['role']=='Animal-owner')
             {

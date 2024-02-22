@@ -97,8 +97,16 @@ class HomeController extends Controller
 		$totalpoultryCount = PoultryHatchery::count();
 		$totaldogShelterCount = DogShelters::count(); 
 		$totalAnimalsCount = Animals::count();
+		$user =  Auth::user();
+		$userrole = '';
+		if($user->hasRole('Partner')){
+			$userrole = 'Partner';
+		}
+		if($user->hasRole('Adevrtising')){
+			$userrole = 'Adevrtising';
+		}
 		
-        return view('home',compact('nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
+        return view('home',compact('userrole','nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
 									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount',
 									'breederCount','farmCount','hospitalCount','supplierCount',

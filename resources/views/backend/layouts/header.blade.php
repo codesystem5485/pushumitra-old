@@ -81,9 +81,11 @@
                   <div class="tab-pane active" id="menu">
                      <nav id="left-sidebar-nav" class="sidebar-nav">
                         <ul id="main-menu" class="metismenu">
+						@if(auth()->user()->can('dashboard')) 
                            <li class="@if (\Request::is('dashboard')) active  @endif">
                               <a href="{{url('pashumitra/dashboard')}}" class=""><i class="icon-home"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
+						   @endif
                            @if(auth()->user()->can('user-list') || auth()->user()->can('user-create') ||  auth()->user()->can('user-edit') ||  auth()->user()->can('user-delete'))
                            <li class="@if (\Request::is('user')) active  @endif">
                               <a href="{{url('/user')}}" class=""><i class="icon-home"></i> <span>{{__('general.all_user')}}</span></a>
@@ -139,11 +141,11 @@
                               <a href="{{url('pashumitra/sendnotifications/create')}}" class="" ><i class="icon-book-open"></i> <span>Send Notifications</span></a>
                            </li>                           
                            @endif
-						   
+						   @if(auth()->user()->can('categories-list'))
 						    <li class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif">
                               <a href="{{url('pashumitra/categories')}}" class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif" ><i class="icon-hourglass"></i> <span>Categories </span></a>
                            </li>
-						    
+						    @endif
                            @if(auth()->user()->can('animal-type-list') || auth()->user()->can('breed-list') ||  auth()->user()->can('species-list') ||  auth()->user()->can('characteristics-list'))
                            <li class="@if (\Request::is('pashumitra/animal') || \Request::is('pashumitra/breed') || \Request::is('pashumitra/species') || \Request::is('pashumitra/characteristics')) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Animal</span></a>
@@ -217,9 +219,11 @@
                               <a href="{{url('pashumitra/ratings')}}" class="" ><i class="icon-hourglass"></i> <span>Ratings</span></a>
                            </li>
 						   @endif
+						    @if(auth()->user()->can('csractivities-list'))
 						   <li class="">
                               <a href="{{url('pashumitra/csractivities')}}" class="" ><i class="icon-hourglass"></i> <span>Csr Activities</span></a>
                            </li>
+						   @endif
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 
                            
 						   <li class="">
@@ -289,13 +293,16 @@
                               <a href="{{url('pashumitra/content-management')}}" class="" ><i class="icon-hourglass"></i> <span>Front Pages</span></a>
 							</li>
 							@endif
+							@if(auth()->user()->can('paymentreport-list')) 
 						   <li class="">
                               <a href="{{url('pashumitra/paymentreport')}}" class="" ><i class="icon-hourglass"></i> <span>Payment Report</span></a>
                            </li>
+						   @endif
+						   @if(auth()->user()->can('registrationpaymentreport-list'))
 						   <li class="">
                               <a href="{{url('pashumitra/paymentreport/regPaymentReport')}}" class="" ><i class="icon-hourglass"></i> <span>Registration Payments</span></a>
                            </li>
-                           
+                           @endif
                            {{-- <li class="">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="icon-grid"></i> <span>Location</span></a>
                               <ul>
