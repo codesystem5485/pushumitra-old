@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('css')
 <link rel="stylesheet" href="{{asset('admin/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('/admin/assets/css/bootstrap-datepicker3.min.css')}}">
 
 @endsection 
 @section('content')
@@ -24,6 +25,38 @@
                 @include('backend.layouts.flash-message')
 				
                 </div>
+				<form action="{{route('paymentreport.regPaymentReport')}}" method="post">
+        @csrf
+        <div class="row g-3">
+            <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">From Date* :</span>
+                </div>
+                <input data-date-autoclose="true" data-provide="datepicker" type="text" id="from_date"
+                    class="form-control" aria-describedby="basic-addon3" name="from_date"
+                    value="@if(empty($from_date)){{old('from_date')}}@else{{$from_date}}@endif"
+                    placeholder="Enter From Date">
+            </div>
+            </div>
+            <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">To Date* :</span>
+                </div>
+                <input data-date-autoclose="true" data-provide="datepicker" type="text" id="to_date"
+                    class="form-control" aria-describedby="basic-addon3" name="to_date"
+                    value="@if(empty($to_date)){{old('to_date')}}@else{{$to_date}}@endif" placeholder="Enter To Date">
+            </div>
+            </div>
+           
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            </div>
+        </div>
+	</form>
                 <div class="body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
@@ -75,4 +108,13 @@
 @push('scripts')  
 <script src="{{asset('admin/assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/jquery-datatable/jquery-datatable.js')}}"></script>
+<script src="{{asset('/admin/assets/js/bootstrap-datepicker.min.js')}}"></script>
+<script>
+$(document).ready(function(){
+  
+   $("#from_date").datepicker();
+   $("#to_date").datepicker();
+   
+});
+</script>
 @endpush

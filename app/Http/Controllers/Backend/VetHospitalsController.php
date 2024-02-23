@@ -209,7 +209,8 @@ class VetHospitalsController extends Controller
 	
 	public function importCsv()
 	{
-		$file   = public_path('/files/working_csv_cat.csv');
+		ini_set('max_execution_time', '15500');
+		$file   = public_path('/files/aurangabad_csv.csv');
 		$fileD = fopen($file,"r"); 
 		$column=fgetcsv($fileD); 
 		while(!feof($fileD)){ 
@@ -217,14 +218,21 @@ class VetHospitalsController extends Controller
 		} 
 		foreach ($rowData as $key => $value) 
 		{
+			if($value[4]==''){
+				$address = $value[3].",".$value[2].",".$value[1];
+				$zipcode = $this->getZipcode($address);
+			}else{
+				$zipcode = $value[4];
+			}
+		
 			$inserted_data=array(
-				'hospital_name'=>$value[1], 
-				'city_town'=>$value[2],
+				'hospital_name'=>$value[0], 
+				'city_town'=>$value[1],
 				'district'=>$value[3],
-				'taluka'=>$value[4],
-				'pincode'=>$value[5],
+				'taluka'=>$value[2],
+				'pincode'=>$zipcode,
 				'user_id'=>90,
-				'sub_category'=>$value[0],
+				'sub_category'=>0,
 				'type'=>'Government',
 				'user_code'=>'PM0000000001',
 				'state_id'=>'22',
@@ -233,34 +241,66 @@ class VetHospitalsController extends Controller
 				'subscriptionEndDate'=>'0000-00-00',
 				'address'=>'',
 				
+				
 			); 
+			
+			
+		
 			$hospitals = $this->vethospitalsRepo->create($inserted_data);
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
-			$hospitals->latitude=$coordinateArr['latitude'];
-			$hospitals->longitude=$coordinateArr['longitude'];
-			
-			$hospitals->update();
-			
-			$fileName ='hospital_'.$hospitals->id.'.jpg';
-			$destPath = 'hospitals/'.$fileName;
-			$chk = public_path($destPath);
 			
 			
-
-
-			/*
-			*/
-			$image   = public_path('/files/hospital.jpg');
-			
-			//$file->move(public_path($path), $fileName);
-			\File::copy(public_path('files/hospital.jpeg') , public_path('upload/hospitals/'.$fileName));
-			
-			//File::move(public_path('files/hospital.jpg'),public_path('hospitals/'.$fileName) );
-			if($fileName)
-			{
-				VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
-			}
 		}
+	}
+	
+	public function getZipcode($address){
+		$code ='';
+    if(!empty($address)){
+       /*
+        $formattedAddr = str_replace(' ','+',$address);
+      
+        $geocodeFromAddr = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddr.'&sensor=true_or_false'); 
+        $output1 = json_decode($geocodeFromAddr);
+		*/
+		
+		$GOOGLE_API_KEY = 'AIzaSyBMNKT7xu6QAhJckofnXO_hFFB2OMs4u-s'; 
+		$formatted_address = str_replace(' ', '+', $address);
+		$geocodeFromAddr = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address={$formatted_address}&key={$GOOGLE_API_KEY}"); 
+		 
+		// Decode JSON data returned by API 
+		$output1 = json_decode($geocodeFromAddr);
+		 $latitude  = ''; 
+        $longitude = '';
+		if($output1!=''){
+		
+        //Get latitude and longitute from json data
+		if(isset($output1->results[0])){
+			$latitude  = $output1->results[0]->geometry->location->lat; 
+			$longitude = $output1->results[0]->geometry->location->lng;
+		}
+        //Send request and receive json data by latitude longitute
+       // $geocodeFromLatlon = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$latitude.','.$longitude.'&sensor=true_or_false&key={$GOOGLE_API_KEY}');
+        if($latitude!='' && $longitude!=''){
+		$geocodeFromLatlon = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?latlng={$latitude},{$longitude}&key={$GOOGLE_API_KEY}"); 
+		
+		$output2 = json_decode($geocodeFromLatlon);
+		
+		
+        if(!empty($output2)){
+            $addressComponents = $output2->results[0]->address_components;
+			
+            foreach($addressComponents as $addrComp){
+                if($addrComp->types[0] == 'postal_code'){
+                    //Return the zipcode
+                    $code =  $addrComp->long_name;
+                }
+            }
+            
+        }
+		}
+	}
+	}
+	
+		return $code;
 	}
 }

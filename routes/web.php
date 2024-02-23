@@ -658,8 +658,8 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         'prefix' => 'pashumitra/paymentreport',
         'as' => 'paymentreport.', 
       ], function () {
-        Route::get('/', [PaymentReportController::class, 'index'])->name('index');
-		Route::get('/regPaymentReport', [PaymentReportController::class, 'registrationPaymentReport'])->name('regPaymentReport');
+        Route::any('/', [PaymentReportController::class, 'index'])->name('index');
+		Route::any('/regPaymentReport', [PaymentReportController::class, 'registrationPaymentReport'])->name('regPaymentReport');
         Route::get('/{id?}/detail', [PaymentReportController::class, 'detail'])->name('detail');        
                 
     });

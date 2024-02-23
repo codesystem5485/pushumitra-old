@@ -39,22 +39,85 @@ class PaymentReportController extends Controller
 		
     }
 	
-	public function index(){
+	public function index(Request $request){
+		
+		$to_date = '';$from_date='';$activity='';
+		if($request->from_date!=''){
+			$from_date = date("Y-m-d", strtotime($request->from_date))." 00:00:01";
+		}
+		if($request->to_date!=''){
+			$to_date = date("Y-m-d", strtotime($request->to_date))." 00:00:01";
+			 
+		}
+		if($request->activity!=''){
+			$activity = $request->activity;
+		}
+		
+		
         $payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.rv_code')
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
-					->where('fee_structure.reg_flag',0)
-					->orderBy('payment_date','DESC')->get();
-        return view('backend.payment_reports.index',['payments'=>$payments,'url' => $this->url]); 
+					->where('fee_structure.reg_flag',0);
+					
+					if($from_date!='' && $to_date!=''){
+						$payments = $payments->whereBetween('payment_date', [$from_date, $to_date]);
+					}
+					if($activity!=''){
+						$payments = $payments->where('type',$activity);
+					}
+					$payments = $payments->orderBy('payment_date','DESC')->get();
+			
+		DB::connection()->enableQueryLog();
+        
+		//	dd(DB::getQueryLog());
+		$fromdate='';$todate=''; $selactivity='';
+		if($from_date!=''){
+			$fromdate = date("d-m-Y",strtotime($from_date));
+		}
+		if($to_date!=''){
+			$todate =date("d-m-Y",strtotime($to_date));
+		}
+		if($activity!=''){
+			$selactivity =$activity; 
+		}
+		$fees = Fee::where('fee_structure.reg_flag',0)->orderBy('id','ASC')->get();
+        return view('backend.payment_reports.index',['from_date'=>$fromdate,'to_date'=>$todate,'selactivity'=>$selactivity,'fees'=>$fees,'payments'=>$payments,'url' => $this->url]); 
     }
 	
-	public function registrationPaymentReport(){
-        $payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
+	public function registrationPaymentReport(Request $request){
+		$to_date = '';$from_date='';$activity='';
+		if($request->from_date!=''){
+			$from_date = date("Y-m-d", strtotime($request->from_date))." 00:00:01";
+		}
+		if($request->to_date!=''){
+			$to_date = date("Y-m-d", strtotime($request->to_date))." 00:00:01";
+			 
+		}
+        /*$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',1)
-					->orderBy('payment_date','DESC')->get();
-        return view('backend.payment_reports.reg_payment_report',['payments'=>$payments,'url' => $this->url]); 
+					->orderBy('payment_date','DESC')->get();*/
+					
+		$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
+					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
+					->leftJoin('users', 'users.id', '=', 'payments.user_id')
+					->where('fee_structure.reg_flag',1);
+					
+					if($from_date!='' && $to_date!=''){
+						$payments = $payments->whereBetween('payment_date', [$from_date, $to_date]);
+					}
+					
+					$payments = $payments->orderBy('payment_date','DESC')->get();
+					
+		$fromdate='';$todate='';
+		if($from_date!=''){
+			$fromdate = date("d-m-Y",strtotime($from_date));
+		}
+		if($to_date!=''){
+			$todate =date("d-m-Y",strtotime($to_date));
+		}
+        return view('backend.payment_reports.reg_payment_report',['from_date'=>$fromdate,'to_date'=>$todate,'payments'=>$payments,'url' => $this->url]); 
     }
 	
 	public function addPayments(Request $request)

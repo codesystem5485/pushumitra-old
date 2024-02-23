@@ -1,6 +1,7 @@
 @extends('backend.master')
 @section('css')
 <link rel="stylesheet" href="{{asset('admin/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('/admin/assets/css/bootstrap-datepicker3.min.css')}}">
 
 @endsection 
 @section('content')
@@ -24,10 +25,55 @@
                 @include('backend.layouts.flash-message')
 				
                 </div>
-				
-					 
-       
 		
+				   
+		<form action="{{route('paymentreport.index')}}" method="post">
+        @csrf
+        <div class="row g-3">
+            <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">From Date* :</span>
+                </div>
+                <input data-date-autoclose="true" data-provide="datepicker" type="text" id="from_date"
+                    class="form-control" aria-describedby="basic-addon3" name="from_date"
+                    value="@if(empty($from_date)){{old('from_date')}}@else{{$from_date}}@endif"
+                    placeholder="Enter From Date">
+            </div>
+            </div>
+            <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">To Date* :</span>
+                </div>
+                <input data-date-autoclose="true" data-provide="datepicker" type="text" id="to_date"
+                    class="form-control" aria-describedby="basic-addon3" name="to_date"
+                    value="@if(empty($to_date)){{old('to_date')}}@else{{$to_date}}@endif" placeholder="Enter To Date">
+            </div>
+            </div>
+            <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Activities :</span>
+                </div>
+                <select id="activity" class="form-control" aria-describedby="basic-addon3" name="activity">
+                    <option value="">Select Activity</option>
+                    @foreach($fees as $row)
+                    <option value="{{$row->id}}" @if($selactivity==$row->id) selected @endif>{{$row->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            </div>
+            <div class="col-auto">
+                <div class="input-group mb-2">
+                    <input type="submit" class="btn btn-primary" value="Search" />
+                </div>
+            </div>
+        </div>
+            
+       
+
+    </form>
                 <div class="body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
@@ -37,7 +83,7 @@
 								<th>Activity </th>
 								<th>Amount</th>								
                                 <th>Payment Date</th>
-								<th>Action</th>
+								<!--<th>Action</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -61,24 +107,7 @@
 								<td>{{$row->name}}</td>
 								<td>{{$row->amount}}</td>
 								<td>{{$paymentdate}}</td>								
-                                <td>
-								<!--<a href="{{route('fees.edit',['id' => $row->id])}}">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="{{ __('general.edit') }}"><i class="icon-pencil" aria-hidden="true"></i> 
-                                    </button></a>
-									
-									<a href="{{route('fees.delete',['id' => $row->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
-                                    </button></a>-->
-                                   <!-- @can('fees-edit')-->
-                                   <!-- <a href="{{route('paymentreport.detail',['id' => $row->id])}}">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 
-                                    </button></a>-->
-									<a href="#">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="{{ __('general.detail') }}"><i class="icon-user" aria-hidden="true"></i> 
-                                    </button></a>
-                                   <!-- @endcan-->
-                                    
-                                </td>
+                                
                             </tr>
                             @endforeach
                            </tbody>
