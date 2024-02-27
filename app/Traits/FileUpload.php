@@ -114,6 +114,9 @@ trait FileUpload {
 			case 'panjarpol':
                 $path = Config::get('constants.file.panjarpol_file_path');
             break;
+			case 'labs':
+                $path = Config::get('constants.file.labs_file_path');
+            break;
 			case 'csractivities':
                 $path = Config::get('constants.file.csractivities_file_path');
             break;
@@ -216,6 +219,9 @@ trait FileUpload {
             break;
 			case 'csractivities':
                 $path = Config::get('constants.file.csractivities_file_path');
+            break;
+			case 'labs':
+                $path = Config::get('constants.file.labs_file_path');
             break;
             default:
             $path = '';    

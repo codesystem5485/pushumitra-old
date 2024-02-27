@@ -616,9 +616,23 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		{
 			$address1 = $input['address'];
 		}
+		
 		if(isset($input['city_town']))
 		{
 			$address2 = $input['city_town'];
+			if(isset($input['taluka']))
+			{
+				if($input['taluka']!=''){
+					$address2 = $input['city_town'].' '.$input['taluka'];
+					
+					if(isset($input['district']))
+					{
+						if($input['district']!=''){
+							$address2 = $input['city_town'].' '.$input['taluka'].' '.$input['district'];
+						}
+					}
+				}
+			}
 		}
 		if(isset($input['pincode']))
 		{

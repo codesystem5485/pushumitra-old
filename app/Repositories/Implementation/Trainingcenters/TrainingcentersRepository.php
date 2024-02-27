@@ -32,9 +32,14 @@ class TrainingcentersRepository  extends BaseRepository implements Trainingcente
      */
     public function getTrainingcentersList()
     {     
-        return  $this->trainingcentersModelRepo
+       /* return  $this->trainingcentersModelRepo
             ->orderBy('id', 'DESC')
-            ->get();
+            ->get();*/
+            
+        return  Trainingcenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
+					->select('training_centers.*','subcategories.name as subcategory_name')
+					->orderBy('id', 'DESC')
+                     ->get();
     }
 
     /**

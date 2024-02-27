@@ -14,6 +14,7 @@ use App\Models\Species;
 use App\Models\Subcategories;
 use App\Models\Categories;
 use App\Models\MobileVerification;
+use App\Models\Grfiles;
 
 class CommonController extends BaseController
 {
@@ -94,4 +95,11 @@ class CommonController extends BaseController
 		$response['results'] = $categories;
 		return $this->sendResponse($response,"",200);
     }
+	
+	public function getGrFiles(Request $request)
+	{ 	
+		 $response['results'] = Grfiles::orderBy('id','DESC')->get();
+		 $response['image_base_path']=url("/upload/grfiles")."/";
+		 return $this->sendResponse($response,"",200);
+	}
 }

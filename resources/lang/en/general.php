@@ -71,6 +71,15 @@ return [
 'book_name'=>'Book Name',
 'book_file'=>'Book File',
 'enter_book'=>'Enter Book Name',
+//grfiles
+'grfiles_list'=>'GR File List',
+'grfiles_add'=>'Add GR File',
+'grfiles_edit'=>'Edit GR File',
+'grfiles_create'=>'Create GR File',
+'grfiles'=>'GR Files',
+'grfiles_name'=>'Title',
+'grfiles_file'=>'GR File',
+'enter_grfiles'=>'Enter GRfile Name',
 
 //species
 'species_list'=>'Species List',
@@ -134,6 +143,17 @@ return [
 'hospital_owner_name'=>'Veterinary Owner Name',
 'hospital_education'=>'Veterinary Education',
 'hospital_svc_registration_number'=>'SVC Registration Number',
+//labs
+'lab_list'=>'Lab List',
+'lab_add'=>'Add Lab',
+'lab_edit'=>'Edit Lab',
+'lab_create'=>'Create Lab',
+'lab_details'=>'Lab details',
+'lab'=>'Labs',
+'lab_name'=>'Lab Name',
+'lab_owner_name'=>'Owner Name',
+'lab_education'=>'Lab Education',
+'lab_svc_registration_number'=>'SVC Registration Number',
 
 //Training centers
 'trainingcenter_list'=>'Training Centers List',

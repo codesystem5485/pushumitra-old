@@ -192,6 +192,11 @@
                               <a href="{{url('pashumitra/book')}}" class="" ><i class="icon-hourglass"></i> <span>Library </span></a>
                            </li>
                            @endif
+						   @if(auth()->user()->can('grfile-list') || auth()->user()->can('grfile-create') ||  auth()->user()->can('grfile-edit') ||  auth()->user()->can('grfile-delete'))
+                           <li class="@if (\Request::is('pashumitra/grfiles')) active  @endif">
+                              <a href="{{url('pashumitra/grfiles')}}" class="" ><i class="icon-hourglass"></i> <span>GR Files </span></a>
+                           </li>
+                           @endif
 						   @if(auth()->user()->can('fees-list') || auth()->user()->can('fees-create') || auth()->user()->can('fees-edit') || auth()->user()->can('fees-delete')) 
                            
 						   <li class="@if (\Request::is('pashumitra/fees')) active  @endif">
@@ -245,9 +250,13 @@
                               <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active @endif" ><i class="icon-hourglass"></i> <span>Veterinary Hospitals </span></a>
                            </li>
 						   @endif
+						    @if(auth()->user()->can('lab-list') || auth()->user()->can('lab-create') || auth()->user()->can('lab-edit') || auth()->user()->can('lab-delete')) 
+                           <li class="">
+                              <a href="{{url('pashumitra/labs')}}" class="@if (\Request::is('pashumitra/labs')) active @endif" ><i class="icon-hourglass"></i> <span>Labs </span></a>
+                           </li>
+						   @endif
 						   @if(auth()->user()->can('trainingcenter-list') || auth()->user()->can('trainingcenter-create') || auth()->user()->can('trainingcenter-edit') || auth()->user()->can('trainingcenter-delete')) 
-                           
-						   <li class="">
+                           <li class="">
                               <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="icon-hourglass"></i> <span>Training Centers </span></a>
                            </li>
 						   @endif

@@ -15,6 +15,7 @@ use App\Repositories\Interfaces\City\CityRepositoryInterface;
 use App\Http\Requests\PashumitraProcessRequest;
 use Auth;
 use App\Traits\FileUpload;
+use App\Models\Fee;
 
 use App\Http\Controllers\BaseController as BaseController;
 class PashumitraController extends BaseController

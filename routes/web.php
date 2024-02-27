@@ -44,6 +44,8 @@ use App\Http\Controllers\Backend\ShopsController;
 use App\Http\Controllers\Backend\CsrActivityController;
 use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\PushNotificationController;
+use App\Http\Controllers\Backend\LabsController;
+use App\Http\Controllers\Backend\GrfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -74,6 +76,7 @@ Route::get('/government-schemes', [FrontPagesController::class, 'governmentSchem
 Route::get('/csr-activities', [FrontPagesController::class, 'csrActivities'])->name('csr-activities');
 Route::get('/csr-activity-detail/{id?}', [FrontPagesController::class, 'csrActivityDetails'])->name('csr-activity-detail');
 Route::get('/importCsv', [VetHospitalsController::class, 'importCsv'])->name('importCsv');
+Route::get('/importTrainingCsv', [TrainingCentersController::class, 'importTrainingCsv'])->name('importTrainingCsv');
 
 //receipt download from mobile app notification
 Route::get('invoice/download/{uid}/{id}', [InvoiceController::class, 'downloadReceipt'])->name('downloadReceipt');
@@ -263,6 +266,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 		Route::get('/hospitals-list', [VetHospitalsController::class, 'getAjaxList'])->name('list');		
     });
 	
+	//lab module
+    Route::group([
+        'prefix' => 'pashumitra/labs',
+        'as' => 'labs.',
+      ], function () {
+        Route::get('/', [LabsController::class, 'index'])->name('index');
+        Route::get('/create', [LabsController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [LabsController::class, 'detail'])->name('detail');
+        Route::post('/store', [LabsController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [LabsController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [LabsController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [LabsController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [LabsController::class, 'removeImage'])->name('remove');
+		Route::get('/labs-list', [LabsController::class, 'getAjaxList'])->name('list');		
+    });
+	
 	//training center module
     Route::group([
         'prefix' => 'pashumitra/trainingcenters',
@@ -420,7 +439,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         
     });
 	
-	 //fees module
+	//GR module
+    Route::group([
+        'prefix' => 'pashumitra/grfiles',
+        'as' => 'grfiles.',
+      ], function () {
+        Route::get('/', [GrfileController::class, 'index'])->name('index');
+        Route::get('/create', [GrfileController::class, 'create'])->name('create');
+        Route::post('/store', [GrfileController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [GrfileController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [GrfileController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [GrfileController::class, 'delete'])->name('delete'); 
+        Route::get('/{file_name?}/download', [GrfileController::class, 'getDownload'])->name('download'); 
+        
+    });
+	
+	//fees module
     Route::group([
         'prefix' => 'pashumitra/fees',
         'as' => 'fees.',

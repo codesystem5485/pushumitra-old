@@ -37,6 +37,8 @@ return [
 		'shops_file_path'=>'upload/shops',
 		'panjarpol_file_path'=>'upload/panjarpol',
 		'csractivities_file_path'=>'upload/csractivities',
+		'labs_file_path'=>'upload/labs',
+		'grfiles_file_path' => 'upload/grfiles',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],

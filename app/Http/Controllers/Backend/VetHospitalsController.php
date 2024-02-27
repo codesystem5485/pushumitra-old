@@ -207,7 +207,7 @@ class VetHospitalsController extends Controller
         return  $list;
     }
 	
-	public function importCsv()
+	public function importCsv1()
 	{
 		ini_set('max_execution_time', '15500');
 		$file   = public_path('/files/aurangabad_csv.csv');
@@ -253,6 +253,64 @@ class VetHospitalsController extends Controller
 		}
 	}
 	
+	public function importCsv()
+	{
+		ini_set('max_execution_time', '0');
+		$file   = public_path('/files/latur_1.csv');
+		
+		$fileD = fopen($file,"r"); 
+		
+		$column=fgetcsv($fileD); 
+		while(!feof($fileD)){ 
+			$rowData[]=fgetcsv($fileD); 
+		}
+		
+		foreach ($rowData as $key => $value) 
+		{
+			/*if($value[4]==''){
+				$address = $value[3].",".$value[2].",".$value[1];
+				$zipcode = $this->getZipcode($address);
+			}else{
+				$zipcode = $value[4];
+			}*/
+		
+			$inserted_data=array(
+				'sub_category'=>$value[0],
+				'hospital_name'=>$value[1], 
+				'address'=>$value[2],
+				'city_town'=>$value[3],
+				'district'=>$value[4],
+				'taluka'=>$value[5],
+				'pincode'=>$value[7],
+				'state'=>'Maharashtra',
+				'parent_category'=>1,
+				'type'=>'Government',
+				'user_code'=>'PM0000000001',
+				'user_id'=>90,
+				'state_id'=>'22',
+				'subscriptionStartDate'=>'0000-00-00',
+				'subscriptionEndDate'=>'0000-00-00',
+				
+			); 
+			$hospitals = $this->vethospitalsRepo->create($inserted_data);
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
+			$hospitals->latitude=$coordinateArr['latitude'];
+			$hospitals->longitude=$coordinateArr['longitude'];
+			
+			$hospitals->update();
+			$fileName ='hospital_'.$hospitals->id.'.jpg';
+			
+
+			\File::copy(public_path('files/hospital.jpg') , public_path('upload/hospitals/'.$fileName));
+			
+			if($fileName)
+			{
+				VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
+			}
+		}
+	}
+
 	public function getZipcode($address){
 		$code ='';
     if(!empty($address)){

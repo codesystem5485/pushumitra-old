@@ -27,6 +27,8 @@ use App\Http\Controllers\Api\DogShelterController;
 use App\Http\Controllers\Api\MilkCollectionController;
 use App\Http\Controllers\Api\PoultryHatcheryController;
 use App\Http\Controllers\Api\PanjarpolController;
+use App\Http\Controllers\Api\EasycareController;
+use App\Http\Controllers\Api\LabsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -35,6 +37,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-library', [AuthController::class,'getLibrary']);
 	Route::get('/get-subcategories', [CommonController::class,'getSubCategories']);
 	Route::get('/get-categories', [CommonController::class,'getParentCategories']);
+	Route::get('/get-grfiles', [CommonController::class,'getGrFiles']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
 	
@@ -95,6 +98,10 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
 	/* Add panjarpol */
 	Route::post('/add-panjarpol', [PanjarpolController::class,'addPanjarpol']);
+	/* Add easycare */
+	Route::post('/add-easycare', [EasycareController::class,'addEasycare']);
+	/* Add lab */
+	Route::post('/add-lab', [LabsController::class,'addLab']);
 	
 	});
 	
@@ -159,5 +166,10 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/poultryhatchery-detail', [PoultryHatcheryController::class,'poultryhatcheryDetail']);
 	Route::get('/panjarpol-list', [PanjarpolController::class,'getPanjarpolList']);
 	Route::get('/panjarpol-detail', [PanjarpolController::class,'panjarpolDetail']);
+	Route::get('/easycare-list', [EasycareController::class,'getEasycareList']);
+	Route::get('/easycare-detail', [EasycareController::class,'easycaresDetail']);
+	Route::get('/lab-list', [LabsController::class,'getLabList']);
+	Route::get('/lab-detail', [LabsController::class,'labDetail']);
+	
 	
 }); 

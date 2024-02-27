@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
-use App\Models\Veterinaryhospitals;
-use App\Models\VeterinaryhospitalsImages;
+use App\Models\Labs;
+use App\Models\LabsImages;
 use App\Models\State;
-use App\Repositories\Interfaces\Vethospitals\VethospitalsRepositoryInterface;
+use App\Repositories\Interfaces\Labs\LabsRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use App\Traits\FileUpload;
@@ -16,33 +16,33 @@ use Validator;
 use App\Models\Payments;
 use Carbon\Carbon;
 
-class VetHospitalsController extends BaseController
+class LabsController extends BaseController
 {
     use FileUpload;
     protected $url = '';
-    protected $vethospitalsRepo;
+    protected $labsRepo;
 	private $userRepo;
 	
     /**
-     * VetHospitals Construct 
+     * Lab Construct 
      * @return url 
      */
-    public function __construct(VethospitalsRepositoryInterface $vethospitalsRepo, UserRepositoryInterface $userRepository){
+    public function __construct(LabsRepositoryInterface $labsRepo, UserRepositoryInterface $userRepository){
 
-        $this->vethospitalsRepo = $vethospitalsRepo;
+        $this->labsRepo = $labsRepo;
 		$this->userRepo = $userRepository;
     } 
 
     /**
-     * VetHospitals Add
+     * Lab Add
    
      */
-	 public function addHospital(Request $request){
+	 public function addLab(Request $request){
         
 		$postData = request()->all();
 		/*$validator = Validator::make($postData, [
-				'hospital_name' => 'required',
-				//'veterinary_owner_name' => 'required',
+				'lab_name' => 'required',
+				//'owner_name' => 'required',
 				'sub_category'=>'required',
 				//'mobile_number' => "required|numeric",
 				'address' => 'required|string',
@@ -64,20 +64,20 @@ class VetHospitalsController extends BaseController
        DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
-            $hospitals = $this->vethospitalsRepo->create($aInsertData);
-			$category = $hospitals->sub_category;
+            $labs = $this->labsRepo->create($aInsertData);
+			$category = $labs->sub_category;
 			
 			$categoryName = $this->userRepo->getCategoryName($category);
 
-            if($request->hospitals_photo)
+            if($request->labs_photo)
             {
-                foreach($request->hospitals_photo as $photo)
+                foreach($request->labs_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'hospitals');
+                    $fileName = $this->uploadFile($photo,'labs');
                     if($fileName)
                     {
-                        VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
+                        LabsImages::create(['lab_id'=>$labs->id,'image_name' => $fileName]);
                     }
                 }
             }
@@ -88,11 +88,11 @@ class VetHospitalsController extends BaseController
 			{
 			
 				$payment = Payments::find($postData['payment_id']);
-				$payment->module_type_id = $hospitals->id;
+				$payment->module_type_id = $labs->id;
 				$payment->save();
 				
 				
-				$paymentArr = array( 'type'=>$payment->type,'hospitals_id'=>$hospitals->id);
+				$paymentArr = array( 'type'=>$payment->type,'lab_id'=>$labs->id);
 				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
 				
 				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
@@ -113,17 +113,17 @@ class VetHospitalsController extends BaseController
 				$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
 			}
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
-			$hospitals->latitude=$coordinateArr['latitude'];
-			$hospitals->longitude=$coordinateArr['longitude'];
-			$hospitals->subscriptionStartDate=$subscriptionStartDate;
-			$hospitals->subscriptionEndDate=$subscriptionEndDate;
-			$hospitals->update();
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($labs);
+			$labs->latitude=$coordinateArr['latitude'];
+			$labs->longitude=$coordinateArr['longitude'];
+			$labs->subscriptionStartDate=$subscriptionStartDate;
+			$labs->subscriptionEndDate=$subscriptionEndDate;
+			$labs->update();
             
             DB::commit();
 			## Store log
-            $message = trans('messages.hospital_create',['name' => $request->hospital_name]);
-            storeActicityLog(trans('messages.hospital_create'),$message);
+            $message = trans('messages.lab_create',['name' => $request->lab_name]);
+            storeActicityLog(trans('messages.lab_create'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
@@ -134,33 +134,29 @@ class VetHospitalsController extends BaseController
         }
     }
 	
-	public function getHospitalList(Request $request)
+	public function getLabList(Request $request)
 	{
-		/*$response['results']  =   Veterinaryhospitals::select( 'veterinary_hospitals.*',
-            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
-			->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now())
-			->where('veterinary_hospitals.status', 1)
-		    ->orderBy('veterinary_hospitals.id','DESC')->get();*/
-			$query = Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
-			->select('veterinary_hospitals.*','subcategories.name as subcategory_name',
-            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
+		$query = Labs::leftJoin('subcategories', 'subcategories.id', '=', 'labs.sub_category')
+			->select('labs.id','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
+            DB::raw('(select image_name from  labs_images where lab_id  = labs.id order by id asc limit 1) as image_name'))
 			->where(function($query){
                             $query->where(function($query){
-                                 $query->where('type','Private')->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now());
+                                 $query->where('type','Private')->whereDate('labs.subscriptionEndDate', '>=', Carbon::now());
                              })
 							 ->orWhere(function($query){
-                                 $query->where('type','Government')->where('veterinary_hospitals.subscriptionEndDate', '0000-00-00');
+                                 $query->where('type','Government')->where('labs.subscriptionEndDate', '0000-00-00');
                              });
                          })
-				->where('veterinary_hospitals.status', 1)
-						->orderBy('veterinary_hospitals.id','DESC')->get();
+				->where('labs.status', 1)
+						->orderBy('labs.id','DESC')->get();
 			$response['results']= $query;
-			$response['image_base_path'] =  url("/upload/hospitals")."/";
+			$response['image_base_path'] =  url("/upload/labs")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
 	
-	public function hospitalDetail(Request $request)
+	public function labDetail(Request $request)
 	{
 		$postData = request()->all();
 		$validator = Validator::make($postData, [
@@ -174,12 +170,12 @@ class VetHospitalsController extends BaseController
 		$response = [];
 		$id = $request->detail_id;
 		
-		$results =$this->vethospitalsRepo->getVethospital($id);
+		$results =$this->labsRepo->getLab($id);
 		if($results){
-			$images_arr = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$results->id)->get();
+			$images_arr = LabsImages::where('lab_id',$results->id)->get();
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
-			$response['image_base_path'] =  url("/upload/hospitals")."/";
+			$response['image_base_path'] =  url("/upload/labs")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

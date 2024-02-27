@@ -65,6 +65,7 @@ return [
     'chemist_create' => 'Chemist (:name) has been created', 
     'chemist_update' => 'Chemist (:name) has been updated',  
     'chemist_delete' => 'Chemist (:name) has been deleted',
+	'easycare_create' => ':name has been created', 
 
     'animalsale_create' => 'Animal has been created for sale', 
     'animalsale_update' => 'Animal has been updated for sale',  
@@ -73,6 +74,8 @@ return [
 	'productsale_create' => 'Product :name has been created for sale',
 	'hospital_create' =>':name has been created',
 	'hospital_update' =>':name has been updated',
+	'lab_create' =>':name has been created',
+	'lab_update' =>':name has been updated',
 	'supplier_create' =>':name has been created',
 	'supplier_update' =>':name has been updated',
 	'trainingcenter_create' =>':name has been created',

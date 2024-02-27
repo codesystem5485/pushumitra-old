@@ -65,7 +65,7 @@ class BookController extends Controller
     public function store(Request $request){
         $this->validate($request, [
             'book_name' => 'required|unique:books,book_name',            
-            'book_file' => 'required|unique:books,book_file|max:10240', 
+            'book_file' => 'required|unique:books,book_file|max:52240', 
 			//'book_role' => 'required', 			
         ]);
         DB::beginTransaction();
@@ -128,7 +128,7 @@ class BookController extends Controller
     {
         $this->validate($request, [
             'book_name' => 'required|unique:books,book_name,'.$id,
-            'book_file' => 'unique:books,book_file|max:10240',            
+            'book_file' => 'unique:books,book_file|max:52240',            
         ]);
         DB::beginTransaction();
         try{
