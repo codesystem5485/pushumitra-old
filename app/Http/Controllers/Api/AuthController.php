@@ -295,7 +295,7 @@ class AuthController extends BaseController
 				
 				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
 				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,'pm_code'=>$user->pm_code,
-				'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto];
+				'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
 				
 				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
 				

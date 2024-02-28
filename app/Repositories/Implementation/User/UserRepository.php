@@ -870,5 +870,27 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		}
 		return $name;
 	}
-
+	
+	public function getDistanceUsingLatLong($input)
+	{
+		$haversine = '';
+		$latitude = '';$longitude='';
+		if(isset($input['latitude']) && isset($input['longitude'])){
+			$latitude = $input['latitude'];
+			$longitude = $input['longitude'];
+		}
+		
+		if($latitude!='' && $longitude!=''){
+			$haversine = "(
+					6371 * acos(
+						cos(radians(" .$latitude. "))
+						* cos(radians(`latitude`))
+						* cos(radians(`longitude`) - radians(" .$longitude. "))
+						+ sin(radians(" .$latitude. ")) * sin(radians(`latitude`))
+					)
+				)";
+		}
+		
+		return $haversine;
+	}
 }
