@@ -125,12 +125,46 @@ class BreederController extends BaseController
 	
 	public function getBreederList(Request $request)
 	{
-		$response['results']  =   Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
-				->select( 'breeders.*','species.specie as species_name',
-            DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
-           ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
-		   ->orderBy('breeders.id','ASC')->get();
-		   $response['image_base_path'] =  url("/upload/breederanimals")."/";
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
+				->select('breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
+				'species.specie as species_name',
+            DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'));
+           
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('breeder_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('mobile_number', 'LIKE', '%'.$word.'%')
+						    ->orWhere('animal_breed', 'LIKE', '%'.$word.'%')
+							 ->orWhere('species.specie', 'LIKE', '%'.$word.'%')
+							 ->orWhere('expected_price', 'LIKE', '%'.$word.'%')
+							   ->orWhere('state', 'LIKE', '%'.$word.'%')
+							    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+								 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+								  ->orWhere('district', 'LIKE', '%'.$word.'%')
+								  ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+								
+					});
+				}
+			});
+		  } 
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  $query  = $query->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now());
+		    
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC")->get();
+		  }else{
+			 $query  = $query->orderby("breeders.id", "DESC")->get(); 
+		  }
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

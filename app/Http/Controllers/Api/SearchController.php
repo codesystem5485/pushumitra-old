@@ -33,7 +33,6 @@ class SearchController extends BaseController
     protected $userDetailRepo;
     public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo,UserRepositoryInterface $userRepo,Role $role,UserDetailRepositoryInterface $userDetailRepo){
 
-        
         $this->userRepo = $userRepo;
         $this->roleRepo = $role;
         $this->userDetailRepo = $userDetailRepo;
@@ -42,7 +41,6 @@ class SearchController extends BaseController
 	public function searchRegisteredVetDetails(Request $request){
 		
 		$postData = request()->all();
-		
 		$validator = Validator::make($postData, [
 				'search_input' => 'required',
 			]);
@@ -68,16 +66,19 @@ class SearchController extends BaseController
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
 		
-		$search_input = $postData['search_input'];
-		$response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-			->select( 'animal_for_sales.*','species.specie as species_name',
-            DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
-           ->where('breed','LIKE',"%{$search_input}%")
-		   ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
-		   ->orderBy('animal_for_sales.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/animalsale/");
 		
-		//$details = $this->animalsaleRepo->searchAnimalForSalesDetails($postData);
+		$query  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+			->select( 'animal_for_sales.*','species.specie as species_name',
+            DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  );
+          
+		  if(isset($postData['search_input']) && $postData['search_input']!=''){
+			  $query  =$query->where('breed','LIKE',"%{$search_input}%");
+		  } 
+		  
+		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('animal_for_sales.id','DESC')->get();
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/animalsale/");
 		return $this->sendResponse($response,"",200);
 	}
 	
@@ -138,4 +139,43 @@ class SearchController extends BaseController
 			
 		return $this->sendResponse($response,"",200);
 	}
+	
+	public function searchVethospitals(Request $request)
+	{
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'search_input' => 'required',
+			]);
+		$search_input = $postData['search_input'];	
+		$response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'))
+           ->where('city_town','LIKE',"%{$search_input}%")
+		   ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('chemists.id','ASC')->get();
+		   $response['image_base_path'] =  url("/upload/chemist/");
+			
+		return $this->sendResponse($response,"",200);
+		
+			$latitude = 28.626137;
+			$longitude = 79.821602;
+			$distance = 1;
+
+			$haversine = "(
+				6371 * acos(
+					cos(radians(" .$latitude. "))
+					* cos(radians(`latitude`))
+					* cos(radians(`longitude`) - radians(" .$longitude. "))
+					+ sin(radians(" .$latitude. ")) * sin(radians(`latitude`))
+				)
+			)";
+
+			$users = User::select("id")
+				->selectRaw("$haversine AS distance")
+				->having("distance", "<=", $distance)
+				->orderby("distance", "desc")
+				//->limit(5)
+				->get();
+	
+	}
+	
+	
 }

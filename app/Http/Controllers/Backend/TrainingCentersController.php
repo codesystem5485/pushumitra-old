@@ -209,7 +209,7 @@ class TrainingCentersController extends Controller
 	public function importTrainingCsv()
 	{
 		ini_set('max_execution_time', '0');
-		$file   = public_path('/files/training.csv');
+		$file   = public_path('/files/Training_1.csv');
 		
 		$fileD = fopen($file,"r"); 
 		
@@ -222,7 +222,7 @@ class TrainingCentersController extends Controller
 		{
 			$zipcode='';
 			if($value[10]==''){
-				$address = $value[5].",".$value[6]." ".$value[7]." ".$value[8]." ".$value[11];
+				$address = $value[6].",".$value[8]." ".$value[7]." ".$value[11];
 				$zipcode = $this->getZipcode($address);
 			}else{
 				$zipcode = $value[10];
@@ -236,7 +236,7 @@ class TrainingCentersController extends Controller
 				'email_id'=>$value[1],
 				'state'=>$value[11],
 				'description'=>$value[4],
-				'address'=>$value[5],
+				//'address'=>$value[5],
 				'city_town'=>$value[6],
 				'district'=>$value[7],
 				'taluka'=>$value[8],
@@ -258,13 +258,13 @@ class TrainingCentersController extends Controller
 			$results->longitude=$coordinateArr['longitude'];
 			
 			$results->update();
-			$fileName ='trainingcenters_'.$results->id.'.jpg';
+			/*$fileName ='trainingcenters_'.$results->id.'.jpg';
 			\File::copy(public_path('files/trainingcenters.jpg') , public_path('upload/trainingcenters/'.$fileName));
 			
 			if($fileName)
 			{
 				 TrainingCenterImages::create(['training_center_id'=>$results->id,'image_name' => $fileName]);
-			}
+			}*/
 		}
 	}
 

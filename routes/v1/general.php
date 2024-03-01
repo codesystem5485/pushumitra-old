@@ -134,6 +134,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/search-breeder', [SearchController::class,'searchBreederDetails']);
 	Route::get('/search-library', [SearchController::class,'searchLibraryDetails']);
 	Route::get('/search-chemist', [SearchController::class,'searchChemistDetails']);
+	Route::get('/search-vethospitals', [SearchController::class,'searchVethospitals']);
 
 	/* advertisement Details */
 	Route::get('/advertisement-list', [AdvertisementController::class,'getAdvertisementList']);

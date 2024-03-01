@@ -137,13 +137,52 @@ class TransporterController extends BaseController
 	
 	public function getTransporterList(Request $request)
 	{
-		$response['results']  =   Transporters::select( 'transporters.*',
-            DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'))
-			->whereDate('transporters.subscriptionEndDate', '>=', Carbon::now())
-			->where('transporters.status', 1)
-		    ->orderBy('transporters.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/vehicle")."/";
-		   
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =   Transporters::select( 'transporters.id','transporters.transporter_name','transporters.vehicle_name',
+            'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude',DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'));
+			
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('transporter_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('mobile_number', 'LIKE', '%'.$word.'%')
+						    ->orWhere('vehicle_name', 'LIKE', '%'.$word.'%')
+							->orWhere('state', 'LIKE', '%'.$word.'%')
+							->orWhere('city_town', 'LIKE', '%'.$word.'%')
+								 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+								  ->orWhere('district', 'LIKE', '%'.$word.'%')
+								  ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+								
+					});
+				}
+			});
+		  } 
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  $query  = $query->whereDate('transporters.subscriptionEndDate', '>=', Carbon::now())
+					->where('transporters.status', 1);
+		  
+		  if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderBy('transporters.id','ASC');
+		  }
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/vehicle")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

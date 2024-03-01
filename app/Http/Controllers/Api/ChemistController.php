@@ -131,9 +131,41 @@ class ChemistController extends BaseController
 	
 	public function getChemistList(Request $request)
 	{
-		$response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name')  )
-           ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
-		   ->orderBy('chemists.id','ASC')->get();
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =  Chemist::select( 'chemists.id','chemists.shop_name','chemists.owner_name','chemists.mobile_number',
+		'chemists.city_town','chemists.latitude','chemists.longitude',DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'));
+           
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('shop_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('mobile_number', 'LIKE', '%'.$word.'%')
+						    ->orWhere('owner_name', 'LIKE', '%'.$word.'%')
+							->orWhere('state', 'LIKE', '%'.$word.'%')
+							->orWhere('city_town', 'LIKE', '%'.$word.'%')
+								 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+								  ->orWhere('district', 'LIKE', '%'.$word.'%')
+								  ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+								
+					});
+				}
+			});
+		  } 
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  $query  = $query->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now());
+		    
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC")->get();
+		  }else{
+			 $query  = $query->orderBy('chemists.id','ASC')->get();
+		  }
+		  
+		  $response['results'] =$query;
 		   $response['image_base_path'] =  url("/upload/chemist")."/";
 			
 		return $this->sendResponse($response,"",200);

@@ -16,12 +16,13 @@ use App\Http\Requests\RegisteredvetProcessRequest;
 use Auth;
 use App\Models\Ratings;
 use App\Http\Controllers\BaseController as BaseController;
+use App\Models\User;
 
 use App\Traits\PassportToken;
 
 class RegisteredvetController extends BaseController
 {
-   
+    protected $userModel; 
     protected $userRepo;
     protected $roleRepo;
    
@@ -32,13 +33,19 @@ class RegisteredvetController extends BaseController
         $this->userRepo = $userRepo;
         $this->roleRepo = $role;
         $this->userDetailRepo = $userDetailRepo;
+		
     }
 	
 	 public function nearestRegisteredVetList(Request $request){
 		
-		$postData = request()->all();
+		/*$postData = request()->all();
 		$response['results'] = $this->userRepo->getNearestRegisteredVetData($postData);
 		return $this->sendResponse($response,"",200);
+		*/
+		$requestData = request()->all();
+		$response['results'] = $this->userRepo->getNearestRegisteredVetData($requestData);
+		return $this->sendResponse($response,"",200);
+		
 	}
 	
 	public function registeredVetDetail(Request $request){

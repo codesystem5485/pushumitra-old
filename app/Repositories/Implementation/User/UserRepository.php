@@ -556,9 +556,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		{
 			$profileMsg = trans('messages.complete_profile');
 		}
-		 
-		 
-		 
+		
 		 $verified=$userDetail->is_verified;
 		 if($verified==0){
 			 $user_name = $userDetail->full_name;
@@ -575,9 +573,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $profileArray;
 	}
 	
-	public function getNearestPashumitraData($input)
+	public function getNearestPashumitraData($requestData)
 	{
-		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+		/*return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
                 $q->where('name', 'Pashumitra');
             }
@@ -585,12 +583,53 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
-		->get();
+		->get();*/
+		
+		$haversine = $this->getDistanceUsingLatLong($requestData);
+		
+		$query = $this->userModelRepo->whereHas('roles', function($q) use($requestData) {
+            if(!empty($input['role'])){
+                $q->where('name', 'Pashumitra');
+            }
+        })
+		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'));
+		
+				if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('users.full_name', 'LIKE', '%'.$word.'%')
+							->orWhere('users.address_line_1', 'LIKE', '%'.$word.'%')
+							 ->orWhere('users.mobile_number', 'LIKE', '%'.$word.'%')
+							->orWhere('users.state', 'LIKE', '%'.$word.'%')
+							->orWhere('users.city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('users.taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('users.district', 'LIKE', '%'.$word.'%')
+							->orWhere('users.pincode', 'LIKE', '%'.$word.'%')
+							->orWhere('users.education', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if($haversine!=''){
+			 $query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("id", "DESC"); 
+		  }
+		$query  =   $query->where('is_verified',1)->get();
+		
+		return $query;
 	}
 	
-	public function getNearestRegisteredVetData($input)
+	public function getNearestRegisteredVetData($requestData)
 	{
-		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+		/*return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
                 $q->where('name', 'Registered-vet');
             }
@@ -599,13 +638,58 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
-		->get();
+		->get();*/
+		
+		//$requestData = request()->all();
+		$haversine = $this->getDistanceUsingLatLong($requestData);
+		
+		$query = User::select('users.*', 'user_details.rv_speciality',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
+				->join('user_details', 'user_details.user_id', '=', 'users.id')
+				->join('model_has_roles', function ($join) {
+				$join->on('users.id', '=', 'model_has_roles.model_id')
+					 ->where('model_has_roles.model_type', User::class);
+				})
+				->join('roles', 'model_has_roles.role_id', '=', 'roles.id');
+				
+				if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('user_details.rv_speciality', 'LIKE', '%'.$word.'%')
+						   ->orWhere('users.full_name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('users.mobile_number', 'LIKE', '%'.$word.'%')
+							->orWhere('users.address_line_1', 'LIKE', '%'.$word.'%')
+							->orWhere('users.state', 'LIKE', '%'.$word.'%')
+							->orWhere('users.city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('users.taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('users.district', 'LIKE', '%'.$word.'%')
+							->orWhere('users.pincode', 'LIKE', '%'.$word.'%')
+							->orWhere('users.education', 'LIKE', '%'.$word.'%')
+							->orWhere('user_details.job_type', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if($haversine!=''){
+			 $query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("id", "DESC"); 
+		  }
+		$query  =   $query->where('is_verified',1)->get();
+		
+		return $query;
 	}
 	
 	//get latitude longitude geolocation
 	public function getLatitudeLongitudes($input)
 	{
-		$address1='';$address2='';$address3='';
+		$address1='';$address2='';$address3='';$address4='';
 		$getAddress = '';
 		if(isset($input['address_line_1']))
 		{
@@ -638,6 +722,12 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		{
 			$address3 = $input['pincode'];
 		}
+		
+		if(isset($input['state']))
+		{
+			$address4 = $input['state'];
+		}
+		
 		if($address1!=''){
 			$getAddress =$address1;
 		}
@@ -649,8 +739,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$getAddress.=" ".$address3;
 		}
 		
-		
-		$address = $input['pincode']."".$input['pincode'];
+		if($address4!=''){
+			$getAddress.=" ".$address4;
+		}
 		
 		// Google Maps API Key 
 		$GOOGLE_API_KEY = 'AIzaSyBMNKT7xu6QAhJckofnXO_hFFB2OMs4u-s'; 

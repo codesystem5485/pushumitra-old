@@ -136,12 +136,9 @@ class VetHospitalsController extends BaseController
 	
 	public function getHospitalList(Request $request)
 	{
-		/*$response['results']  =   Veterinaryhospitals::select( 'veterinary_hospitals.*',
-            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
-			->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now())
-			->where('veterinary_hospitals.status', 1)
-		    ->orderBy('veterinary_hospitals.id','DESC')->get();*/
-			$query = Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =   Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
 			->select('veterinary_hospitals.*','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
 			->where(function($query){
@@ -151,11 +148,49 @@ class VetHospitalsController extends BaseController
 							 ->orWhere(function($query){
                                  $query->where('type','Government')->where('veterinary_hospitals.subscriptionEndDate', '0000-00-00');
                              });
-                         })
-				->where('veterinary_hospitals.status', 1)
-						->orderBy('veterinary_hospitals.id','DESC')->get();
-			$response['results']= $query;
-			$response['image_base_path'] =  url("/upload/hospitals")."/";
+                         });
+						 
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('hospital_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('state', 'LIKE', '%'.$word.'%')
+							->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('district', 'LIKE', '%'.$word.'%');
+							/*->orWhere('pincode', 'LIKE', '%'.$word.'%');*/
+								
+					});
+				}
+			});
+		  } 
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  $query  = $query->where('veterinary_hospitals.status', 1);
+		  
+		  if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderBy('veterinary_hospitals.id','ASC');
+		  }
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/hospitals")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
