@@ -99,7 +99,7 @@ class PaymentReportController extends Controller
 					->where('fee_structure.reg_flag',1)
 					->orderBy('payment_date','DESC')->get();*/
 					
-		$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
+		$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.city_town','users.full_name','users.rv_code')
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',1);

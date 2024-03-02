@@ -80,6 +80,7 @@ return [
 	'supplier_update' =>':name has been updated',
 	'trainingcenter_create' =>':name has been created',
 	'panjarpol_create' =>':name has been created',
+	'ngo_create' =>':name has been created',
 	'milkcollection_create' =>':name has been created',	
 	'poultryhatchery_create' =>':name has been created',
 	'shop_create' =>':name has been created',

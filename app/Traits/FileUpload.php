@@ -120,6 +120,9 @@ trait FileUpload {
 			case 'csractivities':
                 $path = Config::get('constants.file.csractivities_file_path');
             break;
+			case 'ngo':
+                $path = Config::get('constants.file.ngo_file_path');
+            break;
             default:
             $path = '';    
         }
@@ -222,6 +225,9 @@ trait FileUpload {
             break;
 			case 'labs':
                 $path = Config::get('constants.file.labs_file_path');
+            break;
+			case 'ngo':
+                $path = Config::get('constants.file.ngo_file_path');
             break;
             default:
             $path = '';    

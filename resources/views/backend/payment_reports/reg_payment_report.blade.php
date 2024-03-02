@@ -63,7 +63,8 @@
                             <thead>
                             <tr>
                                 <th>User Code</th>
-								<th>Name </th>								
+								<th>Name </th>
+								<th>City/Village </th>								
 								<th>Activity </th>
 								<th>Amount</th>								
                                 <th>Payment Date</th>
@@ -89,6 +90,7 @@
                             <tr>
                                 <td>{{$user_code}}</td>
 								<td>{{$row->full_name}}</td>
+								<td>{{$row->city_town}}</td>
 								<td>{{$row->name}}</td>
 								<td>{{$row->amount}}</td>
 								<td>{{$paymentdate}}</td>								

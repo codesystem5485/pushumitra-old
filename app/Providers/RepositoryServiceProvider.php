@@ -51,6 +51,9 @@ use App\Repositories\Interfaces\Easycares\EasycaresRepositoryInterface;
 use App\Repositories\Implementation\Easycares\EasycaresRepository;
 use App\Repositories\Interfaces\Labs\LabsRepositoryInterface;
 use App\Repositories\Implementation\Labs\LabsRepository;
+use App\Repositories\Interfaces\Ngo\NgoRepositoryInterface;
+use App\Repositories\Implementation\Ngo\NgoRepository;
+
 
 class RepositoryServiceProvider extends ServiceProvider 
 {
@@ -84,7 +87,8 @@ class RepositoryServiceProvider extends ServiceProvider
 		$this->app->bind(PoultryhatcheryRepositoryInterface::class, PoultryhatcheryRepository::class);
 		$this->app->bind(PanjarpolRepositoryInterface::class, PanjarpolRepository::class);	
 		$this->app->bind(EasycaresRepositoryInterface::class, EasycaresRepository::class);	
-		$this->app->bind(LabsRepositoryInterface::class, LabsRepository::class);		
+		$this->app->bind(LabsRepositoryInterface::class, LabsRepository::class);
+		$this->app->bind(NgoRepositoryInterface::class, NgoRepository::class);		
     } 
 
     /**

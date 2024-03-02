@@ -39,6 +39,7 @@ return [
 		'csractivities_file_path'=>'upload/csractivities',
 		'labs_file_path'=>'upload/labs',
 		'grfiles_file_path' => 'upload/grfiles',
+		'ngo_file_path' => 'upload/ngo',
     ],
     'otp_expiration_min' => 5,
     'entry_fess' => [10,20,50,100],

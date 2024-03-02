@@ -291,6 +291,33 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="#">{{$labCount}}</a></h3>
+						   <h3><a href="#">{{$totallabCount}}</a></h3>
+						    </div>
+                           <span>Labs</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="#">{{$ngoCount}}</a></h3>
+						   <h3><a href="#">{{$totalngoCount}}</a></h3>
+						    </div>
+                           <span>NGO</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
 					
 				  </div>
                   
@@ -557,6 +584,33 @@
 						   <h3><a href="{{url('pashumitra/panjarpols')}}">{{$totalpanjarpolCount}}</a></h3>
 						    </div>
                            <span>Panjarpol</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="{{url('pashumitra/labs')}}">{{$labCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/labs')}}">{{$totallabCount}}</a></h3>
+						    </div>
+                           <span>Labs</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					  <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="#">{{$ngoCount}}</a></h3>
+						   <h3><a href="#">{{$totalngoCount}}</a></h3>
+						    </div>
+                           <span>NGO</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">

@@ -31,6 +31,8 @@ use App\Models\DogShelters;
 use App\Models\TrainingCenters;
 use App\Models\Institutions;
 use App\Models\Animals;
+use App\Models\Labs;
+use App\Models\Ngo;
 
 class HomeController extends Controller
 {
@@ -77,6 +79,8 @@ class HomeController extends Controller
 		$poultryCount = PoultryHatchery::whereDate('created_at', Carbon::today())->count();
 		$dogShelterCount = DogShelters::whereDate('created_at', Carbon::today())->count();
 		$animalCount = Animals::whereDate('created_at', Carbon::today())->count();
+		$labCount = Labs::whereDate('created_at', Carbon::today())->count();
+		$ngoCount = Ngo::whereDate('created_at', Carbon::today())->count();
 		
 		$totalpashumitraCount = User::role('Pashumitra')->count();
 		$totalanimalOwnerCount = User::role('Animal-owner')->count();
@@ -97,6 +101,9 @@ class HomeController extends Controller
 		$totalpoultryCount = PoultryHatchery::count();
 		$totaldogShelterCount = DogShelters::count(); 
 		$totalAnimalsCount = Animals::count();
+		$totallabCount = Labs::count();
+		$totalngoCount = Ngo::count();
+		
 		$user =  Auth::user();
 		$userrole = '';
 		if($user->hasRole('Partner')){
@@ -114,7 +121,8 @@ class HomeController extends Controller
 									'totalpashumitraCount','totalanimalOwnerCount','totalregisterVetCount','totalchemistCount','totaltransporterCount',
 									'totalproductSaleCount','totalanimalSaleCount','totalbreederCount','totalhospitalCount',
 									'totalsupplierCount','totalshopCount','totaltrainingCenterCount','totalinstitutionCount',
-									'totalmilkCollectionCount','totalfarmCount','totalpanjarpolCount','totalpoultryCount','totaldogShelterCount'
+									'totalmilkCollectionCount','totalfarmCount','totalpanjarpolCount','totalpoultryCount',
+									'totaldogShelterCount','totalngoCount','totallabCount','labCount','ngoCount'
 									));
     }
 

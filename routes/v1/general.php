@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\PoultryHatcheryController;
 use App\Http\Controllers\Api\PanjarpolController;
 use App\Http\Controllers\Api\EasycareController;
 use App\Http\Controllers\Api\LabsController;
+use App\Http\Controllers\Api\NgoController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -102,6 +103,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-easycare', [EasycareController::class,'addEasycare']);
 	/* Add lab */
 	Route::post('/add-lab', [LabsController::class,'addLab']);
+	/* Add NGO */
+	Route::post('/add-ngo', [NgoController::class,'addNgo']);
 	
 	});
 	
@@ -171,6 +174,9 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/easycare-detail', [EasycareController::class,'easycaresDetail']);
 	Route::get('/lab-list', [LabsController::class,'getLabList']);
 	Route::get('/lab-detail', [LabsController::class,'labDetail']);
+	Route::get('/ngo-list', [NgoController::class,'getNgoList']);
+	Route::get('/ngo-detail', [NgoController::class,'ngoDetail']);
+	
 	
 	
 }); 
