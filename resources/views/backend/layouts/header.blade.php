@@ -16,7 +16,7 @@
       <link rel="stylesheet" href="{{asset('admin/assets/css/color_skins.css')}}">
       <link rel="stylesheet" href="{{asset('admin/assets/css/custom.css')}}"> 
       <meta name="csrf-token" content="{{ csrf_token() }}">
-      <link rel="icon" href="{{asset('admin/assets/images/logo.png')}}" type="image/icon type">
+      <link rel="icon" href="{{asset('admin/assets/images/logo1.jpg')}}" type="image/icon type">
       <script>
             var webUrl = '{{url("/")}}';
       </script>
@@ -46,7 +46,7 @@
                   <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                </div>  
                <div class="navbar-brand"> 
-                  <a href="{{url('pashumitra/dashboard')}}"><img src="{{asset('admin/assets/images/logo.jpg')}}" alt="Lucid Logo" class="img-responsive logo"><strong class="logo-text"> &nbsp;{{ __('general.pashumitra') }}</strong></a>
+                  <a href="{{url('pashumitra/dashboard')}}"><img src="{{asset('admin/assets/images/logo.png')}}" alt="Lucid Logo" class="img-responsive logo"><strong class="logo-text"> &nbsp;{{ __('general.pashumitra') }}</strong></a>
                </div>
                <div class="navbar-right">
                   <div id="navbar-menu">

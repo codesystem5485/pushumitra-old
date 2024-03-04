@@ -12,6 +12,7 @@ use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use App\Traits\FileUpload;
 use Validator;
+use App\Models\EasycareRatings;
 
 use Carbon\Carbon;
 
@@ -84,11 +85,10 @@ class EasycareController extends BaseController
 	
 	public function getEasycareList(Request $request)
 	{
-		$response['results']  = Easycares::where('status', 1)
-		    ->orderBy('id','DESC')->get();
-		   //$response['image_base_path'] =  url("/upload/easycare")."/";
-		   $response['results']  = Easycares::select('easy_cares.*',
-            DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'))
+		
+		   $response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
+		   ->select('easy_cares.*','users.full_name',
+            DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from easycare_ratings where rateable_id  =   easy_cares.id ) as star_rating_count'))
 			->where('easy_cares.status', 1)
 		    ->orderBy('easy_cares.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/easycares")."/";
@@ -113,7 +113,15 @@ class EasycareController extends BaseController
 		$results =$this->easycareRepo->getEasycare($id);
 		if($results){
 			$images_arr = EasycaresImages::where('easycare_id',$results->id)->get();
-			$response = array('results'=>$results,'module_images' =>$images_arr);
+			
+			$star_rating_count  = EasycareRatings::where('rateable_id',$id)->where('status',1)->avg('star_ratings');
+		
+			$review_exist = 0;
+			if(isset($request->user_id)){
+				$review_exist  = EasycareRatings::where('rateable_id',$id)->where('user_id',$request->user_id)->count();
+			}
+		
+			$response = array('results'=>$results,'module_images' =>$images_arr,'review_exist' =>$review_exist,'star_rating_count' =>$star_rating_count);
 			$response['image_base_path'] =  url("/upload/easycares")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

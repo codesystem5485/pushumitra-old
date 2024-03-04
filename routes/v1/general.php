@@ -105,11 +105,16 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-lab', [LabsController::class,'addLab']);
 	/* Add NGO */
 	Route::post('/add-ngo', [NgoController::class,'addNgo']);
+	/* easycare Ratings Details */
+	Route::post('/add-easycare-ratings', [RatingsController::class,'addEasycareRatings']);
+	
 	
 	});
 	
 	Route::get('/get-average-rating', [RatingsController::class,'getAverageRatings']);
 	Route::get('/get-rating-details', [RatingsController::class,'showAllRatings']);
+	Route::get('/get-easycare-average-rating', [RatingsController::class,'getEasycareAverageRatings']);
+	Route::get('/get-easycare-rating-details', [RatingsController::class,'showEasycareAllRatings']);
 	
 	Route::get('/breeder-list', [BreederController::class,'getBreederList']);
 	Route::get('/breeder-detail', [BreederController::class,'breederDetail']);

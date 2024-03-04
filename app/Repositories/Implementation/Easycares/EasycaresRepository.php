@@ -42,8 +42,9 @@ class EasycaresRepository  extends BaseRepository implements EasycaresRepository
      */
     public function getEasycare(int $easycareId)
     {
-		return Easycares::where('id',$easycareId)
-					->first();
+		return Easycares::select('easy_cares.*','users.full_name')->leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
+							->where('easy_cares.id',$easycareId)
+							->first();
     }
 
     /**

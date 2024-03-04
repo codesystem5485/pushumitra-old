@@ -49,7 +49,6 @@ class PashumitraController extends BaseController
         $user = $this->userRepo->getSingleRecords($filter,$select,$with); 
 		$user['star_rating_count']  = Ratings::where('rateable_id',$id)->where('status',1)->avg('star_ratings');
 		
-		
 		$user['review_exist'] = 0;
 		if(isset($request->user_id)){
 			$user['review_exist']  = Ratings::where('rateable_id',$id)->where('user_id',$request->user_id)->count();
