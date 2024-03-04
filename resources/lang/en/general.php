@@ -72,14 +72,14 @@ return [
 'book_file'=>'Book File',
 'enter_book'=>'Enter Book Name',
 //grfiles
-'grfiles_list'=>'GR File List',
-'grfiles_add'=>'Add GR File',
-'grfiles_edit'=>'Edit GR File',
-'grfiles_create'=>'Create GR File',
-'grfiles'=>'GR Files',
+'grfiles_list'=>'Government Schemes List',
+'grfiles_add'=>'Add Government Scheme',
+'grfiles_edit'=>'Edit Government Scheme',
+'grfiles_create'=>'Create Government Scheme',
+'grfiles'=>'Government Scheme',
 'grfiles_name'=>'Title',
-'grfiles_file'=>'GR File',
-'enter_grfiles'=>'Enter GRfile Name',
+'grfiles_file'=>'File',
+'enter_grfiles'=>'Enter Government Scheme Name',
 
 //species
 'species_list'=>'Species List',
