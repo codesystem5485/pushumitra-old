@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Models\Easycares;
+use App\Models\EasycaresImages;
 use App\Repositories\Interfaces\Easycares\EasycaresRepositoryInterface;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
@@ -55,6 +56,18 @@ class EasycareController extends BaseController
         try{            
             $aInsertData = $request->all();
             $results = $this->easycareRepo->create($aInsertData);
+			if($request->easy_care_photo)
+            {
+                foreach($request->easy_care_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'easycares');
+                    if($fileName)
+                    {
+                        EasycaresImages::create(['easycare_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
             DB::commit();
 			## Store log
             $message = trans('messages.easycare_create',['name' => $request->title]);
@@ -74,6 +87,11 @@ class EasycareController extends BaseController
 		$response['results']  = Easycares::where('status', 1)
 		    ->orderBy('id','DESC')->get();
 		   //$response['image_base_path'] =  url("/upload/easycare")."/";
+		   $response['results']  = Easycares::select('easy_cares.*',
+            DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'))
+			->where('easy_cares.status', 1)
+		    ->orderBy('easy_cares.id','DESC')->get();
+		   $response['image_base_path'] =  url("/upload/easycares")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
@@ -94,8 +112,9 @@ class EasycareController extends BaseController
 		
 		$results =$this->easycareRepo->getEasycare($id);
 		if($results){
-			$response = array('results'=>$results);
-			//$response['image_base_path'] =  url("/upload/easycare")."/";
+			$images_arr = EasycaresImages::where('easycare_id',$results->id)->get();
+			$response = array('results'=>$results,'module_images' =>$images_arr);
+			$response['image_base_path'] =  url("/upload/easycares")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

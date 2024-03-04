@@ -123,6 +123,9 @@ trait FileUpload {
 			case 'ngo':
                 $path = Config::get('constants.file.ngo_file_path');
             break;
+			case 'easycares':
+                $path = Config::get('constants.file.easycare_file_path');
+            break;
             default:
             $path = '';    
         }
@@ -228,6 +231,9 @@ trait FileUpload {
             break;
 			case 'ngo':
                 $path = Config::get('constants.file.ngo_file_path');
+            break;
+			case 'easycares':
+                $path = Config::get('constants.file.easycare_file_path');
             break;
             default:
             $path = '';    
