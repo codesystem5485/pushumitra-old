@@ -46,6 +46,7 @@ use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\PushNotificationController;
 use App\Http\Controllers\Backend\LabsController;
 use App\Http\Controllers\Backend\GrfileController;
+use App\Http\Controllers\Backend\EasycaresController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -280,6 +281,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [LabsController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [LabsController::class, 'removeImage'])->name('remove');
 		Route::get('/labs-list', [LabsController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//lab module
+    Route::group([
+        'prefix' => 'pashumitra/easycares',
+        'as' => 'easycares.',
+      ], function () {
+        Route::get('/', [EasycaresController::class, 'index'])->name('index');
+        Route::get('/create', [EasycaresController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [EasycaresController::class, 'detail'])->name('detail');
+        Route::post('/store', [EasycaresController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [EasycaresController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [EasycaresController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [EasycaresController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [EasycaresController::class, 'removeImage'])->name('remove');
+		Route::get('/easycares-list', [EasycaresController::class, 'getAjaxList'])->name('list');		
     });
 	
 	//training center module

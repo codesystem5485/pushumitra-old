@@ -33,6 +33,7 @@ use App\Models\Institutions;
 use App\Models\Animals;
 use App\Models\Labs;
 use App\Models\Ngo;
+use App\Models\Easycares;
 
 class HomeController extends Controller
 {
@@ -81,6 +82,7 @@ class HomeController extends Controller
 		$animalCount = Animals::whereDate('created_at', Carbon::today())->count();
 		$labCount = Labs::whereDate('created_at', Carbon::today())->count();
 		$ngoCount = Ngo::whereDate('created_at', Carbon::today())->count();
+		$easycareCount = Easycares::whereDate('created_at', Carbon::today())->count();
 		
 		$totalpashumitraCount = User::role('Pashumitra')->count();
 		$totalanimalOwnerCount = User::role('Animal-owner')->count();
@@ -103,6 +105,7 @@ class HomeController extends Controller
 		$totalAnimalsCount = Animals::count();
 		$totallabCount = Labs::count();
 		$totalngoCount = Ngo::count();
+		$totaleasycareCount = Easycares::count();
 		
 		$user =  Auth::user();
 		$userrole = '';
@@ -113,7 +116,7 @@ class HomeController extends Controller
 			$userrole = 'Adevrtising';
 		}
 		
-        return view('home',compact('userrole','nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
+        return view('home',compact('easycareCount','userrole','nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
 									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount',
 									'breederCount','farmCount','hospitalCount','supplierCount',
@@ -122,7 +125,7 @@ class HomeController extends Controller
 									'totalproductSaleCount','totalanimalSaleCount','totalbreederCount','totalhospitalCount',
 									'totalsupplierCount','totalshopCount','totaltrainingCenterCount','totalinstitutionCount',
 									'totalmilkCollectionCount','totalfarmCount','totalpanjarpolCount','totalpoultryCount',
-									'totaldogShelterCount','totalngoCount','totallabCount','labCount','ngoCount'
+									'totaldogShelterCount','totalngoCount','totallabCount','labCount','ngoCount','totaleasycareCount'
 									));
     }
 

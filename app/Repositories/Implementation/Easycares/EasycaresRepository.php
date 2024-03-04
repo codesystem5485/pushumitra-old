@@ -90,8 +90,8 @@ class EasycaresRepository  extends BaseRepository implements EasycaresRepository
         ->addIndexColumn()
         ->editColumn('added_date', function ($results) { 
 		  $date ='-';
-		 if($results->subscriptionStartDate!=''){
-			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+		 if($results->created_at!=''){
+			 $date = date('d-M-Y',strtotime($results->created_at));
 		 }
             return $date;
         })

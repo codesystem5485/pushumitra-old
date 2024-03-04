@@ -318,6 +318,20 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
+					 
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="#">{{$easycareCount}}</a></h3>
+						   <h3><a href="#">{{$totaleasycareCount}}</a></h3>
+						    </div>
+                           <span>Easycares</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
 					
 				  </div>
                   
@@ -611,6 +625,19 @@
 						   <h3><a href="#">{{$totalngoCount}}</a></h3>
 						    </div>
                            <span>NGO</span>
+						 
+                        </div>
+                        <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                     </div>
+					 <div class="card overflowhidden col-md-3">
+                        <div class="body card-count ">
+						<div class="counts">
+                           <h3><a href="{{url('pashumitra/easycares')}}">{{$easycareCount}}</a></h3>
+						   <h3><a href="{{url('pashumitra/easycares')}}">{{$totaleasycareCount}}</a></h3>
+						    </div>
+                           <span>Easycares</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">

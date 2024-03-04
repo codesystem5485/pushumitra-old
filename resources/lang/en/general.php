@@ -104,6 +104,19 @@ return [
 'characteristics'=>'Characteristics',
 'enter_characteristics'=>'Enter Characteristics',
 
+//easycare
+'easycare_list'=>'Easycare List',
+'easycare_add'=>'Add Easycare',
+'easycare_edit'=>'Edit Easycare',
+'easycare_create'=>'Create Easycare',
+'easycare'=>'Easycares',
+'easycare_title'=>'Title',
+'easycare_solutions'=>'Solution',
+'easycare_education'=>'Education',
+'easycare_link'=>'Link',
+'easycare_details'=>'Easycare Details',
+
+
 //chemist
 'chemist_list'=>'Chemist List',
 'chemist_add'=>'Add Chemist',

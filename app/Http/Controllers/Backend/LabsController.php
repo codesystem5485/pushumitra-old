@@ -129,7 +129,7 @@ class LabsController extends Controller
     {
         DB::beginTransaction();
         try{
-		    $hospitals = $this->labsRepo->update($id,$request->all());
+		    $labs = $this->labsRepo->update($id,$request->all());
             if($request->labs_photo)
             {
                 foreach($request->labs_photo as $photo)

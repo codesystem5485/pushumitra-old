@@ -194,7 +194,7 @@
                            @endif
 						   @if(auth()->user()->can('grfile-list') || auth()->user()->can('grfile-create') ||  auth()->user()->can('grfile-edit') ||  auth()->user()->can('grfile-delete'))
                            <li class="@if (\Request::is('pashumitra/grfiles')) active  @endif">
-                              <a href="{{url('pashumitra/grfiles')}}" class="" ><i class="icon-hourglass"></i> <span>GR Files </span></a>
+                              <a href="{{url('pashumitra/grfiles')}}" class="" ><i class="icon-hourglass"></i> <span>Government Schemes </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('fees-list') || auth()->user()->can('fees-create') || auth()->user()->can('fees-edit') || auth()->user()->can('fees-delete')) 
@@ -227,6 +227,11 @@
 						    @if(auth()->user()->can('csractivities-list'))
 						   <li class="">
                               <a href="{{url('pashumitra/csractivities')}}" class="" ><i class="icon-hourglass"></i> <span>Csr Activities</span></a>
+                           </li>
+						   @endif
+						    @if(auth()->user()->can('easycare-list'))
+						   <li class="">
+                              <a href="{{url('pashumitra/easycares')}}" class="" ><i class="icon-hourglass"></i> <span>Easycare Solutions</span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 

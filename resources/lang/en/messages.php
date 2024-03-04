@@ -76,6 +76,9 @@ return [
 	'hospital_update' =>':name has been updated',
 	'lab_create' =>':name has been created',
 	'lab_update' =>':name has been updated',
+	'easycare_create' =>':name has been created',
+	'easycare_update' =>':name has been updated',
+	
 	'supplier_create' =>':name has been created',
 	'supplier_update' =>':name has been updated',
 	'trainingcenter_create' =>':name has been created',
