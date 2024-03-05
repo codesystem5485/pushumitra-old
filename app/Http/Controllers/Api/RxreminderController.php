@@ -194,7 +194,7 @@ class RxreminderController extends BaseController
 			->groupBy('animal_id')->get();
 		
 		$response['animals'] = $animals;
-		$response['animal_image_path'] =  url("/upload/animal/");
+		$response['animal_image_path'] =  url("/upload/animal")."/";
 		
 		return $this->sendResponse($response,'',200);
 	}
@@ -224,7 +224,7 @@ class RxreminderController extends BaseController
 			})->get();
 		
 		$response['animals'] = $animals;
-		$response['animal_image_path'] =  url("/upload/animal/");
+		$response['animal_image_path'] =  url("/upload/animal")."/";
 		
 		return $this->sendResponse($response,'',200);
 	}

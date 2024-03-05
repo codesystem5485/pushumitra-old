@@ -47,6 +47,7 @@ use App\Http\Controllers\Backend\PushNotificationController;
 use App\Http\Controllers\Backend\LabsController;
 use App\Http\Controllers\Backend\GrfileController;
 use App\Http\Controllers\Backend\EasycaresController;
+use App\Http\Controllers\Backend\NgoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -329,6 +330,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::get('/{id?}/delete', [PanjarpolController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [PanjarpolController::class, 'removeImage'])->name('remove');
 		Route::get('/panjarpols-list', [PanjarpolController::class, 'getAjaxList'])->name('list');		
+    });
+	
+	//Ngo module
+    Route::group([
+        'prefix' => 'pashumitra/ngo',
+        'as' => 'ngo.',
+      ], function () {
+        Route::get('/', [NgoController::class, 'index'])->name('index');
+        Route::get('/create', [NgoController::class, 'create'])->name('create');
+        Route::get('/{id?}/detail', [NgoController::class, 'detail'])->name('detail');
+        Route::post('/store', [NgoController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [NgoController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [NgoController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [NgoController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/remove', [NgoController::class, 'removeImage'])->name('remove');
+		Route::get('/ngo-list', [NgoController::class, 'getAjaxList'])->name('list');		
     });
 	
 	//milkcollection module

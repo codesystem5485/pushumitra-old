@@ -64,7 +64,7 @@ class NotificationController extends BaseController
                              });
                          })
 				//->where('notifications.sender_user_id',$postData['user_id'])
-			->where('notifications.send_flag',1)->get();
+			->where('notifications.send_flag',1)->orderby("notifications.id", "DESC")->get();
 			
 			
 		$response['notifications'] = $query;

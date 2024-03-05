@@ -90,25 +90,25 @@ class NgoRepository  extends BaseRepository implements NgoRepositoryInterface
         ->addIndexColumn()
         ->editColumn('added_date', function ($results) { 
 		  $date ='-';
-		 if($results->subscriptionStartDate!=''){
-			 $date = date('d-M-Y',strtotime($results->subscriptionStartDate));
+		 if($results->created_at!=''){
+			 $date = date('d-M-Y',strtotime($results->created_at));
 		 }
             return $date;
         })
         ->addColumn('action', function($results){
             $actionBtn = '';
 			if(auth()->user()->can('ngo-detail')){
-			$actionBtn .= '<a href="'.route('ngos.detail',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('ngo.detail',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
                 </button></a>';
 			}
 			if(auth()->user()->can('ngo-edit')){
-			$actionBtn .= '<a href="'.route('ngos.edit',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('ngo.edit',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
                 </button></a>';
 			}
 			if(auth()->user()->can('ngo-delete')){
-			$actionBtn .= '<a href="'.route('ngos.delete',['id' => $results->id]).'">
+			$actionBtn .= '<a href="'.route('ngo.delete',['id' => $results->id]).'">
                 <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
            
            }

@@ -282,6 +282,11 @@
                               <a href="{{url('pashumitra/panjarpols')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="icon-hourglass"></i> <span>Panjarpols </span></a>
 							</li>
 						    @endif
+							@if(auth()->user()->can('ngo-list') || auth()->user()->can('ngo-create') || auth()->user()->can('ngo-edit') || auth()->user()->can('ngo-delete')) 
+							<li class="">
+                              <a href="{{url('pashumitra/ngo')}}" class="@if (\Request::is('pashumitra/ngo')) active  @endif" ><i class="icon-hourglass"></i> <span>Ngo </span></a>
+							</li>
+						    @endif
 							@if(auth()->user()->can('milkcollection-list') || auth()->user()->can('milkcollection-create') || auth()->user()->can('milkcollection-edit') || auth()->user()->can('milkcollection-delete')) 
 							<li class="">
                               <a href="{{url('pashumitra/milkcollections')}}" class="@if (\Request::is('pashumitra/milkcollections')) active  @endif" ><i class="icon-hourglass"></i> <span>Milkcollection Centers </span></a>

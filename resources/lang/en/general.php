@@ -190,6 +190,15 @@ return [
 'panjarpol'=>'Panjarpol',
 'panjarpol_name'=>'Panjarpol Name',
 'panjarpol_incharge'=>'Name of Manager',
+//ngo
+'ngo_list'=>'Ngo List',
+'ngo_add'=>'Add Ngo',
+'ngo_edit'=>'Edit Ngo',
+'ngo_create'=>'Create Ngo',
+'ngo_details'=>'Ngo details',
+'ngo'=>'Ngo',
+'ngo_name'=>'Ngo Name',
+'ngo_incharge'=>'Name of Manager',
 //milkcollection
 'milkcollection_list'=>'Milkcollection List',
 'milkcollection_add'=>'Add Milkcollection',

@@ -41,7 +41,7 @@
 								
                             </div>
                             <div class="hotline-info">
-                                <h6><a href="tel:+919702830971">+91 970 283 0971</a></h6>
+                                <h6><a href="tel:+918805700570">+91 880 570 0570</a></h6>
                             </div>
                         </div>
                         <div class="email mb-20">
@@ -93,10 +93,10 @@
                 <div class="col-lg-6 d-flex justify-content-md-end justify-content-center">
                     <div class="social-area">
                         <ul>
-                            <li><a href="https://www.facebook.com/"><i class="bx bxl-facebook"></i></a></li>
-                            <li><a href="https://twitter.com/"><i class="bx bxl-twitter"></i></a></li>
-                            <li><a href="https://www.pinterest.com/"><i class="bx bxl-pinterest-alt"></i></a></li>
-                            <li><a href="https://www.instagram.com/"><i class="bx bxl-instagram"></i></a></li>
+                            <li><a target="_blank" href="https://www.facebook.com/PashumitraOfficialPage"><i class="bx bxl-facebook"></i></a></li>
+                            <li><a  target="_blank" href="https://www.linkedin.com/in/pashumitraOfficial"><i class="bx bxl-linkedin"></i></a></li>
+                            <li><a target="_blank" href="https://www.youtube.com/@PashumitraOfficial"><i class="bx bxl-youtube"></i></a></li>
+                            <li><a target="_blank" href="https://www.instagram.com/PashumitraOfficial"><i class="bx bxl-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
