@@ -75,7 +75,7 @@ class HomeController extends Controller
 		$farmCount = Farms::whereDate('created_at', Carbon::today())->count();
 		$trainingCenterCount = TrainingCenters::whereDate('created_at', Carbon::today())->count();
 		$institutionCount = Institutions::whereDate('created_at', Carbon::today())->count();
-		$milkCollectionCount = Suppliers::whereDate('created_at', Carbon::today())->count();
+		$milkCollectionCount = MilkCollections::whereDate('created_at', Carbon::today())->count();
 		$panjarpolCount = Panjarpol::whereDate('created_at', Carbon::today())->count();
 		$poultryCount = PoultryHatchery::whereDate('created_at', Carbon::today())->count();
 		$dogShelterCount = DogShelters::whereDate('created_at', Carbon::today())->count();
@@ -98,7 +98,7 @@ class HomeController extends Controller
 		$totalfarmCount = Farms::count();
 		$totaltrainingCenterCount = TrainingCenters::count();
 		$totalinstitutionCount = Institutions::count();
-		$totalmilkCollectionCount = Suppliers::count();
+		$totalmilkCollectionCount = MilkCollections::count();
 		$totalpanjarpolCount = Panjarpol::count();
 		$totalpoultryCount = PoultryHatchery::count();
 		$totaldogShelterCount = DogShelters::count(); 
