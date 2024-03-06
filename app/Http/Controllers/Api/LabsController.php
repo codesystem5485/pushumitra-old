@@ -62,7 +62,7 @@ class LabsController extends BaseController
         $response = [];
 		
        DB::beginTransaction();
-        try{            
+       try{            
             $aInsertData = $request->all();
             $labs = $this->labsRepo->create($aInsertData);
 			$category = $labs->sub_category;
@@ -120,7 +120,7 @@ class LabsController extends BaseController
 			$labs->subscriptionEndDate=$subscriptionEndDate;
 			$labs->update();
             
-            DB::commit();
+         //   DB::commit();
 			## Store log
             $message = trans('messages.lab_create',['name' => $request->lab_name]);
             storeActicityLog(trans('messages.lab_create'),$message);

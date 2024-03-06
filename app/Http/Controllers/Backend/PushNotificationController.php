@@ -41,34 +41,43 @@ class PushNotificationController extends BaseController
 	     $this->validate($request, [
             'role' => 'required', 
 			'title' => 'required', 	
-				'message' => 'required', 	
+			'message' => 'required', 	
         ]);
         
 		$sRoleName = $request->role;
 		$fcmArray = $this->userRepo->getUsersFcmIds(['sRoleName' => $sRoleName]);
-		$sendFcmArray =array();
-		foreach($fcmArray as $row){
-				array_push($sendFcmArray,$row->fcm_id);
-		}
-		DB::beginTransaction();
-        try{
-			//insert to notifications
-			$notifications = new Notifications();
-			$notifications->title = $request->title;
-			$notifications->message = $request->message;
-			$notifications->show_role = $request->role;
-			$notifications->type = 3;
-			$notifications->send_flag = 1;
-			$notifications->scheduled_date= date("Y-m-d");
-			$notifications->send_date = date("Y-m-d");
-			$notifications->save();
+	
+    
+    //	$fcmArray = DB::table('users')->whereIn('id', array(90,104,96))->get();
+  	
+		$notifications = new Notifications();
+		$notifications->title = $request->title;
+		$notifications->message = $request->message;
+		$notifications->show_role = $request->role;
+		$notifications->type = 3;
+		$notifications->send_flag = 1;
+		$notifications->scheduled_date= date("Y-m-d");
+		$notifications->send_date = date("Y-m-d");
+		$notifications->save();
 			
+		$sendFcmArray =array();
+		foreach($fcmArray as $row)
+		{
+		$fcmId = $row->fcm_id;
+			//$fcmId = 'eMDZMxR3QqiU-SfiQYoheZ:APA91bHdqmZolgxHTza6KMj_9P_N3w3wvZQgqmxRXq2R4EdUfAyHLGZMV2M5x2s2rK8SxrraZegajQykAeWe1xUHkz09ofEw4se2-nNfw5tSPQB33guL8tQQaOuwJoB7rwf_qGvTaULd';
+			//array_push($sendFcmArray,$row->fcm_id);
+		
+		/*DB::beginTransaction();
+        try{*/
+			//insert to notifications
+			
+		
 			$body 	= $request->message;
 			$title	= $request->title;
-		//	$token1 = 'dIRGPbjfQymmDnn7FKoG4R:APA91bFobX7bcN8ALqFtgfsSaBWpWUjZXmqDqRodo8xe417YxB1kQv2K5trFupr5IDLLmQfuyb7Rfhaw9m3Sp_98Fl7yoNs-FwwXNYTgTn19_JTRTi0ohm5n4OGPsJ039e30ZXyt99io';
-		//			$sendFcmArray =array($token1);
+					$sendFcmArray =array();
 				$data = [
-					"registration_ids"=>$sendFcmArray,
+					//"registration_ids"=>$fcmId,
+					"to"=>$fcmId,
 					"notification" => [
 						"body"  => $body,
 						"title" => $title,
@@ -102,18 +111,20 @@ class PushNotificationController extends BaseController
 				}
 				// Close connection
 				curl_close($ch);
+			}
+			
 			$message = 'Push notification send successfully';
             storeActicityLog('Push notification',$message,Auth::user(),$notifications);
 			 Session::flash('success', 'Push notifications send successfully');
             return redirect()->route('sendnotifications.create');    
-        }catch(\Exception $e){ 
+      /*  }catch(\Exception $e){ 
             DB::rollback();
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
             storeActicityLog(trans('messages.error'),$error,Auth::user());
             Session::flash('error', trans('messages.something'));
             return redirect()->route('sendnotifications.create'); 
-        }
+        }*/
 	}
 	
 	

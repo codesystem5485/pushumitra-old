@@ -7,6 +7,7 @@ use DB;
 use App\Models\Books;
 use Config;
 use File; 
+use Image;
 trait FileUpload {
 
     public function uploadFile($file,$type){
@@ -131,7 +132,21 @@ trait FileUpload {
         }
         if(!empty($file)){
             $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
-            $file->move(public_path($path), $fileName);
+			$image = $file;
+			$new_width=300;
+			$new_height=300;
+			$new_image = Image::make($image->path());
+			$new_image->resize($new_width, $new_height, function ($constraint) {
+				$constraint->aspectRatio();
+			});
+
+            //$new_image->save(public_path($path), $fileName);
+			$path1 =  $path."/";
+			$destinationPath1 = public_path($path1);
+            $new_image->save($destinationPath1.$fileName);
+			
+			
+            //$file->move(public_path($path), $fileName);
             return $fileName;
         }
         return false;

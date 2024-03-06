@@ -69,12 +69,12 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	public function getUsersFcmIds(array $input = [])
     {     
         return  $this->userModelRepo->with(['roles'])
-		->select('fcm_id')
+		/*->select('fcm_id')
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);
             }
-        })
+        })*/
         //->where('id','!=',1)
 		->where('is_active',1)
 		->where('fcm_id','!=','')
@@ -573,9 +573,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $profileArray;
 	}
 	
-	public function getNearestPashumitraData($requestData)
+	public function getNearestPashumitraData($input)
 	{
-		/*return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
                 $q->where('name', 'Pashumitra');
             }
@@ -583,9 +583,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
-		->get();*/
+		->get();
 		
-		$haversine = $this->getDistanceUsingLatLong($requestData);
+	/*	$haversine = $this->getDistanceUsingLatLong($requestData);
 		
 		$query = $this->userModelRepo->whereHas('roles', function($q) use($requestData) {
             if(!empty($input['role'])){
@@ -624,12 +624,12 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		  }
 		$query  =   $query->where('is_verified',1)->get();
 		
-		return $query;
+		return $query;*/
 	}
 	
-	public function getNearestRegisteredVetData($requestData)
+	public function getNearestRegisteredVetData($input)
 	{
-		/*return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
                 $q->where('name', 'Registered-vet');
             }
@@ -638,10 +638,10 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
-		->get();*/
+		->get();
 		
 		//$requestData = request()->all();
-		$haversine = $this->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->getDistanceUsingLatLong($requestData);
 		
 		$query = User::select('users.*', 'user_details.rv_speciality',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 				->join('user_details', 'user_details.user_id', '=', 'users.id')
@@ -683,7 +683,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		  }
 		$query  =   $query->where('is_verified',1)->get();
 		
-		return $query;
+		return $query;*/
 	}
 	
 	//get latitude longitude geolocation
