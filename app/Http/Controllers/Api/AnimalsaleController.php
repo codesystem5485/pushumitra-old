@@ -175,7 +175,7 @@ class AnimalsaleController extends BaseController
 		  }
 		  
 		  $response['results'] =$query;
-		  $response['image_base_path'] =  url("/upload/animalsale")."/";*/
+		  $response['image_base_path'] =  url("/upload/animalsale")."/";
 		  $requestData = request()->all();   
 	    $query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select( 'animal_for_sales.*','species.specie as species_name',
@@ -188,7 +188,15 @@ class AnimalsaleController extends BaseController
 		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 		   ->orderBy('animal_for_sales.id','DESC')->get();
 		  $response['results'] =$query;
-		  $response['image_base_path'] =  url("/upload/animalsale")."/";
+		  $response['image_base_path'] =  url("/upload/animalsale")."/";*/
+		  
+		  $response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select( 'animal_for_sales.*','species.specie as species_name',
+		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  );
+	  ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
+			->where('transporters.status', 1)
+		    ->orderBy('transporters.id','DESC')->get();
+		   $response['image_base_path'] =  url("/upload/animalsale")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}
