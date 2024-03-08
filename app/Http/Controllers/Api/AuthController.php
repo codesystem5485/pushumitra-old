@@ -991,6 +991,9 @@ class AuthController extends BaseController
 	{ 
 		if(isset($request->role)){
 			$role = $request->role;
+			if($role=='Registered-vet'){
+				$role='Registred-vet';
+			}
 			//$response['results'] = Books::orderBy('id','ASC')->get();
 			$response['results'] = DB::table('books')->whereRaw("find_in_set('".$role."',book_role)")->orderBy('id','ASC')->get();
 		}else{
