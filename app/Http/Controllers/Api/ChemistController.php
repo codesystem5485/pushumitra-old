@@ -132,7 +132,7 @@ class ChemistController extends BaseController
 	public function getChemistList(Request $request)
 	{
 		$requestData = request()->all();
-		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Chemist::select( 'chemists.id','chemists.shop_name','chemists.owner_name','chemists.mobile_number',
 		'chemists.city_town','chemists.latitude','chemists.longitude',DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'));
            
@@ -166,6 +166,10 @@ class ChemistController extends BaseController
 		  }
 		  
 		  $response['results'] =$query;
+		   $response['image_base_path'] =  url("/upload/chemist")."/";*/
+		  $response['results']  =   Chemist::select( 'chemists.*', DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name')  )
+           ->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('chemists.id','ASC')->get();
 		   $response['image_base_path'] =  url("/upload/chemist")."/";
 			
 		return $this->sendResponse($response,"",200);

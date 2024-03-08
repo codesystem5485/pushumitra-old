@@ -138,7 +138,7 @@ class TransporterController extends BaseController
 	public function getTransporterList(Request $request)
 	{
 		$requestData = request()->all();
-		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =   Transporters::select( 'transporters.id','transporters.transporter_name','transporters.vehicle_name',
             'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude',DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'));
 			
@@ -182,7 +182,14 @@ class TransporterController extends BaseController
 		  $query  = $query->get();
 		  $response['total_count'] = $total_results;
 		  $response['results'] =$query;
-		  $response['image_base_path'] =  url("/upload/vehicle")."/";
+		  $response['image_base_path'] =  url("/upload/vehicle")."/";*/
+		  
+		  $response['results']  =   Transporters::select( 'transporters.*',
+            DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'))
+			->whereDate('transporters.subscriptionEndDate', '>=', Carbon::now())
+			->where('transporters.status', 1)
+		    ->orderBy('transporters.id','DESC')->get();
+		   $response['image_base_path'] =  url("/upload/vehicle")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

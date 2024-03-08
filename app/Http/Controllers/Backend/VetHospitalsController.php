@@ -256,7 +256,7 @@ class VetHospitalsController extends Controller
 	public function importCsv()
 	{
 		ini_set('max_execution_time', '0');
-		$file   = public_path('/files/latur_1.csv');
+		$file   = public_path('/files/latur_csv7.csv');
 		
 		$fileD = fopen($file,"r"); 
 		

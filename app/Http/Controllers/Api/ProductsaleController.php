@@ -119,7 +119,7 @@ class ProductsaleController extends BaseController
 	{
 		$requestData = request()->all();
 		
-		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		
 			
 			$query  =  ProductForSale::select('product_for_sales.*',
@@ -132,14 +132,14 @@ class ProductsaleController extends BaseController
 					$query->where(function($q) use($word){
 						$q->where('product_name', 'LIKE', '%'.$word.'%')
 						   ->orWhere('price', 'LIKE', '%'.$word.'%')
-						    /*->orWhere('description', 'LIKE', '%'.$word.'%')*/
+						   
 							->orWhere('address', 'LIKE', '%'.$word.'%')
 							 ->orWhere('state', 'LIKE', '%'.$word.'%')
 							 ->orWhere('city_town', 'LIKE', '%'.$word.'%')
 							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
 							 ->orWhere('district', 'LIKE', '%'.$word.'%')
 							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
-								  //->orWhere('email_id', 'LIKE', '%'.$word.'%');
+							
 					});
 				}
 			});
@@ -159,6 +159,12 @@ class ProductsaleController extends BaseController
 		  
 		  $response['results'] =$query;
 		  
+		   $response['image_base_path'] =  url("/upload/productsale")."/";*/
+		   $response['results'] = ProductForSale::select('product_for_sales.*',
+            DB::raw('(select image_name from product_images where product_sale_id  = product_for_sales.id order by id asc limit 1) as image_name'))
+			->whereDate('product_for_sales.subscriptionEndDate', '>=', Carbon::now())
+			->where('product_for_sales.status', 1)
+		    ->orderBy('product_for_sales.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/productsale")."/";
 			
 		return $this->sendResponse($response,"",200);

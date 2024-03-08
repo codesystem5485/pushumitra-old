@@ -126,7 +126,7 @@ class BreederController extends BaseController
 	public function getBreederList(Request $request)
 	{
 		$requestData = request()->all();
-		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 				->select('breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
 				'species.specie as species_name',
@@ -164,7 +164,13 @@ class BreederController extends BaseController
 		  }
 		  
 		  $response['results'] =$query;
-		  $response['image_base_path'] =  url("/upload/breederanimals")."/";
+		  $response['image_base_path'] =  url("/upload/breederanimals")."/";*/
+		  $response['results']  =   Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
+				->select( 'breeders.*','species.specie as species_name',
+            DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
+           ->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('breeders.id','ASC')->get();
+		   $response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
 		return $this->sendResponse($response,"",200);
 	}

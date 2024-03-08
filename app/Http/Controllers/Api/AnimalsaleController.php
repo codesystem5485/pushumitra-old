@@ -134,7 +134,7 @@ class AnimalsaleController extends BaseController
 		$requestData = request()->all();
 		//updated on 28-02-24 for search
 		//get distance
-		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		
 		$query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select('animal_for_sales.*','species.specie as species_name',
@@ -146,7 +146,7 @@ class AnimalsaleController extends BaseController
 				foreach($words as $word) {
 					$query->where(function($q) use($word){
 						$q->where('breed', 'LIKE', '%'.$word.'%')
-						 /* ->orWhere(age', 'LIKE', '%'.$word.'%')*/
+						
 						   ->orWhere('sex', 'LIKE', '%'.$word.'%')
 						    ->orWhere('UID_number', 'LIKE', '%'.$word.'%')
 							 ->orWhere('price', 'LIKE', '%'.$word.'%')
@@ -174,6 +174,19 @@ class AnimalsaleController extends BaseController
 			 $query  = $query->orderby("id", "DESC")->get(); 
 		  }
 		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/animalsale")."/";*/
+		  $requestData = request()->all();   
+	    $query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select( 'animal_for_sales.*','species.specie as species_name',
+		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  );
+	  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $query  =$query->where('breed','LIKE',"%{$search_input}%")
+		  } 
+		  
+		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
+		   ->orderBy('animal_for_sales.id','DESC')->get();
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animalsale")."/";
 			
