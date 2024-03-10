@@ -231,7 +231,7 @@
 						   @endif
 						    @if(auth()->user()->can('easycare-list'))
 						   <li class="">
-                              <a href="{{url('pashumitra/easycares')}}" class="" ><i class="icon-hourglass"></i> <span>Easycare Solutions</span></a>
+                              <a href="{{url('pashumitra/easycares')}}" class="" ><i class="icon-hourglass"></i> <span>Knowledge Sharing</span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 

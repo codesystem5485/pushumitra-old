@@ -12,7 +12,7 @@ class Easycares extends Model
 {
     use HasFactory,LogsActivity;
 	protected $table = 'easy_cares';
-    protected $fillable = ['id','title','user_code','solutions','link','education','user_id','created_at','updated_at','status'];
+    protected $fillable = ['id','is_verified','title','user_code','solutions','link','education','user_id','created_at','updated_at','status'];
         
     public static function boot()
     {

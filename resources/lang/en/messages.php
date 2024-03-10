@@ -76,7 +76,7 @@ return [
 	'hospital_update' =>':name has been updated',
 	'lab_create' =>':name has been created',
 	'lab_update' =>':name has been updated',
-	'easycare_create' =>':name has been created',
+	'easycare_create' =>'Your information has been successfully received and we appreciate your interest in our platform.Your information is currently pending approval from our administrators. Rest assured, we are working diligently to review your information.Thank You.',
 	'easycare_update' =>':name has been updated',
 	
 	'supplier_create' =>':name has been created',

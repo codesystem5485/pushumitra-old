@@ -34,6 +34,13 @@
                     @csrf  
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
+					@if($easycares->is_verified==0)
+						<div class="mb-5">
+                        
+                            <span class=""><a href="{{route('easycares.easycares-verify',['id' => $easycares->id])}}" class="btn btn-info" >Verify</a></span>
+                    </div>
+						
+					@endif
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.easycare_title') }} :</span>

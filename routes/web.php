@@ -297,7 +297,9 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [EasycaresController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [EasycaresController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [EasycaresController::class, 'removeImage'])->name('remove');
-		Route::get('/easycares-list', [EasycaresController::class, 'getAjaxList'])->name('list');		
+		Route::get('/easycares-list', [EasycaresController::class, 'getAjaxList'])->name('list');	
+Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVerify'])->name('easycares-verify');        
+   		
     });
 	
 	//training center module

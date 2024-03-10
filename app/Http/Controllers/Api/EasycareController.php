@@ -85,11 +85,11 @@ class EasycareController extends BaseController
 	
 	public function getEasycareList(Request $request)
 	{
-		
-		   $response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
+		$response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
 		   ->select('easy_cares.*','users.full_name',
             DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from easycare_ratings where rateable_id  =   easy_cares.id ) as star_rating_count'))
 			->where('easy_cares.status', 1)
+			->where('easy_cares.is_verified', 1)
 		    ->orderBy('easy_cares.id','DESC')->get();
 		   $response['image_base_path'] =  url("/upload/easycares")."/";
 			

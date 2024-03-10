@@ -204,4 +204,15 @@ class EasycaresController extends Controller
         $list = $this->easycareRepo->getAjaxList();
         return  $list;
     }
+	
+	public function easycareVerify($id)
+	{
+		$inputDetail['is_verified'] = 1;
+        $easycare = $this->easycareRepo->update($id,$inputDetail);
+		Session::flash('success', trans('messages.verify_success'));
+		## Store log
+		$message = trans('messages.verify_success'); 
+		storeActicityLog(trans('messages.verify'),$message,Auth::user(),$easycare);
+		return redirect()->route('easycares.index');
+	}
 }
