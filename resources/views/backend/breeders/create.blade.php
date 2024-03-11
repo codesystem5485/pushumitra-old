@@ -176,7 +176,7 @@
                         @if(count($animalimages))
                             @foreach($animalimages as $value)
                                 <div class="input-group mb-2" style="align:left;">
-                                    <img height="100" width="100" src="{{ url("/upload/animalsale/")}}/{{$value->image_name}}" />
+                                    <img height="100" width="100" src="{{ url("/upload/breederanimals/")}}/{{$value->image_name}}" />
                                     <a href="javascript:void(0);" class="removeAnimalImage" image_val="{{$value->id}}"> Delete</a>
                                 </div>
                             @endforeach
@@ -200,10 +200,10 @@
 <script>
    $(document).on('click',".removeAnimalImage",function(e){
         e.preventDefault();
-        if(confirm("Do you really want to delete this Animal sale image?"))
+        if(confirm("Do you really want to delete this image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/breeder/"+image_val+"/remove";
+        var actionurl = webUrl+"/pashumitra/breeders/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

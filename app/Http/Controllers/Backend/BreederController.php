@@ -25,7 +25,7 @@ class BreederController extends Controller
     protected $breederRepo;
 	 protected $stateRepo;
     /**
-     * Animal Sale Construct 
+     * Breeder Construct 
      * @return url 
      */
     public function __construct(BreederRepositoryInterface $breederRepo,StateRepositoryInterface $stateRepo){
@@ -72,13 +72,13 @@ class BreederController extends Controller
         DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
-            $breeder = $this->animalsaleRepo->create($aInsertData);
+            $breeder = $this->breederRepo->create($aInsertData);
             if($request->animal_photo)
             {
                 foreach($request->animal_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'breeder');
+                    $fileName = $this->uploadFile($photo,'breederanimals');
                     if($fileName)
                     {
                         $animalImage = BreederImages::create(['breeder_is'=>$breeder->id,'image_name' => $fileName]);
@@ -112,8 +112,9 @@ class BreederController extends Controller
     public function edit(Request $request, $id = ''){
         $breeder = Breeder::find($id);
         $states = $this->stateRepo->getStates();
-        $breederImages = BreederImages::where('breeder_id',$breeder->id)->get();
-        return view('backend.breeders.create',['breederImages'=>$breederImages,'states'=>$states,'breeder' => $breeder,'url' => $this->url]);  
+        $animalimages = BreederImages::where('breeder_id',$breeder->id)->get();
+	
+        return view('backend.breeders.create',['animalimages'=>$animalimages,'states'=>$states,'breeder' => $breeder,'url' => $this->url]);  
     }
 
      /**
@@ -124,28 +125,29 @@ class BreederController extends Controller
      */
     public function update(BreederProcessRequest $request, $id) 
     {
-        DB::beginTransaction();
+       DB::beginTransaction();
         try{
             $aInsertData = $request->all();
-            $animalsale = $this->breederRepo->update($id,$request->all());
-             if($request->animal_photo)
+            $breeder = $this->breederRepo->update($id,$request->all());
+            
+			if($request->animal_photo)
             {
                 foreach($request->animal_photo as $photo)
                 {
                     $fileName ='';
-                    $fileName = $this->uploadFile($photo,'breeder');
+                    $fileName = $this->uploadFile($photo,'breederanimals');
                     if($fileName)
                     {
-                        $breederImage = BreederImages::create(['breeder_id'=>$animalsale->id,'image_name' => $fileName]);
+                        $animalImage = BreederImages::create(['breeder_id'=>$breeder->id,'image_name' => $fileName]);
                     }
-                }
+                } 
             }
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
             ## Store log
-            $message = trans('messages.breeder_update',['name' => $request->input('shop_name')]);
-            storeActicityLog(trans('messages.breeder_update'),$message,Auth::user(),$animalsale);
+            $message = trans('messages.breeder_update',['name' => $request->input('breeder_name')]);
+            storeActicityLog(trans('messages.breeder_update'),$message,Auth::user(),$breeder);
             return redirect()->route('breeders.index');    
         }catch(\Exception $e){ 
             DB::rollback();
@@ -166,8 +168,8 @@ class BreederController extends Controller
     }
 
     /**
-     * Delete Animal for sale
-     * @param int $id (Animal for sale Id)
+     * Delete breeder
+     * @param int $id (breeder Id)
      * @return Route
      */
     public function delete($id){ 
@@ -179,7 +181,7 @@ class BreederController extends Controller
             {
                 foreach($animalImages as $image)
                 {
-                    $this->removeFile($image->image_name,'breeder');
+                    $this->removeFile($image->image_name,'breederanimals');
                 }
             }
         }
@@ -197,14 +199,14 @@ class BreederController extends Controller
     public function removeImage($id)
     {
         $breederImages = BreederImages::where('id',$id)->first();
-        $this->removeFile($breederImages->image_name,'breeder');
+        $this->removeFile($breederImages->image_name,'breederanimals');
         $breederImages->delete();
         // Session::flash('success', trans('messages.delete_records'));
         
         ## Store log
-        $message = trans('messages.animalsale_remove',['name' => $breederImages->id]);
+        $message = trans('messages.breeder_delete_remove',['name' => $breederImages->id]);
         storeActicityLog(trans('messages.breeder_delete_remove'),$message,Auth::user(),$animalImage);
-        // return redirect()->route('animal-sale.edit',$animalImage->id);
+       
         return true;
     }
 
