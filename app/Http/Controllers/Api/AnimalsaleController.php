@@ -134,7 +134,7 @@ class AnimalsaleController extends BaseController
 		$requestData = request()->all();
 		//updated on 28-02-24 for search
 		//get distance
-		/*$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		
 		$query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select('animal_for_sales.*','species.specie as species_name',
@@ -169,34 +169,30 @@ class AnimalsaleController extends BaseController
 		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now());
 		    
 		   if($haversine!=''){
-			$query  = $query->orderby("distance", "ASC")->get();
+			$query  = $query->orderby("distance", "ASC");
 		  }else{
-			 $query  = $query->orderby("id", "DESC")->get(); 
+			 $query  = $query->orderby("id", "DESC"); 
 		  }
+		  
+		  $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
 		  
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animalsale")."/";
-		  $requestData = request()->all();   
-	    $query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-		->select( 'animal_for_sales.*','species.specie as species_name',
-		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  );
-	  
-		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
-			  $query  =$query->where('breed','LIKE',"%{$search_input}%")
-		  } 
-		  
-		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
-		   ->orderBy('animal_for_sales.id','DESC')->get();
-		  $response['results'] =$query;
-		  $response['image_base_path'] =  url("/upload/animalsale")."/";*/
-		  
-		  $response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		    
+	   
+		/*  $response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select( 'animal_for_sales.*','species.specie as species_name',
 		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
 	  ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
 			->where('animal_for_sales.status', 1)
 		    ->orderBy('animal_for_sales.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/animalsale")."/";
+		   $response['image_base_path'] =  url("/upload/animalsale")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

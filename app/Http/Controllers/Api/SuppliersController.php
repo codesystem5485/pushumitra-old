@@ -124,13 +124,59 @@ class SuppliersController extends BaseController
 	
 	public function getSupplierList(Request $request)
 	{
-		$response['results'] = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
+		->select('suppliers.id','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
+		'suppliers.address','suppliers.city_town','suppliers.district','suppliers.taluka','suppliers.user_code','suppliers.latitude',
+		'suppliers.longitude','subcategories.name as sub_category_name',
+            DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'));
+		
+		if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('supplier_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							 ->orWhere('district', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  } 
+		  
+		  $query  = $query->whereDate('suppliers.subscriptionEndDate', '>=', Carbon::now());
+		    
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("suppliers.id", "DESC"); 
+		  }
+		  
+		   $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/suppliers")."/";
+		  
+		/*$response['results'] = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
 		->select('suppliers.*','subcategories.name as sub_category_name',
             DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'))
 			->whereDate('suppliers.subscriptionEndDate', '>=', Carbon::now())
 			->where('suppliers.status', 1)
 		    ->orderBy('suppliers.id','DESC')->get();
-		$response['image_base_path'] =  url("/upload/suppliers")."/";
+		$response['image_base_path'] =  url("/upload/suppliers")."/";*/
 		return $this->sendResponse($response,"",200);
 	}
 	

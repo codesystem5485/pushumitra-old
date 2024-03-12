@@ -135,13 +135,62 @@ class TrainingCentersController extends BaseController
 	
 	public function getTrainingCenterList(Request $request)
 	{
-		/*$response['results']  =   TrainingCenters::select('id','training_center_name','incharge_name','mobile_number','duration','type','fees',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
+			->select('training_centers.id','training_center_name','incharge_name','mobile_number','duration','type','fees',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
-			->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now())
-			->where('training_centers.status', 1)
-		    ->orderBy('training_centers.id','DESC')->get();*/
-		$query = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('training_centers.subscriptionEndDate', '0000-00-00');
+                             });
+                         });
+						 
+		if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('training_center_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('type', 'LIKE', '%'.$word.'%')
+						 ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							 ->orWhere('district', 'LIKE', '%'.$word.'%')
+							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  } 
+		  
+		  
+		    
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("training_centers.id", "DESC"); 
+		  }
+		  
+		   $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/trainingcenters")."/";
+		  
+		/*$query = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
 			->select('training_centers.id','training_center_name','incharge_name','mobile_number','duration','type','fees',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
@@ -156,7 +205,7 @@ class TrainingCentersController extends BaseController
 				->where('training_centers.status', 1)
 						->orderBy('training_centers.id','DESC')->get();
 			$response['results']= $query;
-		   $response['image_base_path'] =  url("/upload/trainingcenters")."/";
+		   $response['image_base_path'] =  url("/upload/trainingcenters")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

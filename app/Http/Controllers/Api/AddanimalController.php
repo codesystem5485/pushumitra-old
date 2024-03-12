@@ -122,12 +122,33 @@ class AddanimalController extends BaseController
 	
 	public function getAnimalList(Request $request)
 	{
-		$postData = request()->all();
-		$response['results']  =   Animals::leftJoin('species', 'species.id', '=', 'animals.species')
+		$requestData = request()->all();
+		/*$response['results']  =   Animals::leftJoin('species', 'species.id', '=', 'animals.species')
 			->select( 'animals.*','species.specie as species_name',
             DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
           ->where('animals.animal_owner',$postData['user_id'])
-		  ->orderBy('animals.id','ASC')->get();
+		  ->orderBy('animals.id','ASC')->get();*/
+		  
+		  $query  = Animals::leftJoin('species', 'species.id', '=', 'animals.species')
+			->select( 'animals.*','species.specie as species_name',
+            DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name')  )
+          ->where('animals.animal_owner',$requestData['user_id']);
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('UID_number', 'LIKE', '%'.$word.'%')
+						    ->orWhere('breed', 'LIKE', '%'.$word.'%')
+							->orWhere('species.specie', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  $query  = $query->orderBy('animals.id','DESC')->get(); 
+		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animal")."/";
 			
 		return $this->sendResponse($response,"",200);

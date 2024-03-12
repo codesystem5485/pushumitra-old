@@ -913,6 +913,8 @@ class AuthController extends BaseController
 		try{
 		   $aOtpData = $this->userRepo->generateOtp();
 		   $aOtpData['mobile_number'] =$postData['mobile_number'];
+		    $aOtpData['latitude'] ='';
+		     $aOtpData['longitude'] ='';
 		   $user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
 		   if($user){
 			   
@@ -978,7 +980,7 @@ class AuthController extends BaseController
 				$user->otp='';
 				$user->otp_expiration='';
 				$user->update();
-                $response = ['mobile_number' => $user->mobile_number,'api_token' => $token];
+                $response = ['mobile_number' => $user->mobile_number,'api_token' => $token,'latitude'=>'','longitude'=>''];
             
             
             return $this->sendResponse($response,trans('messages.verify_success'),200);  
