@@ -61,6 +61,10 @@ class NotificationController extends BaseController
 							 ->orWhere(function($query) use ($postData){
                                  $query->where('type','<','3')
 								 ->where('notifications.sender_user_id',$postData['user_id']);
+                             })
+							 ->orWhere(function($query) use ($postData){
+                                 $query->where('type','4')
+								 ->where('notifications.show_role', '=', '');
                              });
                          })
 				//->where('notifications.sender_user_id',$postData['user_id'])

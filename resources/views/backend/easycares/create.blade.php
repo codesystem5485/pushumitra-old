@@ -72,7 +72,7 @@
                         <div><span>{{ $errors->first('added_by') }}</span></div>
                     </div>
                     <div class="input_fields_wrap input-group mb-3">
-                        <div><input type="file" class="form-control" name="easycare_photo[]"></div>
+                        <div><input type="file" class="form-control" name="easy_care_photo[]"></div>
                         <div class="input-group-prepend"><button class="add_field_button">Add More Photos</button></div>
                     </div>
 
@@ -141,7 +141,7 @@
         e.preventDefault();
         if(x < max_fields){ //max input box allowed
             x++; //text box increment
-            $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="easycare_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
+            $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="easy_care_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
         }
     });
 

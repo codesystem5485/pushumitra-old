@@ -17,6 +17,8 @@ use App\Traits\FileUpload;
 use App\Http\Requests\EasycaresProcessRequest;
 use Illuminate\Support\Facades\Storage;
 use File;
+use App\Models\User;
+use App\Models\Notifications;
 
 
 class EasycaresController extends Controller
@@ -133,7 +135,7 @@ class EasycaresController extends Controller
             {
                 foreach($request->easy_care_photo as $photo)
                 {
-                     $fileName ='';
+                    
                     $fileName = $this->uploadFile($photo,'easycares');
                     if($fileName)
                     {
@@ -209,6 +211,99 @@ class EasycaresController extends Controller
 	{
 		$inputDetail['is_verified'] = 1;
         $easycare = $this->easycareRepo->update($id,$inputDetail);
+		$easycareDetails = Easycares::find($id);
+		$title = 'New Article In Knowledge Sharing Is Added';
+		$message ='';
+		if($easycareDetails){
+			$message =$easycareDetails->title;
+		}
+		//$fcmArray = $this->userRepo->getUsersFcmIds(['sRoleName' => $sRoleName]);
+	
+    
+    //	$fcmArray = DB::table('users')->whereIn('id', array(90,104,96))->get();
+	$fcmArray = User::select('fcm_id','id')
+					->where('is_active',1)
+					->where('fcm_id','!=','')
+					->orderBy('id', 'DESC')
+					->get();
+	
+  	
+		$notifications = new Notifications();
+		$notifications->title = $title;
+		$notifications->message = $message;
+		$notifications->show_role ='';
+		$notifications->type = 4;//easy cares
+		$notifications->send_flag = 1;
+		$notifications->scheduled_date= date("Y-m-d");
+		$notifications->send_date = date("Y-m-d");
+		$notifications->save();
+			
+		$sendFcmArray =array();
+		
+		foreach($fcmArray as $row)
+		{
+		$fcmId = $row->fcm_id;
+		
+		
+		/*DB::beginTransaction();
+        try{*/
+			//insert to notifications
+			
+		
+			$body 	= $message;
+			$title	= $title;
+					$sendFcmArray =array();
+				$data = [
+					//"registration_ids"=>$fcmId,
+					"to"=>$fcmId,
+					"notification" => [
+						"body"  => $body,
+						"title" => $title,
+					
+					],
+					"priority" =>  "high",
+					"data" => [
+						"info"          =>  [
+							"title"  => $title,
+						]
+					],
+					
+				];
+				
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+				curl_setopt($ch, CURLOPT_POST, 1);
+
+				$headers = array();
+				$headers[] = 'Content-Type: application/json';
+				$headers[] = 'Authorization: key=AAAA3VOatmM:APA91bH0smliP78ILBQ96TDyZvZoTkCaWQOZaBhMXROKgEXlmUjdJIkEHqFbk5B5zET51aFicM_tdH72oFtml_fkPPkuWR2ARpWFOnkVOne_LWlQ12sUuQ5t5UhWzx90dDMW0kqh5XAK';
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+				$result = curl_exec($ch);
+				curl_close ($ch);
+				
+				if ($result === FALSE) {
+					//echo 'Android: Curl failed: ' . curl_error($ch);
+				}
+				// Close connection
+				curl_close($ch);
+			}
+			
+			$message = 'Knowledge Sharing Push notification send successfully';
+            storeActicityLog('Push notification',$message,Auth::user(),$notifications);
+			/* Session::flash('success', 'Knowledge Sharing Push notifications send successfully');
+            return redirect()->route('sendnotifications.create'); */   
+      /*  }catch(\Exception $e){ 
+            DB::rollback();
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,Auth::user());
+            Session::flash('error', trans('messages.something'));
+            return redirect()->route('sendnotifications.create'); 
+        }*/
+		
 		Session::flash('success', trans('messages.verify_success'));
 		## Store log
 		$message = trans('messages.verify_success'); 
