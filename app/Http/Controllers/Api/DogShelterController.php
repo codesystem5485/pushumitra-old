@@ -136,13 +136,57 @@ class DogShelterController extends BaseController
 	
 	public function getDogshelterList(Request $request)
 	{
-		$response['results']  =   DogShelters::select('id','dogshelter_name','incharge_name','mobile_number',
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  = DogShelters::select('id','dogshelter_name','incharge_name','mobile_number',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from  dog_shelter_images where dog_shelter_id  = dog_shelters.id order by id asc limit 1) as image_name'))
+			->whereDate('dog_shelters.subscriptionEndDate', '>=', Carbon::now())
+			->where('dog_shelters.status', 1);
+						 
+		if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('dogshelter_name', 'LIKE', '%'.$word.'%')
+						->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							 ->orWhere('district', 'LIKE', '%'.$word.'%')
+							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("dog_shelters.id", "DESC"); 
+		  }
+		  
+		   $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/dogshelters")."/";
+		  
+		/*$response['results']  =   DogShelters::select('id','dogshelter_name','incharge_name','mobile_number',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  dog_shelter_images where dog_shelter_id  = dog_shelters.id order by id asc limit 1) as image_name'))
 			->whereDate('dog_shelters.subscriptionEndDate', '>=', Carbon::now())
 			->where('dog_shelters.status', 1)
 		    ->orderBy('dog_shelters.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/dogshelters")."/";
+		   $response['image_base_path'] =  url("/upload/dogshelters")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

@@ -37,7 +37,7 @@
 					@if($easycares->is_verified==0)
 						<div class="mb-5">
                         
-                            <span class=""><a href="{{route('easycares.easycares-verify',['id' => $easycares->id])}}" class="btn btn-info" >Verify</a></span>
+                            <span class=""><a onclick="this.disabled=true;this.value='Sending, please wait...';" href="{{route('easycares.easycares-verify',['id' => $easycares->id])}}" class="btn btn-info" >Verify</a></span>
                     </div>
 						
 					@endif
@@ -98,3 +98,13 @@
     </div>
     </div>
 @endsection
+@push('scripts') 
+<script>
+$("a").click(function (event) {
+    if ($(this).hasClass("disabled")) {
+        event.preventDefault();
+    }
+    $(this).addClass("disabled");
+});
+</script>
+@endpush

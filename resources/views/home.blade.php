@@ -325,7 +325,7 @@
                            <h3><a href="#">{{$easycareCount}}</a></h3>
 						   <h3><a href="#">{{$totaleasycareCount}}</a></h3>
 						    </div>
-                           <span>Easycares</span>
+                           <span>Knowledge Sharing</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
@@ -637,7 +637,7 @@
                            <h3><a href="{{url('pashumitra/easycares')}}">{{$easycareCount}}</a></h3>
 						   <h3><a href="{{url('pashumitra/easycares')}}">{{$totaleasycareCount}}</a></h3>
 						    </div>
-                           <span>Easycares</span>
+                           <span>Knowledge Sharing</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">

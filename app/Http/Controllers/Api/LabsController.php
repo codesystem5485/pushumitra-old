@@ -136,7 +136,64 @@ class LabsController extends BaseController
 	
 	public function getLabList(Request $request)
 	{
-		$query = Labs::leftJoin('subcategories', 'subcategories.id', '=', 'labs.sub_category')
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =   Labs::leftJoin('subcategories', 'subcategories.id', '=', 'labs.sub_category')
+			->select('labs.id','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
+            DB::raw('(select image_name from  labs_images where lab_id  = labs.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('labs.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('labs.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+				->where('labs.status', 1);
+						 
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('lab_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('state', 'LIKE', '%'.$word.'%')
+							->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('district', 'LIKE', '%'.$word.'%');
+							
+								
+					});
+				}
+			});
+		  } 
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		 
+		  if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderBy('labs.id','DESC');
+		  }
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/labs")."/";
+		  
+		/*$query = Labs::leftJoin('subcategories', 'subcategories.id', '=', 'labs.sub_category')
 			->select('labs.id','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  labs_images where lab_id  = labs.id order by id asc limit 1) as image_name'))
@@ -151,7 +208,7 @@ class LabsController extends BaseController
 				->where('labs.status', 1)
 						->orderBy('labs.id','DESC')->get();
 			$response['results']= $query;
-			$response['image_base_path'] =  url("/upload/labs")."/";
+			$response['image_base_path'] =  url("/upload/labs")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

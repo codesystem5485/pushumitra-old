@@ -132,7 +132,60 @@ class PoultryHatcheryController extends BaseController
 	
 	public function getPoultryHatcheryList(Request $request)
 	{
-		$query = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('poultryhatchery_centers.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('poultryhatchery_centers.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+				->where('poultryhatchery_centers.status', 1);
+						 
+		if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('poultryhatchery_center_name', 'LIKE', '%'.$word.'%')
+						->orWhere('breed', 'LIKE', '%'.$word.'%')
+						->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							 ->orWhere('district', 'LIKE', '%'.$word.'%')
+							  ->orWhere('type', 'LIKE', '%'.$word.'%')
+							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("poultryhatchery_centers.id", "DESC"); 
+		  }
+		  
+		   $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/poultryhatchery")."/";
+		  
+		/*$query = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'))
 			->where(function($query){
@@ -146,7 +199,7 @@ class PoultryHatcheryController extends BaseController
 				->where('poultryhatchery_centers.status', 1)
 						->orderBy('poultryhatchery_centers.id','DESC')->get();
 			$response['results']= $query;
-			$response['image_base_path'] =  url("/upload/poultryhatchery")."/";
+			$response['image_base_path'] =  url("/upload/poultryhatchery")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}
