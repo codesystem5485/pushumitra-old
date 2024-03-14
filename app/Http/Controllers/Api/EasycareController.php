@@ -85,13 +85,44 @@ class EasycareController extends BaseController
 	
 	public function getEasycareList(Request $request)
 	{
-		$response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
+		$requestData = request()->all();
+		$query  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
+		   ->select('easy_cares.*','users.full_name',
+            DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from easycare_ratings where rateable_id  =   easy_cares.id ) as star_rating_count'))
+			->where('easy_cares.status', 1)
+			->where('easy_cares.is_verified', 1);
+			
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('title', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		  
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->orderBy('easy_cares.id','DESC')->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/easycares")."/";
+		  
+		/*$response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
 		   ->select('easy_cares.*','users.full_name',
             DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from easycare_ratings where rateable_id  =   easy_cares.id ) as star_rating_count'))
 			->where('easy_cares.status', 1)
 			->where('easy_cares.is_verified', 1)
 		    ->orderBy('easy_cares.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/easycares")."/";
+		   $response['image_base_path'] =  url("/upload/easycares")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

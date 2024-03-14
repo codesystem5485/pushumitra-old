@@ -142,9 +142,9 @@ class ChemistController extends BaseController
 				foreach($words as $word) {
 					$query->where(function($q) use($word){
 						$q->where('shop_name', 'LIKE', '%'.$word.'%')
-						 ->orWhere('mobile_number', 'LIKE', '%'.$word.'%')
+						// ->orWhere('mobile_number', 'LIKE', '%'.$word.'%')
 						    ->orWhere('owner_name', 'LIKE', '%'.$word.'%')
-							->orWhere('state', 'LIKE', '%'.$word.'%')
+							//->orWhere('state', 'LIKE', '%'.$word.'%')
 							->orWhere('city_town', 'LIKE', '%'.$word.'%')
 								 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
 								  ->orWhere('district', 'LIKE', '%'.$word.'%')

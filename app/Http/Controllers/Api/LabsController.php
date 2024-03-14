@@ -163,7 +163,8 @@ class LabsController extends BaseController
 							->orWhere('state', 'LIKE', '%'.$word.'%')
 							->orWhere('city_town', 'LIKE', '%'.$word.'%')
 							->orWhere('taluka', 'LIKE', '%'.$word.'%')
-							->orWhere('district', 'LIKE', '%'.$word.'%');
+							->orWhere('district', 'LIKE', '%'.$word.'%')
+							->orWhere('pincode', 'LIKE', '%'.$word.'%');
 							
 								
 					});

@@ -153,7 +153,7 @@ class AnimalsaleController extends BaseController
 							  //->orWhere('contact_name_of_owner', 'LIKE', '%'.$word.'%')
 							   //->orWhere('contact_number_of_owner', 'LIKE', '%'.$word.'%')
 							   ->orWhere('address', 'LIKE', '%'.$word.'%')
-							   ->orWhere('state', 'LIKE', '%'.$word.'%')
+							  // ->orWhere('state', 'LIKE', '%'.$word.'%')
 							    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
 								 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
 								  ->orWhere('district', 'LIKE', '%'.$word.'%')

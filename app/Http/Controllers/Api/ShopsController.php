@@ -133,14 +133,61 @@ class ShopsController extends BaseController
 	
 	public function getShopsList(Request $request)
 	{
-		$response['results']  = Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =  Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
+			->select('shops.id','shop_name','shop_owner_name','mobile_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
+            DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
+			->whereDate('shops.subscriptionEndDate', '>=', Carbon::now())
+			->where('shops.status', 1);
+						 
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('shop_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('district', 'LIKE', '%'.$word.'%')
+							->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  } 
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		 
+		  if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderBy('shops.id','DESC');
+		  }
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/shops")."/";
+		  
+		/*$response['results']  = Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
 			->select('shops.id','shop_name','shop_owner_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
 			->whereDate('shops.subscriptionEndDate', '>=', Carbon::now())
 			->where('shops.status', 1)
 		    ->orderBy('shops.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/shops")."/";
+		   $response['image_base_path'] =  url("/upload/shops")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

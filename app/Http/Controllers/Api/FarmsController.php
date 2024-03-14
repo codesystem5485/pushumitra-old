@@ -133,7 +133,60 @@ class FarmsController extends BaseController
 	
 	public function getFarmList(Request $request)
 	{
-		$response['results']  = Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =  Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
+			->select('farms.id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
+			->where(function($query){
+                            $query->where(function($query){
+                                 $query->where('type','Private')->whereDate('farms.subscriptionEndDate', '>=', Carbon::now());
+                             })
+							 ->orWhere(function($query){
+                                 $query->where('type','Government')->where('farms.subscriptionEndDate', '0000-00-00');
+                             });
+                         })
+			->where('farms.status', 1);
+						 
+		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('farm_name', 'LIKE', '%'.$word.'%')
+						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
+						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							->orWhere('district', 'LIKE', '%'.$word.'%')
+							->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  } 
+		  
+		  if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		 
+		  if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderBy('farms.id','DESC');
+		  }
+		 
+		  $total_results = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['total_count'] = $total_results;
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/farms")."/";
+		  
+		/*$response['results']  = Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
 			->select('farms.id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
 			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
 			->where(function($query){
@@ -146,7 +199,7 @@ class FarmsController extends BaseController
                          })
 			->where('farms.status', 1)
 		    ->orderBy('farms.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/farms")."/";
+		   $response['image_base_path'] =  url("/upload/farms")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

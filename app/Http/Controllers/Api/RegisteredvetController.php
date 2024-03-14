@@ -38,12 +38,8 @@ class RegisteredvetController extends BaseController
 	
 	 public function nearestRegisteredVetList(Request $request){
 		
-		/*$postData = request()->all();
-		$response['results'] = $this->userRepo->getNearestRegisteredVetData($postData);
-		return $this->sendResponse($response,"",200);
-		*/
 		$requestData = request()->all();
-		$response['results'] = $this->userRepo->getNearestRegisteredVetData($requestData);
+		$response = $this->userRepo->getNearestRegisteredVetData($requestData);
 		return $this->sendResponse($response,"",200);
 		
 	}

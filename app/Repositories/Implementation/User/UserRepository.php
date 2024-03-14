@@ -573,9 +573,10 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $profileArray;
 	}
 	
-	public function getNearestPashumitraData($input)
+	public function getNearestPashumitraData($requestData)
 	{
-		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
+		$response =[];
+		/*return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
             if(!empty($input['role'])){
                 $q->where('name', 'Pashumitra');
             }
@@ -583,14 +584,14 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)
 		->orderBy('id', 'DESC')
-		->get();
+		->get();*/
 		
-	/*	$haversine = $this->getDistanceUsingLatLong($requestData);
+		$haversine = $this->getDistanceUsingLatLong($requestData);
 		
 		$query = $this->userModelRepo->whereHas('roles', function($q) use($requestData) {
-            if(!empty($input['role'])){
+            //if(!empty($input['role'])){
                 $q->where('name', 'Pashumitra');
-            }
+           // }
         })
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'));
 		
@@ -612,46 +613,46 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 				}
 			});
 		  }
-		  
+		 
 		  if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
+		  
+		  $query  =   $query->where('is_verified',1);
 		  
 		  if($haversine!=''){
 			 $query  = $query->orderby("distance", "ASC");
 		  }else{
 			 $query  = $query->orderby("id", "DESC"); 
 		  }
-		$query  =   $query->where('is_verified',1)->get();
+		  
+		  $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['results'] =$query;
 		
-		return $query;*/
+		return $response;
 	}
 	
-	public function getNearestRegisteredVetData($input)
+	public function getNearestRegisteredVetData($requestData)
 	{
-		return  $this->userModelRepo->whereHas('roles', function($q) use($input) {
-            if(!empty($input['role'])){
+		$response = [];
+		$haversine = $this->getDistanceUsingLatLong($requestData);
+		
+		$query = $this->userModelRepo->whereHas('roles', function($q) use($requestData) {
+           // if(!empty($input['role'])){
                 $q->where('name', 'Registered-vet');
-            }
+            //}
         })
 		->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
 		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
-		->where('is_verified',1)
-		->orderBy('id', 'DESC')
-		->get();
+		->where('is_verified',1);
 		
-		//$requestData = request()->all();
-		/*$haversine = $this->getDistanceUsingLatLong($requestData);
-		
-		$query = User::select('users.*', 'user_details.rv_speciality',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
-				->join('user_details', 'user_details.user_id', '=', 'users.id')
-				->join('model_has_roles', function ($join) {
-				$join->on('users.id', '=', 'model_has_roles.model_id')
-					 ->where('model_has_roles.model_type', User::class);
-				})
-				->join('roles', 'model_has_roles.role_id', '=', 'roles.id');
-				
-				if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+		if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
 			  $query  =$query->where(function($query) use($words){
 				foreach($words as $word) {
@@ -671,19 +672,29 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 				}
 			});
 		  }
-		  
-		  if($haversine!=''){
+		
+		if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
+		  
+		 
 		  
 		  if($haversine!=''){
 			 $query  = $query->orderby("distance", "ASC");
 		  }else{
-			 $query  = $query->orderby("id", "DESC"); 
+			 $query  = $query->orderby("users.id", "DESC"); 
 		  }
-		$query  =   $query->where('is_verified',1)->get();
+		  
+		  $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  $response['results'] =$query;
 		
-		return $query;*/
+		return $response;
 	}
 	
 	//get latitude longitude geolocation

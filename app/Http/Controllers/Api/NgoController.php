@@ -101,12 +101,55 @@ class NgoController extends BaseController
 	
 	public function getNgoList(Request $request)
 	{
+		$requestData = request()->all();
+		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
+		$query  =  Ngo::select('ngo.id','registration_number','ngo_name','manager_name','mobile_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude',
+            DB::raw('(select image_name from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'))
+			->where('ngo.status', 1);
+						 
+		if($haversine!=''){
+			$query  = $query->selectRaw("$haversine AS distance");
+		  }
+		  
+		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
+			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
+			  $query  =$query->where(function($query) use($words){
+				foreach($words as $word) {
+					$query->where(function($q) use($word){
+						$q->where('ngo_name', 'LIKE', '%'.$word.'%')
+						->orWhere('city_town', 'LIKE', '%'.$word.'%')
+							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
+							 ->orWhere('district', 'LIKE', '%'.$word.'%')
+							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
+					});
+				}
+			});
+		  }
+		  
+		   if($haversine!=''){
+			$query  = $query->orderby("distance", "ASC");
+		  }else{
+			 $query  = $query->orderby("ngo.id", "DESC"); 
+		  }
+		  
+		   $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
+		  $response['results'] =$query;
+		  $response['image_base_path'] =  url("/upload/ngo")."/";
+		/*  
 		$response['results']  = Ngo::select('ngo.id','registration_number','ngo_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'))
 			->where('ngo.status', 1)
 		    ->orderBy('ngo.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/ngo")."/";
+		   $response['image_base_path'] =  url("/upload/ngo")."/";*/
 			
 		return $this->sendResponse($response,"",200);
 	}

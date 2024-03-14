@@ -145,7 +145,8 @@ class SuppliersController extends BaseController
 						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
 						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
 							 ->orWhere('taluka', 'LIKE', '%'.$word.'%')
-							 ->orWhere('district', 'LIKE', '%'.$word.'%');
+							 ->orWhere('district', 'LIKE', '%'.$word.'%')
+							 ->orWhere('pincode', 'LIKE', '%'.$word.'%');
 					});
 				}
 			});

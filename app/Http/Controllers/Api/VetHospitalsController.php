@@ -158,10 +158,9 @@ class VetHospitalsController extends BaseController
 						$q->where('hospital_name', 'LIKE', '%'.$word.'%')
 						 ->orWhere('subcategories.name', 'LIKE', '%'.$word.'%')
 						    ->orWhere('city_town', 'LIKE', '%'.$word.'%')
-							->orWhere('state', 'LIKE', '%'.$word.'%')
-							->orWhere('city_town', 'LIKE', '%'.$word.'%')
 							->orWhere('taluka', 'LIKE', '%'.$word.'%')
-							->orWhere('district', 'LIKE', '%'.$word.'%');
+							->orWhere('district', 'LIKE', '%'.$word.'%')
+							->orWhere('pincode', 'LIKE', '%'.$word.'%');
 							
 								
 					});
