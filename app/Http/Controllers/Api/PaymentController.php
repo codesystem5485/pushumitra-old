@@ -287,6 +287,16 @@ class PaymentController extends BaseController
 	public function updateModuleCount(Request $request)
 	{
 		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'module_name' => 'required',
+				
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
 		$postData['flag'] = 0;
 		$response=[];
 		$updateModuleCount = $this->userRepo->updateModuleCount($postData);
