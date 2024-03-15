@@ -9,6 +9,7 @@ use DB;
 use Validator;
 use App\Models\Fee;
 use App\Models\Payments;
+use App\Models\UserModuleCounts;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Repositories\Interfaces\User\UserDetailRepositoryInterface;
 
@@ -28,6 +29,12 @@ class PaymentController extends BaseController
 	
 	public function getConfig(Request $request)
 	{
+		$user_id = $request->user_id;
+		$role = $request->role;
+		
+		//add modules count data
+		$moduleres = $this->addModulesCount($user_id);
+				
 		$feeArray = Fee::orderBy('id','ASC')->get()->toArray();
 		$createArray = [];
 		if(count($feeArray) > 0){
@@ -36,9 +43,6 @@ class PaymentController extends BaseController
 				$createArray[$name]=array('fee'=>(string)$row['fee'],'id'=>$row['id']);
 			}
 		}
-		
-		$user_id = $request->user_id;
-		$role = $request->role;
 		
 		$completedProfile =0; 
 		$completedPayment =1;
@@ -49,8 +53,58 @@ class PaymentController extends BaseController
 		
 		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
 		$response['fee'] = $createArray;
+		$response['module_counts'] = $moduleres;
 		
 		return $this->sendResponse($response,"",200);
+	}
+	
+	public function addModulesCount($user_id){
+	
+		$chkCount = UserModuleCounts::where('user_id',$user_id)->count();
+		if($chkCount == 0){		
+				$modulesArr	=array(
+					'Pashumitra Registration'=> 0,
+					'Add Animal for sale'=> 0,
+					'Add Breeder'=> 0,
+					'Add Transporter'=> 0,
+					'Add chemist'=> 0,
+					'Registered-vet Registration'=> 0,
+					'Add Product For Sale'=> 0,
+					'Add Supplier'=> 0,
+					'Add Farm'=> 0,
+					'Add Training Centre'=> 0,
+					'Add Shop'=> 0,
+					'Go Shala / Panjarpol'=> 0,
+					'Poultry Hatchery'=> 0,
+					'Dog Shelter'=> 0,
+					'Institutions'=> 0,
+					'Milk Collection'=> 0,
+					'Add Lab'=> 0,
+					'Add NGO'=> 0,
+					'Knowledge Sahring'=> 0,
+				);
+				
+				$module = json_encode($modulesArr);
+				$modules = new UserModuleCounts;
+				$modules->user_id = $user_id;
+				$modules->module = $module;
+				$modules->save();
+		}
+		$moduleArr=[];
+		$chkarr = UserModuleCounts::where('user_id',$user_id)->first();
+		if($chkarr->module!=''){
+			$moduleArr = json_decode($chkarr->module, true);
+		}
+	
+		$createArray = [];
+		if(count($moduleArr) > 0){
+			
+			foreach($moduleArr as $key => $val){ 
+				$name = str_replace(' ', '_', $key);
+				$createArray[$name]= (int)$val;
+			}
+		}
+		return $createArray;
 	}
 	
 	public function generatePaymentOrderId(Request $request){
@@ -228,5 +282,15 @@ class PaymentController extends BaseController
             storeActicityLog(trans('messages.error'),$error,$request->user_id);
 			return  $this->sendError($response,trans('messages.something'),500);			
         }
+	}
+	
+	public function updateModuleCount(Request $request)
+	{
+		$postData = request()->all();
+		$postData['flag'] = 0;
+		$response=[];
+		$updateModuleCount = $this->userRepo->updateModuleCount($postData);
+		$message = "Count updated successfully";
+		return $this->sendResponse($response,$message,200);
 	}
 }

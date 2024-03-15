@@ -217,6 +217,7 @@ class AuthController extends BaseController
 				);
 				$res = $this->sendRegistrationSms($smsInfo);
 				
+				
                 DB::commit();
                 $response = $aOtpData; 
                 return $this->sendResponse($response,trans('messages.otp_send'),200);

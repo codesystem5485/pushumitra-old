@@ -120,7 +120,7 @@ class LabsController extends BaseController
 			$labs->subscriptionEndDate=$subscriptionEndDate;
 			$labs->update();
             
-         //   DB::commit();
+			DB::commit();
 			## Store log
             $message = trans('messages.lab_create',['name' => $request->lab_name]);
             storeActicityLog(trans('messages.lab_create'),$message);

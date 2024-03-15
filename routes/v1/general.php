@@ -108,6 +108,7 @@ Route::group(['middleware' => ['cors']], function () {
 	/* easycare Ratings Details */
 	Route::post('/add-easycare-ratings', [RatingsController::class,'addEasycareRatings']);
 	
+	Route::get('/update-modules-count', [PaymentController::class,'updateModuleCount']);
 	
 	});
 	

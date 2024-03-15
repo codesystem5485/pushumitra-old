@@ -15,6 +15,7 @@ use App\Models\Fee;
 use App\Models\Notifications;
 use App\Models\Subcategories;
 use App\Models\Animals;
+use App\Models\UserModuleCounts;
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
@@ -994,5 +995,38 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		}
 		
 		return $haversine;
+	}
+	
+	//update user seen module Count 
+	public function updateModuleCount(array $input)
+	{ 
+		$moduleArr=[];
+		$user_id = $input['user_id'];
+		$moduleName = str_replace('_', ' ', $input['module_name']);
+		$chkarr = UserModuleCounts::where('user_id',$user_id)->first();
+		if($chkarr->module!=''){
+			$moduleArr = json_decode($chkarr->module, true);
+		}
+		
+		$createArray = [];
+		if(count($moduleArr) > 0){
+			foreach($moduleArr as $key => $val){ 
+				$name = $key;
+				$cnt = $val;
+				if($name == $moduleName)
+				{
+					if($input['flag']==1){
+						$cnt = $cnt+1;
+					}else{
+						$cnt = 0;
+					}	
+				}
+				$createArray[$name]	= $cnt;
+			}
+		}
+		
+		$module = json_encode($createArray);
+		$chkarr->module = $module;
+		$chkarr->save();
 	}
 }

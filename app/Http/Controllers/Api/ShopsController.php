@@ -132,8 +132,8 @@ class ShopsController extends BaseController
     }
 	
 	public function getShopsList(Request $request)
-	{
 		$requestData = request()->all();
+	{
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
 			->select('shops.id','shop_name','shop_owner_name','mobile_number',
