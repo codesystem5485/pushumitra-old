@@ -99,6 +99,9 @@ class AnimalsaleController extends BaseController
 			$animalsale->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
 			$animalsale->update();
 			
+			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Animal_for_sale','flag'=>1);
+			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
+			
 			// Add payment notifications
 			//add to notifications
 			//$link = url().'receipt/download/'.$aInsertData['user_id'].'/'.$postData['payment_id'];

@@ -116,6 +116,9 @@ class ShopsController extends BaseController
 			$results->subscriptionStartDate=$subscriptionStartDate;
 			$results->subscriptionEndDate=$subscriptionEndDate;
 			$results->update();
+			
+			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Shop','flag'=>1);
+			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
             
             DB::commit();
 			## Store log
@@ -132,8 +135,9 @@ class ShopsController extends BaseController
     }
 	
 	public function getShopsList(Request $request)
-		$requestData = request()->all();
 	{
+		$requestData = request()->all();
+	
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
 			->select('shops.id','shop_name','shop_owner_name','mobile_number',

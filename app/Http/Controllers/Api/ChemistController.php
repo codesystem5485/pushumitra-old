@@ -112,6 +112,9 @@ class ChemistController extends BaseController
 			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
 			$aInsertData['title'] = "Payment Receipt for Chemist";
 			$notifications = $this->chemistRepo->addPaymentToNotifications($aInsertData);
+			
+			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_chemist','flag'=>1);
+			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
 
             DB::commit();
             ## Store log

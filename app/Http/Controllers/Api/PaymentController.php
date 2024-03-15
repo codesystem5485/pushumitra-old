@@ -69,6 +69,7 @@ class PaymentController extends BaseController
 					'Add Transporter'=> 0,
 					'Add chemist'=> 0,
 					'Registered-vet Registration'=> 0,
+					'Add Veterinary Hospitals'=>0,
 					'Add Product For Sale'=> 0,
 					'Add Supplier'=> 0,
 					'Add Farm'=> 0,

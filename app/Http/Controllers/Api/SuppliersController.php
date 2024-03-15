@@ -95,6 +95,9 @@ class SuppliersController extends BaseController
 			$suppliers->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
 			$suppliers->update();
 			
+			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Supplier','flag'=>1);
+			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
+			
 			// Add payment notifications
 			//add to notifications
 			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
