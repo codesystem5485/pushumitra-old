@@ -82,7 +82,7 @@ class PaymentController extends BaseController
 					'Milk Collection'=> 0,
 					'Add Lab'=> 0,
 					'Add NGO'=> 0,
-					'Knowledge Sahring'=> 0,
+					'Knowledge Sharing'=> 0,
 				);
 				
 				$module = json_encode($modulesArr);

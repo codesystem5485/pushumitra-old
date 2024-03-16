@@ -102,6 +102,9 @@ class ProductsaleController extends BaseController
 			$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
             
             DB::commit();
+			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Product_For_Sale','flag'=>1);
+			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
+			
 			## Store log
             $message = trans('messages.productsale_create',['name' => $request->product_name]);
             storeActicityLog(trans('messages.productsale_create'),$message);
