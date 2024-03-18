@@ -259,7 +259,7 @@ class AuthController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
 		
-        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number']]);
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number'],'is_active'=>1]);
 		
         
        /* if (!$user) {
