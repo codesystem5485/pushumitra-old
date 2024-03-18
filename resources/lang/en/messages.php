@@ -138,4 +138,5 @@ return [
 	'testimonials_delete'=>'Testimonial has been deleted',
 	'rating_create'=>'Thank you for your review. It has been submitted successfully',
 	'satrrating_or_review'=>'Please write review or add rating',
+	'delete_user'=>'User account is deleted successfully',
 ];

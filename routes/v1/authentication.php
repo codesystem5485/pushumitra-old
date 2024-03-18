@@ -55,6 +55,7 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('/logout', [AuthController::class,'logout']);
         
         Route::post('/upload-profile-pic', [AuthController::class,'updateProfilePic']); 
+		Route::get('/delete-account', [AuthController::class,'deleteUserAccount']);
     });
 
 });  

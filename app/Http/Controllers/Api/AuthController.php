@@ -50,18 +50,30 @@ class AuthController extends BaseController
     public function signUp(Request $request){
 
 		
-        $user = User::first();
+        //$user = User::first();
         $postData = request()->all();
-        
+		$checkMobile = $this->userRepo->checkUniqueMobile($postData);
+		if($checkMobile > 0){
+			$mobileError = 'Mobile number already exists.Please try another one';
+			return $this->sendError([],$mobileError,400);
+		}
+		
+		$checkEmail = $this->userRepo->checkUniqueEmail($postData);
+		if($checkEmail > 0){
+			$emailError = 'Email Id already exists.Please try another one';
+			return $this->sendError([],$emailError,400);
+		}
+		
+		
         if($postData['role']=='Pashumitra')
         { 
             $validator = Validator::make($postData, [
                // 'profile_photo'=>'required|max:10240',
 			    'full_name' => 'required|string|max:255',
-                'email' => 'nullable|string|email|max:255|unique:users',
+                'email' => 'nullable|string|email|max:255',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|numeric|digits:10|unique:users',
+                'mobile_number' => 'required|numeric|digits:10',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'city_town' => 'required|string',
@@ -76,10 +88,10 @@ class AuthController extends BaseController
         {
             $validator = Validator::make($postData, [
 				'full_name' => 'required|string|max:255',
-                'email' => 'nullable|string|email|max:255|unique:users',
+                'email' => 'nullable|string|email|max:255',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|numeric|digits:10|unique:users',
+                'mobile_number' => 'required|numeric|digits:10',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
@@ -94,10 +106,10 @@ class AuthController extends BaseController
         {
             $validator = Validator::make($postData, [
 				'full_name' => 'required|string|max:255',
-                'email' => 'nullable|string|email|max:255|unique:users',
+                'email' => 'nullable|string|email|max:255',
                 'password' => 'required|min:6',
                 'confirm_password' => 'required|min:6',
-                'mobile_number' => 'required|numeric|digits:10|unique:users',
+                'mobile_number' => 'required|numeric|digits:10',
                 'address_line_1' => 'required|string',
                 'state' => 'required|string',
 				'state_id' => 'required',
@@ -1624,6 +1636,25 @@ PASHU MITRA ENTERPRISES';
 	
 		
 		return $this->sendResponse($response,trans('messages.verified_otp_mobile_success'),200);
+	}
+	
+	public function deleteUserAccount()
+	{
+		
+		$postData = request()->all(); 
+        $validator = Validator::make($postData, [
+            'user_id' => 'required',
+        ]);
+
+        $response = [];
+        if ($validator->fails())
+        {
+            return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+        }
+      
+		$response = $this->userRepo->deleteUserAccount($postData);
+		return $this->sendResponse($response,trans('messages.delete_user'),200);
+		
 	}
 	
 	public function getDownload(Request $request){ 

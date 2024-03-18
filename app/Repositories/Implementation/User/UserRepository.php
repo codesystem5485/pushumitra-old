@@ -16,6 +16,27 @@ use App\Models\Notifications;
 use App\Models\Subcategories;
 use App\Models\Animals;
 use App\Models\UserModuleCounts;
+use App\Models\Easycares;
+use App\Models\Ngo;
+use App\Models\Labs;
+use App\Models\Institutions;
+use App\Models\PoultryHatchery;
+use App\Models\MilkCollections;
+use App\Models\CsrActivities;
+use App\Models\Veterinaryhospitals;
+use App\Models\AnimalForSale;
+use App\Models\Transporters;
+use App\Models\TrainingCenters;
+use App\Models\Suppliers;
+use App\Models\Shops;
+use App\Models\ProductForSale;
+use App\Models\Farms;
+use App\Models\DogShelters;
+use App\Models\Chemist;
+use App\Models\Breeder;
+use App\Models\Panjarpol;
+use App\Models\UserDeleteHistory;
+
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
 {
@@ -619,7 +640,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
 		  
-		  $query  =   $query->where('is_verified',1);
+		  $query  =   $query->where('is_verified',1)->where('is_active',1);
 		  
 		  if($haversine!=''){
 			 $query  = $query->orderby("distance", "ASC");
@@ -651,7 +672,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         })
 		->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
 		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
-		->where('is_verified',1);
+		->where('is_verified',1)->where('is_active',1);
 		
 		if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
@@ -1028,5 +1049,156 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$module = json_encode($createArray);
 		$chkarr->module = $module;
 		$chkarr->save();
+	}
+	
+	public function deleteUserAccount(array $input){
+		$user_id = $input['user_id'];
+		//$user_code = $input['user_code'];
+		$replaceId = 90;
+		$replaceCode = 'PM0000000001';
+		
+		$userArr = array('user_id'=>$replaceId,'deleted_user_id'=>$user_id,'user_code'=>$replaceCode);
+		$res = $this->infoDeleteFromModules($userArr);
+		
+	}
+	
+	public function infoDeleteFromModules(array $input)
+	{
+		$replaceArr = array('user_id'=>$input['user_id'],'user_code'=>$input['user_code']);
+		
+		$easyCares = Easycares::where('user_id', $input['deleted_user_id'])->count();
+		if($easyCares){
+			Easycares::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$ngo = Ngo::where('user_id', $input['deleted_user_id'])->count();
+		if($ngo){
+			Ngo::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$labs = Labs::where('user_id', $input['deleted_user_id'])->count();
+		if($labs){
+			Labs::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$institutions = Institutions::where('user_id', $input['deleted_user_id'])->count();
+		if($institutions){
+			Institutions::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$poultry = PoultryHatchery::where('user_id', $input['deleted_user_id'])->count();
+		if($poultry){
+			PoultryHatchery::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$milkCollections = MilkCollections::where('user_id', $input['deleted_user_id'])->count();
+		if($milkCollections){
+			MilkCollections::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$panjarpol = Panjarpol::where('user_id', $input['deleted_user_id'])->count();
+		if($panjarpol){
+			Panjarpol::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$csrActivities = CsrActivities::where('user_id', $input['deleted_user_id'])->count();
+		if($csrActivities){
+			CsrActivities::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$animalForSale = AnimalForSale::where('user_id', $input['deleted_user_id'])->count();
+		if($animalForSale){
+			AnimalForSale::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$veterinaryhospitals = Veterinaryhospitals::where('user_id', $input['deleted_user_id'])->count();
+		if($veterinaryhospitals){
+			Veterinaryhospitals::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$transporters = Transporters::where('user_id', $input['deleted_user_id'])->count();
+		if($transporters){
+			Transporters::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$trainingCenters = TrainingCenters::where('user_id', $input['deleted_user_id'])->count();
+		if($trainingCenters){
+			TrainingCenters::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$suppliers = Suppliers::where('user_id', $input['deleted_user_id'])->count();
+		if($suppliers){
+			Suppliers::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$shops = Shops::where('user_id', $input['deleted_user_id'])->count();
+		if($shops){
+			Shops::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$productForSale = ProductForSale::where('user_id', $input['deleted_user_id'])->count();
+		if($productForSale){
+			ProductForSale::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$farms = Farms::where('user_id', $input['deleted_user_id'])->count();
+		if($farms){
+			Farms::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$dogShelters = DogShelters::where('user_id', $input['deleted_user_id'])->count();
+		if($dogShelters){
+			DogShelters::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$chemist = Chemist::where('user_id', $input['deleted_user_id'])->count();
+		if($chemist){
+			Chemist::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$breeder = Breeder::where('user_id', $input['deleted_user_id'])->count();
+		if($breeder){
+			Breeder::where('user_id', $input['deleted_user_id'])->update($replaceArr);
+		}
+		
+		$animals = Animals::where('user_id', $input['deleted_user_id'])->count();
+		if($animals){
+			$arr = array('animal_owner'=>$replaceArr['user_id'],'user_id'=>$replaceArr['user_id']);
+			Animals::where('user_id', $input['deleted_user_id'])->update($arr);
+		}
+		
+		$users = User::where('id', $input['deleted_user_id'])->count();
+		if($users){
+			$arr = array('is_active'=>0);
+			User::where('id', $input['deleted_user_id'])->update($arr);
+		}
+		
+		//add to delete history 
+		$addHistory = new UserDeleteHistory();
+		$addHistory->deleted_user_id = $input['deleted_user_id'];
+		$addHistory->replace_user_id = $replaceArr['user_id'];
+		$addHistory->save();
+	}
+	
+	public function checkUniqueMobile($reuestData){
+		$flag = 0;
+		$mobileNumber = $reuestData['mobile_number'];
+		$exist = User::where('mobile_number',$mobileNumber)->where('is_active',1)->count();
+		if($exist > 0){
+			$flag = 1;
+		}
+		return $flag;
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+	}
+	
+	public function checkUniqueEmail($reuestData){
+		$flag = 0;
+		$email = $reuestData['email'];
+		$exist = User::where('email',$email)->where('is_active',1)->count();
+		if($exist > 0){
+			$flag = 1;
+		}
+		return $flag;
+		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 	}
 }
