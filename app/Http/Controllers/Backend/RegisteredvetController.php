@@ -304,8 +304,8 @@ class RegisteredvetController extends BaseController
 	{
 		$inputDetail['is_verified'] = 1;
         $user = $this->userRepo->update($id,$inputDetail);
-		$dashboardCntArr =array('user_id'=>$id,'module_name'=>'Registered-vet_Registration','flag'=>1);
-		$update = $this->userRepo->updateModuleCount($dashboardCntArr);
+		/*$dashboardCntArr =array('user_id'=>$id,'module_name'=>'Registered-vet_Registration','flag'=>1);
+		$update = $this->userRepo->updateModuleCount($dashboardCntArr);*/
 			
 		Session::flash('success', trans('messages.verify_success'));
 		## Store log
