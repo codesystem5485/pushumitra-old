@@ -128,6 +128,7 @@ class BreederController extends Controller
        DB::beginTransaction();
         try{
             $aInsertData = $request->all();
+		
             $breeder = $this->breederRepo->update($id,$request->all());
             
 			if($request->animal_photo)

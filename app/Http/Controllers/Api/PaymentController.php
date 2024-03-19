@@ -58,45 +58,38 @@ class PaymentController extends BaseController
 		return $this->sendResponse($response,"",200);
 	}
 	
+	public function getModuleCount($user_id){
+		
+		
+		
+	}
+	
 	public function addModulesCount($user_id){
 	
-		$chkCount = UserModuleCounts::where('user_id',$user_id)->count();
-		if($chkCount == 0){		
-				$modulesArr	=array(
-					'Pashumitra Registration'=> 0,
-					'Add Animal for sale'=> 0,
-					'Add Breeder'=> 0,
-					'Add Transporter'=> 0,
-					'Add chemist'=> 0,
-					'Registered-vet Registration'=> 0,
-					'Add Veterinary Hospitals'=>0,
-					'Add Product For Sale'=> 0,
-					'Add Supplier'=> 0,
-					'Add Farm'=> 0,
-					'Add Training Centre'=> 0,
-					'Add Shop'=> 0,
-					'Go Shala / Panjarpol'=> 0,
-					'Poultry Hatchery'=> 0,
-					'Dog Shelter'=> 0,
-					'Institutions'=> 0,
-					'Milk Collection'=> 0,
-					'Add Lab'=> 0,
-					'Add NGO'=> 0,
-					'Knowledge Sharing'=> 0,
+		$moduleData =$this->userRepo->getLatestModuleCount($user_id);
+		$moduleArr	=array(
+					'Pashumitra Registration'=> $moduleData['pashumitra'],
+					'Add Animal for sale'=>$moduleData['animalForSale'],
+					'Add Breeder'=> $moduleData['breeder'],
+					'Add Transporter'=>$moduleData['transporters'],
+					'Add chemist'=> $moduleData['chemist'],
+					'Registered-vet Registration'=> $moduleData['registered-vet'],
+					'Add Veterinary Hospitals'=>$moduleData['veterinaryhospitals'],
+					'Add Product For Sale'=> $moduleData['productForSale'],
+					'Add Supplier'=>$moduleData['suppliers'],
+					'Add Farm'=> $moduleData['farms'],
+					'Add Training Centre'=> $moduleData['trainingCenters'],
+					'Add Shop'=> $moduleData['shops'],
+					'Go Shala / Panjarpol'=> $moduleData['panjarpol'],
+					'Poultry Hatchery'=> $moduleData['poultryHatchery'],
+					'Dog Shelter'=> $moduleData['dogShelters'],
+					'Institutions'=> $moduleData['institutions'],
+					'Milk Collection'=> $moduleData['milkCollections'],
+					'Add Lab'=> $moduleData['labs'],
+					'Add NGO'=> $moduleData['ngo'],
+					'Knowledge Sharing'=> $moduleData['easycares'],
 				);
 				
-				$module = json_encode($modulesArr);
-				$modules = new UserModuleCounts;
-				$modules->user_id = $user_id;
-				$modules->module = $module;
-				$modules->save();
-		}
-		$moduleArr=[];
-		$chkarr = UserModuleCounts::where('user_id',$user_id)->first();
-		if($chkarr->module!=''){
-			$moduleArr = json_decode($chkarr->module, true);
-		}
-	
 		$createArray = [];
 		if(count($moduleArr) > 0){
 			
@@ -105,6 +98,7 @@ class PaymentController extends BaseController
 				$createArray[$name]= (int)$val;
 			}
 		}
+		
 		return $createArray;
 	}
 	

@@ -1019,7 +1019,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	}
 	
 	//update user seen module Count 
-	public function updateModuleCount(array $input)
+	/*public function updateModuleCount(array $input)
 	{ 
 		$moduleArr=[];
 		$user_id = $input['user_id'];
@@ -1049,7 +1049,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$module = json_encode($createArray);
 		$chkarr->module = $module;
 		$chkarr->save();
-	}
+	}*/
 	
 	public function deleteUserAccount(array $input){
 		$user_id = $input['user_id'];
@@ -1200,5 +1200,146 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		}
 		return $flag;
 		                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+	}
+	
+	public function getLatestModuleCount($user_id)
+	{
+		$moduleData = UserModuleCounts::where('user_id',$user_id)->first();
+		$countArray = array();
+			$countArray['breeder'] =0; $countArray['easycares'] = 0; $countArray['ngo'] = 0;
+			$countArray['labs'] = 0; $countArray['institutions'] = 0; $countArray['poultryHatchery'] = 0;
+			$countArray['milkCollections'] = 0; $countArray['veterinaryhospitals'] =0; $countArray['animalForSale'] = 0;
+			$countArray['transporters'] = 0; $countArray['trainingCenters'] = 0; $countArray['suppliers'] = 0;
+			$countArray['shops'] = 0; $countArray['productForSale'] = 0; $countArray['farms'] =0; $countArray['dogShelters'] =0;
+			$countArray['chemist'] = 0; $countArray['panjarpol'] =0; $countArray['registered-vet'] = 0; $countArray['pashumitra'] = 0;
+		
+		if($moduleData){
+			$breeders = date("Y-m-d H:i:s",strtotime($moduleData->breeders));
+			$ngo = date("Y-m-d H:i:s",strtotime($moduleData->ngo));
+			$veterinary_hospitals = date("Y-m-d H:i:s",strtotime($moduleData->veterinary_hospitals));
+			$chemists = date("Y-m-d H:i:s",strtotime($moduleData->chemists));
+			$dog_shelters = date("Y-m-d H:i:s",strtotime($moduleData->dog_shelters));
+			$easy_cares = date("Y-m-d H:i:s",strtotime($moduleData->easy_cares));
+			$farms = date("Y-m-d H:i:s",strtotime($moduleData->farms));
+			$institutions = date("Y-m-d H:i:s",strtotime($moduleData->institutions));
+			$labs = date("Y-m-d H:i:s",strtotime($moduleData->labs));
+			$milkcollection_centers = date("Y-m-d H:i:s",strtotime($moduleData->milkcollection_centers));
+			$panjarpol = date("Y-m-d H:i:s",strtotime($moduleData->panjarpol));
+			$poultryhatchery_centers = date("Y-m-d H:i:s",strtotime($moduleData->poultryhatchery_centers));
+			$product_for_sales = date("Y-m-d H:i:s",strtotime($moduleData->product_for_sales));
+			$shops = date("Y-m-d H:i:s",strtotime($moduleData->shops));
+			$suppliers = date("Y-m-d H:i:s",strtotime($moduleData->suppliers));
+			$training_centers = date("Y-m-d H:i:s",strtotime($moduleData->training_centers));
+			$transporters = date("Y-m-d H:i:s",strtotime($moduleData->transporters));
+			$animal_for_sales = date("Y-m-d H:i:s",strtotime($moduleData->animal_for_sales));
+			$pashumitra_registrations = date("Y-m-d H:i:s",strtotime($moduleData->pashumitra_registrations));
+			//$registered-vet_registrations = date("Y-m-d H:i:s",strtotime($moduleData->registered-vet_registrations));
+			
+			$countArray['breeder'] = Breeder::where('created_at', '>',$breeders) ->count();
+			$countArray['easycares'] = Easycares::where('created_at', '>',$easy_cares) ->count();
+			$countArray['ngo'] = Ngo::where('created_at', '>',$ngo) ->count();
+			$countArray['labs'] = Labs::where('created_at', '>',$labs) ->count();
+			$countArray['institutions'] = Institutions::where('created_at', '>',$institutions) ->count();
+			$countArray['poultryHatchery'] = PoultryHatchery::where('created_at', '>',$poultryhatchery_centers) ->count();
+			$countArray['milkCollections'] = MilkCollections::where('created_at', '>',$milkcollection_centers) ->count();
+			$countArray['veterinaryhospitals'] = Veterinaryhospitals::where('created_at', '>',$veterinary_hospitals) ->count();
+			$countArray['animalForSale'] = AnimalForSale::where('created_at', '>',$animal_for_sales) ->count();
+			$countArray['transporters'] = Transporters::where('created_at', '>',$transporters) ->count();
+			$countArray['trainingCenters'] = TrainingCenters::where('created_at', '>',$training_centers) ->count();
+			$countArray['suppliers'] = Suppliers::where('created_at', '>',$suppliers) ->count();
+			$countArray['shops'] = Shops::where('created_at', '>',$shops) ->count();
+			$countArray['productForSale'] = ProductForSale::where('created_at', '>',$product_for_sales) ->count();
+			$countArray['farms'] = Farms::where('created_at', '>',$farms) ->count();
+			$countArray['dogShelters'] = DogShelters::where('created_at', '>',$dog_shelters) ->count();
+			$countArray['chemist'] = Chemist::where('created_at', '>',$chemists) ->count();
+			$countArray['panjarpol'] = Panjarpol::where('created_at', '>',$panjarpol) ->count();
+			$countArray['registered-vet'] = 0;
+			$countArray['pashumitra'] = 0;
+		}else{
+			$insertArray =array(
+					'user_id'=>$user_id,
+				);
+				$insert = UserModuleCounts::create($insertArray);
+		}
+		
+		return $countArray;
+	}
+	
+	public function updateModuleCount(array $input)
+	{ 
+		$moduleArr=[];
+		$user_id = $input['user_id'];
+		$moduleName = str_replace('_', ' ', $input['module_name']);
+		$chkarr = UserModuleCounts::where('user_id',$user_id)->first();
+		
+		switch($moduleName){
+            case 'Pashumitra Registration':
+            $column = 'pashumitra_registrations';
+            break;
+			case 'Add Animal for sale':
+            $column = 'animal_for_sales';
+            break;
+			case 'Add Breeder':
+            $column = 'breeders';
+            break;
+			case 'Add Transporter':
+            $column = 'transporters';
+            break;
+			case 'Add chemist':
+            $column = 'chemists';
+            break;
+			case 'Registered-vet Registration':
+            $column = 'registered-vet_registrations';
+            break;
+			case 'Add Veterinary Hospitals':
+            $column = 'veterinary_hospitals';
+            break;	
+			case 'Add Product For Sale':
+            $column = 'product_for_sales';
+            break;
+			case 'Add Supplier':
+            $column = 'suppliers';
+            break;	
+			case 'Add Farm':
+            $column = 'farms';
+            break;
+			case 'Add Training Centre':
+            $column = 'training_centers';
+            break;
+			case 'Add Shop':
+            $column = 'shops';
+            break;
+			case 'Go Shala / Panjarpol':
+            $column = 'panjarpol';
+            break;
+			case 'Poultry Hatchery':
+            $column = 'poultryhatchery_centers';
+            break;
+			case 'Dog Shelter':
+            $column = 'dog_shelters';
+            break;
+			case 'Institutions':
+            $column = 'institutions';
+            break;
+			case 'Milk Collection':
+            $column = 'milkcollection_centers';
+            break;
+			case 'Add Lab':
+            $column = 'labs';
+            break;
+			case 'Add NGO':
+            $column = 'ngo';
+            break;
+			case 'Knowledge Sharing':
+            $column = 'easy_cares';
+            break;			
+            default:
+            $column = '';    
+        }
+        
+		if($column!=''){
+			$updateArray = array( $column =>date("Y-m-d H:i:s"));
+			$module = UserModuleCounts :: where('user_id',$user_id)->update($updateArray);
+		}
 	}
 }

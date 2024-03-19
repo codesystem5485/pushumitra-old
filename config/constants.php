@@ -57,6 +57,11 @@ return [
         'user-delete',
     ],
     'twelve_data_api_key' => '',
-    'twelve_data_url' => 'https://api.twelvedata.com'
+    'twelve_data_url' => 'https://api.twelvedata.com',
+	'module_array' => ['Pashumitra Registration','Add Animal for sale','Add Breeder',
+	'Add Transporter','Add chemist','Registered-vet Registration','Add Veterinary Hospitals',
+	'Add Product For Sale','Add Supplier','Add Farm','Add Training Centre',
+	'Add Shop','Go Shala / Panjarpol','Poultry Hatchery','Dog Shelter','Institutions','Milk Collection',
+	'Add Lab','Add NGO','Knowledge Sharing'],
 ];
 ?>
