@@ -204,6 +204,7 @@ class AnimalsaleController extends BaseController
 		
 		$id = $request->animalsale_id;
        // $animalsale = Animalforsale::find($id);
+	   $affectedRows = Animalforsale::where('id', $id)->increment('views_count');
 		
 		$animalsale = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select('animal_for_sales.*','species.specie as species_name')

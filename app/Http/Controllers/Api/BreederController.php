@@ -189,6 +189,7 @@ class BreederController extends BaseController
 	public function breederDetail(Request $request)
 	{
 		$id = $request->breeder_id;
+		$affectedRows = Breeder::where('id', $id)->increment('views_count');
 		$breeder = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 		->select('breeders.*','species.specie as species_name')
 		->where('breeders.id',$id)

@@ -197,6 +197,7 @@ class SuppliersController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Suppliers::where('id', $id)->increment('views_count');
 		
 		$results =$this->suppliersRepo->getSuppliers($id);
 		if($results){

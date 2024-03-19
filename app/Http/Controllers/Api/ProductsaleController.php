@@ -194,6 +194,8 @@ class ProductsaleController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = ProductForSale::where('id', $id)->increment('views_count');
+		
 		$results = ProductForSale::where('id',$id)->first();
 		if($results){
 			$images_arr = ProductImages::where('product_sale_id',$results->id)->get();
