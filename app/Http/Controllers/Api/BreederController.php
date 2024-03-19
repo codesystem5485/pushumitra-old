@@ -61,8 +61,8 @@ class BreederController extends BaseController
 		
         $response = [];
 		
-        /*::beginTransaction();
-        try{ */           
+        DB::beginTransaction();
+        try{           
             $aInsertData = $request->all();
             $breeder = $this->breederRepo->create($aInsertData);
 			
@@ -115,7 +115,7 @@ class BreederController extends BaseController
             DB::commit();
 			 ## Store log
             $message = trans('messages.breeder_create',['name' => $breeder->breeder_name]);
-           /* storeActicityLog(trans('messages.breeder_create'),$message);
+            storeActicityLog(trans('messages.breeder_create'),$message);
 			return $this->sendResponse($response,$message,200);
         }catch(\Exception $e){
             DB::rollback(); 
@@ -123,7 +123,7 @@ class BreederController extends BaseController
             ##store error log
             storeActicityLog(trans('messages.error'),$error,$request->user_id);
 			return  $this->sendError($response,trans('messages.something'),500);			
-        }*/
+        }
     }
 	
 	public function getBreederList(Request $request)
