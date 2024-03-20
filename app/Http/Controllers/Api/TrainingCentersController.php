@@ -119,9 +119,7 @@ class TrainingCentersController extends BaseController
 			$results->subscriptionEndDate=$subscriptionEndDate;
 			$results->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Training_Centre','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
+		 
             DB::commit();
 			## Store log
             $message = trans('messages.trainingcenter_create',['name' => $request->training_center_name]);

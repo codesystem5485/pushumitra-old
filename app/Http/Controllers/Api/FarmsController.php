@@ -117,9 +117,7 @@ class FarmsController extends BaseController
 			$results->subscriptionEndDate=$subscriptionEndDate;
 			$results->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Farm','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
+			
             DB::commit();
 			## Store log
             $message = trans('messages.farm_create',['name' => $request->farm_name]);

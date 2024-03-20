@@ -117,9 +117,6 @@ class MilkCollectionController extends BaseController
 			$results->subscriptionEndDate=$subscriptionEndDate;
 			$results->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Milk_Collection','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
             DB::commit();
 			## Store log
             $message = trans('messages.milkcollection_create',['name' => $request->milkcollection_center_name]);

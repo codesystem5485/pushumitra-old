@@ -109,8 +109,6 @@ class BreederController extends BaseController
 			$aInsertData['title'] = "Payment Receipt for Breeder";
 			$notifications = $this->breederRepo->addPaymentToNotifications($aInsertData);
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Breeder','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
             
             DB::commit();
 			 ## Store log

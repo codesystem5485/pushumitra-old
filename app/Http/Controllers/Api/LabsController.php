@@ -120,9 +120,7 @@ class LabsController extends BaseController
 			$labs->subscriptionEndDate=$subscriptionEndDate;
 			$labs->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Lab','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
+		
 			DB::commit();
 			## Store log
             $message = trans('messages.lab_create',['name' => $request->lab_name]);

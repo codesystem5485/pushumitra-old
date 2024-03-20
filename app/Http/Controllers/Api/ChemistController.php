@@ -113,9 +113,7 @@ class ChemistController extends BaseController
 			$aInsertData['title'] = "Payment Receipt for Chemist";
 			$notifications = $this->chemistRepo->addPaymentToNotifications($aInsertData);
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_chemist','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-
+			
             DB::commit();
             ## Store log
             $message = trans('messages.chemist_create',['name' => $request->shop_name]);

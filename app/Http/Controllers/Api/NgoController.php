@@ -85,9 +85,6 @@ class NgoController extends BaseController
 			$results->longitude=$coordinateArr['longitude'];
 			$results->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_NGO','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
             DB::commit();
 			## Store log
             $message = trans('messages.ngo_create',['name' => $request->ngo_name]);

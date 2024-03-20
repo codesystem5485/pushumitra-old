@@ -55,8 +55,8 @@ class ProductsaleController extends BaseController
 		
         $response = [];
 		
-        //DB::beginTransaction();
-        //try{            
+        DB::beginTransaction();
+        try{            
             $aInsertData = $request->all();
             $productsale = $this->productsaleRepo->create($aInsertData);
 
@@ -102,20 +102,18 @@ class ProductsaleController extends BaseController
 			$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
             
             DB::commit();
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Product_For_Sale','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
 			
 			## Store log
             $message = trans('messages.productsale_create',['name' => $request->product_name]);
             storeActicityLog(trans('messages.productsale_create'),$message);
 			return $this->sendResponse($response,$message,200);
-      /* }catch(\Exception $e){
+       }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
             ##store error log
             storeActicityLog(trans('messages.error'),$error,$request->user_id);
 			return  $this->sendError($response,trans('messages.something'),500);			
-        }*/
+        }
     }
 	
 	public function getProductsaleList(Request $request)

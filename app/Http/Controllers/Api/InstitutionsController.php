@@ -119,9 +119,7 @@ class InstitutionsController extends BaseController
 			$results->subscriptionEndDate=$subscriptionEndDate;
 			$results->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Institutions','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
+			 
             DB::commit();
 			## Store log
             $message = trans('messages.institution_create',['name' => $request->institution_name]);

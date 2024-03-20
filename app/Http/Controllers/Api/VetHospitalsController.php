@@ -120,9 +120,7 @@ class VetHospitalsController extends BaseController
 			$hospitals->subscriptionEndDate=$subscriptionEndDate;
 			$hospitals->update();
 			
-			$dashboardCntArr =array('user_id'=>$aInsertData['user_id'],'module_name'=>'Add_Veterinary_Hospitals','flag'=>1);
-			$update = $this->userRepo->updateModuleCount($dashboardCntArr);
-            
+			
             DB::commit();
 			## Store log
             $message = trans('messages.hospital_create',['name' => $request->hospital_name]);
