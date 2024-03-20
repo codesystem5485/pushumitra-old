@@ -15,7 +15,7 @@ class UserModuleCounts extends Model
     protected $fillable = ['id','user_id','module','module_counts','breeders','ngo','veterinary_hospitals',
 	'chemists','dog_shelters','easy_cares','farms','institutions','labs','milkcollection_centers','panjarpol',
 	'poultryhatchery_centers','product_for_sales','shops','suppliers','training_centers','transporters',
-	'animal_for_sales','pashumitra_registrations','registered-vet_registrations','created_at','updated_at'];
+	'animal_for_sales','pashumitra_registrations','registered_vet_registrations','created_at','updated_at'];
      
 	/*protected $casts = [
         'attributes' => 'json',

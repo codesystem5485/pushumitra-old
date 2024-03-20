@@ -88,15 +88,27 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->get();
     }
 	
+	public function getVerifyUserCount($role,$date){
+		return  $this->userModelRepo->with(['roles','getCreatedBy:id,full_name,mobile_number,fcm_id'])
+        ->whereHas('roles', function($q) use($role) {
+            if(!empty($role)){
+                $q->where('name', $role);
+            }
+        })
+		->where('created_at', '>',$date)
+		->where('is_active',1)
+        ->count();
+	}
+	
 	public function getUsersFcmIds(array $input = [])
     {     
         return  $this->userModelRepo->with(['roles'])
-		/*->select('fcm_id')
+		->select('fcm_id')
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);
             }
-        })*/
+        })
         //->where('id','!=',1)
 		->where('is_active',1)
 		->where('fcm_id','!=','')
@@ -1214,6 +1226,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$countArray['chemist'] = 0; $countArray['panjarpol'] =0; $countArray['registered-vet'] = 0; $countArray['pashumitra'] = 0;
 		
 		if($moduleData){
+			
 			$breeders = date("Y-m-d H:i:s",strtotime($moduleData->breeders));
 			$ngo = date("Y-m-d H:i:s",strtotime($moduleData->ngo));
 			$veterinary_hospitals = date("Y-m-d H:i:s",strtotime($moduleData->veterinary_hospitals));
@@ -1233,7 +1246,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$transporters = date("Y-m-d H:i:s",strtotime($moduleData->transporters));
 			$animal_for_sales = date("Y-m-d H:i:s",strtotime($moduleData->animal_for_sales));
 			$pashumitra_registrations = date("Y-m-d H:i:s",strtotime($moduleData->pashumitra_registrations));
-			//$registered-vet_registrations = date("Y-m-d H:i:s",strtotime($moduleData->registered-vet_registrations));
+			$registered_vet_registrations = date("Y-m-d H:i:s",strtotime($moduleData->registered_vet_registrations));
 			
 			$countArray['breeder'] = Breeder::where('created_at', '>',$breeders) ->count();
 			$countArray['easycares'] = Easycares::where('created_at', '>',$easy_cares) ->count();
@@ -1251,15 +1264,39 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$countArray['productForSale'] = ProductForSale::where('created_at', '>',$product_for_sales) ->count();
 			$countArray['farms'] = Farms::where('created_at', '>',$farms) ->count();
 			$countArray['dogShelters'] = DogShelters::where('created_at', '>',$dog_shelters) ->count();
-			$countArray['chemist'] = Chemist::where('created_at', '>',$chemists) ->count();
-			$countArray['panjarpol'] = Panjarpol::where('created_at', '>',$panjarpol) ->count();
-			$countArray['registered-vet'] = 0;
-			$countArray['pashumitra'] = 0;
+			$countArray['chemist'] = Chemist::where('created_at', '>',$chemists)->count();
+			$countArray['panjarpol'] = Panjarpol::where('created_at', '>',$panjarpol)->count();
+			$countArray['registered-vet'] =$this->getVerifyUserCount('Registered-vet',$registered_vet_registrations);
+			$countArray['pashumitra'] = $this->getVerifyUserCount('Pashumitra',$pashumitra_registrations); 
 		}else{
 			$insertArray =array(
 					'user_id'=>$user_id,
+					'breeders'=>date('Y-m-d H:i:s'),
+					'ngo'=>date('Y-m-d H:i:s'),
+					'veterinary_hospitals'=>date('Y-m-d H:i:s'),
+					'chemists'=>date('Y-m-d H:i:s'),
+					'dog_shelters'=>date('Y-m-d H:i:s'),
+					'easy_cares'=>date('Y-m-d H:i:s'),
+					'farms'=>date('Y-m-d H:i:s'),
+					'institutions'=>date('Y-m-d H:i:s'),
+					'labs'=>date('Y-m-d H:i:s'),
+					'milkcollection_centers'=>date('Y-m-d H:i:s'),
+					'panjarpol'=>date('Y-m-d H:i:s'),
+					'poultryhatchery_centers'=>date('Y-m-d H:i:s'),
+					'product_for_sales'=>date('Y-m-d H:i:s'),
+					'shops'=>date('Y-m-d H:i:s'),
+					'suppliers'=>date('Y-m-d H:i:s'),
+					'training_centers'=>date('Y-m-d H:i:s'),
+					'transporters'=>date('Y-m-d H:i:s'),
+					'animal_for_sales'=>date('Y-m-d H:i:s'),
+					'pashumitra_registrations'=>date('Y-m-d H:i:s'),
+					'registered_vet_registrations'=>date('Y-m-d H:i:s'),
+					
 				);
+				
+				
 				$insert = UserModuleCounts::create($insertArray);
+				
 		}
 		
 		return $countArray;
@@ -1289,7 +1326,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             $column = 'chemists';
             break;
 			case 'Registered-vet Registration':
-            $column = 'registered-vet_registrations';
+            $column = 'registered_vet_registrations';
             break;
 			case 'Add Veterinary Hospitals':
             $column = 'veterinary_hospitals';
