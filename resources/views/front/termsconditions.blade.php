@@ -158,7 +158,26 @@ If you have any questions or require further clarification, please contact our c
 			<h4>CONTACT US</h4>
             <p>In order to resolve a complaint regarding the Site or the Marketplace Offerings or to receive further information regarding use of the Site or the Marketplace Offerings, please contact us at:&nbsp;</p>
                     
+ <h4>Account Deletion Terms and Conditions for Pashumitra App User</h4>
 
-        </div>
-    </div>
-	@endsection
+<p>You are about to submit a request for us to permanently close your online account/profile on the Pashumitra app and ANY other associated online channels owned and operated by Brand Pashumitra (Web/APP) and delete your data. Once your account is closed, all of the products and services accessed through your account will no longer be available to you, across any Pashumitra app sites globally. If you proceed with this request, you will not be able to access products and services associated with your closed account, including the Pashumitra app. It may take up to 90 days to complete the deletion process after it begins. Copies of your content may remain after the 90 days in backup storage that we use to recover in the event of a disaster, software error, or other data loss event. We may also keep your information for things like legal issues, terms violations, or harm prevention efforts.</p>
+
+<p><b>Account Closure Is a Permanent Action</b></p>
+
+<p>Please note account closure is a permanent action, and once your account is closed, it will no longer be available to you and cannot be restored. If you decide later that you want to start using the Pashumitra app again or if you'd like to use products and services that require an account, you'll need to create a new account.</p>
+
+<p><b>Animal Owners:</b></p>
+
+<p>Account deletion is available within the app profile settings.
+If you have paid for advertisement services and your advertisement is live, deleting your account during the advertisement period will result in the deletion of the advertisement as well.
+Once you delete your account, you will no longer have access to our services. If you wish to continue using our services, you will need to create a new account.
+</p>
+<p><b>For Registered Veterinary Users And  Pashumitra Users :</b></p>
+
+<p>If you delete your account and have paid the joining fees, your information will be transfer to admin account, you will not be able to log in after account deletion using the same mobile number, and you will have to sign up again. And you will be required to pay the joining or membership fees again.
+<p>
+<p>If your membership expires, your personal data will be automatically deleted, and you will no longer have access to the benefits of membership, including renewal.
+<p>
+</div>
+</div>
+@endsection

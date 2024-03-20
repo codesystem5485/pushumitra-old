@@ -74,7 +74,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.breeder_animal_description') }}:</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="animal_description" value="@if(empty($breeder)){{old('animal_description')}}@else{{$breeder->animal_description}}@endif"placeholder="{{ __('general.breed_animal_description') }}">
+                        <textarea type="text" class="form-control"  aria-describedby="basic-addon3" name="animal_description" 
+						placeholder="{{ __('general.breed_animal_description') }}">@if(empty($breeder)){{old('animal_description')}}@else{{$breeder->animal_description}}@endif
+						</textarea>
                     </div>
 					
 					
