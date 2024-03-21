@@ -113,8 +113,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.description') }} :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($chemist)){{old('description')}}@else{{$chemist->description}}@endif"placeholder="{{ __('general.enter_description') }}">
-                    </div>
+                         <textarea type="text" class="form-control"  aria-describedby="basic-addon3" name="description" 
+						placeholder="{{ __('general.enter_description') }}">@if(empty($chemist)){{old('description')}}@else{{$chemist->description}}@endif</textarea>
+				   </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">

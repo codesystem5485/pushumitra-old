@@ -66,7 +66,7 @@ Route::group(['middleware' => ['cors']], function () {
 	/* payment */
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
 	Route::post('/create-payment', [PaymentController::class,'addPayments']);
-	Route::get('/get-config', [PaymentController::class,'getConfig']);
+	Route::get('/get-config', [PaymentController::class,'getConfig'])->middleware('localization');
 	
 	Route::get('/get-notifications', [NotificationController::class,'getNotificationList']); 
 	Route::get('/get-notification-details', [NotificationController::class,'getNotificationDetails']); 

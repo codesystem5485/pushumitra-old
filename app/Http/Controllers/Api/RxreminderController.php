@@ -82,8 +82,24 @@ class RxreminderController extends BaseController
 			$aInsertData['role_id'] =$roleId;
             $rxreminder = $this->rxreminderRepo->create($aInsertData);
 			
-			//add to notifications
+			//adding animal owner name 
+			
+			//add to notifications for animal owner
+			$aInsertData['scheduled_message'] = $aInsertData['scheduled_message'];
 			$aInsertData['sender_user_id'] = $aInsertData['animal_owner_id'];
+			$aInsertData['rx_reminder_id'] = $rxreminder->id;
+			$aInsertData['title'] = "Rx Reminder";
+			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
+			
+			//add to notifications for user adding rx reminder
+			$animalOwner = User::select('full_name')->where('id',$aInsertData['animal_owner_id'])->first(); 
+			$animalOwnerName='';
+			if($animalOwner){
+				$animalOwnerName = $animalOwner->full_name;
+				$aInsertData['scheduled_message'] = $aInsertData['scheduled_message']." - ".$animalOwnerName;
+			}
+			
+			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
 			$aInsertData['rx_reminder_id'] = $rxreminder->id;
 			$aInsertData['title'] = "Rx Reminder";
 			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);

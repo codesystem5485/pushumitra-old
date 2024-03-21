@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'check.role' => \App\Http\Middleware\CheckRole::class,
         'api-token' => \App\Http\Middleware\PassportToken::class,
         'XssSanitizer' => \App\Http\Middleware\XssSanitization::class,
+		'localization' => \App\Http\Middleware\localization::class,
     ];
 }
