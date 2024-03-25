@@ -28,6 +28,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::post('/signin', [AuthController::class,'login']);  
 	Route::post('/guest-signin', [AuthController::class,'guestLogin']);
 	Route::post('/guest-verify-otp', [AuthController::class,'guestVerifyOtp']);
+	Route::get('/guest-login', [AuthController::class,'guestLoginWithoutVerify']);
 
     Route::post('/verify-mobile-number', [AuthController::class,'verifyPhoneNumber']); 
 	Route::post('/verify-otp', [AuthController::class,'verifyOtp']); 

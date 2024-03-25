@@ -910,6 +910,21 @@ class AuthController extends BaseController
 		
 		
 	}
+	
+	public function guestLoginWithoutVerify(Request $request){
+        
+        $response = [];
+        $token = $this->createApiToken();
+		$user = new Guestusers();
+		$param = ['api_token' => $token];
+		$user->api_token = $token;
+		$user->otp='';
+		$user->otp_expiration='';
+		$user->save();
+		$response = ['mobile_number' =>'','api_token' => $token,'latitude'=>'','longitude'=>'','user_id'=>$user->id];
+		return $this->sendResponse($response,'login success',200);  
+        
+    }
 
 	public function guestLogin(Request $reqest){
         $postData = request()->all();
