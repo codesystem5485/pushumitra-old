@@ -92,6 +92,7 @@ class RxreminderController extends BaseController
 			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
 			
 			//add to notifications for user adding rx reminder
+			if($aInsertData['animal_owner_id']!=$aInsertData['user_id']){
 			$animalOwner = User::select('full_name')->where('id',$aInsertData['animal_owner_id'])->first(); 
 			$animalOwnerName='';
 			if($animalOwner){
@@ -103,7 +104,7 @@ class RxreminderController extends BaseController
 			$aInsertData['rx_reminder_id'] = $rxreminder->id;
 			$aInsertData['title'] = "Rx Reminder";
 			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
-
+			}
             DB::commit();
             ## Store log
             $message = trans('messages.rxreminder_create',['name' => $request->UID_number]);
