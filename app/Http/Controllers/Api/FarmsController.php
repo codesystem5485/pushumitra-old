@@ -218,6 +218,7 @@ class FarmsController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Farms::where('id', $id)->increment('views_count');
 		
 		$results =$this->farmsRepo->getFarm($id);
 		if($results){

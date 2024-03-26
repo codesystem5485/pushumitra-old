@@ -224,6 +224,7 @@ class TrainingCentersController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = TrainingCenters::where('id', $id)->increment('views_count');
 		
 		$results =$this->trainingcenterRepo->getTrainingcenter($id);
 		if($results){

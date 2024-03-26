@@ -40,7 +40,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">{{ __('general.fees_name') }}* :</span>
                         </div>
-                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="name" value="@if(empty($fees)){{old('name')}}@else{{$fees->name}}@endif"placeholder="{{ __('general.fees_name') }}">
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="name" value="@if(empty($fees)){{old('name')}}@else{{$fees->name}}@endif" @if(!empty($fees)){{ "readonly" }}@endif placeholder="{{ __('general.fees_name') }}">
                     </div>
 					
 					 <div class="input-group mb-3">

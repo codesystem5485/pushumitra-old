@@ -218,6 +218,7 @@ class PoultryHatcheryController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = PoultryHatchery::where('id', $id)->increment('views_count');
 		
 		$results =$this->poultryhatcheryRepo->getPoultryHatchery($id);
 		if($results){

@@ -217,6 +217,7 @@ class MilkCollectionController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = MilkCollections::where('id', $id)->increment('views_count');
 		
 		$results =$this->milkcollectionRepo->getMilkcollection($id);
 		if($results){

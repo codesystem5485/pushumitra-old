@@ -209,6 +209,7 @@ class TransporterController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Transporters::where('id', $id)->increment('views_count');
 		$results = Transporters::where('id',$id)->first();
 		if($results){
 			$images_arr = VehicleImages::where('transporter_id',$results->id)->get();

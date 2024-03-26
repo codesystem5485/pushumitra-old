@@ -185,8 +185,9 @@ class ChemistController extends BaseController
 
     public function chemistDetail(Request $request){
 		$id = $request->chemist_id;
-        
+        $affectedRows = Chemist::where('id', $id)->increment('views_count');
 		$chemist = Chemist::where('id',$id)->first();
+		
 		$response = [];
 		
 		$chemistimages=array();

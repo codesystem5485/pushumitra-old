@@ -207,6 +207,7 @@ class ShopsController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Shops::where('id', $id)->increment('views_count');
 		
 		$results =$this->shopsRepo->getShop($id);
 		if($results){
