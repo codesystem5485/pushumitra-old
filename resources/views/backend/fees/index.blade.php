@@ -59,9 +59,11 @@
                                     </button></a>
                                     @endcan
                                     @can('fees-delete')
-                                    <a href="{{route('fees.delete',['id' => $row->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
-                                    <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
-                                    </button></a>
+									@if($row->module_flag ==0)
+										<a href="{{route('fees.delete',['id' => $row->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
+										<button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
+										</button></a>
+									@endif
                                     @endcan
                                 </td>
                             </tr>

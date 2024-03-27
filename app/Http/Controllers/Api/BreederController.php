@@ -127,11 +127,16 @@ class BreederController extends BaseController
 	public function getBreederList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
+			
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 				->select('breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
-				'species.specie as species_name',
-            DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'));
+				'species.specie as species_name',DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = breeders.id AND module_id ='.$module_id.' ) as star_rating_count'));
            
 		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);

@@ -138,10 +138,15 @@ class DogShelterController extends BaseController
 	public function getDogshelterList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = DogShelters::select('id','dogshelter_name','incharge_name','mobile_number',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from  dog_shelter_images where dog_shelter_id  = dog_shelters.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  dog_shelter_images where dog_shelter_id  = dog_shelters.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = dog_shelters.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->whereDate('dog_shelters.subscriptionEndDate', '>=', Carbon::now())
 			->where('dog_shelters.status', 1);
 						 

@@ -133,9 +133,16 @@ class ChemistController extends BaseController
 	public function getChemistList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
+			
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Chemist::select( 'chemists.id','chemists.shop_name','chemists.owner_name','chemists.mobile_number',
-		'chemists.city_town','chemists.latitude','chemists.longitude',DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'));
+		'chemists.city_town','chemists.latitude','chemists.longitude',DB::raw('(select image_name from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_count'));
            
 		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);

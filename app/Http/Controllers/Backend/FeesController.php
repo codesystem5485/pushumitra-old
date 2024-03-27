@@ -40,7 +40,7 @@ class FeesController extends Controller
      * @return View
      */
     public function index(){
-        $fees = Fee::where('status',1)->orderBy('id','ASC')->get();
+        $fees = Fee::where('status',1)->where('module_flag','!=',2)->orderBy('id','ASC')->get();
         return view('backend.fees.index',['fees'=>$fees,'url' => $this->url]); 
     }
 
