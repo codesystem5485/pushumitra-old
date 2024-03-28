@@ -137,11 +137,18 @@ class TrainingCentersController extends BaseController
 	public function getTrainingCenterList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
+			
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
 			->select('training_centers.id','training_center_name','incharge_name','mobile_number','duration','type','fees',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
-            DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   training_centers.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where(function($query){
                             $query->where(function($query){
                                  $query->where('type','Private')->whereDate('training_centers.subscriptionEndDate', '>=', Carbon::now());

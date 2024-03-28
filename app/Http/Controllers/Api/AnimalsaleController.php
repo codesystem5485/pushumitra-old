@@ -130,16 +130,25 @@ class AnimalsaleController extends BaseController
         }
     }
 	
+	/*updated on 28-03-24 for rating
+	updated on 28-02-24 for search*/
 	public function getAnimalSaleList(Request $request)
 	{
 		$requestData = request()->all();
-		//updated on 28-02-24 for search
+		
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
+		
 		//get distance
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		
 		$query  = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select('animal_for_sales.*','species.specie as species_name',
-		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  );
+		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rating_count'));
 	  
 		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);

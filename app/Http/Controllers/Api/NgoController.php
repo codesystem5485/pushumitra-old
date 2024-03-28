@@ -102,10 +102,16 @@ class NgoController extends BaseController
 	public function getNgoList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Ngo::select('ngo.id','registration_number','ngo_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   ngo.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where('ngo.status', 1);
 						 
 		if($haversine!=''){

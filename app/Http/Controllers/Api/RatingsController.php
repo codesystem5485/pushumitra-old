@@ -23,7 +23,6 @@ class RatingsController extends BaseController
 
     /**
      * ratings List
-     * @return View
      */
     public function getAverageRatings(Request $request)
 	{
@@ -36,8 +35,18 @@ class RatingsController extends BaseController
 		{
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
         
-		$response['results']  = Ratings::where('rateable_id',$postData['rateable_id'])->where('status',1)->avg('star_ratings');
+		$query  = Ratings::where('rateable_id',$postData['rateable_id'])->where('status',1);
+		if($module_id!=0){
+			$query  =$query->where('module_id',$postData['module_id']);
+		}
+		$query  = $query->avg('star_ratings');
+		
+		$response['results'] = $query;
 		if($response['results']==null){
 			$response['results'] = 0;
 		}
@@ -72,6 +81,9 @@ class RatingsController extends BaseController
 			$ratings->rateable_id = $postData['rateable_id'];
 			$ratings->review_comments = $postData['review'];
 			$ratings->star_ratings = $postData['star_ratings'];
+			if($postData['module_id']!=''){
+				$ratings->module_id = $postData['module_id'];
+			}
 			$ratings->save();
 			
             DB::commit();
@@ -103,10 +115,17 @@ class RatingsController extends BaseController
 		$id = $postData['rateable_id'];
 		$url = url('/upload/profile_photo').'/';
 		
-        $response['results']= Ratings::leftJoin('users', 'users.id', '=', 'review_ratings.user_id')
+        $query = Ratings::leftJoin('users', 'users.id', '=', 'review_ratings.user_id')
 		->select('review_ratings.*','full_name','city_town')
 							->selectRaw(DB::raw("CONCAT('".$url."', profile_photo) as profile_image"))
-							->where('rateable_id',$postData['rateable_id'])->where('status',1)->orderBy('id','DESC')->get();
+							->where('rateable_id',$postData['rateable_id']);
+		if($postData['module_id']!=''){
+			$query = $query->where('module_id',$postData['module_id']);
+		}					
+							
+		$query = $query->where('status',1)->orderBy('id','DESC')->get();
+		
+		$response['results']=$query;
         return $this->sendResponse($response,"",200); 
     }
 	

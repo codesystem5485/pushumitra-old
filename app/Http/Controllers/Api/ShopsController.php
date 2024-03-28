@@ -135,12 +135,18 @@ class ShopsController extends BaseController
 	public function getShopsList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 	
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
 			->select('shops.id','shop_name','shop_owner_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
-            DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   shops.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->whereDate('shops.subscriptionEndDate', '>=', Carbon::now())
 			->where('shops.status', 1);
 						 

@@ -135,10 +135,16 @@ class FarmsController extends BaseController
 	public function getFarmList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
 			->select('farms.id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
-			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
+			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where(function($query){
                             $query->where(function($query){
                                  $query->where('type','Private')->whereDate('farms.subscriptionEndDate', '>=', Carbon::now());

@@ -119,12 +119,17 @@ class ProductsaleController extends BaseController
 	public function getProductsaleList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		
-			
-			$query  =  ProductForSale::select('product_for_sales.*',
-            DB::raw('(select image_name from product_images where product_sale_id  = product_for_sales.id order by id asc limit 1) as image_name'));
+		$query  =  ProductForSale::select('product_for_sales.*',
+            DB::raw('(select image_name from product_images where product_sale_id  = product_for_sales.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  = product_for_sales.id AND module_id ='.$module_id.' ) as star_rating_count'));
 			
 		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);

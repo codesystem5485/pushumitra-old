@@ -140,9 +140,15 @@ class TransporterController extends BaseController
 	public function getTransporterList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =   Transporters::select( 'transporters.id','transporters.transporter_name','transporters.vehicle_name',
-            'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude',DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'));
+            'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude',DB::raw('(select image_name from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   transporters.id AND module_id ='.$module_id.' ) as star_rating_count'));
 			
 		   if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);

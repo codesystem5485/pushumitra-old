@@ -137,11 +137,17 @@ class InstitutionsController extends BaseController
 	public function getInstitutionList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Institutions::leftJoin('subcategories', 'subcategories.id', '=', 'institutions.sub_category')
 								->select('institutions.id','institution_name','incharge_name','mobile_number','type',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
-            DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  = institutions.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where('institutions.status', 1)
 			->where(function($query){
                             $query->where(function($query){

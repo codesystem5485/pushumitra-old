@@ -126,12 +126,18 @@ class SuppliersController extends BaseController
 	public function getSupplierList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
 		->select('suppliers.id','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
 		'suppliers.address','suppliers.city_town','suppliers.district','suppliers.taluka','suppliers.user_code','suppliers.latitude',
 		'suppliers.longitude','subcategories.name as sub_category_name',
-            DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'));
+            DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   suppliers.id AND module_id ='.$module_id.' ) as star_rating_count'));
 		
 		if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");

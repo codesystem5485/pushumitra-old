@@ -134,10 +134,14 @@ class MilkCollectionController extends BaseController
 	public function getMilkcollectionList(Request $request)
 	{
 		$requestData = request()->all();
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = MilkCollections::select('id','registration_number','milkcollection_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from  milkcollection_center_images where milkcollection_center_id  = milkcollection_centers.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  milkcollection_center_images where milkcollection_center_id  = milkcollection_centers.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = milkcollection_centers.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where('milkcollection_centers.status', 1)
 			->where(function($query){
                             $query->where(function($query){

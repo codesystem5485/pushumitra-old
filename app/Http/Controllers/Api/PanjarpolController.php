@@ -131,10 +131,16 @@ class PanjarpolController extends BaseController
 	public function getPanjarpolList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Panjarpol::select('panjarpol.id','registration_number','panjarpol_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from panjarpol_images where panjarpol_id  = panjarpol.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from panjarpol_images where panjarpol_id  = panjarpol.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   panjarpol.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->whereDate('panjarpol.subscriptionEndDate', '>=', Carbon::now())
 			->where('panjarpol.status', 1);
 						 
