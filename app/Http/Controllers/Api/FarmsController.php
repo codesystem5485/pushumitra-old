@@ -224,6 +224,10 @@ rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count')
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
 		$affectedRows = Farms::where('id', $id)->increment('views_count');
 		
 		$results =$this->farmsRepo->getFarm($id);
@@ -231,6 +235,9 @@ rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count')
 			$images_arr = FarmsImages::where('farm_id',$results->id)->get();
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$response['star_rating_count'] = $ratings['star_rating_count'];
+			$response['review_exist'] = $ratings['review_exist'];
 			$response['image_base_path'] =  url("/upload/farms")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

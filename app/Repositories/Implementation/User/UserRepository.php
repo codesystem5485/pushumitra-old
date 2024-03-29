@@ -36,6 +36,7 @@ use App\Models\Chemist;
 use App\Models\Breeder;
 use App\Models\Panjarpol;
 use App\Models\UserDeleteHistory;
+use App\Models\Ratings;
 
 
 class UserRepository  extends BaseRepository implements UserRepositoryInterface
@@ -1378,5 +1379,11 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			$updateArray = array( $column =>date("Y-m-d H:i:s"));
 			$module = UserModuleCounts :: where('user_id',$user_id)->update($updateArray);
 		}
+	}
+	
+	public function getRatingUsingModuleId($rateable_id,$moduleId){
+		 $response['star_rating_count'] = Ratings::where('rateable_id',$rateable_id)->where('module_id',$moduleId)->where('status',1)->avg('star_ratings');
+		 $response['review_exist']  = Ratings::where('rateable_id',$rateable_id)->where('module_id',$moduleId)->count();
+		 return $response;
 	}
 }

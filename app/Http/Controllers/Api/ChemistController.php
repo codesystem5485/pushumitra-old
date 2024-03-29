@@ -191,11 +191,16 @@ rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_coun
 	}
 
     public function chemistDetail(Request $request){
+		$postData = request()->all();
 		$id = $request->chemist_id;
         $affectedRows = Chemist::where('id', $id)->increment('views_count');
 		$chemist = Chemist::where('id',$id)->first();
 		
 		$response = [];
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
 		
 		$chemistimages=array();
 		if($chemist){
@@ -204,6 +209,9 @@ rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_coun
 		if($chemist){
 			
 			$response = array('results'=>$chemist,'module_images' =>$chemistimages);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$response['star_rating_count'] = $ratings['star_rating_count'];
+			$response['review_exist'] = $ratings['review_exist'];
 			$response['image_base_path'] =  url("/upload/chemist")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

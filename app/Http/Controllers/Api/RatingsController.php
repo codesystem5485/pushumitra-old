@@ -10,6 +10,7 @@ use Response;
 use Validator;
 use DB;
 
+
 class RatingsController extends BaseController
 {
     
