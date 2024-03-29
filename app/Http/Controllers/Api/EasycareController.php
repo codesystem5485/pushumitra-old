@@ -146,19 +146,19 @@ rateable_id  =   easy_cares.id AND module_id ='.$module_id.' ) as star_rating_co
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
 		
 		$results =$this->easycareRepo->getEasycare($id);
 		if($results){
 			$images_arr = EasycaresImages::where('easycare_id',$results->id)->get();
 			
-			$star_rating_count  = EasycareRatings::where('rateable_id',$id)->where('status',1)->avg('star_ratings');
-		
-			$review_exist = 0;
-			if(isset($request->user_id)){
-				$review_exist  = EasycareRatings::where('rateable_id',$id)->where('user_id',$request->user_id)->count();
-			}
-		
-			$response = array('results'=>$results,'module_images' =>$images_arr,'review_exist' =>$review_exist,'star_rating_count' =>$star_rating_count);
+			$response = array('results'=>$results,'module_images' =>$images_arr);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$response['star_rating_count'] = $ratings['star_rating_count'];
+			$response['review_exist'] = $ratings['review_exist'];
 			$response['image_base_path'] =  url("/upload/easycares")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

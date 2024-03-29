@@ -208,11 +208,13 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 	}
 	
 	public function animalSaleDetail(Request $request){
-		
+		$postData = request()->all();
 		$id = $request->animalsale_id;
-       // $animalsale = Animalforsale::find($id);
-	   $affectedRows = Animalforsale::where('id', $id)->increment('views_count');
-	   $affectedRows = Animalforsale::where('id', $id)->increment('views');
+		$affectedRows = Animalforsale::where('id', $id)->increment('views_count');
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
 		
 		$animalsale = Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
 		->select('animal_for_sales.*','species.specie as species_name')
@@ -227,8 +229,10 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		
 		if($animalsale){
 			
-			
 			$response = array('results'=>$animalsale,'module_images' =>$animalimages);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$response['star_rating_count'] = $ratings['star_rating_count'];
+			$response['review_exist'] = $ratings['review_exist'];
 			$response['image_base_path'] =  url("/upload/animalsale")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

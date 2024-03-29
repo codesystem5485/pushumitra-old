@@ -191,8 +191,14 @@ class BreederController extends BaseController
 	
 	public function breederDetail(Request $request)
 	{
+		$postData = request()->all();
 		$id = $request->breeder_id;
 		$affectedRows = Breeder::where('id', $id)->increment('views_count');
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
+			
 		$breeder = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 		->select('breeders.*','species.specie as species_name')
 		->where('breeders.id',$id)
@@ -203,6 +209,9 @@ class BreederController extends BaseController
 		if($breeder){
 			$breederimages = BreederImages::where('breeder_id',$breeder->id)->get();
 			$response = array('results'=>$breeder,'module_images' =>$breederimages);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$response['star_rating_count'] = $ratings['star_rating_count'];
+			$response['review_exist'] = $ratings['review_exist'];
 			$response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
