@@ -206,10 +206,10 @@ rateable_id  = product_for_sales.id AND module_id ='.$module_id.' ) as star_rati
 		$results = ProductForSale::where('id',$id)->first();
 		if($results){
 			$images_arr = ProductImages::where('product_sale_id',$results->id)->get();
-			$response = array('results'=>$results,'module_images' =>$images_arr);
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
+			$results['star_rating_count'] = $ratings['star_rating_count'];
+			$results['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$results,'module_images' =>$images_arr);
 			$response['image_base_path'] =  url("/upload/productsale")."/";
 			return $this->sendResponse($response,trans('messages.records_found'));
         }else{

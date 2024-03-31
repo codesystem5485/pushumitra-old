@@ -208,10 +208,11 @@ class BreederController extends BaseController
 		
 		if($breeder){
 			$breederimages = BreederImages::where('breeder_id',$breeder->id)->get();
-			$response = array('results'=>$breeder,'module_images' =>$breederimages);
+			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
+			$breeder['star_rating_count'] = $ratings['star_rating_count'];
+			$breeder['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$breeder,'module_images' =>$breederimages);
 			$response['image_base_path'] =  url("/upload/breederanimals")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

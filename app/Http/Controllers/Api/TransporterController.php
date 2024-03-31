@@ -224,10 +224,11 @@ rateable_id  =   transporters.id AND module_id ='.$module_id.' ) as star_rating_
 		if($results){
 			$images_arr = VehicleImages::where('transporter_id',$results->id)->get();
 			$images_rcbook_arr = TransporterRcbookImages::where('transporter_id',$results->id)->get();
-			$response = array('results'=>$results,'module_images' =>$images_arr,'rcbooksImages'=>$images_rcbook_arr);
+			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
+			$results['star_rating_count'] = $ratings['star_rating_count'];
+			$results['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$results,'module_images' =>$images_arr,'rcbooksImages'=>$images_rcbook_arr);
 			$response['image_base_path'] =  url("/upload/vehicle")."/";
 			$response['rcbooks_image_path'] =  url("/upload/rcbooks")."/";
 			

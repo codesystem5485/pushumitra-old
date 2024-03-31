@@ -459,6 +459,59 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		return $rv_code;
 	}
 	
+	public function generateOtherUserCode($role){
+		
+		$workingcode = 0;
+		
+		//$user=	User::select('other_usercode')->where('other_usercode','!=','')->orderBy('rv_code', 'DESC')->limit(1)->first();
+		
+		$user=  $this->userModelRepo->with(['roles'])
+		->select('other_usercode')
+        ->whereHas('roles', function($q) use($role) {
+            if(!empty($role)){
+                $q->where('name',$role);
+            }
+        })
+        ->where('other_usercode','!=','')->orderBy('other_usercode', 'DESC')->limit(1)->first();
+		
+		if($user){ 
+			$existingRvcode = $user->other_usercode;
+			if($existingRvcode!=''){
+				 
+				if($role == 'Animal-owner') 
+				{
+					$existingRvcodeArr = explode('AO',$existingRvcode); 
+				}else{
+					$existingRvcodeArr = explode('OU',$existingRvcode); 
+				}
+				
+				
+				if(count($existingRvcodeArr) ==2){
+					if(isset($existingRvcodeArr[1])){
+						$workingcode = $existingRvcodeArr[1];
+					}
+				}
+			}
+		}
+		
+		if($workingcode==0){
+			$workingcode = intval('0000000000');
+		}
+		
+		$new_index = str_pad($workingcode, 10, "0", STR_PAD_LEFT);
+		$newGeneretedcode = $new_index + 1;
+		$new_index1 = str_pad($newGeneretedcode, 10, "0", STR_PAD_LEFT);
+		
+		if($role == 'Animal-owner') 
+		{
+			$code = "AO".$new_index1;
+		}else{
+			$code = "OU".$new_index1;			
+		}
+				
+		return $code;
+	}
+	
 	public function checkPashumitraCode($pm_code)
 	{
 		/*$check = User::where('pm_code',$pm_code)->count();
@@ -582,7 +635,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			 }
 		}
 		
-		if($role=="Animal-owner")
+		if($role=="Animal-owner" || $role=="Other")
 		{
 			$completedProfile =1;
 		}

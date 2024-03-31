@@ -84,7 +84,7 @@ class AuthController extends BaseController
                
             ]);
         }
-        if($postData['role']=='Animal-owner')
+        if($postData['role']=='Animal-owner' || $postData['role']=='Other')
         {
             $validator = Validator::make($postData, [
 				'full_name' => 'required|string|max:255',
@@ -147,7 +147,7 @@ class AuthController extends BaseController
 					$user->assignRole($roleData->name);  
 				}
             }
-            if($postData['role']=='Animal-owner')
+            if($postData['role']=='Animal-owner' || $postData['role']=='Other')
             {
                $param['profile_photo']=null;
 			   
@@ -276,7 +276,7 @@ class AuthController extends BaseController
 			}
 			
             ## check phone is verify
-			$select = ['id,full_name,email,is_verified,mobile_number,pm_code,rv_code,profile_photo'];
+			$select = ['id,full_name,email,is_verified,mobile_number,pm_code,rv_code,other_usercode,profile_photo'];
             $aUserVerify = $this->userRepo->getSingleRecords(['mobile_number' => $user->mobile_number,'is_phone_verify' => 1],$select);
             if(empty($aUserVerify)){
                 return $this->sendError($response,trans('messages.verify_phone'),401);
@@ -307,8 +307,8 @@ class AuthController extends BaseController
 				$profilePhoto =  url("/upload/profile_photo/".$user->profile_photo);
 				
 				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
-				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,'pm_code'=>$user->pm_code,
-				'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
+				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,
+				'pm_code'=>$user->pm_code,'other_usercode'=>$user->other_usercode,'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
 				
 				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
 				
@@ -462,8 +462,10 @@ class AuthController extends BaseController
 				$param['state_id'] = $checkOtp->state_id;
 				$param['is_phone_verify'] =1;
 				$param['is_active'] =1;
-				if($checkOtp->role == 'Animal-owner')
+				if($checkOtp->role == 'Animal-owner' || $checkOtp->role == 'Other') 
 				{ 
+					$role = $checkOtp->role;
+					$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
 					$param['is_verified'] = 1;
 				}else{
 					$param['is_verified'] = 0;

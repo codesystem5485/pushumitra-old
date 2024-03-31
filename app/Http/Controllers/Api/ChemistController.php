@@ -208,11 +208,11 @@ rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_coun
 		}
 		if($chemist){
 			
-			$response = array('results'=>$chemist,'module_images' =>$chemistimages);
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
 			
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$chemist['star_rating_count'] = $ratings['star_rating_count'];
+			$chemist['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$chemist,'module_images' =>$chemistimages);
 			$response['image_base_path'] =  url("/upload/chemist")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

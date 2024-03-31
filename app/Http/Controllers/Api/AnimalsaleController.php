@@ -229,10 +229,11 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		
 		if($animalsale){
 			
-			$response = array('results'=>$animalsale,'module_images' =>$animalimages);
+			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
+			$animalsale['star_rating_count'] = $ratings['star_rating_count'];
+			$animalsale['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$animalsale,'module_images' =>$animalimages);
 			$response['image_base_path'] =  url("/upload/animalsale")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));

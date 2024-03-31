@@ -231,10 +231,11 @@ class MilkCollectionController extends BaseController
 		if($results){
 			$images_arr = MilkCollectionImages::where('milkcollection_center_id',$results->id)->get();
 			
-			$response = array('results'=>$results,'module_images' =>$images_arr);
+			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
-			$response['star_rating_count'] = $ratings['star_rating_count'];
-			$response['review_exist'] = $ratings['review_exist'];
+			$results['star_rating_count'] = $ratings['star_rating_count'];
+			$results['review_exist'] = $ratings['review_exist'];
+			$response = array('results'=>$results,'module_images' =>$images_arr);
 			$response['image_base_path'] =  url("/upload/milkcollections")."/";
 			
 			return $this->sendResponse($response,trans('messages.records_found'));
