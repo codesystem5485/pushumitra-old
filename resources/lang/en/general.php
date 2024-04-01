@@ -274,6 +274,12 @@ return [
 'edit_animal_owner'=>'Edit Animal Owner',
 'animal_owner_details'=>'Animal Owner Details',
 
+'otheruser_list'=>'Other User List',
+'otheruser'=>'Other User',
+'create_otheruser'=>'Add Other User',
+'edit_otheruser'=>'Edit Other User',
+'otheruser_details'=>'Animal Owner Details',
+
 //Pashumitra
 'pashumitra_list'=>'Pashumitra List',
 'pashumitra'=>'Pashumitra',

@@ -601,7 +601,7 @@ class AuthController extends BaseController
 		$user_id=$postData['user_id'];
 		$userData = $this->getUserDetailsUsingId($request);
 		
-		if($postData['role']=='Animal-owner')
+		if($postData['role']=='Animal-owner' || $postData['role']=='Other')
         {
             $validator = Validator::make($postData, [
                 'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
@@ -722,7 +722,7 @@ class AuthController extends BaseController
 				
             }
 			
-			if($postData['role']=='Animal-owner')
+			if($postData['role']=='Animal-owner' || $postData['role']=='Other')
             {
 				$param['full_name'] = $postData['full_name'];
 				$param['email'] = $postData['email'];

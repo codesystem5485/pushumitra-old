@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\CharacteristicsController;
 use App\Http\Controllers\Backend\UserController; 
 use App\Http\Controllers\Backend\LoginController;
 use App\Http\Controllers\Backend\AnimalownerController;
+use App\Http\Controllers\Backend\OtheruserController;
 use App\Http\Controllers\Backend\PashumitraController;
 use App\Http\Controllers\Backend\RegisteredvetController;
 use App\Http\Controllers\Backend\AnimalsaleController;
@@ -574,8 +575,23 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::get('/{id?}/delete', [AnimalownerController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/detail', [AnimalownerController::class, 'userDetail'])->name('detail');        
       });
+	  
+	  //Other user module
+    Route::group([
+        'prefix' => 'pashumitra/otheruser',
+        'as' => 'otheruser.',
+      ], function () {
+        Route::get('/', [OtheruserController::class, 'index'])->name('index');
+        Route::get('/create', [OtheruserController::class, 'create'])->name('create');
+        Route::post('/store', [OtheruserController::class, 'store'])->name('store'); 
+        Route::get('/otheruser-list', [OtheruserController::class, 'getAjaxUser'])->name('list');
+        Route::get('/{id?}/edit', [OtheruserController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [OtheruserController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [OtheruserController::class, 'delete'])->name('delete'); 
+        Route::get('/{id?}/detail', [OtheruserController::class, 'userDetail'])->name('detail');        
+      });
       
-      //Animal Owner module
+      //pashumitra module
       Route::group([
         'prefix' => 'pashumitra/pashumitra',
         'as' => 'pashumitra.',

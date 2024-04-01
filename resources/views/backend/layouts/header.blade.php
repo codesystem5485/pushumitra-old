@@ -117,6 +117,11 @@
                            </li>                           
                            </ul>
                            @endif
+						   <ul>
+                           <li class="@if (\Request::is('pashumitra/otheruser') || \Request::is('pashumitra/otheruser/*'))  active  @endif">
+                              <a href="{{url('pashumitra/otheruser')}}" class="" ><i class=" icon-layers"></i> <span>Other</span></a>
+                           </li>
+                           </ul>
 
                           
                            </li>

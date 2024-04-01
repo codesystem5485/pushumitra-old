@@ -208,6 +208,50 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
         ->rawColumns(['action','roles'])
         ->make(true);
     }
+	
+	 public function getOtherusersData($sRoleName = ''){
+        
+        $users = $this->getUsers(['sRoleName' => $sRoleName]); 
+        return Datatables::of($users)
+        ->addIndexColumn()
+        ->addColumn('roles', function ($user) { 
+            return isset($user->roles[0]['name']) ? $user->roles[0]['name'] : "-";
+        })
+        ->editColumn('first_name', function ($user) { 
+            return $user->full_name;
+        })
+        ->editColumn('mobile_number', function ($user) { 
+            return !empty($user->dial_code) ? $user->dial_code.$user->mobile_number: $user->mobile_number;
+        })
+		->editColumn('mypets', function ($user) { 
+			$cnt = Animals::where('animals.animal_owner',$user->id)->count();
+		  
+            return $cnt;
+        })
+        ->addColumn('action', function($user){
+            $actionBtn = '';
+			$actionBtn .= '<a href="'.route('otheruser.detail',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-view" data-toggle="tooltip" data-original-title="User Detail"><i class="icon-user" aria-hidden="true"></i>
+                </button></a>';
+            /*if(auth()->user()->can('animal-owner-detail')){
+                
+            }*/
+          //  if(auth()->user()->can('otheruser-edit')){
+                $actionBtn .= '<a href="'.route('otheruser.edit',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Edit"><i class="icon-pencil" aria-hidden="true"></i> 
+                </button></a>';
+            //}
+           // if(auth()->user()->can('otheruser-delete')){
+                $actionBtn .= '<a href="'.route('otheruser.delete',['id' => $user->id]).'">
+                <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="Remove"><i class="icon-trash" aria-hidden="true"></i></button></a>';
+           // }
+            return $actionBtn;
+           
+        })
+        ->rawColumns(['action','roles'])
+        ->make(true);
+    }
+
 
     public function getAnimalownersData($sRoleName = ''){
         
