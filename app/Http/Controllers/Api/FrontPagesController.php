@@ -9,6 +9,7 @@ use DB;
 use Response;
 use App\Models\CsrActivities;
 use App\Models\CsrActivityImages;
+use App\Models\Testimonials;
 
 class FrontPagesController extends BaseController
 {
@@ -17,6 +18,13 @@ class FrontPagesController extends BaseController
 
         
     } 
+	
+	public function testimonials(){
+		
+		$response['results'] = Testimonials::where('status',1)->orderBy('id','DESC')->get();
+		$response['image_base_path']=url("/upload/testimonials")."/";
+		return $this->sendResponse($response,"",200);
+    }
 
 	public function csrActivities(){
 		

@@ -42,6 +42,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-grfiles', [CommonController::class,'getGrFiles']);
 	Route::get('/get-csractivities', [FrontPagesController::class,'csrActivities']);
 	Route::get('/get-csractivity-detail', [FrontPagesController::class,'csrActivityDetails']);
+	Route::get('/get-testimonials', [FrontPagesController::class,'testimonials']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
 	
