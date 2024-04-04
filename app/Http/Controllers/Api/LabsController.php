@@ -228,6 +228,7 @@ class LabsController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Labs::where('id', $id)->increment('views_count');
 		
 		$results =$this->labsRepo->getLab($id);
 		if($results){

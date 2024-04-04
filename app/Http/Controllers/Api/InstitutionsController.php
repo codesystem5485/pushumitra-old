@@ -229,6 +229,7 @@ rateable_id  = institutions.id AND module_id ='.$module_id.' ) as star_rating_co
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Institutions::where('id', $id)->increment('views_count');
 		$module_id = 0;
 		if(isset($postData['module_id']) && $postData['module_id']!=''){
 				$module_id = $postData['module_id'];

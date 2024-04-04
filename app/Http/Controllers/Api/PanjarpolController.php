@@ -208,6 +208,7 @@ rateable_id  =   panjarpol.id AND module_id ='.$module_id.' ) as star_rating_cou
 				$module_id = $postData['module_id'];
 			}
 		$id = $request->detail_id;
+		$affectedRows = Panjarpol::where('id', $id)->increment('views_count');
 		
 		$results =$this->panjarpolRepo->getPanjarpol($id);
 		if($results){

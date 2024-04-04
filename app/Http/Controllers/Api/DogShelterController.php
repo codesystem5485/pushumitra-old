@@ -210,6 +210,8 @@ class DogShelterController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = DogShelters::where('id', $id)->increment('views_count');
+		
 		$module_id = 0;
 		if(isset($postData['module_id']) && $postData['module_id']!=''){
 				$module_id = $postData['module_id'];

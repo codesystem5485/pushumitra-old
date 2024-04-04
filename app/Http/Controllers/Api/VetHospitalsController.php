@@ -224,6 +224,7 @@ class VetHospitalsController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$affectedRows = Veterinaryhospitals::where('id', $id)->increment('views_count');
 		
 		$results =$this->vethospitalsRepo->getVethospital($id);
 		if($results){
