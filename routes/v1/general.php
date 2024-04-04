@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\PanjarpolController;
 use App\Http\Controllers\Api\EasycareController;
 use App\Http\Controllers\Api\LabsController;
 use App\Http\Controllers\Api\NgoController;
+use App\Http\Controllers\Api\FrontPagesController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -39,6 +40,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-subcategories', [CommonController::class,'getSubCategories']);
 	Route::get('/get-categories', [CommonController::class,'getParentCategories']);
 	Route::get('/get-grfiles', [CommonController::class,'getGrFiles']);
+	Route::get('/get-csractivities', [FrontPagesController::class,'csrActivities']);
+	Route::get('/get-csractivity-detail', [FrontPagesController::class,'csrActivityDetails']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
 	
