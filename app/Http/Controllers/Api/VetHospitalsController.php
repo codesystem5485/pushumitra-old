@@ -138,10 +138,16 @@ class VetHospitalsController extends BaseController
 	public function getHospitalList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =   Veterinaryhospitals::leftJoin('subcategories', 'subcategories.id', '=', 'veterinary_hospitals.sub_category')
 			->select('veterinary_hospitals.*','subcategories.name as subcategory_name',
-            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   veterinary_hospitals.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where(function($query){
                             $query->where(function($query){
                                  $query->where('type','Private')->whereDate('veterinary_hospitals.subscriptionEndDate', '>=', Carbon::now());
@@ -214,6 +220,10 @@ class VetHospitalsController extends BaseController
 	public function hospitalDetail(Request $request)
 	{
 		$postData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$validator = Validator::make($postData, [
 				'detail_id' => 'required',
 			]);
@@ -224,11 +234,18 @@ class VetHospitalsController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$module_id = 0;
+		if(isset($postData['module_id']) && $postData['module_id']!=''){
+				$module_id = $postData['module_id'];
+			}
 		$affectedRows = Veterinaryhospitals::where('id', $id)->increment('views_count');
 		
 		$results =$this->vethospitalsRepo->getVethospital($id);
 		if($results){
 			$images_arr = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$results->id)->get();
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$results['star_rating_count'] = $ratings['star_rating_count'];
+			$results['review_exist'] = $ratings['review_exist'];
 			
 			$response = array('results'=>$results,'module_images' =>$images_arr);
 			$response['image_base_path'] =  url("/upload/hospitals")."/";

@@ -177,7 +177,7 @@ rateable_id  =   ngo.id AND module_id ='.$module_id.' ) as star_rating_count'))
 		if(isset($postData['module_id']) && $postData['module_id']!=''){
 				$module_id = $postData['module_id'];
 			}
-		$id = $request->detail_id;
+		
 		$affectedRows = Ngo::where('id', $id)->increment('views_count');
 		
 		$results =$this->ngoRepo->getNgo($id);

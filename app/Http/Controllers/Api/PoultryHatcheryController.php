@@ -134,10 +134,16 @@ class PoultryHatcheryController extends BaseController
 	public function getPoultryHatcheryList(Request $request)
 	{
 		$requestData = request()->all();
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
-            DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'))
+            DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'),
+			DB::raw('(select AVG(star_ratings) from review_ratings where 
+rateable_id  =   poultryhatchery_centers.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			->where(function($query){
                             $query->where(function($query){
                                  $query->where('type','Private')->whereDate('poultryhatchery_centers.subscriptionEndDate', '>=', Carbon::now());
@@ -218,12 +224,18 @@ class PoultryHatcheryController extends BaseController
 		}
 		$response = [];
 		$id = $request->detail_id;
+		$module_id = 0;
+		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
+				$module_id = $requestData['module_id'];
+			}
 		$affectedRows = PoultryHatchery::where('id', $id)->increment('views_count');
 		
 		$results =$this->poultryhatcheryRepo->getPoultryHatchery($id);
 		if($results){
 			$images_arr = PoultryHatcheryImages::where('poultryhatchery_center_id',$results->id)->get();
-			
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$results['star_rating_count'] = $ratings['star_rating_count'];
+			$results['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$results,'module_images' =>$images_arr);
 			$response['image_base_path'] =  url("/upload/poultryhatchery")."/";
 			
