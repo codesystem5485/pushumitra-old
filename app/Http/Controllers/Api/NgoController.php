@@ -184,7 +184,6 @@ rateable_id  =   ngo.id AND module_id ='.$module_id.' ) as star_rating_count'))
 		if($results){
 			$images_arr = NgoImages::where('ngo_id',$results->id)->get();
 			
-			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];

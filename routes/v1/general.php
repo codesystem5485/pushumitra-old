@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\EasycareController;
 use App\Http\Controllers\Api\LabsController;
 use App\Http\Controllers\Api\NgoController;
 use App\Http\Controllers\Api\FrontPagesController;
+use App\Http\Controllers\Api\UserTransactionsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -45,6 +46,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-testimonials', [FrontPagesController::class,'testimonials']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
+	
+	Route::get('/get-transactions', [UserTransactionsController::class,'getTransactions']);
 	
 	/* Animal sale*/
 	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
