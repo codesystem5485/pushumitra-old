@@ -45,10 +45,8 @@ class UserTransactionsController extends BaseController
 
 	public function getTransactions(Request $request)
 	{
-		$perPage = 10; // Number of items per page
-		$currentPage = 1; // Current page number
 		$requestData = request()->all();
-		$user_id = 110;
+		$user_id = $request->user_id;
 		
 		$hospitalArr = Veterinaryhospitals::where('user_id', $user_id)->get();
 		$hospitalModuleArr = [];
