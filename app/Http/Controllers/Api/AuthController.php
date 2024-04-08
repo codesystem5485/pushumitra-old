@@ -58,10 +58,12 @@ class AuthController extends BaseController
 			return $this->sendError([],$mobileError,400);
 		}
 		
-		$checkEmail = $this->userRepo->checkUniqueEmail($postData);
-		if($checkEmail > 0){
-			$emailError = 'Email Id already exists.Please try another one';
-			return $this->sendError([],$emailError,400);
+		if($postData['email']!=''){
+			$checkEmail = $this->userRepo->checkUniqueEmail($postData);
+			if($checkEmail > 0){
+				$emailError = 'Email Id already exists.Please try another one';
+				return $this->sendError([],$emailError,400);
+			}
 		}
 		
 		

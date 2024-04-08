@@ -62,6 +62,7 @@ class HomeController extends Controller
         $nTotalUusers =  User::role('Administrator')->count();  
 		$pashumitraCount = User::role('Pashumitra')->whereDate('created_at', Carbon::today())->count();
 		$animalOwnerCount = User::role('Animal-owner')->whereDate('created_at', Carbon::today())->count();
+		$otheruserCount = User::role('Other')->whereDate('created_at', Carbon::today())->count();
 		$registerVetCount = User::role('Registered-vet')->whereDate('created_at', Carbon::today())->count();
 		$chemistCount 	  = Chemist::whereDate('created_at', Carbon::today())->count();
 		$transporterCount = Transporters::whereDate('created_at', Carbon::today())->count();
@@ -87,6 +88,8 @@ class HomeController extends Controller
 		$totalpashumitraCount = User::role('Pashumitra')->count();
 		$totalanimalOwnerCount = User::role('Animal-owner')->count();
 		$totalregisterVetCount = User::role('Registered-vet')->count();
+		$totalotherCount = User::role('Other')->count();
+		
 		$totalchemistCount 	  = Chemist::count();
 		$totaltransporterCount = Transporters::count();
 		$totalproductSaleCount = ProductForSale::count();
@@ -116,7 +119,7 @@ class HomeController extends Controller
 			$userrole = 'Adevrtising';
 		}
 		
-        return view('home',compact('easycareCount','userrole','nTotalUusers','totalAnimalsCount','animalCount','pashumitraCount','animalOwnerCount',
+        return view('home',compact('easycareCount','userrole','nTotalUusers','totalAnimalsCount','animalCount','otheruserCount','pashumitraCount','animalOwnerCount',
 									'registerVetCount','chemistCount','transporterCount','productSaleCount',
 									'animalSaleCount','dogShelterCount','institutionCount','trainingCenterCount',
 									'breederCount','farmCount','hospitalCount','supplierCount',
@@ -125,7 +128,7 @@ class HomeController extends Controller
 									'totalproductSaleCount','totalanimalSaleCount','totalbreederCount','totalhospitalCount',
 									'totalsupplierCount','totalshopCount','totaltrainingCenterCount','totalinstitutionCount',
 									'totalmilkCollectionCount','totalfarmCount','totalpanjarpolCount','totalpoultryCount',
-									'totaldogShelterCount','totalngoCount','totallabCount','labCount','ngoCount','totaleasycareCount'
+									'totaldogShelterCount','totalngoCount','totalotherCount','totallabCount','labCount','ngoCount','totaleasycareCount'
 									));
     }
 

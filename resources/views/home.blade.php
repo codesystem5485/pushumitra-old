@@ -68,6 +68,19 @@
                      </div>
 					 
 					  <div class="card overflowhidden col-md-3">
+                       <div class="body card-count">
+						<div class="counts">
+							<h3><a href="#">{{$otheruserCount}}</a></h3>
+							<h3><a href="#"> {{$totalotherCount}}</a></h3>
+						</div>
+						<span>Other Users</span>
+						</div>
+						<div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                    </div>
+					 
+					  <div class="card overflowhidden col-md-3">
                         <div class="body card-count ">
 						<div class="counts">
                            <h3><a href="#">{{$animalCount}}</a></h3>
@@ -379,6 +392,18 @@
                            <div class="progress-bar" data-transitiongoal="67"></div>
                         </div>
                      </div>
+					  <div class="card overflowhidden col-md-3">
+                       <div class="body card-count">
+						<div class="counts">
+							<h3><a href="{{url('pashumitra/otheruser')}}">{{$otheruserCount}}</a></h3>
+							<h3><a href="{{url('pashumitra/otheruser')}}"> {{$totalotherCount}}</a></h3>
+						</div>
+						<span>Other Users</span>
+						</div>
+						<div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
+                           <div class="progress-bar" data-transitiongoal="67"></div>
+                        </div>
+                    </div>
 					 
 					  <div class="card overflowhidden col-md-3">
                         <div class="body card-count ">
