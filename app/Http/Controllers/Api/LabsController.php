@@ -144,7 +144,7 @@ class LabsController extends BaseController
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =   Labs::leftJoin('subcategories', 'subcategories.id', '=', 'labs.sub_category')
-			->select('labs.id','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
+			->select('labs.id','user_code','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  labs_images where lab_id  = labs.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from review_ratings where 
 rateable_id  =   labs.id AND module_id ='.$module_id.' ) as star_rating_count'))

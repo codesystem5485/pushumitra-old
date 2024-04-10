@@ -142,7 +142,7 @@ class ShopsController extends BaseController
 	
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Shops::leftJoin('subcategories', 'subcategories.id', '=', 'shops.sub_category')
-			->select('shops.id','shop_name','shop_owner_name','mobile_number',
+			->select('shops.id','shop_name','user_code','shop_owner_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

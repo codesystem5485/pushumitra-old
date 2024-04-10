@@ -132,7 +132,7 @@ class SuppliersController extends BaseController
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
-		->select('suppliers.id','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
+		->select('suppliers.id','suppliers.user_code','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
 		'suppliers.address','suppliers.city_town','suppliers.district','suppliers.taluka','suppliers.user_code','suppliers.latitude',
 		'suppliers.longitude','subcategories.name as sub_category_name',
             DB::raw('(select image_name from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'),

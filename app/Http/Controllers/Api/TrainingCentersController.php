@@ -144,7 +144,7 @@ class TrainingCentersController extends BaseController
 			
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = TrainingCenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
-			->select('training_centers.id','training_center_name','incharge_name','mobile_number','duration','type','fees',
+			->select('training_centers.id','training_centers.user_code','training_center_name','incharge_name','mobile_number','duration','type','fees',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

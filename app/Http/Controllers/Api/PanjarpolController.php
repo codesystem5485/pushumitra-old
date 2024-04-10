@@ -136,7 +136,7 @@ class PanjarpolController extends BaseController
 				$module_id = $requestData['module_id'];
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
-		$query  =  Panjarpol::select('panjarpol.id','registration_number','panjarpol_name','manager_name','mobile_number',
+		$query  =  Panjarpol::select('panjarpol.id','user_code','registration_number','panjarpol_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from panjarpol_images where panjarpol_id  = panjarpol.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

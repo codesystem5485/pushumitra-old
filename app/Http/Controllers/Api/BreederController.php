@@ -134,7 +134,7 @@ class BreederController extends BaseController
 			
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
-				->select('breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
+				->select('breeders.user_code','breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
 				'species.specie as species_name',DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = breeders.id AND module_id ='.$module_id.' ) as star_rating_count'));
            

@@ -141,7 +141,7 @@ class FarmsController extends BaseController
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  =  Farms::leftJoin('subcategories', 'subcategories.id', '=', 'farms.sub_category')
-			->select('farms.id','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+			->select('farms.id','user_code','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
 			'subcategories.name as subcategory_name',DB::raw('(select image_name from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 
 rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count'))

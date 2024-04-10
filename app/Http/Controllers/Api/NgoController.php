@@ -107,7 +107,7 @@ class NgoController extends BaseController
 				$module_id = $requestData['module_id'];
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
-		$query  =  Ngo::select('ngo.id','registration_number','ngo_name','manager_name','mobile_number',
+		$query  =  Ngo::select('ngo.id','user_code','registration_number','ngo_name','manager_name','mobile_number',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

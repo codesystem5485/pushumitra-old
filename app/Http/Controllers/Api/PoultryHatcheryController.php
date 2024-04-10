@@ -139,7 +139,7 @@ class PoultryHatcheryController extends BaseController
 				$module_id = $requestData['module_id'];
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
-		$query  = PoultryHatchery::select('id','poultryhatchery_center_name','incharge_name','mobile_number','type',
+		$query  = PoultryHatchery::select('id','user_code','poultryhatchery_center_name','incharge_name','mobile_number','type',
 		'taluka','address','city_town','district','state','pincode','latitude','longitude',
             DB::raw('(select image_name from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

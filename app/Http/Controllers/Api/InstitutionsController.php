@@ -143,7 +143,7 @@ class InstitutionsController extends BaseController
 			}
 		$haversine = $this->userRepo->getDistanceUsingLatLong($requestData);
 		$query  = Institutions::leftJoin('subcategories', 'subcategories.id', '=', 'institutions.sub_category')
-								->select('institutions.id','institution_name','incharge_name','mobile_number','type',
+								->select('institutions.id','user_code','institution_name','incharge_name','mobile_number','type',
 		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','subcategories.name as subcategory_name',
             DB::raw('(select image_name from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'),
 			DB::raw('(select AVG(star_ratings) from review_ratings where 

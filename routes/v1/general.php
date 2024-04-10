@@ -57,6 +57,8 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
+	Route::post('/update-animal', [AddanimalController::class,'updateAnimal']); 
+	
 	Route::post('/delete-animal', [AddanimalController::class,'deleteAnimal']); 
 	
 	/* Add chemist*/
