@@ -1028,6 +1028,12 @@ class AuthController extends BaseController
 			if($role=='Registered-vet'){
 				$role='Registred-vet';
 			}
+			
+			if($role=='Other'){
+				$role='Guest';
+			}
+			
+			
 			//$response['results'] = Books::orderBy('id','ASC')->get();
 			$response['results'] = DB::table('books')->whereRaw("find_in_set('".$role."',book_role)")->orderBy('id','ASC')->get();
 		}else{
