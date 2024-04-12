@@ -12,7 +12,7 @@ class Grfiles extends Model
 {
     use HasFactory,LogsActivity; 
 	protected $table = 'gr_files';
-    protected $fillable = ['id','title','gr_file','is_active','created_at','updated_at'];
+    protected $fillable = ['id','state_id','title','gr_file','is_active','created_at','updated_at'];
         
     public static  function boot()
     {

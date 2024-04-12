@@ -13,17 +13,19 @@ use Response;
 use App\Traits\FileUpload;
 use File;
 use Config;
+use App\Repositories\Interfaces\State\StateRepositoryInterface;
 
 class GrfileController extends Controller
 {
     use FileUpload;
+	 protected $stateRepo;
     protected $url = '';
    
     /**
      * Grfiles Type Construct 
      * @return url 
      */
-    public function __construct(){
+    public function __construct(StateRepositoryInterface $stateRepo){
 
         $this->middleware('permission:grfile-list|grfile-create|grfile-edit|grfile-delete', ['only' => ['index','show']]);
         $this->middleware('permission:grfile-create', ['only' => ['create','store']]);
@@ -34,6 +36,7 @@ class GrfileController extends Controller
             'listUrl' => route('grfiles.index'),
             'createUrl' => route('grfiles.create')
         ];
+		$this->stateRepo = $stateRepo;
     } 
 
     /**
@@ -51,7 +54,8 @@ class GrfileController extends Controller
      */
     public function create(){
         $permission = Permission::get();
-        return view('backend.grfiles.create',['permission'=>$permission,'url' => $this->url]); 
+		$states = $this->stateRepo->getStates();
+        return view('backend.grfiles.create',['permission'=>$permission,'url' => $this->url,'states'=>$states]); 
     }
     /**
      * Store Library
@@ -65,24 +69,26 @@ class GrfileController extends Controller
             'gr_file' => 'required|max:20240', 
 					
         ]);
-        DB::beginTransaction();
+       DB::beginTransaction();
         try{
 			
 			$file = $request->gr_file;
 			$title = $request->title;
+			$state_id= $request->state_id;
+			
 			$extension = $file->getClientOriginalExtension();
 			$path = Config::get('constants.file.grfiles_file_path');
 			
 			$fileName = $title.'.'.$file->extension();
             $file->move(public_path($path), $fileName);
-			$grfiles = Grfiles::create(['title' => $request->input('title'),'gr_file'=>$fileName]);
+			$grfiles = Grfiles::create(['title' => $title,'gr_file'=>$fileName,'state_id'=>$state_id]);
             DB::commit();
             Session::flash('success', trans('messages.create_records'));
             
             ## Store log
             $message = trans('messages.grfile_create',['name' => $request->input('title')]);
             storeActicityLog(trans('messages.grfile_create'),$message,Auth::user(),$grfiles);
-            return redirect()->route('grfiles.index');
+             return redirect()->route('grfiles.index');
         }catch(\Exception $e){
             DB::rollback(); 
             $error = !empty($e->getMessage())?$e->getMessage() : '';
@@ -102,7 +108,8 @@ class GrfileController extends Controller
      */
     public function edit(Request $request, $id = ''){
         $grfiles = Grfiles::find($id);
-        return view('backend.grfiles.create',['grfiles' => $grfiles,'url' => $this->url]);  
+		$states = $this->stateRepo->getStates();
+        return view('backend.grfiles.create',['grfiles' => $grfiles,'url' => $this->url,'states'=>$states]);  
     }
 
      /**
@@ -115,7 +122,7 @@ class GrfileController extends Controller
     {
         $this->validate($request, [
             'title' => 'required',            
-            'gr_file' => 'required|max:20240',             
+           // 'gr_file' => 'required|max:20240',             
         ]);
         DB::beginTransaction();
         try{
@@ -130,6 +137,7 @@ class GrfileController extends Controller
 				{
 					$file = $request->gr_file;
 					$title = $request->title;
+					
 					$extension = $file->getClientOriginalExtension();
 					$path = Config::get('constants.file.grfiles_file_path');
 				
@@ -140,7 +148,8 @@ class GrfileController extends Controller
 				
             }
 			
-            $grfiles->title = $request->input('title');
+            $grfiles->state_id = $request->input('state_id');
+			$grfiles->title = $request->input('title');
 			
             $grfiles->save();
             DB::commit();

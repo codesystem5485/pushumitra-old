@@ -50,6 +50,17 @@
                         </div>
                         <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="title" value="@if(empty($grfiles)){{old('title')}}@else{{$grfiles->title}}@endif"placeholder="{{ __('general.grfiles_name') }}">
                     </div>
+					 <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >{{ __('general.state') }}* :</span>
+                        </div>
+                        <select id="state" class="form-control"  aria-describedby="basic-addon3" name="state_id" >
+                            <option value="">{{ __('general.select_state') }}</option>
+                            @foreach($states as $state)
+                            <option @if(!empty($grfiles)) @if($state->state_id == $grfiles->state_id) selected='selected' @endif @endif state_val="{{$state->state_id}}" value="{{$state->state_id}}">{{$state->state}}</option> 
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">{{ __('general.grfiles') }}* :</span>

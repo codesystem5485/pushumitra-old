@@ -98,7 +98,18 @@ class CommonController extends BaseController
 	
 	public function getGrFiles(Request $request)
 	{ 	
-		 $response['results'] = Grfiles::orderBy('id','DESC')->get();
+		 $postData = request()->all(); 
+		 $state_id= 0;
+		 if(isset($postData['state_id'])){
+			  $state_id = $postData['state_id'];
+		 }
+		
+		 $query = Grfiles::where('is_active',1);
+		 if($state_id!=0){
+			 $query = $query->where('state_id',$state_id);
+		 }
+		 
+		 $response['results'] = $query->get();
 		 $response['image_base_path']=url("/upload/grfiles")."/";
 		 return $this->sendResponse($response,"",200);
 	}
