@@ -65,6 +65,7 @@
 <label for="Animal-owner">Animal-owner <input class="" type="checkbox" id="Animal-owner" name="book_role[]" value="Animal-owner" <?php if(in_array('Animal-owner',$chkArr)){ echo $chk;} ?>></label>
 
 <label for="Guest">Guest <input class="" type="checkbox" id="Guest" name="book_role[]" value="Guest" <?php if(in_array('Guest',$chkArr)){ echo $chk;} ?>></label>
+<label for="Other">Other <input class="" type="checkbox" id="Other" name="book_role[]" value="Other" <?php if(in_array('Other',$chkArr)){ echo $chk;} ?>></label>
 
  </div>
  

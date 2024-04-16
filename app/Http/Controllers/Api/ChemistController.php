@@ -130,6 +130,64 @@ class ChemistController extends BaseController
         }  
     }
 	
+	public function updateChemist(Request $request){
+        $postData = request()->all();
+		DB::beginTransaction();
+        try{   
+			$response = [];		
+            $aInsertData = $request->all();
+			$aInsertData['address_line_1'] = $aInsertData['address'];
+            $chemist = $this->chemistRepo->update($postData['edit_id'],$aInsertData);
+			
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$animalImage = ChemistShopImages::where('chemist_id',$chemist->id)->get();
+			
+			if(count($animalImage)>0)
+			{
+				foreach($animalImage as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'chemist');
+						$image->delete();
+					}
+				}
+			}
+            if($request->shop_photo)
+            {
+                foreach($request->shop_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'chemist');
+                    if($fileName)
+                    {
+                        ChemistShopImages::create(['chemist_id'=>$chemist->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($chemist);
+			$chemist->latitude=$coordinateArr['latitude'];
+			$chemist->longitude=$coordinateArr['longitude'];
+			$chemist->update();
+			
+            DB::commit();
+            ## Store log
+            $message = trans('messages.chemist_update',['name' => $request->shop_name]);
+            storeActicityLog(trans('messages.chemist_update'),$message,$request->user_id,$chemist);
+			return $this->sendResponse($response,$message,200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+           
+            return  $this->sendError($response,trans('messages.something'),500);
+        }  
+    }
+	
 	public function getChemistList(Request $request)
 	{
 		$requestData = request()->all();
@@ -209,7 +267,7 @@ rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_coun
 		if($chemist){
 			
 			
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$chemist['star_rating_count'] = $ratings['star_rating_count'];
 			$chemist['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$chemist,'module_images' =>$chemistimages);

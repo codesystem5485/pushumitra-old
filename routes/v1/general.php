@@ -50,10 +50,13 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-transactions', [UserTransactionsController::class,'getTransactions']);
 	
 	/* Animal sale*/
-	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']); 
+	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']);
+	Route::post('/update-animalsale', [AnimalsaleController::class,'updateAnimalForSale']);
 
 	/* Breeder */
 	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
+	Route::post('/update-breeder', [BreederController::class,'updateBreeder']);
+
 	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
@@ -63,6 +66,7 @@ Route::group(['middleware' => ['cors']], function () {
 	
 	/* Add chemist*/
 	Route::post('/add-chemist', [ChemistController::class,'addChemist']); 
+	Route::post('/update-chemist', [ChemistController::class,'updateChemist']);
 	
 	/* Rxreminder */
 	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
@@ -88,6 +92,8 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
 	/* Add Product sale */
 	Route::post('/add-productsale', [ProductsaleController::class,'addProductSale']);
+	Route::post('/update-productsale', [ProductsaleController::class,'updateProductSale']);
+	
 	/* Add Hospital */
 	Route::post('/add-hospital', [VetHospitalsController::class,'addHospital']);
 	/* Add Supplier */

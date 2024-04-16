@@ -135,6 +135,73 @@ class VetHospitalsController extends BaseController
         }
     }
 	
+	public function updateHospital(Request $request){
+        
+		$postData = request()->all();
+		
+        $response = [];
+		
+       DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $hospitals = $this->vethospitalsRepo->update($postData['edit_id'],$aInsertData);
+			
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$hospitals->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'hospitals');
+						$image->delete();
+						 
+					}
+				}
+			}
+			
+            if($request->hospitals_photo)
+            {
+                foreach($request->hospitals_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'hospitals');
+                    if($fileName)
+                    {
+                        VeterinaryhospitalsImages::create(['veterinary_hospitals_id'=>$hospitals->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($hospitals);
+			$hospitals->latitude=$coordinateArr['latitude'];
+			$hospitals->longitude=$coordinateArr['longitude'];
+			$hospitals->update();
+			
+			
+            DB::commit();
+			## Store log
+            $message = trans('messages.hospital_update',['name' => $request->hospital_name]);
+            storeActicityLog(trans('messages.hospital_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+
 	public function getHospitalList(Request $request)
 	{
 		$requestData = request()->all();
@@ -243,7 +310,7 @@ rateable_id  =   veterinary_hospitals.id AND module_id ='.$module_id.' ) as star
 		$results =$this->vethospitalsRepo->getVethospital($id);
 		if($results){
 			$images_arr = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$results->id)->get();
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
 			

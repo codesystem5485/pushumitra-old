@@ -130,6 +130,70 @@ class AnimalsaleController extends BaseController
         }
     }
 	
+	public function updateAnimalForSale(Request $request){
+        
+		$postData = request()->all();
+		$response = [];
+		
+       DB::beginTransaction();
+      try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $animalsale = $this->animalsaleRepo->update($postData['edit_id'],$aInsertData);
+			
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$animalImage = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
+			
+			if(count($animalImage)>0)
+			{
+				foreach($animalImage as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'animalsale');
+						$image->delete();
+						 
+					}
+				}
+			}
+			
+            if($request->animal_photo)
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'animalsale');
+                    if($fileName)
+                    {
+                        $animalImage = AnimalImages::create(['animal_sale_id'=>$animalsale->id,'image_name' => $fileName]);
+                    }
+                } 
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
+			$animalsale->latitude=$coordinateArr['latitude'];
+			$animalsale->longitude=$coordinateArr['longitude'];
+			$animalsale->update();
+            
+            DB::commit();
+			## Store log
+            $message = trans('messages.animalsale_update',['name' => $request->UID_number]);
+            storeActicityLog(trans('messages.animalsale_update'),$message);
+			return $this->sendResponse($response,trans('messages.animalsale_update'),200);
+       }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+	   }
+    }
+	
 	/*updated on 28-03-24 for rating
 	updated on 28-02-24 for search*/
 	public function getAnimalSaleList(Request $request)
@@ -229,8 +293,7 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		
 		if($animalsale){
 			
-			
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$animalsale['star_rating_count'] = $ratings['star_rating_count'];
 			$animalsale['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$animalsale,'module_images' =>$animalimages);

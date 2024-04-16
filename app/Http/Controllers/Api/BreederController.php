@@ -84,7 +84,7 @@ class BreederController extends BaseController
 			$payment->save();
 			
 			$coordinateArr = $this->userRepo->getLatitudeLongitudes($breeder);
-			$paymentArr = array( 'type'=>$payment->type,'animalsale_id'=>$breeder->id);
+			$paymentArr = array( 'type'=>$payment->type,'breeder_id'=>$breeder->id);
 			$subscriptionArr = $this->breederRepo->getSubscriptionDates($paymentArr);
 			
 			$breeder->latitude=$coordinateArr['latitude'];
@@ -114,6 +114,69 @@ class BreederController extends BaseController
 			 ## Store log
             $message = trans('messages.breeder_create',['name' => $breeder->breeder_name]);
             storeActicityLog(trans('messages.breeder_create'),$message);
+			return $this->sendResponse($response,$message,200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+	 public function updateBreeder(Request $request){
+        
+		$postData = request()->all();
+		$response = [];
+		
+        DB::beginTransaction();
+        try{           
+            $aInsertData = $request->all();
+			
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+			
+            $breeder = $this->breederRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$animalImage = BreederImages::where('breeder_id',$breeder->id)->get();
+			
+			if(count($animalImage)>0)
+			{
+				foreach($animalImage as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'breederanimals');
+						$image->delete();
+					}
+				}
+			}
+			
+			if($request->animal_photo)
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'breederanimals');
+                    if($fileName)
+                    {
+                        $animalImage = BreederImages::create(['breeder_id'=>$breeder->id,'image_name' => $fileName]);
+                    }
+                } 
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($breeder);
+			$breeder->latitude=$coordinateArr['latitude'];
+			$breeder->longitude=$coordinateArr['longitude'];
+			$breeder->update();
+			DB::commit();
+			 ## Store log
+            $message = trans('messages.breeder_update',['name' => $breeder->breeder_name]);
+            storeActicityLog(trans('messages.breeder_update'),$message);
 			return $this->sendResponse($response,$message,200);
         }catch(\Exception $e){
             DB::rollback(); 
@@ -209,7 +272,7 @@ class BreederController extends BaseController
 		if($breeder){
 			$breederimages = BreederImages::where('breeder_id',$breeder->id)->get();
 			
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$breeder['star_rating_count'] = $ratings['star_rating_count'];
 			$breeder['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$breeder,'module_images' =>$breederimages);

@@ -242,7 +242,7 @@ rateable_id  =   labs.id AND module_id ='.$module_id.' ) as star_rating_count'))
 		$results =$this->labsRepo->getLab($id);
 		if($results){
 			$images_arr = LabsImages::where('lab_id',$results->id)->get();
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
 			

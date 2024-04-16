@@ -235,7 +235,7 @@ rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count')
 			$images_arr = FarmsImages::where('farm_id',$results->id)->get();
 			
 			
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$results,'module_images' =>$images_arr);

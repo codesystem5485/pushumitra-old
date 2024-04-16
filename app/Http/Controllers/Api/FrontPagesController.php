@@ -27,8 +27,9 @@ class FrontPagesController extends BaseController
     }
 
 	public function csrActivities(){
-		
-		$response['results'] = CsrActivities::orderBy('id','DESC')->get();
+		$url = url("/upload/csractivities")."/";
+		$response['results'] = CsrActivities::select('csr_activities.*',DB::raw('(select CONCAT("'.$url.'", image_name) from  csr_activity_images where csr_activity_id  = csr_activities.id order by id asc limit 1) as image_name')
+			)->orderBy('id','DESC')->get();
 		$response['image_base_path']=url("/upload/csractivities")."/";
 		return $this->sendResponse($response,"",200);
     }

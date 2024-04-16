@@ -239,7 +239,7 @@ rateable_id  = institutions.id AND module_id ='.$module_id.' ) as star_rating_co
 		if($results){
 			$images_arr = InstitutionImages::where('institution_id',$results->id)->get();
 			
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$results,'module_images' =>$images_arr);

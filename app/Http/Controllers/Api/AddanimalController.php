@@ -120,6 +120,97 @@ class AddanimalController extends BaseController
         }
     }
 	
+	public function updateAnimal(Request $request){
+		$postData = request()->all();
+		
+		if($postData['name']=='' && $postData['UID_number']=='')
+		{
+			$errmessage = trans('messages.enter_name_or_uid');
+			return $this->sendError([],$errmessage,400);
+		}
+		
+		$validator = Validator::make($postData, [
+				'age' => 'required|numeric',
+				'sex' => 'required|string',
+				
+				
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+		$checkAnimalName = Animals::where('name',$postData['name'])->where('animal_owner',$postData['user_id'])->where('id','!=',$postData['edit_id'])->count();
+		if($checkAnimalName > 0){
+			
+			return  $this->sendError([],trans('messages.animal_name_exists'),400);
+		}
+        $response = [];
+		DB::beginTransaction();
+		try{   
+
+			$aInsertData['name'] = $postData['name'];
+			//$aInsertData['animal_owner'] = $postData['user_id'];
+			$aInsertData['description'] = $postData['description'];
+			$aInsertData['sex'] = $postData['sex'];
+			$aInsertData['age'] = $postData['age'];
+			$aInsertData['user_id'] = $postData['user_id'];
+			$aInsertData['UID_number'] = $postData['UID_number'];
+			if(isset($postData['species'])){
+				$aInsertData['species'] = $postData['species'];
+			}
+			if(isset($postData['breed'])){
+				$aInsertData['breed'] = $postData['breed'];
+			}
+			
+            $addAnimal = $this->addAnimalRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
+			
+			if(count($animalImage)>0)
+			{
+				foreach($animalImage as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'animal');
+						$image->delete();
+						 
+					}
+				}
+			}
+			
+            if($request->animal_photo)
+            {
+                foreach($request->animal_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'animal');
+                    if($fileName)
+                    {
+                        AddAnimalImages::create(['animal_id'=>$addAnimal->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			DB::commit();
+            ## Store log
+            $message = trans('messages.add_animal_update',['name' => $request->UID_number]);
+            storeActicityLog(trans('messages.add_animal_update'),$message,$request->user_id,$addAnimal);
+			
+           return $this->sendResponse($response,trans('messages.add_animal_update'),200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+           
+            return  $this->sendError($response,trans('messages.something'),500);
+        }
+    }
+	
 	public function getAnimalList(Request $request)
 	{
 		$requestData = request()->all();

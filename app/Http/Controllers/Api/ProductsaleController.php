@@ -116,6 +116,72 @@ class ProductsaleController extends BaseController
         }
     }
 	
+	public function updateProductSale(Request $request){
+        
+		$postData = request()->all();
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $productsale = $this->productsaleRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = ProductImages::where('product_sale_id',$productsale->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'productsale');
+						$image->delete();
+						 
+					}
+				}
+			}
+
+            if($request->product_photo)
+            {
+                foreach($request->product_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'productsale');
+                    if($fileName)
+                    {
+                        ProductImages::create(['product_sale_id'=>$productsale->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($productsale);
+			$productsale->latitude=$coordinateArr['latitude'];
+			$productsale->longitude=$coordinateArr['longitude'];
+			$productsale->update();
+			
+            DB::commit();
+			
+			## Store log
+            $message = trans('messages.productsale_update',['name' => $request->product_name]);
+            storeActicityLog(trans('messages.productsale_update'),$message);
+			return $this->sendResponse($response,$message,200);
+       }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+	
 	public function getProductsaleList(Request $request)
 	{
 		$requestData = request()->all();
@@ -206,7 +272,7 @@ rateable_id  = product_for_sales.id AND module_id ='.$module_id.' ) as star_rati
 		$results = ProductForSale::where('id',$id)->first();
 		if($results){
 			$images_arr = ProductImages::where('product_sale_id',$results->id)->get();
-			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id);
+			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
 			$response = array('results'=>$results,'module_images' =>$images_arr);

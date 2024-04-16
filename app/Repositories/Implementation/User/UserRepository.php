@@ -1478,9 +1478,14 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		}
 	}
 	
-	public function getRatingUsingModuleId($rateable_id,$moduleId){
+	public function getRatingUsingModuleId($rateable_id,$moduleId,$data){
+		$user_id = 0;
+		if(isset($data['user_id'])){
+			$user_id = $data['user_id'];
+		}
 		 $response['star_rating_count'] = Ratings::where('rateable_id',$rateable_id)->where('module_id',$moduleId)->where('status',1)->avg('star_ratings');
-		 $response['review_exist']  = Ratings::where('rateable_id',$rateable_id)->where('module_id',$moduleId)->count();
+		 $response['review_exist']  = Ratings::where('rateable_id',$rateable_id)->where('module_id',$moduleId)
+		 ->where('user_id',$user_id)->count();
 		 return $response;
 	}
 }
