@@ -136,12 +136,17 @@ class VetHospitalsController extends BaseController
     }
 	
 	public function updateHospital(Request $request){
-        
-		$postData = request()->all();
-		
-        $response = [];
-		
-       DB::beginTransaction();
+        $postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		$response = [];
+		DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
 			if(isset($aInsertData['user_code']))
@@ -258,7 +263,11 @@ rateable_id  =   veterinary_hospitals.id AND module_id ='.$module_id.' ) as star
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
 		  isset($requestData['limit']) && $requestData['limit']!='')
 		  {
-			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
 		  }
 		  $query  = $query->get();
 		  $response['total_count'] = $total_results;

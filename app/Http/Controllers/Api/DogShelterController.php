@@ -33,7 +33,7 @@ class DogShelterController extends BaseController
     } 
 
     /**
-     * Transporter Add
+     * dog shelter Add
    
      */
 	 public function addDogshelter(Request $request){
@@ -135,6 +135,75 @@ class DogShelterController extends BaseController
         }
     }
 	
+	public function updateDogshelter(Request $request){
+        
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+			//$aInsertData['type']='Private'; // default
+            $results = $this->dogshelterRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = DogshelterImages::where('dog_shelter_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'poultryhatchery');
+						$image->delete();
+					}
+				}
+			}
+			if($request->dogshelter_photo)
+            {
+                foreach($request->dogshelter_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'dogshelters');
+                    if($fileName)
+                    { 
+                        DogshelterImages::create(['dog_shelter_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+			
+            DB::commit();
+			## Store log
+            $message = trans('messages.dogshelter_update',['name' => $request->dogshelter_name]);
+            storeActicityLog(trans('messages.dogshelter_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getDogshelterList(Request $request)
 	{
 		$requestData = request()->all();
@@ -179,7 +248,11 @@ class DogShelterController extends BaseController
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
 		  isset($requestData['limit']) && $requestData['limit']!='')
 		  {
-			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
 		  }
 		  $query  = $query->get();
 		  

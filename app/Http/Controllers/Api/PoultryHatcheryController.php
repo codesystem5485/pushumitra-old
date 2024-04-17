@@ -33,7 +33,7 @@ class PoultryHatcheryController extends BaseController
     } 
 
     /**
-     * Transporter Add
+     * poultryhatchery Add
    
      */
 	 public function addPoultryhatchery(Request $request){
@@ -131,6 +131,77 @@ class PoultryHatcheryController extends BaseController
         }
     }
 	
+	public function updatePoultryhatchery(Request $request){
+        
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $results = $this->poultryhatcheryRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = PoultryHatcheryImages::where('poultryhatchery_center_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'poultryhatchery');
+						$image->delete();
+					}
+				}
+			}
+
+            if($request->poultryhatchery_photo)
+            {
+                foreach($request->poultryhatchery_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'poultryhatchery');
+                    if($fileName)
+                    {
+                        PoultryHatcheryImages::create(['poultryhatchery_center_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+			
+			
+            DB::commit();
+			## Store log
+            $message = trans('messages.poultryhatchery_update',['name' => $request->poultryhatchery_center_name]);
+            storeActicityLog(trans('messages.poultryhatchery_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getPoultryHatcheryList(Request $request)
 	{
 		$requestData = request()->all();
@@ -185,7 +256,11 @@ rateable_id  =   poultryhatchery_centers.id AND module_id ='.$module_id.' ) as s
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
 		  isset($requestData['limit']) && $requestData['limit']!='')
 		  {
-			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
 		  }
 		  $query  = $query->get();
 		  

@@ -236,7 +236,11 @@ class BreederController extends BaseController
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
 		  isset($requestData['limit']) && $requestData['limit']!='')
 		  {
-			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
 		  }
 		  $query  = $query->get();
 		  

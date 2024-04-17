@@ -34,7 +34,7 @@ class SuppliersController extends BaseController
     } 
 
     /**
-     * Transporter Add
+     * supplier Add
    
      */
 	 public function addSupplier(Request $request){
@@ -123,6 +123,75 @@ class SuppliersController extends BaseController
         }
     }
 	
+	public function updateSupplier(Request $request){
+        $postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+		$response = [];
+		DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+			
+            $suppliers = $this->suppliersRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = SupplierProductImages::where('supplier_id',$suppliers->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'suppliers');
+						$image->delete();
+					}
+				}
+			}
+			
+            if($request->supplier_photo)
+            {
+                foreach($request->supplier_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'suppliers');
+                    if($fileName)
+                    {
+                        SupplierProductImages::create(['supplier_id'=>$suppliers->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($suppliers);
+			$suppliers->latitude=$coordinateArr['latitude'];
+			$suppliers->longitude=$coordinateArr['longitude'];
+			$suppliers->update();
+			
+            DB::commit();
+			## Store log
+            $message = trans('messages.supplier_update',['name' => $request->supplier_name]);
+            storeActicityLog(trans('messages.supplier_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getSupplierList(Request $request)
 	{
 		$requestData = request()->all();
@@ -171,7 +240,11 @@ rateable_id  =   suppliers.id AND module_id ='.$module_id.' ) as star_rating_cou
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
 		  isset($requestData['limit']) && $requestData['limit']!='')
 		  {
-			  $query  = $query->offset($requestData['offset'])->limit($requestData['limit']);
+			 $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
 		  }
 		  $query  = $query->get();
 		  
