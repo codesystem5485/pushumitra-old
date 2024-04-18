@@ -143,7 +143,6 @@ class ShopsController extends BaseController
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
         $response = [];
-		
         DB::beginTransaction();
         try{            
             $aInsertData = $request->all();

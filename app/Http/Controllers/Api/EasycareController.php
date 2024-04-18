@@ -34,8 +34,7 @@ class EasycareController extends BaseController
 
     /**
      * Easycares Add
-   
-     */
+    */
 	 public function addEasycare(Request $request){
         
 		$postData = request()->all();
@@ -83,6 +82,73 @@ class EasycareController extends BaseController
         }
     }
 	
+	public function updateEasycare(Request $request){
+        
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'title' => 'required',
+				'solutions' => 'required',
+				'edit_id' => 'required',
+				
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+            if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+			$results = $this->easycareRepo->update($postData['edit_id'],$aInsertData);
+			
+            $existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = EasycaresImages::where('easycare_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'easycares');
+						$image->delete();
+					}
+				}
+			}
+			if($request->easy_care_photo)
+            {
+                foreach($request->easy_care_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'easycares');
+                    if($fileName)
+                    {
+                        EasycaresImages::create(['easycare_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+            DB::commit();
+			## Store log
+            $message = trans('messages.easycare_update',['name' => $request->title]);
+            storeActicityLog(trans('messages.easycare_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getEasycareList(Request $request)
 	{
 		$requestData = request()->all();
@@ -108,8 +174,6 @@ rateable_id  =   easy_cares.id AND module_id ='.$module_id.' ) as star_rating_co
 				}
 			});
 		  }
-		  
-		  
 		 
 		  $total_results = $query->count();
 		  if(isset($requestData['offset']) && $requestData['offset']!='' && 

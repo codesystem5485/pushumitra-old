@@ -135,6 +135,72 @@ class LabsController extends BaseController
         }
     }
 	
+	public function updateLab(Request $request){
+        $postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		$response = [];
+		DB::beginTransaction();
+       try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $labs = $this->labsRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = LabsImages::where('lab_id',$labs->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'labs');
+						$image->delete();
+					}
+				}
+			}
+            
+            if($request->labs_photo)
+            {
+                foreach($request->labs_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'labs');
+                    if($fileName)
+                    {
+                        LabsImages::create(['lab_id'=>$labs->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($labs);
+			$labs->latitude=$coordinateArr['latitude'];
+			$labs->longitude=$coordinateArr['longitude'];
+			$labs->update();
+			DB::commit();
+			## Store log
+            $message = trans('messages.lab_update',['name' => $request->lab_name]);
+            storeActicityLog(trans('messages.lab_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getLabList(Request $request)
 	{
 		$requestData = request()->all();

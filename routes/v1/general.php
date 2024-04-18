@@ -56,12 +56,9 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Breeder */
 	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
 	Route::post('/update-breeder', [BreederController::class,'updateBreeder']);
-
-	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
 	Route::post('/update-animal', [AddanimalController::class,'updateAnimal']); 
-	
 	Route::post('/delete-animal', [AddanimalController::class,'deleteAnimal']); 
 	
 	/* Add chemist*/
@@ -113,34 +110,29 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Add institutions */
 	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
 	Route::post('/update-institution', [InstitutionsController::class,'updateInstitution']);
-	
 	/* Add dogshelter */
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	Route::post('/update-dogshelter', [DogShelterController::class,'updateDogshelter']);
-	
 	/* Add milk collection */
 	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
 	Route::post('/update-milkcollection', [MilkCollectionController::class,'updateMilkcollection']);
-	
 	/* Add poultryhatchery */
 	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
 	Route::post('/update-poultryhatchery', [PoultryHatcheryController::class,'updatePoultryhatchery']);
-	
 	/* Add panjarpol */
 	Route::post('/add-panjarpol', [PanjarpolController::class,'addPanjarpol']);
 	Route::post('/update-panjarpol', [PanjarpolController::class,'updatePanjarpol']);
-	
 	/* Add easycare */
 	Route::post('/add-easycare', [EasycareController::class,'addEasycare']);
+	Route::post('/update-easycare', [EasycareController::class,'updateEasycare']);
 	/* Add lab */
 	Route::post('/add-lab', [LabsController::class,'addLab']);
+	Route::post('/update-lab', [LabsController::class,'updateLab']);
 	/* Add NGO */
 	Route::post('/add-ngo', [NgoController::class,'addNgo']);
 	Route::post('/update-ngo', [NgoController::class,'updateNgo']);
-	
 	/* easycare Ratings Details */
 	Route::post('/add-easycare-ratings', [RatingsController::class,'addEasycareRatings']);
-	
 	Route::get('/update-modules-count', [PaymentController::class,'updateModuleCount']);
 	
 	});
