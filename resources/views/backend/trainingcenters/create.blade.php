@@ -71,7 +71,12 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="fees" value="@if(empty($trainingcenters)){{old('fees')}}@else{{$trainingcenters->fees}}@endif"placeholder="{{ __('general.trainingcenter_fees') }}">
                     </div>
-					<?php echo $trainingcenters->type; ?>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Duration :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="duration" value="@if(empty($trainingcenters)){{old('duration')}}@else{{$trainingcenters->duration}}@endif"placeholder="Duration">
+                    </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">

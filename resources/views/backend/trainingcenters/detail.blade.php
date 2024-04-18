@@ -67,6 +67,13 @@
                     </div>
 					<div class="mb-5">
                         <div class="">
+                            <span class="">Duration :</span>
+                            <span class="">{{ $trainingcenters->duration }}</span>
+                        </div>
+                    </div>
+					
+					<div class="mb-5">
+                        <div class="">
                             <span class="">{{ __('general.mobile_number') }} :</span>
                             <span class="">{{ $trainingcenters->mobile_number }}</span>
                         </div>

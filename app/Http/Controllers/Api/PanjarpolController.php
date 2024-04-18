@@ -144,6 +144,10 @@ class PanjarpolController extends BaseController
         DB::beginTransaction();
         try{            
             $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
             $results = $this->panjarpolRepo->update($postData['edit_id'],$aInsertData);
 			$existing_arr = [];
 			if(isset($postData['existing_images'])){

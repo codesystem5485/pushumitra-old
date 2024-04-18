@@ -91,12 +91,27 @@
                         </div>
                         <input type="text" class="form-control"  aria-describedby="basic-addon3" name="mobile_number" value="@if(empty($institutions)){{old('mobile_number')}}@else{{$institutions->mobile_number}}@endif"placeholder="{{ __('general.enter_mobile_number') }}">
                     </div>
+					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >Email Id :</span>
                         </div>
                         <input type="email" class="form-control"  aria-describedby="basic-addon3" name="email_id" value="@if(empty($institutions)){{old('email_id')}}@else{{$institutions->email_id}}@endif"placeholder="Enter Email Id">
                     </div>
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Fees :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="fees" value="@if(empty($institutions)){{old('fees')}}@else{{$institutions->fees}}@endif"placeholder="Fees">
+                    </div>
+					
+					<div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Duration :</span>
+                        </div>
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="duration" value="@if(empty($institutions)){{old('duration')}}@else{{$institutions->duration}}@endif"placeholder="Duration">
+                    </div>
+					
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.address') }}* :</span>

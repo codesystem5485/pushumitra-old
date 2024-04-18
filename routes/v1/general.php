@@ -112,12 +112,16 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/update-farm', [FarmsController::class,'updateFarm']);
 	/* Add institutions */
 	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
+	Route::post('/update-institution', [InstitutionsController::class,'updateInstitution']);
+	
 	/* Add dogshelter */
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	Route::post('/update-dogshelter', [DogShelterController::class,'updateDogshelter']);
 	
 	/* Add milk collection */
 	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
+	Route::post('/update-milkcollection', [MilkCollectionController::class,'updateMilkcollection']);
+	
 	/* Add poultryhatchery */
 	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
 	Route::post('/update-poultryhatchery', [PoultryHatcheryController::class,'updatePoultryhatchery']);

@@ -33,9 +33,8 @@ class InstitutionsController extends BaseController
     } 
 
     /**
-     * Transporter Add
-   
-     */
+     * Institution Add
+    */
 	 public function addInstitution(Request $request){
         
 		$postData = request()->all();
@@ -124,6 +123,75 @@ class InstitutionsController extends BaseController
 			## Store log
             $message = trans('messages.institution_create',['name' => $request->institution_name]);
             storeActicityLog(trans('messages.institution_create'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+	public function updateInstitution(Request $request){
+        
+		$postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+            if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $results = $this->institutionsRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = InstitutionImages::where('institution_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'institutions');
+						$image->delete();
+					}
+				}
+			}
+            if($request->institution_photo)
+            {
+                foreach($request->institution_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'institutions');
+                    if($fileName)
+                    {
+                        InstitutionImages::create(['institution_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+			 
+            DB::commit();
+			## Store log
+            $message = trans('messages.institution_update',['name' => $request->institution_name]);
+            storeActicityLog(trans('messages.institution_update'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 

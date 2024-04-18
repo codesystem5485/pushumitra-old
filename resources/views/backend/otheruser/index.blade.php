@@ -45,6 +45,7 @@
                                 <th>Name</th>
                                 <th>Mobile Number</th>
 								<th>City/Village</th>
+								<th>User Code</th>
                                 <th>My Pets</th>
                                 <th>Action</th>
                             </tr>
@@ -79,6 +80,7 @@
                 { data: 'first_name', name: 'first_name' },
                 { data: 'mobile_number', name: 'mobile_number' },
 				{ data: 'city_town', name: 'city_town' },
+				{ data: 'other_usercode', name: 'other_usercode'},
 				{ data: 'mypets', name: 'mypets' },
                 { data: 'action', name: 'action',orderable: false, 
                 searchable: false } 

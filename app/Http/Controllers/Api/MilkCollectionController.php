@@ -33,9 +33,8 @@ class MilkCollectionController extends BaseController
     } 
 
     /**
-     * Transporter Add
-   
-     */
+     * Milkcollection Add
+   */
 	 public function addMilkcollection(Request $request){
         
 		$postData = request()->all();
@@ -121,6 +120,73 @@ class MilkCollectionController extends BaseController
 			## Store log
             $message = trans('messages.milkcollection_create',['name' => $request->milkcollection_center_name]);
             storeActicityLog(trans('messages.milkcollection_create'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+	public function updateMilkcollection(Request $request){
+        $postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		$response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $results = $this->milkcollectionRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = MilkCollectionImages::where('milkcollection_center_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'milkcollections');
+						$image->delete();
+					}
+				}
+			}
+            if($request->milkcollection_photo)
+            {
+                foreach($request->milkcollection_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'milkcollections');
+                    if($fileName)
+                    {
+                        MilkCollectionImages::create(['milkcollection_center_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+			
+            DB::commit();
+			## Store log
+            $message = trans('messages.milkcollection_update',['name' => $request->milkcollection_center_name]);
+            storeActicityLog(trans('messages.milkcollection_update'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 

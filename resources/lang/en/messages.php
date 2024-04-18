@@ -93,7 +93,9 @@ return [
 	'poultryhatchery_create' =>':name has been created',
 	'poultryhatchery_update' =>':name has been updated',
 	'shop_create' =>':name has been created',
+	'shop_update' =>':name has been updated',
 	'institution_create' =>':name has been created',
+	'institution_update' =>':name has been updated',
 	'farm_create' =>':name has been created',
 	'farm_update' =>':name has been updated',
 	'dogshelter_create' =>':name has been created',
@@ -103,7 +105,6 @@ return [
 	'image_remove' =>':name has been removed',
 	'milkcollection_update' =>':name has been updated',
 	'milkcollection_delete' =>':name has been deleted',
-	
 	'shops_update' =>':name has been updated',
 	'shops_delete' =>':name has been deleted',
 	'add_animal_create' => 'Animal has been created',

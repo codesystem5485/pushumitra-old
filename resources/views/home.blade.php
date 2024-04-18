@@ -198,7 +198,7 @@
                            <h3><a href="#">{{$dogShelterCount}}</a></h3>
 						   <h3><a href="#">{{$totaldogShelterCount}}</a></h3>
 						    </div>
-                           <span>Dog Shelters</span>
+                           <span>Shelter</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">
@@ -523,7 +523,7 @@
                            <h3><a href="{{url('pashumitra/dogshelters')}}">{{$dogShelterCount}}</a></h3>
 						   <h3><a href="{{url('pashumitra/dogshelters')}}">{{$totaldogShelterCount}}</a></h3>
 						    </div>
-                           <span>Dog Shelters</span>
+                           <span>Shelter</span>
 						 
                         </div>
                         <div class="progress progress-xs progress-transparent custom-color-purple m-b-0">

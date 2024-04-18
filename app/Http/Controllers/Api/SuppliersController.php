@@ -142,8 +142,7 @@ class SuppliersController extends BaseController
 			{
 				unset($aInsertData['user_code']);
 			}
-			
-            $suppliers = $this->suppliersRepo->update($postData['edit_id'],$aInsertData);
+			 $suppliers = $this->suppliersRepo->update($postData['edit_id'],$aInsertData);
 			$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];

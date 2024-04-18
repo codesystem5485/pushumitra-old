@@ -132,6 +132,72 @@ class ShopsController extends BaseController
         }
     }
 	
+	public function updateShop(Request $request){
+        $postData = request()->all();
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+            $results = $this->shopsRepo->update($postData['edit_id'],$aInsertData);
+			$existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = ShopImages::where('shop_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'shops');
+						$image->delete();
+					}
+				}
+			}
+			if($request->shop_photo)
+            {
+                foreach($request->shop_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'shops');
+                    if($fileName)
+                    {
+                        ShopImages::create(['shop_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+            DB::commit();
+			## Store log
+            $message = trans('messages.shop_update',['name' => $request->shop_name]);
+            storeActicityLog(trans('messages.shop_update'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getShopsList(Request $request)
 	{
 		$requestData = request()->all();

@@ -33,7 +33,7 @@ class FarmsController extends BaseController
     } 
 
     /**
-     * Transporter Add
+     * farm Add
    
      */
 	 public function addFarm(Request $request){
@@ -122,6 +122,66 @@ class FarmsController extends BaseController
 			## Store log
             $message = trans('messages.farm_create',['name' => $request->farm_name]);
             storeActicityLog(trans('messages.farm_create'),$message);
+			return $this->sendResponse($response,$message,200);
+      }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
+	public function updateFarm(Request $request){
+		$postData = request()->all();
+        $response = [];
+        DB::beginTransaction();
+       try{            
+            $aInsertData = $request->all();
+            $results = $this->farmsRepo->update($postData['edit_id'],$aInsertData);
+			
+			if(isset($aInsertData['user_code']))
+			{
+				unset($aInsertData['user_code']);
+			}
+			
+            $existing_arr = [];
+			if(isset($postData['existing_images'])){
+				$existing_arr = $postData['existing_images'];
+			}
+			$images = FarmsImages::where('farm_id',$results->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'farms');
+						$image->delete();
+					}
+				}
+			}
+            if($request->farm_photo)
+            {
+                foreach($request->farm_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'farms');
+                    if($fileName)
+                    {
+                        FarmsImages::create(['farm_id'=>$results->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->update();
+			DB::commit();
+			## Store log
+            $message = trans('messages.farm_update',['name' => $request->farm_name]);
+            storeActicityLog(trans('messages.farm_update'),$message);
 			return $this->sendResponse($response,$message,200);
       }catch(\Exception $e){
             DB::rollback(); 
