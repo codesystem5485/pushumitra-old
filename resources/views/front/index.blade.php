@@ -5,13 +5,10 @@
         <div class="swiper hero2-slider">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <img src="{{asset('front/assets/images/advertising-banner/banner-1.jpg')}}" alt="add">
+                    <img src="{{asset('front/assets/images/advertising-banner/atmanirbhar-bharat.jpg')}}" class="img-fluid w-100" alt="Atmanirbhar Bharat">
                 </div>
                 <div class="swiper-slide">
-                    <img src="{{asset('front/assets/images/advertising-banner/banner-2.jpg')}}" alt="add">
-                </div>
-                <div class="swiper-slide">
-                    <img src="{{asset('front/assets/images/advertising-banner/banner-3.jpg')}}" alt="add">
+                    <img src="{{asset('front/assets/images/advertising-banner/advertise-banner.jpg')}}" class="img-fluid w-100" alt="Advertise">
                 </div>
             </div>
         </div>
@@ -27,6 +24,17 @@
                     first buying</span> Up To 50%</h2>
         </div>
     </div>-->
+    
+    <!--<div class="hero2">-->
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-lg-12">-->
+    <!--                <img src="{{asset('front/assets/images/advertising-banner/atmanirbhar-bharat.jpg')}}" class="img-fluid w-100" alt="Atmanirbhar Bharat">-->
+    <!--            </div>-->
+                <!--<div class="col-lg-6"></div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 
     <div class="h2-services-area">
         <div class="services-btm pt-120 mb-120">

@@ -2113,11 +2113,11 @@ header.style-2 .header-logo {
 }
 
 header.style-2 .header-logo img {
-    width: 300px;
+    width: 100px;
     max-width: 100%
 }
 header.style-2.sticky .header-logo img {
-    width: 200px;
+    width:80px;
 }
 header.style-2.sticky .main-menu ul>li a{
     padding: 12px 10px;
