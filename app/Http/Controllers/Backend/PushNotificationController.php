@@ -46,8 +46,6 @@ class PushNotificationController extends BaseController
         
 		$sRoleName = $request->role;
 		$fcmArray = $this->userRepo->getUsersFcmIds(['sRoleName' => $sRoleName]);
-	
-    
     //	$fcmArray = DB::table('users')->whereIn('id', array(90,104,96))->get();
   	
 		$notifications = new Notifications();
@@ -63,9 +61,8 @@ class PushNotificationController extends BaseController
 		$sendFcmArray =array();
 		foreach($fcmArray as $row)
 		{
-		$fcmId = $row->fcm_id;
-			//$fcmId = 'eMDZMxR3QqiU-SfiQYoheZ:APA91bHdqmZolgxHTza6KMj_9P_N3w3wvZQgqmxRXq2R4EdUfAyHLGZMV2M5x2s2rK8SxrraZegajQykAeWe1xUHkz09ofEw4se2-nNfw5tSPQB33guL8tQQaOuwJoB7rwf_qGvTaULd';
-			//array_push($sendFcmArray,$row->fcm_id);
+		  $fcmId = $row->fcm_id;
+		  //array_push($sendFcmArray,$row->fcm_id);
 		
 		/*DB::beginTransaction();
         try{*/
@@ -104,10 +101,11 @@ class PushNotificationController extends BaseController
 				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 				$result = curl_exec($ch);
+			
 				curl_close ($ch);
 				
 				if ($result === FALSE) {
-					//echo 'Android: Curl failed: ' . curl_error($ch);
+					'Android: Curl failed: ' . curl_error($ch);
 				}
 				// Close connection
 				curl_close($ch);

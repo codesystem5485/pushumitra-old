@@ -304,7 +304,7 @@
 						    @endif
 							@if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
                             <li class="">
-                              <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="icon-hourglass"></i> <span>Dogshelters </span></a>
+                              <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="icon-hourglass"></i> <span>Shelter </span></a>
                             </li>
 						    @endif
 							@if(auth()->user()->can('shop-list') || auth()->user()->can('shop-create') || auth()->user()->can('shop-edit') || auth()->user()->can('shop-delete')) 

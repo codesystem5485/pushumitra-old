@@ -36,6 +36,7 @@
 							<option value="Registered-vet">Registered-vet</option>
 							<option value="Pashumitra">Pashumitra</option>
 							<option value="Animal-owner">Animal-owner</option>
+							<option value="Other">Other</option>
                         </select>
                     </div>
 					<div class="input-group mb-3">
