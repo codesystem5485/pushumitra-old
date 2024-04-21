@@ -38,7 +38,8 @@
 								
                             </div>
                             <div class="info">
-                                <h6><a href="#">S-12, Regimental Plaza, Gaikwad Mala, Bitco Point, Nashik Road, Maharashtra, India 422101</a></h6>
+                                <!--<h6><a href="#">S-12, Regimental Plaza, Gaikwad Mala, Bitco Point, Nashik Road, Maharashtra, India 422101</a></h6>-->
+								<h6><a href="#">Flat no.8, Priyanka Nest Apartment, Sadguru Nagar , Nashik MH 422009 IN</a></h6>
                             </div>
                         </div>
                     </div>
@@ -85,8 +86,12 @@
         <div class="vector">
             <img src="assets/images/bg/map-vector.png" alt>
         </div>
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d937.5799221020912!2d73.83652836956783!3d19.953053459441993!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd958b6fd7e5e9%3A0x4f982ea2f76d676b!2sRegimental!5e0!3m2!1sen!2sin!4v1697357904074!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-            style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <!--<iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d937.5799221020912!2d73.83652836956783!3d19.953053459441993!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdd958b6fd7e5e9%3A0x4f982ea2f76d676b!2sRegimental!5e0!3m2!1sen!2sin!4v1697357904074!5m2!1sen!2sin" 
+			width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>-->
+			
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3749.657783977283!2d73.77417027427622!3d19.98088912294467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb1421542d33%3A0xaac668442e7f593e!2sPriyanka%20Nest%20Apartment!5e0!3m2!1sen!2sin!4v1713688113602!5m2!1sen!2sin" 
+			width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 @endsection
