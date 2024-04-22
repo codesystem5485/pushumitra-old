@@ -33,6 +33,7 @@ class ShopsRepository  extends BaseRepository implements ShopsRepositoryInterfac
     public function getShopsList()
     {     
         return  $this->shopsModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

@@ -33,6 +33,7 @@ class TransporterRepository  extends BaseRepository implements TransporterReposi
     public function getTransporters()
     {     
         return  $this->transporterModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

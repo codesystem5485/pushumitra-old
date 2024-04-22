@@ -137,6 +137,100 @@ class TransporterController extends BaseController
         }
     }
 	
+	public function updateTransporter(Request $request){
+        
+		$postData = request()->all();
+		$response = [];
+		$validator = Validator::make($postData, [
+				'edit_id' => 'required',
+			]);
+			
+		if($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+            $transporter = $this->transporterRepo->update($postData['edit_id'],$aInsertData);
+			
+			$existing_arr = [];
+			if(isset($postData['existing_vehicle_images'])){
+				$existing_arr = $postData['existing_vehicle_images'];
+			}
+			$images = VehicleImages::where('transporter_id',$transporter->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					if(!in_array($image['image_name'],$existing_arr)){
+						$this->removeFile($image->image_name,'vehicle');
+						$image->delete();
+					}
+				}
+			}
+			
+			$existing_rcbook_arr = [];
+			if(isset($postData['existing_rcbook_images'])){
+				$existing_rcbook_arr = $postData['existing_rcbook_images'];
+			}
+			$rcbookimages = TransporterRcbookImages::where('transporter_id',$transporter->id)->get();
+			if(count($rcbookimages)>0)
+			{
+				foreach($rcbookimages as $image)
+				{
+					if(!in_array($image['image_name'],$existing_rcbook_arr)){
+						$this->removeFile($image->image_name,'rcbooks');
+						$image->delete();
+					}
+				}
+			}
+
+            if($request->vehicle_photo)
+            {
+                foreach($request->vehicle_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'vehicle');
+                    if($fileName)
+                    {
+                        VehicleImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			if($request->rcbook_photo)
+            {
+                foreach($request->rcbook_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'rcbooks');
+                    if($fileName)
+                    {
+                        TransporterRcbookImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($transporter);
+			$transporter->latitude=$coordinateArr['latitude'];
+			$transporter->longitude=$coordinateArr['longitude'];
+			$transporter->update();
+            
+            DB::commit();
+			 ## Store log
+             $message = trans('messages.transporter_update',['name' => $request->input('transporter_name')]);
+            storeActicityLog(trans('messages.transporter_update'),$message);
+			return $this->sendResponse($response,$message,200);
+       }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+    }
+	
 	public function getTransporterList(Request $request)
 	{
 		$requestData = request()->all();
@@ -241,4 +335,51 @@ rateable_id  =   transporters.id AND module_id ='.$module_id.' ) as star_rating_
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deleteTransporter(Request $request)
+	{
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Transporters::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->transporter_name;
+			$images = VehicleImages::where('transporter_id',$result->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'vehicle');
+					$image->delete();
+				}
+			}
+			$images_rcbook_arr = TransporterRcbookImages::where('transporter_id',$result->id)->get();
+			if(count($images_rcbook_arr)>0)
+			{
+				foreach($images_rcbook_arr as $image)
+				{
+					$this->removeFile($image->image_name,'rcbooks');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$transporter = $this->transporterRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.transporter_delete',['name' => $name]);
+        storeActicityLog(trans('messages.transporter_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
+
 }

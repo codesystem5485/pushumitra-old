@@ -33,7 +33,8 @@ class LabsRepository extends BaseRepository implements LabsRepositoryInterface
     public function getLabsList()
     {     
         return  $this->labsModelRepo
-            ->orderBy('id', 'DESC')
+            ->where('status',1)
+			->orderBy('id', 'DESC')
             ->get();
     }
 

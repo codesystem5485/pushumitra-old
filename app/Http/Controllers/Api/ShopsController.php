@@ -302,5 +302,42 @@ rateable_id  =   shops.id AND module_id ='.$module_id.' ) as star_rating_count')
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
-
+	
+	public function deleteShop(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Shops::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->shop_name;
+			$images = ShopImages::where('shop_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'shops');
+					$image->delete();
+				}
+			}
+			
+			$arr = array('status'=>0);
+			$shops = $this->shopsRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.shop_delete',['name' => $name]);
+        storeActicityLog(trans('messages.shop_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 }

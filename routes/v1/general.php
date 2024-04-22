@@ -52,6 +52,7 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Animal sale*/
 	Route::post('/add-animalsale', [AnimalsaleController::class,'addAnimalForSale']);
 	Route::post('/update-animalsale', [AnimalsaleController::class,'updateAnimalForSale']);
+	Route::post('/delete-animalsale', [AnimalsaleController::class,'deleteAnimalForSale']);
 
 	/* Breeder */
 	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
@@ -87,6 +88,9 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-ratings', [RatingsController::class,'addRatings']);
 	/* Add Transporter */
 	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
+	Route::post('/update-transporter', [TransporterController::class,'updateTransporter']);
+	Route::post('/delete-transporter', [TransporterController::class,'deleteTransporter']);
+	
 	/* Add Product sale */
 	Route::post('/add-productsale', [ProductsaleController::class,'addProductSale']);
 	Route::post('/update-productsale', [ProductsaleController::class,'updateProductSale']);
@@ -104,6 +108,8 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Add Shops */
 	Route::post('/add-shop', [ShopsController::class,'addShop']);
 	Route::post('/update-shop', [ShopsController::class,'updateShop']);
+	Route::post('/delete-shop', [ShopsController::class,'deleteShop']);
+	
 	/* Add Farms */
 	Route::post('/add-farm', [FarmsController::class,'addFarm']);
 	Route::post('/update-farm', [FarmsController::class,'updateFarm']);
@@ -128,6 +134,8 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Add lab */
 	Route::post('/add-lab', [LabsController::class,'addLab']);
 	Route::post('/update-lab', [LabsController::class,'updateLab']);
+	Route::post('/delete-lab', [LabsController::class,'deleteLab']);
+	
 	/* Add NGO */
 	Route::post('/add-ngo', [NgoController::class,'addNgo']);
 	Route::post('/update-ngo', [NgoController::class,'updateNgo']);

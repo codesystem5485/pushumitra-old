@@ -33,6 +33,7 @@ class DogsheltersRepository  extends BaseRepository implements DogsheltersReposi
     public function getDogsheltersList()
     {     
         return  $this->dogsheltersModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

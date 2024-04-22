@@ -220,11 +220,10 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 				foreach($words as $word) {
 					$query->where(function($q) use($word){
 						$q->where('breed', 'LIKE', '%'.$word.'%')
-						
-						   ->orWhere('sex', 'LIKE', '%'.$word.'%')
+						->orWhere('sex', 'LIKE', '%'.$word.'%')
 						    ->orWhere('UID_number', 'LIKE', '%'.$word.'%')
 							 ->orWhere('price', 'LIKE', '%'.$word.'%')
-							  //->orWhere('contact_name_of_owner', 'LIKE', '%'.$word.'%')
+							 ->orWhere('species.specie', 'LIKE', '%'.$word.'%')
 							   //->orWhere('contact_number_of_owner', 'LIKE', '%'.$word.'%')
 							   ->orWhere('address', 'LIKE', '%'.$word.'%')
 							  // ->orWhere('state', 'LIKE', '%'.$word.'%')
@@ -307,6 +306,42 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deleteAnimalForSale(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Animalforsale::where('id',$id)->first();
+		$name = '';
+		if($result){
+			
+			$images = AnimalImages::where('animal_sale_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'animalsale');
+					$image->delete();
+				}
+			}
+			$result->delete();
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.animalsale_delete',['name' => 'Animal for sale']);
+        storeActicityLog(trans('messages.animalsale_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 
 

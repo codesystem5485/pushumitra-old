@@ -37,11 +37,7 @@ class UserTransactionsController extends BaseController
      
      
     public function __construct(){
-
-        
-    }
-	
-	
+	}
 
 	public function getTransactions(Request $request)
 	{
@@ -203,13 +199,10 @@ class UserTransactionsController extends BaseController
 		$collection = collect([$milkCollectionModuleArr,$hospitalModuleArr,$panjarpolModuleArr,$poultryModuleArr,
 		$dogShelterModuleArr,$animalModuleArr,$labModuleArr,$ngoModuleArr,$easycareModuleArr,$shopModuleArr,
 		$farmModuleArr,$trainingCenterModuleArr,$institutionModuleArr,$supplierModuleArr,
-		$productSaleModuleArr,$chemistModuleArr,$breederModuleArr,$animalSaleModuleArr]);
+		$productSaleModuleArr,$chemistModuleArr,$breederModuleArr,$animalSaleModuleArr])->sortBy('created_at');
 		$collapsed = $collection->collapse();
 		
 		$response['results']= $collapsed;
 		return $this->sendResponse($response,"",200);
 	}
-	
-	
-
 }

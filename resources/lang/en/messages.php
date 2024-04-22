@@ -3,7 +3,6 @@
 // lang/en/messages.php
  
 return [
-    
     'create' => 'created',
     'update' => 'updated',
     'delete' => 'deleted',
@@ -67,19 +66,21 @@ return [
     'chemist_delete' => 'Chemist (:name) has been deleted',
 	'easycare_create' => ':name has been created', 
 
-    'animalsale_create' => 'Animal has been created for sale', 
-    'animalsale_update' => 'Animal has been updated for sale',  
-    'animalsale_delete' => 'Animal has been deleted',
+    'animalsale_create' => 'Animal for sale has been created for sale', 
+    'animalsale_update' => 'Animal for sale has been updated for sale',  
+    'animalsale_delete' => 'Animal for sale has been deleted',
 	'transporter_create' => 'Transporter :name has been created',
+	'transporter_update' => 'Transporter :name has been updated',
+	'transporter_delete' => 'Transporter :name has been deleted',
 	'productsale_create' => 'Product :name has been created for sale',
 	'productsale_update' => 'Product :name has been updated for sale',
 	'hospital_create' =>':name has been created',
 	'hospital_update' =>':name has been updated',
 	'lab_create' =>':name has been created',
 	'lab_update' =>':name has been updated',
+	'lab_delete' =>':name has been deleted',
 	'easycare_create' =>'Your information has been successfully received and we appreciate your interest in our platform.Your information is currently pending approval from our administrators. Rest assured, we are working diligently to review your information.Thank You.',
 	'easycare_update' =>':name has been updated',
-	
 	'supplier_create' =>':name has been created',
 	'supplier_update' =>':name has been updated',
 	'trainingcenter_create' =>':name has been created',
@@ -94,6 +95,7 @@ return [
 	'poultryhatchery_update' =>':name has been updated',
 	'shop_create' =>':name has been created',
 	'shop_update' =>':name has been updated',
+	'shop_delete' =>':name has been deleted',
 	'institution_create' =>':name has been created',
 	'institution_update' =>':name has been updated',
 	'farm_create' =>':name has been created',
