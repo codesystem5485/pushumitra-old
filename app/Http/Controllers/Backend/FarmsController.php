@@ -176,7 +176,22 @@ class FarmsController extends Controller
      */
     public function delete($id){ 
         $farms = Farms::where('id',$id)->first();
-        $farms->delete();
+		if($farms){
+			$name = $farms->farm_name;
+			$images = FarmsImages::where('farm_id',$farms->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'farms');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$farms = $this->farmsRepo->update($id,$arr);
+		}
+        //$farms->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log farms

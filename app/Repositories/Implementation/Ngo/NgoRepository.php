@@ -33,6 +33,7 @@ class NgoRepository  extends BaseRepository implements NgoRepositoryInterface
     public function getNgoList()
     {     
         return  $this->ngoModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

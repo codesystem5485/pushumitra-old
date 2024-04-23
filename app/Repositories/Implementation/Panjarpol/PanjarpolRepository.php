@@ -33,6 +33,7 @@ class PanjarpolRepository  extends BaseRepository implements PanjarpolRepository
     public function getPanjarpolList()
     {     
         return  $this->panjarpolModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

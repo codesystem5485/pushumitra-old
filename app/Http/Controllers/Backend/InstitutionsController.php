@@ -175,13 +175,29 @@ class InstitutionsController extends Controller
      * @return Route
      */
     public function delete($id){ 
-        $institutions = Institutions::where('id',$id)->first();
-        $institutions->delete();
+        $result = Institutions::where('id',$id)->first();
+		if($result){
+			$name = $result->institution_name;
+			$images = InstitutionImages::where('institution_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'institutions');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$institution = $this->institutionsRepo->update($id,$arr);
+		}
+		
+       // $institutions->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log institutions
-        $message = trans('messages.institutions_delete',['name' => $institutions->institution_name]);
-        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$institutions);
+        $message = trans('messages.institutions_delete',['name' => $result->institution_name]);
+        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$result);
         return redirect()->route('institutions.index');
     }
 

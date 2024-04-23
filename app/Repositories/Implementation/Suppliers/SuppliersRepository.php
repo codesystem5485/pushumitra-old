@@ -33,6 +33,7 @@ class SuppliersRepository  extends BaseRepository implements SuppliersRepository
     public function getSuppliersList()
     {     
         return  $this->suppliersModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

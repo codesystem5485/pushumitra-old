@@ -48,7 +48,7 @@ class BreederController extends Controller
      * @return View
      */
     public function index(){
-        $breeders = Breeder::select( 'breeders.*')->orderBy('id','DESC')->get();
+        $breeders = Breeder::select( 'breeders.*')->where('status',1)->orderBy('id','DESC')->get();
         return view('backend.breeders.index',['breeders'=>$breeders,'url' => $this->url]); 
     }
 
@@ -187,8 +187,8 @@ class BreederController extends Controller
             }
         }
         $breederImages = BreederImages::where('breeder_id',$id)->delete();
-        // $animalImages->delete();
-        $breeder->delete();
+		$arr = array('status'=>0);
+		$breeder = $this->breederRepo->update($id,$arr);
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log

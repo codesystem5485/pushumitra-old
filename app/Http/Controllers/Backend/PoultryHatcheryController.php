@@ -188,7 +188,8 @@ class PoultryHatcheryController extends Controller
             }
         }
         
-        $poultryhatchery->delete();
+       $arr = array('status'=>0);
+		$poultryhatchery = $this->poultryhatcheryRepo->update($id,$arr);
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log poultryhatchery

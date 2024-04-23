@@ -286,4 +286,41 @@ rateable_id  = product_for_sales.id AND module_id ='.$module_id.' ) as star_rati
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deleteProductsale(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = ProductForSale::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->product_name;
+			$images = ProductImages::where('product_sale_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'productsale');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$productsale = $this->productsaleRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.productsale_delete',['name' => $name]);
+        storeActicityLog(trans('messages.productsale_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 }

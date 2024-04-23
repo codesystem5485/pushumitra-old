@@ -35,7 +35,7 @@ class ProductsaleRepository  extends BaseRepository implements ProductsaleReposi
        /* return  $this->ProductsaleModel
             ->orderBy('id', 'DESC')
             ->get();*/
-		return Productforsale::orderBy('id','DESC')->get();
+		return Productforsale::where('status',1)->orderBy('id','DESC')->get();
     }
 
     /**

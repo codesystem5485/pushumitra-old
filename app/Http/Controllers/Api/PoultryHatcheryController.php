@@ -304,7 +304,6 @@ rateable_id  =   poultryhatchery_centers.id AND module_id ='.$module_id.' ) as s
 				$module_id = $requestData['module_id'];
 			}
 		$affectedRows = PoultryHatchery::where('id', $id)->increment('views_count');
-		
 		$results =$this->poultryhatcheryRepo->getPoultryHatchery($id);
 		if($results){
 			$images_arr = PoultryHatcheryImages::where('poultryhatchery_center_id',$results->id)->get();
@@ -318,6 +317,42 @@ rateable_id  =   poultryhatchery_centers.id AND module_id ='.$module_id.' ) as s
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deletePoultryhatchery(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = PoultryHatchery::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->poultryhatchery_center_name;
+			$images = PoultryHatcheryImages::where('poultryhatchery_center_id',$result->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'poultryhatchery');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$poultryhatchery = $this->poultryhatcheryRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.poultryhatchery_delete',['name' => $name]);
+        storeActicityLog(trans('messages.poultryhatchery_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 
 }

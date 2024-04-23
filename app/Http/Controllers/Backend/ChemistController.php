@@ -44,7 +44,7 @@ class ChemistController extends Controller
      * @return View
      */
     public function index(){
-        $chemist = Chemist::orderBy('id','ASC')->get();
+        $chemist = Chemist::where('status',1)->orderBy('id','ASC')->get();
         return view('backend.chemist.index',['chemist'=>$chemist,'url' => $this->url]); 
     }
 
@@ -179,7 +179,9 @@ class ChemistController extends Controller
                 $image->delete();
             }
         }
-        $chemist->delete();
+        //$chemist->delete();
+		$arr = array('status'=>0);
+		$chemist = $this->chemistRepo->update($id,$arr);
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log

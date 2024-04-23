@@ -33,6 +33,7 @@ class VethospitalsRepository extends BaseRepository implements VethospitalsRepos
     public function getVethospitalsList()
     {     
         return  $this->vethospitalsModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

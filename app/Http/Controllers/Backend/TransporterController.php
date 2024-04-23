@@ -15,6 +15,7 @@ use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
+use App\Models\TransporterRcbookImages;
 
 class TransporterController extends Controller
 {
@@ -178,13 +179,37 @@ class TransporterController extends Controller
      * @return Route
      */
     public function delete($id){ 
-        $transporter = Transporters::where('id',$id)->first();
-        $transporter->delete();
+        $result = Transporters::where('id',$id)->first();
+		if($result){
+			$name = $result->transporter_name;
+			$images = VehicleImages::where('transporter_id',$result->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'vehicle');
+					$image->delete();
+				}
+			}
+			$images_rcbook_arr = TransporterRcbookImages::where('transporter_id',$result->id)->get();
+			if(count($images_rcbook_arr)>0)
+			{
+				foreach($images_rcbook_arr as $image)
+				{
+					$this->removeFile($image->image_name,'rcbooks');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$transporter = $this->transporterRepo->update($id,$arr);
+		}
+		
+        //$transporter->delete();
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log
-        $message = trans('messages.transporter_delete',['name' => $transporter->transporter_name]);
-        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$transporter);
+        $message = trans('messages.transporter_delete',['name' => $result->transporter_name]);
+        storeActicityLog(trans('messages.delete'),$message,Auth::user(),$result);
         return redirect()->route('transporter.index');
     }
 

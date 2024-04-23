@@ -283,8 +283,6 @@ rateable_id  =   suppliers.id AND module_id ='.$module_id.' ) as star_rating_cou
 		$results =$this->suppliersRepo->getSuppliers($id);
 		if($results){
 			$images_arr = SupplierProductImages::where('supplier_id',$results->id)->get();
-			
-			
 			$ratings = $this->userRepo->getRatingUsingModuleId($id,$module_id,$postData);
 			$results['star_rating_count'] = $ratings['star_rating_count'];
 			$results['review_exist'] = $ratings['review_exist'];
@@ -295,5 +293,42 @@ rateable_id  =   suppliers.id AND module_id ='.$module_id.' ) as star_rating_cou
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deleteSupplier(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Suppliers::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->supplier_name;
+			$images = SupplierProductImages::where('supplier_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'suppliers');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$Suppliers = $this->suppliersRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.supplier_delete',['name' => $name]);
+        storeActicityLog(trans('messages.supplier_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 }

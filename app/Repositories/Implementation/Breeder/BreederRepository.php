@@ -36,6 +36,7 @@ class BreederRepository  extends BaseRepository implements BreederRepositoryInte
     public function getBreeder()
     {     
         return  $this->breederModel
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

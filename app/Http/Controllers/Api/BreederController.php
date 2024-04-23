@@ -287,4 +287,41 @@ class BreederController extends BaseController
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deleteBreeder(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Breeder::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->breeder_name;
+			$images = BreederImages::where('breeder_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'breederanimals');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$breeder = $this->breederRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.breeder_delete',['name' => $name]);
+        storeActicityLog(trans('messages.breeder_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 }

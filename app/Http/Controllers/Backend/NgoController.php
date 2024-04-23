@@ -176,7 +176,22 @@ class NgoController extends Controller
      */
     public function delete($id){ 
         $ngos = Ngo::where('id',$id)->first();
-        $ngos->delete();
+		if($ngos){
+			$name = $ngos->ngo_name;
+			$images = NgoImages::where('ngo_id',$ngos->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'ngo');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$ngo = $this->ngoRepo->update($id,$arr);
+		}
+       // $ngos->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log ngos

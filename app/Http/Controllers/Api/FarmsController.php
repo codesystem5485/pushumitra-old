@@ -23,7 +23,7 @@ class FarmsController extends BaseController
 	private $userRepo;
 	
     /**
-     * Transporter Construct 
+     * Farms Construct 
      * @return url 
      */
     public function __construct(FarmsRepositoryInterface $farmsRepo, UserRepositoryInterface $userRepository){
@@ -309,6 +309,43 @@ rateable_id  =   farms.id AND module_id ='.$module_id.' ) as star_rating_count')
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deleteFarm(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Farms::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->farm_name;
+			$images = FarmsImages::where('farm_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'farms');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$farms = $this->farmsRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.farm_delete',['name' => $name]);
+        storeActicityLog(trans('messages.farm_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 
 }

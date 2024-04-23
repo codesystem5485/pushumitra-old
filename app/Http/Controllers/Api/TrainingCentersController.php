@@ -326,5 +326,42 @@ rateable_id  =   training_centers.id AND module_id ='.$module_id.' ) as star_rat
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deleteTrainingCenter(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = TrainingCenters::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->training_center_name;
+			$images = TrainingCenterImages::where('training_center_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'trainingcenters');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$trainingcenters = $this->trainingcenterRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.trainingcenter_delete',['name' => $name]);
+        storeActicityLog(trans('messages.trainingcenter_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 
 }

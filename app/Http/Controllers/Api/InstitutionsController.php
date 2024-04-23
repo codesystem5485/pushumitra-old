@@ -322,5 +322,42 @@ rateable_id  = institutions.id AND module_id ='.$module_id.' ) as star_rating_co
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deleteInstitution(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Institutions::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->institution_name;
+			$images = InstitutionImages::where('institution_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'institutions');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$institution = $this->institutionsRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.institution_delete',['name' => $name]);
+        storeActicityLog(trans('messages.institution_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 
 }

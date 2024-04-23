@@ -179,7 +179,22 @@ class TrainingCentersController extends Controller
      */
     public function delete($id){ 
         $trainingcenters = TrainingCenters::where('id',$id)->first();
-        $trainingcenters->delete();
+		if($trainingcenters){
+			$name = $trainingcenters->training_center_name;
+			$images = TrainingCenterImages::where('training_center_id',$trainingcenters->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'trainingcenters');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$trainingcenters = $this->trainingcenterRepo->update($id,$arr);
+		}
+       // $trainingcenters->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log trainingcenters

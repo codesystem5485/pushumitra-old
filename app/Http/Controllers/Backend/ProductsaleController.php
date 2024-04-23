@@ -43,7 +43,7 @@ class ProductsaleController extends Controller
      * @return View
      */
     public function index(){
-        $productsale = Productforsale::orderBy('id','ASC')->get();
+        $productsale = Productforsale::where('status',1)->orderBy('id','DESC')->get();
         return view('backend.product-sale.index',['productsale'=>$productsale,'url' => $this->url]); 
     }
 
@@ -177,7 +177,9 @@ class ProductsaleController extends Controller
         }
         $ProductImages = ProductImages::where('product_sale_id',$id)->delete();
         // $ProductImages->delete();
-        $productsale->delete();
+        //$productsale->delete();
+		$arr = array('status'=>0);
+		$productsale = $this->productsaleRepo->update($id,$arr);
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log

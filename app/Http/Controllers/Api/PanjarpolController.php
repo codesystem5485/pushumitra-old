@@ -300,5 +300,42 @@ rateable_id  =   panjarpol.id AND module_id ='.$module_id.' ) as star_rating_cou
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
     }
+	
+	public function deletePanjarpol(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Panjarpol::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->panjarpol_name;
+			$images = PanjarpolImages::where('panjarpol_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'panjarpol');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$panjarpol = $this->panjarpolRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.panjarpol_delete',['name' => $name]);
+        storeActicityLog(trans('messages.panjarpol_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
+    }
 
 }

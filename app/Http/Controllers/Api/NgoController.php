@@ -253,7 +253,6 @@ rateable_id  =   ngo.id AND module_id ='.$module_id.' ) as star_rating_count'))
 			}
 		
 		$affectedRows = Ngo::where('id', $id)->increment('views_count');
-		
 		$results =$this->ngoRepo->getNgo($id);
 		if($results){
 			$images_arr = NgoImages::where('ngo_id',$results->id)->get();
@@ -268,6 +267,43 @@ rateable_id  =   ngo.id AND module_id ='.$module_id.' ) as star_rating_count'))
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deleteNgo(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Ngo::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->ngo_name;
+			$images = NgoImages::where('ngo_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'ngo');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$ngo = $this->ngoRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.ngo_delete',['name' => $name]);
+        storeActicityLog(trans('messages.ngo_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 
 }

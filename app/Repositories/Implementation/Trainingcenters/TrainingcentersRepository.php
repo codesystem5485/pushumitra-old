@@ -38,6 +38,7 @@ class TrainingcentersRepository  extends BaseRepository implements Trainingcente
             
         return  Trainingcenters::leftJoin('subcategories', 'subcategories.id', '=', 'training_centers.sub_category')
 					->select('training_centers.*','subcategories.name as subcategory_name')
+					->where('training_centers.status',1)
 					->orderBy('id', 'DESC')
                      ->get();
     }

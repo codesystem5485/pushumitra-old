@@ -177,7 +177,23 @@ class SuppliersController extends Controller
      */
     public function delete($id){ 
         $suppliers = Suppliers::where('id',$id)->first();
-        $suppliers->delete();
+		if($suppliers){
+			 
+			$images = SupplierProductImages::where('supplier_id',$suppliers->id)->get();
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'suppliers');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$Suppliers = $this->suppliersRepo->update($id,$arr);
+		}
+		$arr = array('status'=>0);
+		$Suppliers = $this->suppliersRepo->update($id,$arr);
+        //$suppliers->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store log

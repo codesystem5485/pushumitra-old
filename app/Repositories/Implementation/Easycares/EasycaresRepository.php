@@ -33,6 +33,7 @@ class EasycaresRepository  extends BaseRepository implements EasycaresRepository
     public function getEasycareList()
     {     
         return  $this->easycaresModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

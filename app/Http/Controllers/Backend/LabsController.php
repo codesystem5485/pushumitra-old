@@ -179,7 +179,23 @@ class LabsController extends Controller
      */
     public function delete($id){ 
         $labs = Labs::where('id',$id)->first();
-        $labs->delete();
+		if($labs){
+			$name = $labs->lab_name;
+			$images = LabsImages::where('lab_id',$labs->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'labs');
+					$image->delete();
+				}
+			}
+			
+			$arr = array('status'=>0);
+			$labs = $this->labsRepo->update($id,$arr);
+		}
+        //$labs->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store labs

@@ -57,6 +57,8 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Breeder */
 	Route::post('/add-breeder', [BreederController::class,'addBreeder']);
 	Route::post('/update-breeder', [BreederController::class,'updateBreeder']);
+	Route::post('/delete-breeder', [BreederController::class,'deleteBreeder']);
+	
 	/* Add animal*/
 	Route::post('/add-animal', [AddanimalController::class,'addAnimal']); 
 	Route::post('/update-animal', [AddanimalController::class,'updateAnimal']); 
@@ -65,6 +67,7 @@ Route::group(['middleware' => ['cors']], function () {
 	/* Add chemist*/
 	Route::post('/add-chemist', [ChemistController::class,'addChemist']); 
 	Route::post('/update-chemist', [ChemistController::class,'updateChemist']);
+	Route::post('/delete-chemist', [ChemistController::class,'deleteChemist']);
 	
 	/* Rxreminder */
 	Route::post('/add-rxreminder', [RxreminderController::class,'addRxreminder']);
@@ -90,55 +93,64 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::post('/add-transporter', [TransporterController::class,'addTransporter']);
 	Route::post('/update-transporter', [TransporterController::class,'updateTransporter']);
 	Route::post('/delete-transporter', [TransporterController::class,'deleteTransporter']);
-	
 	/* Add Product sale */
 	Route::post('/add-productsale', [ProductsaleController::class,'addProductSale']);
 	Route::post('/update-productsale', [ProductsaleController::class,'updateProductSale']);
-	
+	Route::post('/delete-productsale', [ProductsaleController::class,'deleteProductsale']);
 	/* Add Hospital */
 	Route::post('/add-hospital', [VetHospitalsController::class,'addHospital']);
 	Route::post('/update-hospital', [VetHospitalsController::class,'updateHospital']);
-	
+	Route::post('/delete-hospital', [VetHospitalsController::class,'deleteHospital']);
 	/* Add Supplier */
 	Route::post('/add-supplier', [SuppliersController::class,'addSupplier']);
 	Route::post('/update-supplier', [SuppliersController::class,'updateSupplier']);
+	Route::post('/delete-supplier', [SuppliersController::class,'deleteSupplier']);
 	/* Add Training center */
 	Route::post('/add-training-center', [TrainingCentersController::class,'addTrainingCenter']);
 	Route::post('/update-training-center', [TrainingCentersController::class,'updateTrainingCenter']);
+	Route::post('/delete-training-center', [TrainingCentersController::class,'deleteTrainingCenter']);
 	/* Add Shops */
 	Route::post('/add-shop', [ShopsController::class,'addShop']);
 	Route::post('/update-shop', [ShopsController::class,'updateShop']);
 	Route::post('/delete-shop', [ShopsController::class,'deleteShop']);
-	
 	/* Add Farms */
 	Route::post('/add-farm', [FarmsController::class,'addFarm']);
 	Route::post('/update-farm', [FarmsController::class,'updateFarm']);
+	Route::post('/delete-farm', [FarmsController::class,'deleteFarm']);
 	/* Add institutions */
 	Route::post('/add-institution', [InstitutionsController::class,'addInstitution']);
 	Route::post('/update-institution', [InstitutionsController::class,'updateInstitution']);
+	Route::post('/delete-institution', [InstitutionsController::class,'deleteInstitution']);
 	/* Add dogshelter */
 	Route::post('/add-dogshelter', [DogShelterController::class,'addDogshelter']);
 	Route::post('/update-dogshelter', [DogShelterController::class,'updateDogshelter']);
+	Route::post('/delete-dogshelter', [DogShelterController::class,'deleteDogshelter']);
 	/* Add milk collection */
 	Route::post('/add-milkcollection', [MilkCollectionController::class,'addMilkcollection']);
 	Route::post('/update-milkcollection', [MilkCollectionController::class,'updateMilkcollection']);
+	Route::post('/delete-milkcollection', [MilkCollectionController::class,'deleteMilkcollection']);
 	/* Add poultryhatchery */
 	Route::post('/add-poultryhatchery', [PoultryHatcheryController::class,'addPoultryhatchery']);
 	Route::post('/update-poultryhatchery', [PoultryHatcheryController::class,'updatePoultryhatchery']);
+	Route::post('/delete-poultryhatchery', [PoultryHatcheryController::class,'deletePoultryhatchery']);
+	
 	/* Add panjarpol */
 	Route::post('/add-panjarpol', [PanjarpolController::class,'addPanjarpol']);
-	Route::post('/update-panjarpol', [PanjarpolController::class,'updatePanjarpol']);
+	Route::post('/update-panjarpol', [PanjarpolController::class,'updatePanjarpol']); 
+	Route::post('/delete-panjarpol', [PanjarpolController::class,'deletePanjarpol']);
 	/* Add easycare */
 	Route::post('/add-easycare', [EasycareController::class,'addEasycare']);
 	Route::post('/update-easycare', [EasycareController::class,'updateEasycare']);
+	Route::post('/delete-easycare', [EasycareController::class,'deleteEasycare']);
 	/* Add lab */
 	Route::post('/add-lab', [LabsController::class,'addLab']);
 	Route::post('/update-lab', [LabsController::class,'updateLab']);
 	Route::post('/delete-lab', [LabsController::class,'deleteLab']);
-	
 	/* Add NGO */
 	Route::post('/add-ngo', [NgoController::class,'addNgo']);
 	Route::post('/update-ngo', [NgoController::class,'updateNgo']);
+	Route::post('/delete-ngo', [NgoController::class,'deleteNgo']);
+	
 	/* easycare Ratings Details */
 	Route::post('/add-easycare-ratings', [RatingsController::class,'addEasycareRatings']);
 	Route::get('/update-modules-count', [PaymentController::class,'updateModuleCount']);
@@ -205,7 +217,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/dogshelter-detail', [DogShelterController::class,'dogshelterDetail']);
 	Route::get('/milkcollections-list', [MilkCollectionController::class,'getMilkcollectionList']);
 	Route::get('/milkcollection-detail', [MilkCollectionController::class,'milkcollectionDetail']);
-	Route::get('/poultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
+	Route::get('/poultryhatcherypoultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
 	Route::get('/poultryhatchery-detail', [PoultryHatcheryController::class,'poultryhatcheryDetail']);
 	Route::get('/panjarpol-list', [PanjarpolController::class,'getPanjarpolList']);
 	Route::get('/panjarpol-detail', [PanjarpolController::class,'panjarpolDetail']);
@@ -215,7 +227,5 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/lab-detail', [LabsController::class,'labDetail']);
 	Route::get('/ngo-list', [NgoController::class,'getNgoList']);
 	Route::get('/ngo-detail', [NgoController::class,'ngoDetail']);
-	
-	
 	
 }); 

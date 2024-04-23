@@ -434,7 +434,9 @@ return [
 'ratings_list'=>'Ratings list',
 'rating_to_name'=>'Rating Given To',
 'rating_review'=>'Review',
-'star_ratings'=>'Rating Star'
+'star_ratings'=>'Rating Star',
+'categories_edit'=>'Edit Category',
+'categories_create'=>'Create Category',
 
 ];
 

@@ -189,15 +189,7 @@ rateable_id  =   easy_cares.id AND module_id ='.$module_id.' ) as star_rating_co
 		  $response['total_count'] = $total_results;
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/easycares")."/";
-		  
-		/*$response['results']  = Easycares::leftJoin('users', 'users.id', '=', 'easy_cares.user_id')
-		   ->select('easy_cares.*','users.full_name',
-            DB::raw('(select image_name from easycares_images where easycare_id  = easy_cares.id order by id asc limit 1) as image_name'),DB::raw('(select AVG(star_ratings) from easycare_ratings where rateable_id  =   easy_cares.id ) as star_rating_count'))
-			->where('easy_cares.status', 1)
-			->where('easy_cares.is_verified', 1)
-		    ->orderBy('easy_cares.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/easycares")."/";*/
-			
+		
 		return $this->sendResponse($response,"",200);
 	}
 	
@@ -235,6 +227,43 @@ rateable_id  =   easy_cares.id AND module_id ='.$module_id.' ) as star_rating_co
         }else{
             return  $this->sendError([],trans('messages.records_not_found'),404); 
         }
+    }
+	
+	public function deleteEasycare(Request $request){
+		$postData = request()->all();		
+		$validator = Validator::make($postData, [
+			'id' => 'required',
+		]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+	
+		$id = $request->id;
+        $result = Easycares::where('id',$id)->first();
+		$name = '';
+		if($result){
+			$name = $result->title;
+			$images = EasycaresImages::where('easycare_id',$result->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'easycares');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$easycare = $this->easycareRepo->update($id,$arr);
+		}
+		
+        $response=[];
+        ## Store log
+        $message = trans('messages.easycare_delete',['name' => $name]);
+        storeActicityLog(trans('messages.easycare_delete'),$message,$postData['user_id'],$result);
+		return $this->sendResponse($response,$message,200);
     }
 
 }

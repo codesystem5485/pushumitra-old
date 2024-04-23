@@ -180,7 +180,22 @@ class VetHospitalsController extends Controller
      */
     public function delete($id){ 
         $hospitals = Veterinaryhospitals::where('id',$id)->first();
-        $hospitals->delete();
+		if($hospitals){
+			$name = $hospitals->hospital_name;
+			$images = VeterinaryhospitalsImages::where('veterinary_hospitals_id',$hospitals->id)->get();
+			
+			if(count($images)>0)
+			{
+				foreach($images as $image)
+				{
+					$this->removeFile($image->image_name,'hospitals');
+					$image->delete();
+				}
+			}
+			$arr = array('status'=>0);
+			$vethospitals = $this->vethospitalsRepo->update($id,$arr);
+		}
+       // $hospitals->delete();
         Session::flash('success', trans('messages.delete_records'));
 		
         ## Store loghospitals

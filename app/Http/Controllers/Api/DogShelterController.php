@@ -323,7 +323,7 @@ class DogShelterController extends BaseController
 		$name = '';
 		if($result){
 			$name = $result->dogshelter_name;
-			$images = DogshelterImages::where('shop_id',$result->id)->get();
+			$images = DogshelterImages::where('dog_shelter_id',$result->id)->get();
 			
 			if(count($images)>0)
 			{

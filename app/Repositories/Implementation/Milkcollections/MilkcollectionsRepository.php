@@ -33,9 +33,9 @@ class MilkcollectionsRepository  extends BaseRepository implements MilkCollectio
     public function getMilkcollectionsList()
     {     
         return  $this->milkcollectionsModelRepo
-            ->orderBy('id', 'DESC')
 			->where('status', 1)
-            ->get();
+            ->orderBy('id', 'DESC')
+			->get();
     }
 
     /**

@@ -33,6 +33,7 @@ class InstitutionsRepository  extends BaseRepository implements InstitutionsRepo
     public function getInstitutionsList()
     {     
         return  $this->institutionsModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }
