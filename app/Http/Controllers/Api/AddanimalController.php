@@ -238,7 +238,7 @@ class AddanimalController extends BaseController
 				}
 			});
 		  }
-		  $query  = $query->orderBy('animals.id','DESC')->get(); 
+		  $query  = $query->where('animals.status',1)->orderBy('animals.id','DESC')->get(); 
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animal")."/";
 			
