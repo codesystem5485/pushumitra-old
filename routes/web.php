@@ -652,9 +652,11 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::post('/store', [AnimalsaleController::class, 'store'])->name('store');
         Route::get('/{id?}/edit', [AnimalsaleController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [AnimalsaleController::class, 'update'])->name('update'); 
-        Route::get('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
+        Route::post('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AnimalsaleController::class, 'detail'])->name('detail');        
-        Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove');        
+        Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove'); 
+		Route::get('/{id?}/show_delete', [AnimalsaleController::class, 'showDeleteInfo'])->name('showDeleteInfo');        
+    		
     });
 
     //Animal for sale module

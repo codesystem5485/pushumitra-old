@@ -246,9 +246,12 @@ class AddanimalController extends BaseController
 	}
 	
 	public function deleteAnimal(Request $request){
-		$postData = request()->all();		
+		$postData = request()->all();
+		
 		$validator = Validator::make($postData, [
 			'animal_id' => 'required',
+			'delete_reason' => 'required',
+			'delete_note' => 'required',
 		]);
 			
 		if ($validator->fails())
@@ -270,7 +273,13 @@ class AddanimalController extends BaseController
 				}
 			}
 		
-			$addAnimal->delete();
+			//$addAnimal->delete();
+			$arr = array(
+				'status'=>0,
+				'delete_reason'=>$request->delete_reason,
+				'delete_note'=>$request->delete_note,
+			);
+			$animals = $this->addAnimalRepo->update($id,$arr);
 			$rxreminder = Rxreminder::where('animal_id',$id)->delete();
 		}
         $response=[];

@@ -77,7 +77,7 @@
                                     @endcan
 
                                     @can('animal-sale-delete')
-                                    <a href="{{route('animal-sale.delete',['id' => $sale->id])}}" onclick="return confirm('Do you really want to delete the record(s)?')">
+                                    <a href="javascript::void(0);" id="{{$sale->id}}" onclick="return deleteAnimalsale({{$sale->id}})">
                                     <button class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-toggle="tooltip" data-original-title="{{ __('general.remove') }}"><i class="icon-trash" aria-hidden="true"></i>
                                     </button></a>
                                     @endcan
@@ -97,4 +97,14 @@
 @push('scripts')  
 <script src="{{asset('admin/assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/jquery-datatable/jquery-datatable.js')}}"></script>
+<script>
+function deleteAnimalsale(id) {
+    var ask = window.confirm("Do you really want to delete the record(s)?");
+    if (ask) {
+		//var id = $(this).attr('id');
+		var actionurl = webUrl+"/pashumitra/animal-sale/"+id+"/show_delete";
+		window.location.href = actionurl;
+	}
+}
+</script>
 @endpush

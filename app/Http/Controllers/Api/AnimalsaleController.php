@@ -239,7 +239,7 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		  if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
-		  $query  = $query->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now());
+		  $query  = $query->where('animal_for_sales.status', 1)->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now());
 		    
 		   if($haversine!=''){
 			$query  = $query->orderby("distance", "ASC");
@@ -261,16 +261,7 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		  
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animalsale")."/";
-		    
-	   
-		/*  $response['results']  =   Animalforsale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-		->select( 'animal_for_sales.*','species.specie as species_name',
-		DB::raw('(select image_name from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name')  )
-	  ->whereDate('animal_for_sales.subscriptionEndDate', '>=', Carbon::now())
-			->where('animal_for_sales.status', 1)
-		    ->orderBy('animal_for_sales.id','DESC')->get();
-		   $response['image_base_path'] =  url("/upload/animalsale")."/";*/
-			
+		 
 		return $this->sendResponse($response,"",200);
 	}
 	
@@ -312,6 +303,8 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 		$postData = request()->all();		
 		$validator = Validator::make($postData, [
 			'id' => 'required',
+			'delete_reason' => 'required',
+			'delete_note' => 'required',
 		]);
 			
 		if ($validator->fails())
@@ -334,7 +327,14 @@ rateable_id  =   animal_for_sales.id AND module_id ='.$module_id.' ) as star_rat
 					$image->delete();
 				}
 			}
-			$result->delete();
+			//$result->delete();
+			
+			$arr = array(
+				'status'=>0,
+				'delete_reason'=>$request->delete_reason,
+				'delete_note'=>$request->delete_note,
+			);
+			$animals = $this->animalsaleRepo->update($id,$arr);
 		}
 		
         $response=[];

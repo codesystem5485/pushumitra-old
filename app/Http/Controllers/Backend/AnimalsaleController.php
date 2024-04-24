@@ -36,7 +36,8 @@ class AnimalsaleController extends Controller
 
         $this->url = [   
             'listUrl' => route('animal-sale.index'),
-            'createUrl' => route('animal-sale.create')
+            'createUrl' => route('animal-sale.create'),
+			
         ];
         $this->animalsaleRepo = $animalsaleRepo;
 		$this->stateRepo = $stateRepo;
@@ -50,7 +51,8 @@ class AnimalsaleController extends Controller
     public function index(){
         $animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
 		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name')->orderBy('id','DESC')->get();
+		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name')
+		->where('animal_for_sales.status', 1)->orderBy('id','DESC')->get();
         return view('backend.animal-sale.index',['animalsale'=>$animalsale,'url' => $this->url]); 
     }
 
@@ -171,13 +173,19 @@ class AnimalsaleController extends Controller
 		$animalimages = AnimalImages::where('animal_sale_id',$animalsale->id)->get();
         return view('backend.animal-sale.detail',['animalsale' => $animalsale,'animalimages'=>$animalimages,'url' => $this->url]);  
     }
+	
+	public function showDeleteInfo($id)
+	{
+		 return view('backend.animal-sale.showDeleteInfo',['id'=>$id,'url' => $this->url]); 
+    
+	}
 
     /**
      * Delete Animal for sale
      * @param int $id (Animal for sale Id)
      * @return Route
      */
-    public function delete($id){ 
+    public function delete(Request $request, $id = ''){ 
         $animalsale = Animalforsale::where('id',$id)->first();
         $animalImages = AnimalImages::where('animal_sale_id',$id)->get();
         if($animalImages)
@@ -191,8 +199,12 @@ class AnimalsaleController extends Controller
             }
         }
         $animalImages = AnimalImages::where('animal_sale_id',$id)->delete();
-        // $animalImages->delete();
-        $animalsale->delete();
+		 $arr = array(
+				'status'=>0,
+				'delete_reason'=>$request->delete_reason,
+				'delete_note'=>$request->delete_note,
+			);
+			$animals = $this->animalsaleRepo->update($id,$arr);
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log
