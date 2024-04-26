@@ -58,6 +58,16 @@ class AddanimalController extends Controller
 		->select( 'animals.*','breeds.breed','species.specie as species')->get();
         return view('backend.add-animal.index',['animals'=>$animals,'url' => $this->url]); 
     }
+	
+	public function deleteList()
+	{
+		$animals = Animals::with('getAnimalOwner')->leftJoin('breeds', 'breeds.id', '=', 'animals.breed')
+		->leftJoin('species', 'species.id', '=', 'animals.species')
+		->select( 'animals.*','breeds.breed','species.specie as species')
+		->where('animals.status', 0)
+		->get();
+		return view('backend.add-animal.deleteList',['animals'=>$animals,'url' => $this->url]);
+	}
 
     /**
      * Add Animal View

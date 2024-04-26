@@ -655,7 +655,9 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::post('/{id?}/delete', [AnimalsaleController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AnimalsaleController::class, 'detail'])->name('detail');        
         Route::get('/{id?}/remove', [AnimalsaleController::class, 'removeImage'])->name('remove'); 
-		Route::get('/{id?}/show_delete', [AnimalsaleController::class, 'showDeleteInfo'])->name('showDeleteInfo');        
+		Route::get('/{id?}/show_delete', [AnimalsaleController::class, 'showDeleteInfo'])->name('showDeleteInfo'); 
+		Route::get('/deletelist', [AnimalsaleController::class, 'deleteList'])->name('deletelist');
+            			
     		
     });
 
@@ -691,7 +693,8 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::post('/{id?}/update', [AddanimalController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AddanimalController::class, 'detail'])->name('detail');        
-        Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');        
+        Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');
+		Route::get('/deletelist', [AddanimalController::class, 'deleteList'])->name('deletelist');        
     });
 
     //Animal add module

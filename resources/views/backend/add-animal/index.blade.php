@@ -26,7 +26,8 @@
                     @can('add-animal-create')
                    <!-- <a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.add_animal_add') }} </a>-->
                     @endcan
-                </div>
+					<a href="{{route('add-animal.deletelist')}}" class="btn btn-info">Deleted Animals </a>
+               </div>
                 <div class="body">
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
@@ -41,10 +42,29 @@
                             </thead>
                             <tbody>
                             @foreach($animals as $type)
+							
+							<?php
+							if(isset($type->getAnimalOwner->full_name))
+							{
+								$full_name = $type->getAnimalOwner->full_name;
+							}else
+							{
+								$full_name = '';
+							}
+							if(isset($type->getAnimalOwner->mobile_number))
+							{
+								$mobile_number = $type->getAnimalOwner->mobile_number;
+							}else
+							{
+								$mobile_number = '';
+							}
+							
+							?>
+								 
                             <tr>
                                 <td>{{$type->UID_number}}</td>                                 
-                                <td>{{$type->getAnimalOwner->full_name}}</td>                                 
-                                <td>{{$type->getAnimalOwner->mobile_number}}</td>                                 
+                                <td>{{$full_name}}</td>                                 
+                                <td>{{$mobile_number}}</td>                                 
                                                                 
                                 <td>
                                     @can('add-animal-detail')
@@ -79,4 +99,13 @@
 @push('scripts')  
 <script src="{{asset('admin/assets/bundles/datatablescripts.bundle.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/jquery-datatable/jquery-datatable.js')}}"></script>
+<script>
+function deleteAnimal(id) {
+    var ask = window.confirm("Do you really want to delete the record(s)?");
+    if (ask) {
+		var actionurl = webUrl+"/pashumitra/add-animal/"+id+"/show_delete";
+		window.location.href = actionurl;
+	}
+}
+</script>
 @endpush

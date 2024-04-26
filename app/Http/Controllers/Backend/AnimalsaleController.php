@@ -41,20 +41,42 @@ class AnimalsaleController extends Controller
         ];
         $this->animalsaleRepo = $animalsaleRepo;
 		$this->stateRepo = $stateRepo;
-
-    } 
+	} 
 
     /**
      * Animal Sale List
      * @return View
      */
-    public function index(){
+    public function index(Request $request){
+		$postData = $request->all();
+		$deletereason = '';
+		if(isset($postData['delete_reason'])){
+			$deletereason = $postData['delete_reason'];
+		}
+		
         $animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
 		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
-		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name')
-		->where('animal_for_sales.status', 1)->orderBy('id','DESC')->get();
+		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name');
+		
+		if($deletereason!=''){
+			 $animalsale = $animalsale->where('animal_for_sales.status', 0)
+						->where('animal_for_sales.delete_reason', $deletereason);
+		}else{
+			$animalsale = $animalsale->where('animal_for_sales.status', 1);
+		}
+		$animalsale = $animalsale->orderBy('id','DESC')->get();
         return view('backend.animal-sale.index',['animalsale'=>$animalsale,'url' => $this->url]); 
     }
+	
+	public function deleteList()
+	{
+		$animalsale = Animalforsale::leftJoin('breeds', 'breeds.id', '=', 'animal_for_sales.breed')
+		->leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select( 'animal_for_sales.*','breeds.breed as breed_name','species.specie as species_name');
+		$animalsale = $animalsale->where('animal_for_sales.status', 0);
+		$animalsale = $animalsale->orderBy('id','DESC')->get();
+        return view('backend.animal-sale.deleteList',['animalsale'=>$animalsale,'url' => $this->url]);
+	}
 
     /**
      * Add Animal for sale View

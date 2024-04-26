@@ -75,6 +75,20 @@
                             <span class="">{{ $animal->description }}</span>
                         </div>
                     </div>
+					@if($animal->status==0)
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Delete Reason :</span>
+                            <span class="">{{ $animal->delete_reason }}</span>
+                        </div>
+                     </div>
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Note :</span>
+                            <span class="">{{ $animal->delete_note }}</span>
+                        </div>
+                     </div>
+					@endif
 				
 				<div class="input_wrapper input-group mb-10">
                     @if(!empty($animalImages))

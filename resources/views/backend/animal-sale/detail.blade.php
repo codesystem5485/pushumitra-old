@@ -106,6 +106,21 @@
                             <span class="">{{ $animalsale->user_code }}</span>
                         </div>
                     </div>
+					@if($animalsale->status==0)
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Delete Reason :</span>
+                            <span class="">{{ $animalsale->delete_reason }}</span>
+                        </div>
+                     </div>
+					 <div class="mb-5">
+                        <div class="">
+                            <span class="">Note :</span>
+                            <span class="">{{ $animalsale->delete_note }}</span>
+                        </div>
+                     </div>
+					@endif
+						
 					
 					 <div class="input_wrapper input-group mb-3">
                     @if(!empty($animalimages))

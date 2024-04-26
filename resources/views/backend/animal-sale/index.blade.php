@@ -26,8 +26,29 @@
                     @can('animal-sale-create')
                     <!--<a href="{{$url['createUrl']}}" class="btn btn-info">{{ __('general.animal-sale_add') }} </a>-->
                     @endcan
+					<a href="{{route('animal-sale.deletelist')}}" class="btn btn-info">Deleted Animal Sale List </a>
                 </div>
                 <div class="body">
+				<!--<form action="{{route('animal-sale.index')}}" method="get" enctype="multipart/form-data"> 
+                @csrf  
+                
+                   <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Reason For Delete * :</span>
+                        </div>
+                        <select id="sex" class="form-control" aria-describedby="basic-addon3" name="delete_reason" required>
+                            <option value="">-- Reason For Delete --</option>
+                            <option value="Sold">Sold</option>
+                            <option value="Death">Death</option>
+                            <option value="Other">Other</option>
+                        </select>    
+                        <br>
+                    </div>
+					<div class="input-group mb-2">
+                        <input type="submit" class="btn btn-primary" value="Submit" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"/>
+                    </div>
+                   
+                </form>-->
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
                             <thead>
