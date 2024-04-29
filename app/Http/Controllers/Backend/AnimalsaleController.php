@@ -199,8 +199,7 @@ class AnimalsaleController extends Controller
 	public function showDeleteInfo($id)
 	{
 		 return view('backend.animal-sale.showDeleteInfo',['id'=>$id,'url' => $this->url]); 
-    
-	}
+    }
 
     /**
      * Delete Animal for sale
@@ -208,6 +207,11 @@ class AnimalsaleController extends Controller
      * @return Route
      */
     public function delete(Request $request, $id = ''){ 
+		$this->validate($request, [
+            'delete_reason' => 'required',            
+            'delete_note' => 'required', 
+					
+        ]);
         $animalsale = Animalforsale::where('id',$id)->first();
         $animalImages = AnimalImages::where('animal_sale_id',$id)->get();
         if($animalImages)

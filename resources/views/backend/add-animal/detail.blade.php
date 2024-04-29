@@ -31,18 +31,35 @@
                 </div> 
                 <form> 
                     @csrf  
+					<?php
+							if(isset($animal->getAnimalOwner->full_name))
+							{
+								$full_name = $animal->getAnimalOwner->full_name;
+							}else
+							{
+								$full_name = '';
+							}
+							if(isset($animal->getAnimalOwner->mobile_number))
+							{
+								$mobile_number = $animal->getAnimalOwner->mobile_number;
+							}else
+							{
+								$mobile_number = '';
+							}
+							
+							?>
                 <div class="body">
                     <!-- <label for="basic-url">Your vanity URL</label> -->
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.animal_owner') }} :</span>
-                            <span class="">{{ $animal->getAnimalOwner->full_name}}</span>
+                            <span class="">{{ $full_name}}</span>
                         </div>
                     </div>
                     <div class="mb-5">
                         <div class="">
                             <span class="">{{ __('general.mobile_number') }} :</span>
-                            <span class="">{{ $animal->getAnimalOwner->mobile_number }}</span>
+                            <span class="">{{ $mobile_number }}</span>
                         </div>
                     </div>
                     <div class="mb-5">

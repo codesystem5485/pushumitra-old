@@ -691,10 +691,12 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::post('/store', [AddanimalController::class, 'store'])->name('store');
         Route::get('/{id?}/edit', [AddanimalController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [AddanimalController::class, 'update'])->name('update'); 
-        Route::get('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
+        Route::post('/{id?}/delete', [AddanimalController::class, 'delete'])->name('delete');  
         Route::get('/{id?}/detail', [AddanimalController::class, 'detail'])->name('detail');        
         Route::get('/{id?}/remove', [AddanimalController::class, 'removeImage'])->name('remove');
-		Route::get('/deletelist', [AddanimalController::class, 'deleteList'])->name('deletelist');        
+		Route::get('/deletelist', [AddanimalController::class, 'deleteList'])->name('deletelist');  
+		Route::get('/{id?}/show_delete', [AddanimalController::class, 'showDeleteInfo'])->name('showDeleteInfo'); 
+				
     });
 
     //Animal add module

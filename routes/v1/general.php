@@ -217,7 +217,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/dogshelter-detail', [DogShelterController::class,'dogshelterDetail']);
 	Route::get('/milkcollections-list', [MilkCollectionController::class,'getMilkcollectionList']);
 	Route::get('/milkcollection-detail', [MilkCollectionController::class,'milkcollectionDetail']);
-	Route::get('/poultryhatcherypoultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
+	Route::get('/poultryhatchery-list', [PoultryHatcheryController::class,'getPoultryhatcheryList']);
 	Route::get('/poultryhatchery-detail', [PoultryHatcheryController::class,'poultryhatcheryDetail']);
 	Route::get('/panjarpol-list', [PanjarpolController::class,'getPanjarpolList']);
 	Route::get('/panjarpol-detail', [PanjarpolController::class,'panjarpolDetail']);

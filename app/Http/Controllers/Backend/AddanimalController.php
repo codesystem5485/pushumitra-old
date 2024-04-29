@@ -193,13 +193,23 @@ class AddanimalController extends Controller
 		
         return view('backend.add-animal.detail',['animalImages'=>$animalImages,'animal' => $addAnimal,'url' => $this->url]);  
     }
+	
+	public function showDeleteInfo($id)
+	{
+		 return view('backend.add-animal.showDeleteInfo',['id'=>$id,'url' => $this->url]); 
+    }
 
     /**
      * Delete Animal
      * @param int $id (Animal Id)
      * @return Route
      */
-    public function delete($id){ 
+    public function delete(Request $request, $id = ''){ 
+	$this->validate($request, [
+            'delete_reason' => 'required',            
+            'delete_note' => 'required', 
+					
+        ]);
         $addAnimal = Animals::where('id',$id)->first();
 
         $animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
@@ -213,7 +223,14 @@ class AddanimalController extends Controller
             }
         }
 
-        $addAnimal->delete();
+        //$addAnimal->delete();
+		$arr = array(
+				'status'=>0,
+				'delete_reason'=>$request->delete_reason,
+				'delete_note'=>$request->delete_note,
+			);
+		$animals = $this->addAnimalRepo->update($id,$arr);
+			
         Session::flash('success', trans('messages.delete_records'));
         
         ## Store log
