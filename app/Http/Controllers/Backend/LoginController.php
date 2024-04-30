@@ -84,6 +84,6 @@ class LoginController extends BaseController
         // $this->guard()->logout();
         $request->session()->flush();
         $request->session()->regenerate();
-        return redirect('pashumitra/auth/login'); 
+        return redirect('auth/login'); 
     }
 }

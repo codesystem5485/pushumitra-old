@@ -88,7 +88,7 @@ Route::get('invoice/download/{uid}/{id}', [InvoiceController::class, 'downloadRe
 //Route::get('/test', [TestController::class, 'test'])->name('test'); 
 Route::get('/update-permission', [TestController::class, 'updatePermission']); 
 
-Route::get('/', [FrontPagesController::class, 'index'])->name('index');
+/*Route::get('/', [FrontPagesController::class, 'index'])->name('index');*/
 
 Route::get('/{file_id?}/library-download', [FrontPagesController::class, 'getDownload'])->name('library.download');
 
@@ -100,8 +100,8 @@ Route::get('/changeFiles', [FrontPagesController::class, 'changeFiles'])->name('
 });*/
 
 
-Route::get('/pashumitra', function () {
-    return redirect('pashumitra/auth/login');
+Route::get('/', function () {
+    return redirect('auth/login');
 	
 });
 
@@ -109,11 +109,11 @@ Route::get('/clear-cache', function() {
     Artisan::call('optimize:clear');
     echo Artisan::output();
 });
-Route::get('pashumitra/get-cities', [CommonController::class, 'get_cities'])->name('get-cities'); 
+Route::get('get-cities', [CommonController::class, 'get_cities'])->name('get-cities'); 
 
 //Login
 Route::group([
-  'prefix' => 'pashumitra/auth',
+  'prefix' => 'auth',
   'as' => 'auth.',
   ],function () { 
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login'); 
@@ -123,8 +123,8 @@ Route::group([
 });
 
 Route::middleware(['auth'])->group(function () {//,'check.role'
-  Route::get('pashumitra/dashboard', [HomeController::class, 'index'])->name('home'); 
-	Route::get('pashumitra/profile', [HomeController::class, 'profile'])->name('profile');
+  Route::get('dashboard', [HomeController::class, 'index'])->name('home'); 
+	Route::get('profile', [HomeController::class, 'profile'])->name('profile');
 	Route::post('/update/{id?}/profile', [HomeController::class, 'updateProfile'])->name('update.profile');
 	Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change.password');
   Route::post('/mobile-verify', [HomeController::class, 'mobileVerify'])->name('mobile.verify');
@@ -135,7 +135,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
      
     //Role module
     Route::group([
-        'prefix' => 'pashumitra/role',
+        'prefix' => 'role',
         'as' => 'role.',
       ], function () {
         Route::get('/', [RoleController::class, 'index'])->name('index');
@@ -148,7 +148,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal type module
     Route::group([
-        'prefix' => 'pashumitra/animal',
+        'prefix' => 'animal',
         'as' => 'animal.',
       ], function () {
         Route::get('/', [AnimalController::class, 'index'])->name('index-type');
@@ -161,7 +161,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Breed module
     Route::group([
-        'prefix' => 'pashumitra/breed',
+        'prefix' => 'breed',
         'as' => 'breed.',
       ], function () {
         Route::get('/', [BreedController::class, 'index'])->name('index');
@@ -174,7 +174,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal species module
     Route::group([
-        'prefix' => 'pashumitra/species',
+        'prefix' => 'species',
         'as' => 'species.',
       ], function () {
         Route::get('/', [SpeciesController::class, 'index'])->name('index');
@@ -187,7 +187,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	
     Route::group([
-        'prefix' => 'pashumitra/categories',
+        'prefix' => 'categories',
         'as' => 'categories.',
       ], function () {
         Route::get('/', [CategoriesController::class, 'index'])->name('index');
@@ -200,7 +200,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Animal Characterestics module
     Route::group([
-        'prefix' => 'pashumitra/characteristics',
+        'prefix' => 'characteristics',
         'as' => 'characteristics.',
       ], function () {
         Route::get('/', [CharacteristicsController::class, 'index'])->name('index');
@@ -213,7 +213,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 
     //Chemist module
     Route::group([
-        'prefix' => 'pashumitra/chemist',
+        'prefix' => 'chemist',
         'as' => 'chemist.',
       ], function () {
         Route::get('/', [ChemistController::class, 'index'])->name('index');
@@ -228,7 +228,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	 //push notification send module
     Route::group([
-        'prefix' => 'pashumitra/sendnotifications',
+        'prefix' => 'sendnotifications',
         'as' => 'sendnotifications.',
       ], function () {
         
@@ -239,7 +239,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	 //Supplier module
     Route::group([
-        'prefix' => 'pashumitra/suppliers',
+        'prefix' => 'suppliers',
         'as' => 'suppliers.',
       ], function () {
         Route::get('/', [SuppliersController::class, 'index'])->name('index');
@@ -255,7 +255,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	//hospitals module
     Route::group([
-        'prefix' => 'pashumitra/hospitals',
+        'prefix' => 'hospitals',
         'as' => 'hospitals.',
       ], function () {
         Route::get('/', [VetHospitalsController::class, 'index'])->name('index');
@@ -271,7 +271,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	//lab module
     Route::group([
-        'prefix' => 'pashumitra/labs',
+        'prefix' => 'labs',
         'as' => 'labs.',
       ], function () {
         Route::get('/', [LabsController::class, 'index'])->name('index');
@@ -287,7 +287,7 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
 	
 	//lab module
     Route::group([
-        'prefix' => 'pashumitra/easycares',
+        'prefix' => 'easycares',
         'as' => 'easycares.',
       ], function () {
         Route::get('/', [EasycaresController::class, 'index'])->name('index');
@@ -305,7 +305,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//training center module
     Route::group([
-        'prefix' => 'pashumitra/trainingcenters',
+        'prefix' => 'trainingcenters',
         'as' => 'trainingcenters.',
       ], function () {
         Route::get('/', [TrainingCentersController::class, 'index'])->name('index');
@@ -321,7 +321,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//panjarpols module
     Route::group([
-        'prefix' => 'pashumitra/panjarpols',
+        'prefix' => 'panjarpols',
         'as' => 'panjarpols.',
       ], function () {
         Route::get('/', [PanjarpolController::class, 'index'])->name('index');
@@ -337,7 +337,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//Ngo module
     Route::group([
-        'prefix' => 'pashumitra/ngo',
+        'prefix' => 'ngo',
         'as' => 'ngo.',
       ], function () {
         Route::get('/', [NgoController::class, 'index'])->name('index');
@@ -353,7 +353,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//milkcollection module
     Route::group([
-        'prefix' => 'pashumitra/milkcollections',
+        'prefix' => 'milkcollections',
         'as' => 'milkcollections.',
       ], function () {
         Route::get('/', [MilkCollectionController::class, 'index'])->name('index');
@@ -369,7 +369,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//hatchery module
     Route::group([
-        'prefix' => 'pashumitra/poultryhatchery',
+        'prefix' => 'poultryhatchery',
         'as' => 'poultryhatchery.',
       ], function () {
         Route::get('/', [PoultryHatcheryController::class, 'index'])->name('index');
@@ -385,7 +385,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//shops module
     Route::group([
-        'prefix' => 'pashumitra/shops',
+        'prefix' => 'shops',
         'as' => 'shops.',
       ], function () {
         Route::get('/', [ShopsController::class, 'index'])->name('index');
@@ -401,7 +401,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//dogshelters module
     Route::group([
-        'prefix' => 'pashumitra/dogshelters',
+        'prefix' => 'dogshelters',
         'as' => 'dogshelters.',
       ], function () {
         Route::get('/', [DogShelterController::class, 'index'])->name('index');
@@ -416,7 +416,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
     });
 	//Institutions module
     Route::group([
-        'prefix' => 'pashumitra/institutions',
+        'prefix' => 'institutions',
         'as' => 'institutions.',
       ], function () {
         Route::get('/', [InstitutionsController::class, 'index'])->name('index');
@@ -431,7 +431,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
     });
 	
 	Route::group([
-        'prefix' => 'pashumitra/farms',
+        'prefix' => 'farms',
         'as' => 'farms.',
       ], function () {
         Route::get('/', [FarmsController::class, 'index'])->name('index');
@@ -447,7 +447,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
     
     //Transporter module
     Route::group([
-      'prefix' => 'pashumitra/transporter',
+      'prefix' => 'transporter',
       'as' => 'transporter.',
     ], function () {
       Route::get('/', [TransporterController::class, 'index'])->name('index');
@@ -463,7 +463,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Library module
     Route::group([
-        'prefix' => 'pashumitra/book',
+        'prefix' => 'book',
         'as' => 'book.',
       ], function () {
         Route::get('/', [BookController::class, 'index'])->name('index');
@@ -478,7 +478,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//GR module
     Route::group([
-        'prefix' => 'pashumitra/grfiles',
+        'prefix' => 'grfiles',
         'as' => 'grfiles.',
       ], function () {
         Route::get('/', [GrfileController::class, 'index'])->name('index');
@@ -493,7 +493,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//fees module
     Route::group([
-        'prefix' => 'pashumitra/fees',
+        'prefix' => 'fees',
         'as' => 'fees.',
       ], function () {
         Route::get('/', [FeesController::class, 'index'])->name('index');
@@ -508,7 +508,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//advertisements module
     Route::group([
-        'prefix' => 'pashumitra/advertisements',
+        'prefix' => 'advertisements',
         'as' => 'advertisements.',
       ], function () {
         Route::get('/', [AdvertisementController::class, 'index'])->name('index');
@@ -524,7 +524,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//csr activities module
     Route::group([
-        'prefix' => 'pashumitra/csractivities',
+        'prefix' => 'csractivities',
         'as' => 'csractivities.',
       ], function () {
         Route::get('/', [CsrActivityController::class, 'index'])->name('index');
@@ -541,7 +541,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//testimonials module
     Route::group([
-        'prefix' => 'pashumitra/testimonials',
+        'prefix' => 'testimonials',
         'as' => 'testimonials.',
       ], function () {
         Route::get('/', [TestimonialController::class, 'index'])->name('index');
@@ -554,7 +554,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//rating module
     Route::group([
-        'prefix' => 'pashumitra/ratings',
+        'prefix' => 'ratings',
         'as' => 'ratings.',
       ], function () {
         Route::get('/', [RatingsController::class, 'index'])->name('index');
@@ -563,7 +563,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal Owner module
     Route::group([
-        'prefix' => 'pashumitra/animal-owner',
+        'prefix' => 'animal-owner',
         'as' => 'animal-owner.',
       ], function () {
         Route::get('/', [AnimalownerController::class, 'index'])->name('index');
@@ -578,7 +578,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	  
 	  //Other user module
     Route::group([
-        'prefix' => 'pashumitra/otheruser',
+        'prefix' => 'otheruser',
         'as' => 'otheruser.',
       ], function () {
         Route::get('/', [OtheruserController::class, 'index'])->name('index');
@@ -593,7 +593,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
       
       //pashumitra module
       Route::group([
-        'prefix' => 'pashumitra/pashumitra',
+        'prefix' => 'pashumitra',
         'as' => 'pashumitra.',
       ], function () {
         Route::get('/', [PashumitraController::class, 'index'])->name('index');
@@ -609,7 +609,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal Owner module
     Route::group([
-        'prefix' => 'pashumitra/registered-vet',
+        'prefix' => 'registered-vet',
         'as' => 'registered-vet.',
       ], function () {
         Route::get('/', [RegisteredvetController::class, 'index'])->name('index');
@@ -625,7 +625,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //User module
     Route::group([
-        'prefix' => 'pashumitra/user',
+        'prefix' => 'user',
         'as' => 'user.', 
       ], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
@@ -642,7 +642,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal for sale module
     Route::group([
-        'prefix' => 'pashumitra/animal-sale',
+        'prefix' => 'animal-sale',
         'as' => 'animal-sale.', 
       ], function () {
         Route::get('/', [AnimalsaleController::class, 'index'])->name('index');
@@ -663,7 +663,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal for sale module
     Route::group([
-        'prefix' => 'pashumitra/product-sale',
+        'prefix' => 'product-sale',
         'as' => 'product-sale.', 
       ], function () {
         Route::get('/', [ProductsaleController::class, 'index'])->name('index');
@@ -681,7 +681,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal add module
     Route::group([
-        'prefix' => 'pashumitra/add-animal',
+        'prefix' => 'add-animal',
         'as' => 'add-animal.', 
       ], function () {
         Route::get('/', [AddanimalController::class, 'index'])->name('index');
@@ -701,7 +701,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 
     //Animal add module
     Route::group([
-        'prefix' => 'pashumitra/add-product',
+        'prefix' => 'add-product',
         'as' => 'add-product.', 
       ], function () {
         Route::get('/', [ProductController::class, 'index'])->name('index');
@@ -718,7 +718,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//Content management module
     Route::group([
-        'prefix' => 'pashumitra/content-management',
+        'prefix' => 'content-management',
         'as' => 'content-management.',
       ], function () {
         Route::get('/', [ContentManagementController::class, 'index'])->name('index');
@@ -731,7 +731,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//Breeder module
     Route::group([
-        'prefix' => 'pashumitra/breeders',
+        'prefix' => 'breeders',
         'as' => 'breeders.', 
       ], function () {
         Route::get('/', [BreederController::class, 'index'])->name('index');
@@ -748,7 +748,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
 	
 	//payment report module
     Route::group([
-        'prefix' => 'pashumitra/paymentreport',
+        'prefix' => 'paymentreport',
         'as' => 'paymentreport.', 
       ], function () {
         Route::any('/', [PaymentReportController::class, 'index'])->name('index');

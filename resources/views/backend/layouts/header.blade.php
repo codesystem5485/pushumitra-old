@@ -50,7 +50,7 @@
                   <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                </div>  
                <div class="navbar-brand"> 
-                  <a href="{{url('pashumitra/dashboard')}}"><img src="{{asset('admin/assets/images/pashumitra-logo-admin.svg')}}" alt="Pashumitra ADMIN" class="img-responsive logo">
+                  <a href="{{url('dashboard')}}"><img src="{{asset('admin/assets/images/pashumitra-logo-admin.svg')}}" alt="Pashumitra ADMIN" class="img-responsive logo">
                   <!--<strong class="logo-text"> &nbsp;{{ __('general.pashumitra') }}</strong>-->
                   </a>
                </div>
@@ -87,7 +87,7 @@
                         <ul id="main-menu" class="metismenu">
 						@if(auth()->user()->can('dashboard')) 
                            <li class="@if (\Request::is('dashboard')) active  @endif">
-                              <a href="{{url('pashumitra/dashboard')}}" class=""><i class="bi bi-house"></i> <span>{{__('general.dashboard')}}</span></a>
+                              <a href="{{url('dashboard')}}" class=""><i class="bi bi-house"></i> <span>{{__('general.dashboard')}}</span></a>
                            </li>
 						   @endif
                            @if(auth()->user()->can('user-list') || auth()->user()->can('user-create') ||  auth()->user()->can('user-edit') ||  auth()->user()->can('user-delete'))
@@ -97,33 +97,33 @@
                            @endif
                           
                         @if(auth()->user()->can('registered-vet-list') || auth()->user()->can('animal-owner-list') ||  auth()->user()->can('pashumitra-list'))
-                        <li class="@if (\Request::is('pashumitra/registered-vet') || \Request::is('pashumitra/registered-vet/*') || \Request::is('pashumitra/animal-owner') || \Request::is('pashumitra/animal-owner/*') || \Request::is('pashumitra/pashumitra') || \Request::is('pashumitra/pashumitra/*')) active  @endif">
+                        <li class="@if (\Request::is('registered-vet') || \Request::is('registered-vet/*') || \Request::is('animal-owner') || \Request::is('animal-owner/*') || \Request::is('pashumitra') || \Request::is('pashumitra/*')) active  @endif">
                            <a href="javascript:void(0)" class="has-arrow" ><i class="bi bi-people"></i> <span>Users</span></a>
                         @if(auth()->user()->can('registeredvet-list') || auth()->user()->can('registeredvet-create') ||  auth()->user()->can('registeredvet-edit') ||  auth()->user()->can('registeredvet-delete'))
                            <ul>
-                           <li class="@if (\Request::is('pashumitra/registered-vet') || \Request::is('pashumitra/registered-vet/*')) active  @endif">
-                              <a href="{{url('pashumitra/registered-vet')}}" class="" ><span>Registered-Vet</span></a>
+                           <li class="@if (\Request::is('registered-vet') || \Request::is('registered-vet/*')) active  @endif">
+                              <a href="{{url('registered-vet')}}" class="" ><span>Registered-Vet</span></a>
                            </li>
                            </ul>
                         @endif
                         @if(auth()->user()->can('animal-owner-list') || auth()->user()->can('animal-owner-create') ||  auth()->user()->can('animal-owner-edit') ||  auth()->user()->can('animal-owner-delete'))
                            <ul>
-                           <li class="@if (\Request::is('pashumitra/animal-owner') || \Request::is('pashumitra/animal-owner/*'))  active  @endif">
-                              <a href="{{url('pashumitra/animal-owner')}}" class="" > <span>Animal-Owner</span></a>
+                           <li class="@if (\Request::is('animal-owner') || \Request::is('animal-owner/*'))  active  @endif">
+                              <a href="{{url('animal-owner')}}" class="" > <span>Animal-Owner</span></a>
                            </li>
                            </ul>
                            @endif
 
                            @if(auth()->user()->can('pashumitra-list') || auth()->user()->can('pashumitra-create') ||  auth()->user()->can('pashumitra-edit') ||  auth()->user()->can('pashumitra-delete'))
                            <ul>                  
-                           <li class="@if (\Request::is('pashumitra/pashumitra') || \Request::is('pashumitra/pashumitra/*')) active  @endif">
-                              <a href="{{url('pashumitra/pashumitra')}}" class="" ><span>Pashumitra</span></a>
+                           <li class="@if (\Request::is('pashumitra') || \Request::is('pashumitra/*')) active  @endif">
+                              <a href="{{url('pashumitra')}}" class="" ><span>Pashumitra</span></a>
                            </li>                           
                            </ul>
                            @endif
 						   <ul>
-                           <li class="@if (\Request::is('pashumitra/otheruser') || \Request::is('pashumitra/otheruser/*'))  active  @endif">
-                              <a href="{{url('pashumitra/otheruser')}}" class="" ><span>Other</span></a>
+                           <li class="@if (\Request::is('otheruser') || \Request::is('otheruser/*'))  active  @endif">
+                              <a href="{{url('otheruser')}}" class="" ><span>Other</span></a>
                            </li>
                            </ul>
 
@@ -132,48 +132,48 @@
                            @endif
                             @if(auth()->user()->can('transporter-list') || auth()->user()->can('transporter-create') ||  auth()->user()->can('transporter-edit') ||  auth()->user()->can('transporter-delete'))
                            
-                           <li class="@if (\Request::is('pashumitra/transporter') || \Request::is('pashumitra/transporter/*'))  active  @endif">
-                              <a href="{{url('pashumitra/transporter')}}" class="@if (\Request::is('pashumitra/transporter') || \Request::is('pashumitra/transporter/*')) active  @endif" ><i class="bi bi-truck"></i> <span>Transporter</span></a>
+                           <li class="@if (\Request::is('transporter') || \Request::is('transporter/*'))  active  @endif">
+                              <a href="{{url('transporter')}}" class="@if (\Request::is('transporter') || \Request::is('transporter/*')) active  @endif" ><i class="bi bi-truck"></i> <span>Transporter</span></a>
                            </li>     
                            
                            @endif
 
                            @if(auth()->user()->can('chemist-list') || auth()->user()->can('chemist-create') ||  auth()->user()->can('chemist-edit') ||  auth()->user()->can('chemist-delete'))
-                           <li class="@if (\Request::is('pashumitra/chemist') || \Request::is('pashumitra/chemist/*'))  active  @endif">
-                              <a href="{{url('pashumitra/chemist')}}" class="@if (\Request::is('pashumitra/chemist') || \Request::is('pashumitra/chemist/*'))  active  @endif" ><i class="bi bi-capsule-pill"></i> <span>Chemist </span></a>
+                           <li class="@if (\Request::is('chemist') || \Request::is('chemist/*'))  active  @endif">
+                              <a href="{{url('chemist')}}" class="@if (\Request::is('chemist') || \Request::is('chemist/*'))  active  @endif" ><i class="bi bi-capsule-pill"></i> <span>Chemist </span></a>
                            </li>
                            
                            @endif
 						     @if(auth()->user()->can('sendnotifications-create'))
                                             
-                           <li class="@if (\Request::is('pashumitra/sendnotifications/create') || \Request::is('pashumitra/sendNotifications/create/*')) active  @endif">
-                              <a href="{{url('pashumitra/sendnotifications/create')}}" class="" ><i class="bi bi-bell"></i> <span>Send Notifications</span></a>
+                           <li class="@if (\Request::is('sendnotifications/create') || \Request::is('sendNotifications/create/*')) active  @endif">
+                              <a href="{{url('sendnotifications/create')}}" class="" ><i class="bi bi-bell"></i> <span>Send Notifications</span></a>
                            </li>                           
                            @endif
 						   @if(auth()->user()->can('categories-list'))
-						    <li class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif">
-                              <a href="{{url('pashumitra/categories')}}" class="@if (\Request::is('pashumitra/categories') || \Request::is('pashumitra/categories/*'))  active  @endif" ><i class="bi bi-ui-checks-grid"></i> <span>Categories </span></a>
+						    <li class="@if (\Request::is('categories') || \Request::is('categories/*'))  active  @endif">
+                              <a href="{{url('categories')}}" class="@if (\Request::is('categories') || \Request::is('categories/*'))  active  @endif" ><i class="bi bi-ui-checks-grid"></i> <span>Categories </span></a>
                            </li>
 						    @endif
                            @if(auth()->user()->can('animal-type-list') || auth()->user()->can('breed-list') ||  auth()->user()->can('species-list') ||  auth()->user()->can('characteristics-list'))
-                           <li class="@if (\Request::is('pashumitra/animal') || \Request::is('pashumitra/breed') || \Request::is('pashumitra/species') || \Request::is('pashumitra/characteristics')) active  @endif">
+                           <li class="@if (\Request::is('animal') || \Request::is('breed') || \Request::is('species') || \Request::is('characteristics')) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="material-symbols-outlined">pets</i> <span>Animal</span></a>
                               
                               <ul>
                               @if(auth()->user()->can('animal-type-list') || auth()->user()->can('animal-type-create') ||  auth()->user()->can('animal-type-edit') ||  auth()->user()->can('animal-type-delete'))
-                                 <li class="@if (\Request::is('pashumitra/animal')) active  @endif"><a href="{{url('pashumitra/animal/')}}"><span>Type</span></a></li>
+                                 <li class="@if (\Request::is('animal')) active  @endif"><a href="{{url('animal/')}}"><span>Type</span></a></li>
                               @endif
 
                               @if(auth()->user()->can('breed-list') || auth()->user()->can('breed-create') ||  auth()->user()->can('breed-edit') ||  auth()->user()->can('breed-delete'))
-                                 <li class="@if (\Request::is('pashumitra/breed')) active  @endif"><a href="{{url('pashumitra/breed')}}"><span>Breed</span></a></li>
+                                 <li class="@if (\Request::is('breed')) active  @endif"><a href="{{url('breed')}}"><span>Breed</span></a></li>
                               @endif
 
                               @if(auth()->user()->can('species-list') || auth()->user()->can('species-create') ||  auth()->user()->can('species-edit') ||  auth()->user()->can('species-delete'))
-                                 <li class="@if (\Request::is('pashumitra/species')) active  @endif"><a href="{{url('pashumitra/species')}}"><span>Species</span></a></li>
+                                 <li class="@if (\Request::is('species')) active  @endif"><a href="{{url('species')}}"><span>Species</span></a></li>
                               @endif
 
                               @if(auth()->user()->can('characteristics-list') || auth()->user()->can('characteristics-create') ||  auth()->user()->can('characteristics-edit') ||  auth()->user()->can('characteristics-delete'))
-                                 <li class="@if (\Request::is('pashumitra/characteristics')) active  @endif"><a href="{{url('pashumitra/characteristics')}}"><span>Characterestics</span></a></li>
+                                 <li class="@if (\Request::is('characteristics')) active  @endif"><a href="{{url('characteristics')}}"><span>Characterestics</span></a></li>
                               @endif
                               </ul>
                            </li>
@@ -181,8 +181,8 @@
                            
                            
                            @if(auth()->user()->can('add-animal-list') || auth()->user()->can('add-animal/*')) 
-                           <li class="@if (\Request::is('pashumitra/add-animal') || \Request::is('pashumitra/add-animal/*')) active  @endif">
-                              <a href="{{url('pashumitra/add-animal')}}" class="" ><i class="bi bi-patch-plus"></i> <span>Add Animals </span></a>
+                           <li class="@if (\Request::is('add-animal') || \Request::is('add-animal/*')) active  @endif">
+                              <a href="{{url('add-animal')}}" class="" ><i class="bi bi-patch-plus"></i> <span>Add Animals </span></a>
                            </li>
                            @endif
 
@@ -193,139 +193,139 @@
                            @endif
 
                            @if(auth()->user()->can('book-list') || auth()->user()->can('book-create') ||  auth()->user()->can('book-edit') ||  auth()->user()->can('book-delete'))
-                           <li class="@if (\Request::is('pashumitra/book') || \Request::is('pashumitra/book/*')) active  @endif">
-                              <a href="{{url('pashumitra/book')}}" class="" ><i class="bi bi-journal-richtext"></i> <span>Library </span></a>
+                           <li class="@if (\Request::is('book') || \Request::is('book/*')) active  @endif">
+                              <a href="{{url('book')}}" class="" ><i class="bi bi-journal-richtext"></i> <span>Library </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('grfile-list') || auth()->user()->can('grfile-create') ||  auth()->user()->can('grfile-edit') ||  auth()->user()->can('grfile-delete'))
-                           <li class="@if (\Request::is('pashumitra/grfiles')) active  @endif">
-                              <a href="{{url('pashumitra/grfiles')}}" class="" ><i class="material-symbols-outlined">assured_workload</i> <span>Government Schemes </span></a>
+                           <li class="@if (\Request::is('grfiles')) active  @endif">
+                              <a href="{{url('grfiles')}}" class="" ><i class="material-symbols-outlined">assured_workload</i> <span>Government Schemes </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('fees-list') || auth()->user()->can('fees-create') || auth()->user()->can('fees-edit') || auth()->user()->can('fees-delete')) 
                            
-						   <li class="@if (\Request::is('pashumitra/fees') || \Request::is('pashumitra/fees/*')) active  @endif">
-                              <a href="{{url('pashumitra/fees')}}" class="" ><i class="bi bi-wallet2"></i> <span>Fees </span></a>
+						   <li class="@if (\Request::is('fees') || \Request::is('fees/*')) active  @endif">
+                              <a href="{{url('fees')}}" class="" ><i class="bi bi-wallet2"></i> <span>Fees </span></a>
                            </li>
 						   @endif
                            @if(auth()->user()->can('animal-sale-list') || auth()->user()->can('animal-sale-create') || auth()->user()->can('animal-sale-edit') || auth()->user()->can('animal-sale-delete')) 
-                           <li class="@if (\Request::is('pashumitra/animal-sale')) active  @endif">
-                              <a href="{{url('pashumitra/animal-sale')}}" class="@if (\Request::is('pashumitra/animal-sale')) active  @endif" ><i class="bi bi-receipt"></i> <span>Animal for sale </span></a>
+                           <li class="@if (\Request::is('animal-sale')) active  @endif">
+                              <a href="{{url('animal-sale')}}" class="@if (\Request::is('animal-sale')) active  @endif" ><i class="bi bi-receipt"></i> <span>Animal for sale </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('advertisement-list') || auth()->user()->can('advertisement-create') || auth()->user()->can('adevertisement-edit') || auth()->user()->can('adevertisement-delete')) 
-                           <li class="@if (\Request::is('pashumitra/advertisements') || \Request::is('pashumitra/advertisements/*')) active  @endif">
-                              <a href="{{url('pashumitra/advertisements')}}" class="@if (\Request::is('pashumitra/advertisements')) active  @endif" ><i class="bi bi-badge-ad"></i> <span>Advertisements </span></a>
+                           <li class="@if (\Request::is('advertisements') || \Request::is('advertisements/*')) active  @endif">
+                              <a href="{{url('advertisements')}}" class="@if (\Request::is('advertisements')) active  @endif" ><i class="bi bi-badge-ad"></i> <span>Advertisements </span></a>
                            </li>
                            @endif
 						   
 						   @if(auth()->user()->can('testimonial-list') || auth()->user()->can('testimonial-create') || auth()->user()->can('testimonial-edit') || auth()->user()->can('testimonial-delete')) 
-                           <li class="@if (\Request::is('pashumitra/testimonials') || \Request::is('pashumitra/testimonials/*')) active  @endif">
-                              <a href="{{url('pashumitra/testimonials')}}" class="@if (\Request::is('pashumitra/testimonials')) active  @endif" ><i class="bi bi-chat-left-quote"></i> <span>Testimonials </span></a>
+                           <li class="@if (\Request::is('testimonials') || \Request::is('testimonials/*')) active  @endif">
+                              <a href="{{url('testimonials')}}" class="@if (\Request::is('testimonials')) active  @endif" ><i class="bi bi-chat-left-quote"></i> <span>Testimonials </span></a>
                            </li>
                            @endif
 						    @if(auth()->user()->can('rating-list') || auth()->user()->can('rating-delete')) 
-						    <li class="@if (\Request::is('pashumitra/ratings')) active  @endif">
-                              <a href="{{url('pashumitra/ratings')}}" class="" ><i class="bi bi-star-half"></i> <span>Ratings</span></a>
+						    <li class="@if (\Request::is('ratings')) active  @endif">
+                              <a href="{{url('ratings')}}" class="" ><i class="bi bi-star-half"></i> <span>Ratings</span></a>
                            </li>
 						   @endif
 						    @if(auth()->user()->can('csractivities-list'))
-						   <li class="@if (\Request::is('pashumitra/csractivities') || \Request::is('pashumitra/csractivities/*')) active  @endif">
-                              <a href="{{url('pashumitra/csractivities')}}" class="" ><i class="bi bi-calendar-event"></i> <span>Csr Activities</span></a>
+						   <li class="@if (\Request::is('csractivities') || \Request::is('csractivities/*')) active  @endif">
+                              <a href="{{url('csractivities')}}" class="" ><i class="bi bi-calendar-event"></i> <span>Csr Activities</span></a>
                            </li>
 						   @endif
 						    @if(auth()->user()->can('easycare-list'))
-						   <li class="@if (\Request::is('pashumitra/easycares') || \Request::is('pashumitra/easycares/*')) active  @endif">
-                              <a href="{{url('pashumitra/easycares')}}" class="" ><i class="bi bi-share"></i> <span>Knowledge Sharing</span></a>
+						   <li class="@if (\Request::is('easycares') || \Request::is('easycares/*')) active  @endif">
+                              <a href="{{url('easycares')}}" class="" ><i class="bi bi-share"></i> <span>Knowledge Sharing</span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('breeder-list') || auth()->user()->can('breeder-create') || auth()->user()->can('breeder-edit') || auth()->user()->can('breeder-delete')) 
                            
-						   <li class="@if (\Request::is('pashumitra/breeders') || \Request::is('pashumitra/breeders/*')) active  @endif">
-                              <a href="{{url('pashumitra/breeders')}}" class="@if (\Request::is('pashumitra/breeders')) active  @endif" ><i class="bi bi-bezier2"></i> <span>Breeders </span></a>
+						   <li class="@if (\Request::is('breeders') || \Request::is('breeders/*')) active  @endif">
+                              <a href="{{url('breeders')}}" class="@if (\Request::is('breeders')) active  @endif" ><i class="bi bi-bezier2"></i> <span>Breeders </span></a>
                               <!--<i class="bi bi-copy"></i>-->
                            </li>
 							@endif
                            @if(auth()->user()->can('product-sale-list')) 
-                           <li class="@if (\Request::is('pashumitra/product-sale') || \Request::is('pashumitra/product-sale/*')) active  @endif">
-                              <a href="{{url('pashumitra/product-sale')}}" class="@if (\Request::is('pashumitra/product-sale')) active  @endif" ><i class="bi bi-tags"></i> <span>Product for sale </span></a>
+                           <li class="@if (\Request::is('product-sale') || \Request::is('product-sale/*')) active  @endif">
+                              <a href="{{url('product-sale')}}" class="@if (\Request::is('product-sale')) active  @endif" ><i class="bi bi-tags"></i> <span>Product for sale </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('supplier-list') || auth()->user()->can('supplier-create') || auth()->user()->can('supplier-edit') || auth()->user()->can('supplier-delete')) 
-                           <li class="@if (\Request::is('pashumitra/suppliers') || \Request::is('pashumitra/suppliers/*')) active  @endif">
-                              <a href="{{url('pashumitra/suppliers')}}" class="@if (\Request::is('pashumitra/suppliers')) active  @endif" ><i class="bi bi-cart-check"></i> <span>Suppliers </span></a>
+                           <li class="@if (\Request::is('suppliers') || \Request::is('suppliers/*')) active  @endif">
+                              <a href="{{url('suppliers')}}" class="@if (\Request::is('suppliers')) active  @endif" ><i class="bi bi-cart-check"></i> <span>Suppliers </span></a>
                            </li>
 						    @endif
 						   @if(auth()->user()->can('hospital-list') || auth()->user()->can('hospital-create') || auth()->user()->can('hospital-edit') || auth()->user()->can('hospital-delete')) 
-                           <li class="@if (\Request::is('pashumitra/hospitals') || \Request::is('pashumitra/hospitals/*')) active  @endif">
-                              <a href="{{url('pashumitra/hospitals')}}" class="@if (\Request::is('pashumitra/hospitals')) active @endif" ><i class="bi bi-hospital"></i> <span>Veterinary Hospitals </span></a>
+                           <li class="@if (\Request::is('hospitals') || \Request::is('hospitals/*')) active  @endif">
+                              <a href="{{url('hospitals')}}" class="@if (\Request::is('hospitals')) active @endif" ><i class="bi bi-hospital"></i> <span>Veterinary Hospitals </span></a>
                            </li>
 						   @endif
 						    @if(auth()->user()->can('lab-list') || auth()->user()->can('lab-create') || auth()->user()->can('lab-edit') || auth()->user()->can('lab-delete')) 
-                           <li class="@if (\Request::is('pashumitra/labs') || \Request::is('pashumitra/labs/*')) active  @endif">
-                              <a href="{{url('pashumitra/labs')}}" class="@if (\Request::is('pashumitra/labs')) active @endif" ><i class="bi bi-thermometer-half"></i> <span>Labs </span></a>
+                           <li class="@if (\Request::is('labs') || \Request::is('labs/*')) active  @endif">
+                              <a href="{{url('labs')}}" class="@if (\Request::is('labs')) active @endif" ><i class="bi bi-thermometer-half"></i> <span>Labs </span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('trainingcenter-list') || auth()->user()->can('trainingcenter-create') || auth()->user()->can('trainingcenter-edit') || auth()->user()->can('trainingcenter-delete')) 
-                           <li class="@if (\Request::is('pashumitra/trainingcenters') || \Request::is('pashumitra/trainingcenters/*')) active  @endif">
-                              <a href="{{url('pashumitra/trainingcenters')}}" class="@if (\Request::is('pashumitra/trainingcenters')) active  @endif" ><i class="bi bi-headset"></i> <span>Training Centers </span></a>
+                           <li class="@if (\Request::is('trainingcenters') || \Request::is('trainingcenters/*')) active  @endif">
+                              <a href="{{url('trainingcenters')}}" class="@if (\Request::is('trainingcenters')) active  @endif" ><i class="bi bi-headset"></i> <span>Training Centers </span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('institution-list') || auth()->user()->can('institution-create') || auth()->user()->can('institution-edit') || auth()->user()->can('institution-delete')) 
                            
-						   <li class="@if (\Request::is('pashumitra/institutions') || \Request::is('pashumitra/institutions/*')) active  @endif">
-                              <a href="{{url('pashumitra/institutions')}}" class="@if (\Request::is('pashumitra/institutions')) active  @endif" ><i class="bi bi-award"></i> <span>Institutions </span></a>
+						   <li class="@if (\Request::is('institutions') || \Request::is('institutions/*')) active  @endif">
+                              <a href="{{url('institutions')}}" class="@if (\Request::is('institutions')) active  @endif" ><i class="bi bi-award"></i> <span>Institutions </span></a>
                            </li>
 						   @endif
 						    @if(auth()->user()->can('farm-list') || auth()->user()->can('farm-create') || auth()->user()->can('farm-edit') || auth()->user()->can('farm-delete')) 
                            
-						   <li class="@if (\Request::is('pashumitra/farms') || \Request::is('pashumitra/farms/*')) active  @endif">
-                              <a href="{{url('pashumitra/farms')}}" class="@if (\Request::is('pashumitra/farms')) active  @endif" ><i class="material-symbols-outlined">agriculture</i> <span>Farms </span></a>
+						   <li class="@if (\Request::is('farms') || \Request::is('farms/*')) active  @endif">
+                              <a href="{{url('farms')}}" class="@if (\Request::is('farms')) active  @endif" ><i class="material-symbols-outlined">agriculture</i> <span>Farms </span></a>
                            </li>
 						    @endif
 							@if(auth()->user()->can('panjarpol-list') || auth()->user()->can('panjarpol-create') || auth()->user()->can('panjarpol-edit') || auth()->user()->can('panjarpol-delete')) 
-							<li class="@if (\Request::is('pashumitra/panjarpols') || \Request::is('pashumitra/panjarpols/*')) active  @endif">
-                              <a href="{{url('pashumitra/panjarpols')}}" class="@if (\Request::is('pashumitra/panjarpols')) active  @endif" ><i class="material-symbols-outlined">home_and_garden</i> <span>Panjarpols </span></a>
+							<li class="@if (\Request::is('panjarpols') || \Request::is('panjarpols/*')) active  @endif">
+                              <a href="{{url('panjarpols')}}" class="@if (\Request::is('panjarpols')) active  @endif" ><i class="material-symbols-outlined">home_and_garden</i> <span>Panjarpols </span></a>
 							</li>
 						    @endif
 							@if(auth()->user()->can('ngo-list') || auth()->user()->can('ngo-create') || auth()->user()->can('ngo-edit') || auth()->user()->can('ngo-delete')) 
-							<li class="@if (\Request::is('pashumitra/ngo') || \Request::is('pashumitra/ngo/*')) active  @endif">
-                              <a href="{{url('pashumitra/ngo')}}" class="@if (\Request::is('pashumitra/ngo')) active  @endif" ><i class="bi bi-building"></i> <span>Ngo </span></a>
+							<li class="@if (\Request::is('ngo') || \Request::is('ngo/*')) active  @endif">
+                              <a href="{{url('ngo')}}" class="@if (\Request::is('ngo')) active  @endif" ><i class="bi bi-building"></i> <span>Ngo </span></a>
 							</li>
 						    @endif
 							@if(auth()->user()->can('milkcollection-list') || auth()->user()->can('milkcollection-create') || auth()->user()->can('milkcollection-edit') || auth()->user()->can('milkcollection-delete')) 
-							<li class="@if (\Request::is('pashumitra/milkcollections') || \Request::is('pashumitra/milkcollections/*')) active  @endif">
-                              <a href="{{url('pashumitra/milkcollections')}}" class="@if (\Request::is('pashumitra/milkcollections')) active  @endif" ><i class="material-symbols-outlined">grocery</i> <span>Milkcollection Centers </span></a>
+							<li class="@if (\Request::is('milkcollections') || \Request::is('milkcollections/*')) active  @endif">
+                              <a href="{{url('milkcollections')}}" class="@if (\Request::is('milkcollections')) active  @endif" ><i class="material-symbols-outlined">grocery</i> <span>Milkcollection Centers </span></a>
 							</li>
 						    @endif
 							@if(auth()->user()->can('poultryhatchery-list') || auth()->user()->can('poultryhatchery-create') || auth()->user()->can('poultryhatchery-edit') || auth()->user()->can('poultryhatchery-delete')) 
-							<li class="@if (\Request::is('pashumitra/poultryhatchery') || \Request::is('pashumitra/poultryhatchery/*')) active  @endif">
-                              <a href="{{url('pashumitra/poultryhatchery')}}" class="@if (\Request::is('pashumitra/poultryhatchery')) active  @endif" ><i class="material-symbols-outlined">egg</i> <span>Poultry Hatchery</span></a>
+							<li class="@if (\Request::is('poultryhatchery') || \Request::is('poultryhatchery/*')) active  @endif">
+                              <a href="{{url('poultryhatchery')}}" class="@if (\Request::is('poultryhatchery')) active  @endif" ><i class="material-symbols-outlined">egg</i> <span>Poultry Hatchery</span></a>
 							</li>
 						    @endif
 							@if(auth()->user()->can('dogshelter-list') || auth()->user()->can('dogshelter-create') || auth()->user()->can('dogshelter-edit') || auth()->user()->can('dogshelter-delete')) 
-                            <li class="@if (\Request::is('pashumitra/dogshelters') || \Request::is('pashumitra/dogshelters/*')) active  @endif">
-                              <a href="{{url('pashumitra/dogshelters')}}" class="@if (\Request::is('pashumitra/dogshelters')) active  @endif" ><i class="bi bi-house-heart"></i> <span>Shelter </span></a>
+                            <li class="@if (\Request::is('dogshelters') || \Request::is('dogshelters/*')) active  @endif">
+                              <a href="{{url('dogshelters')}}" class="@if (\Request::is('dogshelters')) active  @endif" ><i class="bi bi-house-heart"></i> <span>Shelter </span></a>
                             </li>
 						    @endif
 							@if(auth()->user()->can('shop-list') || auth()->user()->can('shop-create') || auth()->user()->can('shop-edit') || auth()->user()->can('shop-delete')) 
-                            <li class="@if (\Request::is('pashumitra/shops') || \Request::is('pashumitra/shops/*')) active  @endif">
-                              <a href="{{url('pashumitra/shops')}}" class="@if (\Request::is('pashumitra/shops')) active  @endif" ><i class="bi bi-shop"></i> <span>Shops </span></a>
+                            <li class="@if (\Request::is('shops') || \Request::is('shops/*')) active  @endif">
+                              <a href="{{url('shops')}}" class="@if (\Request::is('shops')) active  @endif" ><i class="bi bi-shop"></i> <span>Shops </span></a>
                             </li>
 						    @endif
 							@if(auth()->user()->can('cms-list')) 
-						    <li class="@if (\Request::is('pashumitra/content-management') || \Request::is('pashumitra/content-management/*')) active  @endif">
-                              <a href="{{url('pashumitra/content-management')}}" class="" > <span>Front Pages</span></a>
+						    <li class="@if (\Request::is('content-management') || \Request::is('content-management/*')) active  @endif">
+                              <a href="{{url('content-management')}}" class="" > <span>Front Pages</span></a>
 							</li>
 							@endif
 							@if(auth()->user()->can('paymentreport-list')) 
-						   <li class="@if (\Request::is('pashumitra/paymentreport')) active  @endif">
-                              <a href="{{url('pashumitra/paymentreport')}}" class="" ><i class="bi bi-currency-rupee"></i> <span>Payment Report</span></a>
+						   <li class="@if (\Request::is('paymentreport')) active  @endif">
+                              <a href="{{url('paymentreport')}}" class="" ><i class="bi bi-currency-rupee"></i> <span>Payment Report</span></a>
                            </li>
 						   @endif
 						   @if(auth()->user()->can('registrationpaymentreport-list'))
-						   <li class="@if (\Request::is('pashumitra/paymentreport/regPaymentReport')) active  @endif">
-                              <a href="{{url('pashumitra/paymentreport/regPaymentReport')}}" class="" ><i class="bi bi-piggy-bank"></i> <span>Registration Payments</span></a>
+						   <li class="@if (\Request::is('paymentreport/regPaymentReport')) active  @endif">
+                              <a href="{{url('paymentreport/regPaymentReport')}}" class="" ><i class="bi bi-piggy-bank"></i> <span>Registration Payments</span></a>
                            </li>
                            @endif
                            {{-- <li class="">
@@ -347,8 +347,8 @@
                            @endif
 
                            @if(auth()->user()->can('role-list') || auth()->user()->can('role-create') || auth()->user()->can('role-edit') || auth()->user()->can('role-delete')) 
-                           <li class="@if (\Request::is('pashumitra/role') || \Request::is('pashumitra/role/*')) active  @endif">
-                              <a href="{{url('pashumitra/role')}}" class="" ><i class="bi bi-toggles"></i> <span>Roles</span></a>
+                           <li class="@if (\Request::is('role') || \Request::is('role/*')) active  @endif">
+                              <a href="{{url('role')}}" class="" ><i class="bi bi-toggles"></i> <span>Roles</span></a>
                            </li>
                            @endif
                         </ul>

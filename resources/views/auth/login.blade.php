@@ -15,7 +15,7 @@
       <link rel="stylesheet" href="{{asset('admin/assets/css/custom.css')}}">
       <link rel="icon" href="{{asset('admin/assets/images/logo.png')}}" type="image/icon type">
       <script>
-            var webUrl = '{{url("/pashumitra/")}}';
+            var webUrl = '{{url("/")}}';
       </script>
    </head> 
    <body class="theme-cyan">
