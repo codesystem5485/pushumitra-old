@@ -1766,7 +1766,7 @@
 }
 
 body {
-    background-color: #eff4ff;
+    background-color: #e8ecf6;
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: #5a5a5a;
@@ -2400,12 +2400,12 @@ html.fullscreen-bg #wrapper {
     width: 100%;
     background: #fff;
     z-index: 99;
-    border-bottom: 1px solid #efefef
+    border-bottom: 1px solid #ccd6eb
 }
 
 @media screen and (max-width:992px) {
     .navbar-fixed-top {
-        top: 2px
+        /*top: 2px*/
     }
 }
 
@@ -2441,7 +2441,7 @@ html.fullscreen-bg #wrapper {
 
 @media screen and (max-width:992px) {
     .navbar-fixed-top .navbar-brand {
-        padding: 15px 10px
+        padding: 10px 0 10px 0
     }
 }
 
@@ -2697,7 +2697,7 @@ html.fullscreen-bg #wrapper {
 }
 
 .tab-content {
-    padding: 15px
+    padding: 0 15px
 }
 
 .nav-tabs-colored>li.active>a,
@@ -2827,7 +2827,7 @@ html.fullscreen-bg #wrapper {
     overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    border-right:1px solid #efefef;
+    border-right:1px solid #ccd6eb;
 }
 
 #left-sidebar::-webkit-scrollbar {
@@ -2861,12 +2861,13 @@ html.fullscreen-bg #wrapper {
 }
 
 .offcanvas-active #left-sidebar {
-    left: 5px
+    left: 0
 }
 
 .user-account {
     padding: 20px;
-    border-bottom: 1px solid #efefef;
+    /*border-bottom: 1px solid #efefef;*/
+    background-color: #e8ecf6;
 }
 
 .user-account .user-photo {
@@ -2949,7 +2950,7 @@ html.fullscreen-bg #wrapper {
 }
 
 .sidebar-nav .metismenu>li.active>a {
-    background-color: #f1f1f1
+    background-color: #ccd6eb
 }
 
 .sidebar-nav .metismenu>li .active a {
@@ -3005,7 +3006,7 @@ html.fullscreen-bg #wrapper {
 .sidebar-nav .metismenu a:focus,
 .sidebar-nav .metismenu a:active {
     text-decoration: none;
-    background: #f1f1f1
+    background: #ccd6eb
 }
 
 .sidebar-nav .metismenu .has-arrow::after {
@@ -3449,7 +3450,7 @@ textarea.parsley-error {
 }
 
 select.form-control:not([size]):not([multiple]) {
-    height: 36px
+    height: auto
 }
 
 .auth-main::before {
@@ -9666,6 +9667,14 @@ ul.list-connected-app>li:last-child .connected-app {
     font-size: 1.5rem
 }
 
+.bg-logo{background-color: #3b5c9b;}
+
+.btn{padding:10px 15px;}
+.form-control{padding:12px;}
+.btn-link, a{color: #3b5c9b;}
+select.form-control:not([size]):not([multiple]){}
+.border-bottom{border-bottom: 1px solid #ccd6eb !important;}
+
 .btn-info {
     color: #fff;
     background-color: #496eae;
@@ -9676,4 +9685,32 @@ ul.list-connected-app>li:last-child .connected-app {
     color: #fff;
     background-color:#1a2237;
     border-color:#1a2237;
+}
+
+.btn-logo{
+    background-color: #3b5c9b;
+    border-color: #3b5c9b;
+}
+
+.btn-primary{
+    background-color: #3b5c9b;
+    border-color: #3b5c9b;
+}
+
+
+@media screen and (max-width:1024px) {
+    .user-account{}
+}
+
+.page-item.active .page-link{background-color: #3b5c9b;border-color: #3b5c9b;}
+
+.btn-toggle-fullwidth{
+    background: #3b5c9b;
+    margin-left: -25px;
+    border-radius: 0 20px 20px 0;
+    color: #FFF;
+    padding: 10px 0;
+    text-align: center;
+    width: 40px;
+        margin-right: 10px;
 }

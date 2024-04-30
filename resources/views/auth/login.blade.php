@@ -25,7 +25,7 @@
                <div class="auth-box">
                   <div class="top">
                      <!-- <img src="{{asset('admin/assets/images/logo.jpg')}}" alt=""> -->
-                     <strong class="login-text">{{env('APP_NAME')}}</strong>
+                     <p class="login-text"><span class="text-logo">{{env('APP_NAME')}}</span></p>
                   </div>
                  
                   <div class="card">
@@ -56,7 +56,7 @@
                                        <strong>{{ __('messages.password_required') }}</strong>
                               </span>
                            </div>
-                           <button type="submit" class="btn btn-primary btn-lg btn-block">  {{ __('general.login_label') }}</button>
+                           <button type="submit" class="btn btn-primary btn-lg btn-block btn-logo">  {{ __('general.login_label') }}</button>
                      </form>
                      </div>
                   </div>
