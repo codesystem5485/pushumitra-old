@@ -36,7 +36,7 @@
 					@if($user->is_verified==0)
 						<div class="mb-5">
                         
-                            <span class=""><a href="{{route('registered-vet.registeredvet-verify',['id' => $user->id])}}" class="btn btn-info" >Verify Pashumitra</a></span>
+                            <span class=""><a href="{{route('registered-vet.registeredvet-verify',['id' => $user->id])}}" class="btn btn-info" >Verify Registered-vet</a></span>
                     </div>
 						
 					@endif
