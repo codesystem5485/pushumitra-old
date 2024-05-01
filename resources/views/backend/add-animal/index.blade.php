@@ -103,7 +103,7 @@
 function deleteAnimal(id) {
     var ask = window.confirm("Do you really want to delete the record(s)?");
     if (ask) {
-		var actionurl = webUrl+"/pashumitra/add-animal/"+id+"/show_delete";
+		var actionurl = webUrl+"/add-animal/"+id+"/show_delete";
 		window.location.href = actionurl;
 	}
 }

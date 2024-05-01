@@ -123,7 +123,7 @@ function deleteAnimalsale(id) {
     var ask = window.confirm("Do you really want to delete the record(s)?");
     if (ask) {
 		//var id = $(this).attr('id');
-		var actionurl = webUrl+"/pashumitra/animal-sale/"+id+"/show_delete";
+		var actionurl = webUrl+"/animal-sale/"+id+"/show_delete";
 		window.location.href = actionurl;
 	}
 }

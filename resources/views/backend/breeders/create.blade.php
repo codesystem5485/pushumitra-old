@@ -75,7 +75,7 @@
                             <span class="input-group-text" >{{ __('general.breeder_animal_description') }}:</span>
                         </div>
                         <textarea rows="4" type="text" class="form-control"  aria-describedby="basic-addon3" name="animal_description" 
-						placeholder="{{ __('general.breed_animal_description') }}">@if(empty($breeder)){{old('animal_description')}}@else{{$breeder->animal_description}}@endif</textarea>
+						placeholder="{{ __('general.breeder_animal_description') }}">@if(empty($breeder)){{old('animal_description')}}@else{{$breeder->animal_description}}@endif</textarea>
                     </div>
 					
 					
@@ -204,7 +204,7 @@
         if(confirm("Do you really want to delete this image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/breeders/"+image_val+"/remove";
+        var actionurl = webUrl+"/breeders/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",
