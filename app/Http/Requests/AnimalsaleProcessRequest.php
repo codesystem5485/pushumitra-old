@@ -24,11 +24,11 @@ class AnimalsaleProcessRequest extends FormRequest
     public function rules()
     {
         $request =  [
-            'UID_number' => 'required',
+            'UID_number' => 'nullable|numeric|digits:12',
            // 'species' => 'required',
             'breed' => "required",
            // 'type' => "required",
-            'age' => 'required|numeric',
+            'age' => 'required',
             'sex' => 'required|string',
             'price' => 'required|numeric',
           //  'description' => 'required',

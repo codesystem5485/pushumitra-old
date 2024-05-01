@@ -29,8 +29,8 @@ class AddanimalProcessRequest extends FormRequest
             //'species' => 'required|string',
             //'breed' => 'required|string',
             'sex' => 'required|string',
-            'age' => 'required|',
-           // 'UID_number' => 'required'
+            'age' => 'required',
+            'UID_number' => 'nullable|numeric|digits:12'
         ];
         if(!$this->id){
             // $request['password'] = 'required';
