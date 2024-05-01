@@ -154,7 +154,7 @@ $(document).ready(function(){
         if(confirm("Do you really want to delete this image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/csractivities/"+image_val+"/remove";
+        var actionurl = webUrl+"/csractivities/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

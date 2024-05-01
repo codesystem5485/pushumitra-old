@@ -158,7 +158,7 @@
         if(confirm("Do you really want to delete this supplier image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/suppliers/"+image_val+"/remove";
+        var actionurl = webUrl+"/suppliers/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

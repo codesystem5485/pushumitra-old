@@ -145,7 +145,7 @@ $("#mobile_number").val(mob_val);
         if(confirm("Do you really want to delete this animal image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/add-animal/"+image_val+"/remove";
+        var actionurl = webUrl+"/add-animal/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

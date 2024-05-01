@@ -212,7 +212,7 @@
         if(confirm("Do you really want to delete this training centers image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/trainingcenters/"+image_val+"/remove";
+        var actionurl = webUrl+"/trainingcenters/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

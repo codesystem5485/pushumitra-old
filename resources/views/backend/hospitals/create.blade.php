@@ -179,7 +179,7 @@
         if(confirm("Do you really want to delete this hospital image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/hospitals/"+image_val+"/remove";
+        var actionurl = webUrl+"/hospitals/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

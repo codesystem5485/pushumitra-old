@@ -215,7 +215,7 @@
         if(confirm("Do you really want to delete this image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/institutions/"+image_val+"/remove";
+        var actionurl = webUrl+"/institutions/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",

@@ -166,7 +166,7 @@
         if(confirm("Do you really want to delete this image?"))
         {
         var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/pashumitra/poultryhatchery/"+image_val+"/remove";
+        var actionurl = webUrl+"/poultryhatchery/"+image_val+"/remove";
          $.ajax({
             url: actionurl,
             type: "get",
