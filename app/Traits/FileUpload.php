@@ -131,6 +131,8 @@ trait FileUpload {
             $path = '';    
         }
         if(!empty($file)){
+			
+			
             $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
 			$image = $file;
 			$new_width=300;
@@ -139,7 +141,7 @@ trait FileUpload {
 		/*	$new_image->resize($new_width, $new_height, function ($constraint) {
 				$constraint->aspectRatio();
 			});*/
-$new_image->resize($new_width, $new_height);
+			$new_image->resize($new_width, $new_height);
             //$new_image->save(public_path($path), $fileName);
 			$path1 =  $path."/";
 			$destinationPath1 = public_path($path1);

@@ -30,7 +30,7 @@ class AdvertisementController extends BaseController
         $response['results']  = Advertisements::where('status',1)
 								->whereDate('advertisement_enddate', '>=', Carbon::now())
 								->orderBy('id','DESC')->get();
-        $response['image_base_path']=url("/upload/adevertisements/");
+        $response['image_base_path']=url("/upload/adevertisements")."/";
 		return $this->sendResponse($response,"",200);
     }
 
@@ -47,7 +47,7 @@ class AdvertisementController extends BaseController
         }
 		$id = $postData['advertisement_id'];
         $response['results']= Advertisements::find($id);
-        $response['image_base_path']=url("/upload/adevertisements/");
+        $response['image_base_path']=url("/upload/adevertisements")."/";
 		return $this->sendResponse($response,"",200); 
     }
 }

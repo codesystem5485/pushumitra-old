@@ -106,7 +106,7 @@ class UserTransactionsController extends BaseController
 		$animalArr = Animals::leftJoin('species', 'species.id', '=', 'animals.species')
 			->select( 'animals.*','species.specie as species_name',
             DB::raw('(select CONCAT("'.$url5.'", image_name) from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
-          ->where('user_id', $user_id)->get();
+          ->where('user_id', $user_id)->where('animals.status',1)->get();
 		$animalModuleArr = [];
 		foreach($animalArr as $animal)
 		{
@@ -230,9 +230,10 @@ class UserTransactionsController extends BaseController
 		}
 		$url16 = url("/upload/animalsale")."/";
 		
-		$animalSaleArr = AnimalForSale::select('animal_for_sales.*',
+		$animalSaleArr = AnimalForSale::leftJoin('species', 'species.id', '=', 'animal_for_sales.species')
+		->select('animal_for_sales.*','species.specie as species_name',
 			DB::raw('(select CONCAT("'.$url16.'", image_name) from animal_images where animal_sale_id  =   animal_for_sales.id order by id asc limit 1) as image_name'))
-		->where('user_id', $user_id)->get();
+		->where('animal_for_sales.user_id', $user_id)->where('animal_for_sales.status', 1)->get();
 		$animalSaleModuleArr = [];
 		foreach($animalSaleArr as $animalsale)
 		{

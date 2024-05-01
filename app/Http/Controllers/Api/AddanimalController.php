@@ -249,7 +249,7 @@ class AddanimalController extends BaseController
 		$postData = request()->all();
 		
 		$validator = Validator::make($postData, [
-			'animal_id' => 'required',
+			'id' => 'required',
 			'delete_reason' => 'required',
 			'delete_note' => 'required',
 		]);
@@ -259,7 +259,7 @@ class AddanimalController extends BaseController
 			return $this->sendError([],implode(',',$validator->errors()->all()),400);
 		}
 	
-		$id = $request->animal_id;
+		$id = $request->id;
         $addAnimal = Animals::where('id',$id)->first();
 		if($addAnimal){
 			$animalImage = AddAnimalImages::where('animal_id',$addAnimal->id)->get();
