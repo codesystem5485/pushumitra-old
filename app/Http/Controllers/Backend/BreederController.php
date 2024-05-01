@@ -206,7 +206,7 @@ class BreederController extends Controller
         
         ## Store log
         $message = trans('messages.breeder_delete_remove',['name' => $breederImages->id]);
-        storeActicityLog(trans('messages.breeder_delete_remove'),$message,Auth::user(),$animalImage);
+        storeActicityLog(trans('messages.breeder_delete_remove'),$message,Auth::user(),$breederImages);
        
         return true;
     }
