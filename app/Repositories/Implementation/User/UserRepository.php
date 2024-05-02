@@ -636,6 +636,8 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$paymentMsg = '';
 		$verifyMsg = '';
 		$profileMsg ='';
+		$otherProfile = 0;
+		$generalProfile = 0;
 		
 		$select = ['*'];
 		$with  = ['getUserDetail'];			
@@ -644,12 +646,22 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		if($role=="Pashumitra")
 		{
-			//echo $userDetail->mobile;
-			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
-			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
-			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!=''){
+			 if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!=''
+			 && $userDetail->getUserDetail->job_type!='' && $userDetail->education!=''){
 				 
 				 $completedProfile =1;
+			 }
+			 
+			 if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!='' && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='')
+			 {
+				 $generalProfile =1;
+			 }
+			 
+			 if($userDetail->getUserDetail->job_type!='' && $userDetail->education!=''){
+				 
+				 $otherProfile =1;
 			 }
 			 
 			 $registrationPaytype = 1; // fee table pashumitra registration
@@ -663,13 +675,39 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		if($role=="Registered-vet")
 		{
-			
-			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
-			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='' && $userDetail->getUserDetail->pm_aadhar_no!='' && 
-			 $userDetail->getUserDetail->pm_pan_no!='' && $userDetail->getUserDetail->job_type!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='')
+			 $jobType = '';
+			 if(isset($userDetail->getUserDetail)){
+				 $jobType = $userDetail->getUserDetail->job_type;
+			 }
+			 $jobType = '';
+			 if(isset($userDetail->getUserDetail)){
+				 $jobType = $userDetail->getUserDetail->job_type;
+			 }
+			 $jobType = '';
+			 if(isset($userDetail->getUserDetail)){
+				 $jobType = $userDetail->getUserDetail->job_type;
+			 }
+			 if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail->state_id!='' && $userDetail->pincode!='' && $userDetail->city_town!='' 
+			 && $jobType!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='' 
+			  && $userDetail->getUserDetail->rv_speciality!='' && $userDetail->education!='')
 			 {
 				 $completedProfile =1;
 			 }
+			 
+			 if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail->state_id!='' && $userDetail->pincode!='' && $userDetail->city_town!='')
+			 {
+				 $generalProfile =1;
+			 }
+			 
+			
+			 if($jobType!='' && $userDetail->getUserDetail->rv_state_verternity_council_no!='' 
+			  && $userDetail->getUserDetail->rv_speciality!='' && $userDetail->education!='')
+			 {
+				 $otherProfile =1;
+			 }
+			 
 			 $registrationPaytype = 6; // fee table registered vet registration
 			 $completedPayment = $this->checkUserRegistrationPayment($user_id,$registrationPaytype);
 			 if($completedPayment == 0){
@@ -681,9 +719,15 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		
 		if($role=="Animal-owner" || $role=="Other")
 		{
-			$completedProfile =1;
+			if($userDetail->full_name!='' && $userDetail->mobile_number!='' && $userDetail->date_of_birth!='' &&
+			 $userDetail->sex!=''  && $userDetail['state_id']!='' && $userDetail['pincode']!='' && $userDetail['city_town']!='')
+			 {
+				 $completedProfile =1;
+				 $generalProfile =1;
+			 }
 		}
 		
+		//echo $completedProfile;exit;
 		if($completedProfile==0)
 		{
 			$profileMsg = trans('messages.complete_profile');
@@ -695,13 +739,28 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 			 $verifyMsg = trans('messages.user_not_verified',['name' => $user_name]);
 		}
 		
+		$addServicesFlag = 0;
+		/*if($completedProfile =1 && $completedPayment==1)
+		{
+			$addServicesFlag = 1;
+		}elseif($completedProfile =0 && $completedPayment==1)
+		{
+			$addServicesFlag = 2; //incomplete profile
+		}elseif($completedProfile =1 && $completedPayment==0)
+		{
+			$addServicesFlag = 3; // incomplte payamnt
+		}*/
+		
+		 
 		 $profileArray['verifyMsg'] = $verifyMsg;
 		 $profileArray['profileMsg'] = $profileMsg;
 		 $profileArray['paymentMsg'] = $paymentMsg;
-		 $profileArray['completedProfile'] = $completedProfile;
-		 $profileArray['completedPayment'] = $completedPayment;
+		 $profileArray['completedProfile'] =$completedProfile;
+		 $profileArray['completedPayment'] = (int)$completedPayment;
 		 $profileArray['verified'] = (string)$verified; 
-		
+		 $profileArray['generalProfile'] = (int)$generalProfile;
+		 $profileArray['otherProfile'] =(int)$otherProfile;
+		 //$profileArray['addServicesFlag'] = (int)$addServicesFlag;
 		return $profileArray;
 	}
 	

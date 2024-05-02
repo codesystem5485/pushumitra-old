@@ -409,7 +409,7 @@ class AuthController extends BaseController
 					if($checkOtp->role == 'Animal-owner' || $checkOtp->role == 'Other') 
 					{ 
 						$role = $checkOtp->role;
-						$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
+						//$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
 						$param['is_verified'] = 1;
 					}else{
 						$param['is_verified'] = 0;
@@ -417,6 +417,9 @@ class AuthController extends BaseController
 					$token = $this->createApiToken();
 					$param['api_token'] = $token;
 					$user = $this->userRepo->create($param);
+					
+					$paramDetail['user_id'] = $user->id;
+                    $oUser = $this->userDetailRepo->create($paramDetail);
 					
 					//asign role
 					$roleData = $this->roleRepo->where('name',$checkOtp->role)->first();
@@ -604,7 +607,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				//'date_of_birth' => 'nullable|date',
+				'date_of_birth' => 'required',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -630,7 +633,7 @@ class AuthController extends BaseController
                 'taluka' => 'nullable|string',
                 'pincode' => 'required|numeric',
 				'state_id' => 'required',
-              //  'date_of_birth' => 'nullable|date',
+                 'date_of_birth' => 'required',
                // 'age' => 'required',                
                 'sex' => 'required',
             ]);
@@ -642,7 +645,7 @@ class AuthController extends BaseController
                 'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
                 'full_name' => 'required|string|max:255',
                 'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
-				//'date_of_birth' => 'nullable|date',
+				'date_of_birth' => 'required',
                 'sex' => 'required|string',
                 'address_line_1' => 'required|string',
 				'state' => 'required|string',
@@ -731,10 +734,12 @@ class AuthController extends BaseController
                 $param['state_id'] = $postData['state_id'];
                 $param['pincode'] = $postData['pincode']; 
                 $param['sex'] = $postData['sex']; 
-               //$param['age'] = $postData['age'];
                 $param['date_of_birth'] = $birthDate;
-				//get latitude , longitude
+				
 				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
+				
+				$role = $postData['role'];
+				$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
 				
 				$param['latitude'] = $coordinateArr['latitude'];
 				$param['longitude'] = $coordinateArr['longitude'];
@@ -1153,7 +1158,7 @@ class AuthController extends BaseController
         if($postData['role']=='Pashumitra')
         { 
             $validator = Validator::make($postData, [
-                //'education'=> 'required',
+                'education'=> 'required',
                 'education_certificate'=> 'max:10240',
 				'pm_recommendation_letter'=> 'max:10240',
 			    //'pm_pan_no'	=>'required',
@@ -1166,7 +1171,7 @@ class AuthController extends BaseController
 		if($postData['role']=='Registered-vet')
         { 
             $validator = Validator::make($postData, [
-                //'education'=> 'required',
+                'education'=> 'required',
                 'education_certificate'=> 'max:10240',
 				'rv_state_verternity_council_no'=>'required',
 				//'pm_pan_no'	=>'required',

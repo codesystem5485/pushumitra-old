@@ -13,7 +13,6 @@ use App\Models\UserModuleCounts;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Repositories\Interfaces\User\UserDetailRepositoryInterface;
 
-
 class PaymentController extends BaseController
 {
     private $userRepo;
@@ -43,13 +42,6 @@ class PaymentController extends BaseController
 				$createArray[$name]=array('fee'=>(string)$row['fee'],'id'=>$row['id']);
 			}
 		}
-		
-		$completedProfile =0; 
-		$completedPayment =1;
-		$verified=0;
-		$paymentMsg = '';
-		$verifyMsg = '';
-		$profileMsg ='';
 		
 		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
 		$response['fee'] = $createArray;
