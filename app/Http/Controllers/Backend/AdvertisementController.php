@@ -12,7 +12,8 @@ use Auth;
 use Response;
 use App\Traits\FileUpload;
 use Redirect;
-
+use Config;
+use File; 
 
 class AdvertisementController extends Controller
 {
@@ -101,23 +102,21 @@ class AdvertisementController extends Controller
 
 			$advertisement_app_image='';
 			$advertisement_web_image='';
-			
+			$type = 'adevertisements_app';
 			if(!empty($request->advertisement_app_image))
 			{
-				$advertisement_app_imagename = $this->uploadFile($request->advertisement_app_image,'adevertisements_app');
-				if(!empty($advertisement_app_imagename))
-				{
-					$advertisement_app_image = $advertisement_app_imagename;
-				}
+				$file = $request->advertisement_app_image;
+				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
+				$path = Config::get('constants.file.adevertisements_file_path');
+				 $file->move(public_path($path), $fileName);
 			}
 			
 			if(!empty($request->advertisement_website_image))
 			{
-				$advertisement_web_imagename = $this->uploadFile($request->advertisement_website_image,'adevertisements_web');
-				if(!empty($advertisement_web_imagename))
-				{
-					$advertisement_web_image = $advertisement_web_imagename;
-				}
+				$file = $request->advertisement_website_image;
+				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
+				$path = Config::get('constants.file.adevertisements_file_path');
+				 $file->move(public_path($path), $fileName);
 			}
 			
 			$advertisement_startdate = '';
@@ -211,24 +210,34 @@ class AdvertisementController extends Controller
         DB::beginTransaction();
         try{
             $advertisements = Advertisements::find($id);
+			$type = 'adevertisements_app';
             if(!empty($request->advertisement_app_image))
 			{
-				$advertisement_app_imagename = $this->uploadFile($request->advertisement_app_image,'adevertisements_app');
+				/*$advertisement_app_imagename = $this->uploadFile($request->advertisement_app_image,'adevertisements_app');
 				if(!empty($advertisement_app_imagename))
 				{
 					$advertisement_app_image = $advertisement_app_imagename;
 					$advertisements->advertisement_app_image = $advertisement_app_image;
-				}
+				}*/
+				$file = $request->advertisement_app_image;
+				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
+				$path = Config::get('constants.file.adevertisements_file_path');
+				 $file->move(public_path($path), $fileName);
 			}
 			
 			if(!empty($request->advertisement_website_image))
 			{
-				$advertisement_web_imagename = $this->uploadFile($request->advertisement_website_image,'adevertisements_web');
+				/*$advertisement_web_imagename = $this->uploadFile($request->advertisement_website_image,'adevertisements_web');
 				if(!empty($advertisement_web_imagename))
 				{
 					$advertisement_web_image = $advertisement_web_imagename;
 					$advertisements->advertisement_website_image = $advertisement_web_image;
-				}
+				}*/
+				
+				$file = $request->advertisement_website_image;
+				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
+				$path = Config::get('constants.file.adevertisements_file_path');
+				 $file->move(public_path($path), $fileName);
 			}
 			$advertisement_startdate = '';
 			if($request->advertisement_startdate!=''){

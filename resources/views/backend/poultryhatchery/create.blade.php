@@ -116,8 +116,11 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.description') }} :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="description" value="@if(empty($poultryhatchery)){{old('description')}}@else{{$poultryhatchery->description}}@endif"placeholder="{{ __('general.enter_description') }}">
-                    </div>
+                        <textarea rows="6" type="text" class="form-control"  aria-describedby="basic-addon3" name="description" 
+						placeholder="{{ __('general.enter_description') }}">@if(empty($poultryhatchery)){{old('description')}}@else{{$poultryhatchery->description}}@endif</textarea>
+                    
+
+				   </div>
 					
 					<div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -177,7 +180,6 @@
                 // $("input_wrapper").refresh();
                 $(".input_wrapper").load(location.href + " .input_wrapper");
 
-                // product-sale.edit
             },
         });
         }

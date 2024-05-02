@@ -250,9 +250,8 @@ class AuthController extends BaseController
     public function login(Request $request){
         $postData = request()->all();
         $validator = Validator::make($postData, [
-            'email_id_or_mobile_number' => 'required',
-            'password' => 'required',
-			'role'=>'required'
+            'mobile_number' => 'required',
+            'role'=>'required'
         ]);
 		
         $response = [];
@@ -261,14 +260,8 @@ class AuthController extends BaseController
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
 		
-        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['email_id_or_mobile_number'],'is_active'=>1]);
+        $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number'],'is_active'=>1]);
 		
-        
-       /* if (!$user) {
-
-            $user = $this->userRepo->getSingleRecords(['email' => $postData['email_id_or_mobile_number']]);
-        }*/
-
         if($user)
         {
 			//check role is available or not
@@ -283,54 +276,44 @@ class AuthController extends BaseController
             if(empty($aUserVerify)){
                 return $this->sendError($response,trans('messages.verify_phone'),401);
             }
-
-            ##check correct password
-            $check = Hash::check($postData['password'], $user->password); 
-            if(!$check)
-            {
-                return $this->sendError($response,trans('messages.invalid_password'),401);
-            }
-            
-          //  DB::beginTransaction();
-           // try{
+			 $aOtpData = $this->userRepo->generateOtp();
+                ##Update user's OTP
+               // $user = TempUsersSignup::where('id',$user->id)->update($aOtpData);				
 				
-				
-              //  $token = $user->createToken($user->email)->accessToken;
-			  
-				$token = $this->createApiToken();
+				$smsInfo =array(
+					'otp'=>$aOtpData['otp'],
+					'mobile_number'=>'91'.$postData['mobile_number'],
+				);
+				$res = $this->sendRegistrationSms($smsInfo);
+           
+				//$token = $this->createApiToken();
 				$param=[];
-				$param['api_token'] = $token;
+			//	$param['api_token'] = $token;
+				$param['otp'] = $aOtpData['otp'];
+				$param['otp_expiration'] = $aOtpData['otp_expiration'];
 				if(isset($postData['fcm_id']))
 				{
 					$param['fcm_id'] = $postData['fcm_id'];
 				}	
 				
+				$response['existUser'] =1;
 				$res = $this->userRepo->update($user->id,$param);
-				$profilePhoto =  url("/upload/profile_photo/".$user->profile_photo);
 				
-				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
-				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,
-				'pm_code'=>$user->pm_code,'other_usercode'=>$user->other_usercode,'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
-				
-				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
-				
-				if($user->is_verified==0)
-				{
-					return $this->sendResponse($response,$message,200); 
-				}else{
-					return $this->sendResponse($response,trans('messages.login_success'),200); 
-				}
-           /* }
-            catch(\Exception $e){  
-               DB::rollback();
-               $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
-               ##store error log
-               storeActicityLog(trans('messages.error'),$response['error']);
-               return  $this->sendError($response,trans('messages.something'),500);
-            }  */   
+				return $this->sendResponse($response,trans('messages.otp_send'),200); 
         }
         else {
-            return $this->sendError($response,trans('messages.user_not'),404);
+			$param = $request->all();
+			$user = TempUsersSignup::create($param);
+			$aOtpData = $this->userRepo->generateOtp();
+            $user = TempUsersSignup::where('id',$user->id)->update($aOtpData);				
+			$smsInfo =array(
+				'otp'=>$aOtpData['otp'],
+				'mobile_number'=>'91'.$param['mobile_number'],
+			);
+			$res = $this->sendRegistrationSms($smsInfo);
+			$response['existUser'] =0;
+			return $this->sendResponse($response,trans('messages.otp_send'),200);
+           // return $this->sendError($response,trans('messages.user_not'),404);
         }
     }
 
@@ -377,137 +360,149 @@ class AuthController extends BaseController
 
     public function verifyOtp(Request $request){
         $postData = request()->all(); 
-        // $postData = request()->json()->all();
         $validator = Validator::make($postData, [
-            'mobile_number' => 'required|max:10',
-            'otp' => 'required|max:6',
-            'login_type' => 'required',
-			'role'=> 'required',
+            'mobile_number' => 'required|numeric|digits:10',
+            'otp' => 'required|numeric',
+            'role'=> 'required',
         ]);
         $response = [];
         if ($validator->fails())
         {
             return $this->sendError($response,implode(',',$validator->errors()->all()),400);
         }
-        $response = [];
-		
-		if($postData['role']=='Guest'){
-			$user = Guestusers::where('mobile_number',$postData['mobile_number'])->first();
-			
-		}else{
-			// $user = $this->userRepo->getSingleRecords(['mobile_number' => $postData['mobile_number']]);
-			 $user = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
+        
+		$response = [];
+		$existUser = $postData['existUser'];
+		$userFound = 0;
+		if($existUser==0)
+		{
+			$user = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
 											->orderBy('id','DESC')
 											->first();
-		}
-       
-        if ($user) {
-			if($postData['role']=='Guest'){
-				$checkOtp = Guestusers::where('mobile_number',$postData['mobile_number'])->where('otp',$postData['otp'])->first();
-
-		   if(empty($checkOtp)){
-                return $this->sendError($response,trans('messages.otp_invalid'),400);  
-            }
-
-            ## check otp expiration time
-            if(strtotime(now()) >strtotime($user->otp_expiration)){
-                return $this->sendError($response,trans('messages.otp_expired'),400); 
-            }
-           
-                ## if verified otp then create token
-                
-				$token = $this->createApiToken();
-				$param = ['api_token' => $token];
-				$user->api_token = $token;
-				$user->otp='';
-				$user->otp_expiration='';
-				$user->update();
-                $response = ['mobile_number' => $user->mobile_number,'api_token' => $token];
-            
-            
-            return $this->sendResponse($response,trans('messages.verify_success'),200); 
-				
-			}
-			else{
-			$checkOtp = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
-											//->where('otp' , $postData['otp'])
-											->orderBy('id','DESC')
-											->first();
-            ## check otp is valid or not
-            if($postData['otp']!='123456'){
+			if($user)
+			{
+				$userFound = 1;
 				$checkOtp = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
-											->where('otp' , $postData['otp'])
-											->orderBy('id','DESC')
-											->first();
-				if(empty($checkOtp)){
-					return $this->sendError($response,trans('messages.otp_invalid'),400);  
-				}
+												->orderBy('id','DESC')
+												->first();
+				## check otp is valid or not
+				if($postData['otp']!='123456'){
+					$checkOtp = TempUsersSignup::where('mobile_number',$postData['mobile_number'])
+												->where('otp' , $postData['otp'])
+												->orderBy('id','DESC')
+												->first();
+					if(empty($checkOtp)){
+						return $this->sendError($response,trans('messages.otp_invalid'),400);  
+					}
 
-				## check otp expiration time
-				if(strtotime(now()) >strtotime($user->otp_expiration)){
-					return $this->sendError($response,trans('messages.otp_expired'),400); 
+					## check otp expiration time
+					if(strtotime(now()) >strtotime($user->otp_expiration)){
+						return $this->sendError($response,trans('messages.otp_expired'),400); 
+					}
 				}
-            }
-			
-			if($checkOtp){
-				$param['profile_photo']=null;
-				$param['full_name'] = $checkOtp->full_name;
-                $param['email'] 	= $checkOtp->email;
-                $param['password'] = $checkOtp->password;
-                $param['mobile_number'] = $checkOtp->mobile_number;
-                $param['address_line_1'] = $checkOtp->address_line_1;
-                $param['city_town'] = $checkOtp->city_town;
-				$param['district'] = $checkOtp->district;
-				$param['taluka'] = $checkOtp->taluka;
-                $param['state'] = $checkOtp->state;
-                $param['pincode'] = $checkOtp->pincode;
-				$param['state_id'] = $checkOtp->state_id;
-				$param['is_phone_verify'] =1;
-				$param['is_active'] =1;
-				if($checkOtp->role == 'Animal-owner' || $checkOtp->role == 'Other') 
-				{ 
-					$role = $checkOtp->role;
-					$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
-					$param['is_verified'] = 1;
+				
+				if($checkOtp){
+					$param['profile_photo']=null;
+					$param['mobile_number'] = $checkOtp->mobile_number;
+					$param['is_phone_verify'] =1;
+					$param['is_active'] =1;
+					if($checkOtp->role == 'Animal-owner' || $checkOtp->role == 'Other') 
+					{ 
+						$role = $checkOtp->role;
+						$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
+						$param['is_verified'] = 1;
+					}else{
+						$param['is_verified'] = 0;
+					}
+					$token = $this->createApiToken();
+					$param['api_token'] = $token;
+					$user = $this->userRepo->create($param);
+					
+					//asign role
+					$roleData = $this->roleRepo->where('name',$checkOtp->role)->first();
+					if($roleData){
+						$user->assignRole($roleData->name);  
+					}
+					
+					//delete temp user table entry
+					$tempUser = TempUsersSignup::find($checkOtp->id);
+					$tempUser->delete();
+				}
+				$profilePhoto =  url("/upload/profile_photo/".$user->profile_photo);
+				
+				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
+				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,
+				'pm_code'=>$user->pm_code,'other_usercode'=>$user->other_usercode,'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
+				
+				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
+				
+				if($user->is_verified==0)
+				{
+					return $this->sendResponse($response,$message,200); 
 				}else{
-					$param['is_verified'] = 0;
+					return $this->sendResponse($response,trans('messages.login_success'),200); 
+				}
+				return $this->sendResponse($response,trans('messages.verify_success'),200); 
+			}
+		}
+		else
+		{
+			$user = User::where('mobile_number',$postData['mobile_number'])
+												->orderBy('id','DESC')
+												->first();
+			if ($user)
+			{	
+				$userFound = 1;
+				$checkOtp = User::where('mobile_number',$postData['mobile_number'])
+												->orderBy('id','DESC')
+												->first();
+				## check otp is valid or not
+				if($postData['otp']!='123456'){
+					$checkOtp = User::where('mobile_number',$postData['mobile_number'])
+												->where('otp' , $postData['otp'])
+												->orderBy('id','DESC')
+												->first();
+					if(empty($checkOtp)){
+						return $this->sendError($response,trans('messages.otp_invalid'),400);  
+					}
+
+					## check otp expiration time
+					if(strtotime(now()) >strtotime($user->otp_expiration)){
+						return $this->sendError($response,trans('messages.otp_expired'),400); 
+					}
 				}
 				
-				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
-				$param['latitude']  = $coordinateArr['latitude'];
-				$param['longitude'] = $coordinateArr['longitude'];
-			
-				$user = $this->userRepo->create($param);
+				if($checkOtp){
+					$token = $this->createApiToken();
+					$param['api_token'] = $token;
+					$param['otp'] ='';
+					$param['otp_expiration'] ='';
+					
+					$this->userRepo->update($user->id,$param);
+					//return $this->sendResponse($response,trans('messages.verify_success'),200);  
+				}
 				
-				//asign role
-                $roleData = $this->roleRepo->where('name',$checkOtp->role)->first();
-                if($roleData){
-                    $user->assignRole($roleData->name);  
-                }
+				$profilePhoto =  url("/upload/profile_photo/".$user->profile_photo);
 				
-				//delete temp user table entry
-				$tempUser = TempUsersSignup::find($checkOtp->id);
-				$tempUser->delete();
+				$response = ['id'=>$user->id,'first_name' => $user->full_name,'email' => $user->email,'api_token' => $token,
+				'is_verified' =>$user->is_verified,'mobile_number'=> $user->mobile_number,
+				'pm_code'=>$user->pm_code,'other_usercode'=>$user->other_usercode,'rv_code'=>$user->rv_code,'profile_image'=>$profilePhoto,'latitude'=>$user->latitude,'longitude'=>$user->longitude];
+				
+				$message = trans('messages.login_success_not_verified',['name' => $user->full_name]);
+				
+				if($user->is_verified==0)
+				{
+					return $this->sendResponse($response,$message,200); 
+				}else{
+					return $this->sendResponse($response,trans('messages.login_success'),200); 
+				}
+				 
+				return $this->sendResponse($response,trans('messages.verify_success'),200); 
 			}
-			
-			## display  login type wise data
-            if($postData['login_type'] == 'signin'){
-                ## if verified otp then create token
-                //$token = $user->createToken($user->email)->accessToken;
-				$token = $this->createApiToken();
-				$param = ['api_token' => $token];
-				$this->userRepo->update($user->id,$param);
-                $response = ['first_name' => $user->full_name,'email' => $user->email,'role' => 
-                isset($user->roles[0]->name) ? $user->roles[0]->name : '','api_token' => $token];
-            }
-            
-            return $this->sendResponse($response,trans('messages.verify_success'),200); 
-			}
-
-			
-        }else {
-            return $this->sendError($response,trans('messages.user_not'),404);
-        }
+		}
+		if($userFound == 0){
+			return $this->sendError($response,trans('messages.user_not'),404);
+		}
     }
 
     public function verifyPhoneNumber(Request $reqest){
