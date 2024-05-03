@@ -1699,4 +1699,234 @@ PASHU MITRA ENTERPRISES';
         return response()->download($file, $file_name, $headers);
       //  return Response::download($file,$bookname, $headers);
     }
+	
+	 public function updateCompleteProfile(Request $request){
+		
+		$postData = $request->all();
+        
+		if(!isset($postData['user_id']))
+		{
+			 return  $this->sendError([],trans('messages.records_not_found'),404);
+		}
+		$user_id=$postData['user_id'];
+		$userData = $this->getUserDetailsUsingId($request);
+		
+		if($postData['role']=='Animal-owner' || $postData['role']=='Other')
+        {
+            $validator = Validator::make($postData, [
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
+                'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
+				'date_of_birth' => 'required',
+                'sex' => 'required|string',
+                'address_line_1' => 'required|string',
+				'state' => 'required|string',
+                'city_town' => 'required|string',
+				'district' => 'nullable|string',
+				'taluka' => 'nullable|string',
+                'pincode' => 'required|numeric',
+                'state_id' => 'required',
+                 
+            ]);
+        }
+		
+        if($postData['role']=='Pashumitra')
+        { 
+            $validator = Validator::make($postData, [
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
+                'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
+                'address_line_1' => 'required|string',
+                'state' => 'required|string',
+				'city_town' => 'required|string',
+				'district' => 'nullable|string',
+                'taluka' => 'nullable|string',
+                'pincode' => 'required|numeric',
+				'state_id' => 'required',
+                'date_of_birth' => 'required',
+                'sex' => 'required',
+				'education'=> 'required',
+                'education_certificate'=> 'max:10240',
+				'pm_recommendation_letter'=> 'max:10240',
+			    'job_type'	=>'required',
+			    //'pm_name_of_org'	=>'String',
+            ]);
+        }
+		
+		if($postData['role']=='Registered-vet')
+        { 
+            $validator = Validator::make($postData, [
+                'profile_photo'=>'mimes:jpeg,jpg,png|max:15000',
+                'full_name' => 'required|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:users,email,'.$user_id,
+				'date_of_birth' => 'required',
+                'sex' => 'required|string',
+                'address_line_1' => 'required|string',
+				'state' => 'required|string',
+                'city_town' => 'required|string',
+				'district' => 'nullable|string',
+				'taluka' => 'nullable|string',
+                'pincode' => 'required|numeric|digits:6',
+                'state_id' => 'required',
+				'education'=> 'required',
+                'education_certificate'=> 'max:10240',
+				'rv_state_verternity_council_no'=>'required',
+				'job_type'	=>'required',
+				//'rv_name_of_working_org'=>'required',
+				'rv_speciality'=>'required',
+            ]);
+        }
+       
+		
+		$response = [];
+		if ($validator->fails())
+		{
+			return $this->sendError($response,implode(',',$validator->errors()->all()),400);
+		}
+		DB::beginTransaction();
+		try{
+			
+			$user_id = $request->user_id;
+			if($request->profile_photo!=''){
+					$profile_photoName = $this->uploadFile($request->profile_photo,'profile_photo');
+					if(!empty($profile_photoName))
+					{
+						 $param['profile_photo'] = $profile_photoName;
+					}
+					else{
+						$response['error'] = trans('messages.not_able_to_upload_pro_photo');
+						return  $this->sendError($response,trans('messages.not_able_to_upload_profile_photo'),500);
+					}
+				}
+				
+				$birthDate = '';
+				if($request->date_of_birth!=''){
+					$birthDate = date('Y-m-d',strtotime($request->date_of_birth));
+				}
+		
+			if($postData['role']=='Pashumitra')
+            {
+				if($request->education_certificate!=''){
+					$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+					if(!empty($education_certificateName))
+					{
+						$param['education_certificate']= $education_certificateName;
+					}
+					else{
+						$response['error'] = trans('messages.not_able_to_upload_edu_certi');
+						return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+					}
+				}
+				
+				if($request->pm_recommendation_letter!=''){
+					$pm_recommendation_letterName = $this->uploadFile($request->pm_recommendation_letter,'recommendation_letter');
+					
+					if(!empty($pm_recommendation_letterName))
+					{
+						$paramDetail['pm_recommendation_letter']= $pm_recommendation_letterName;
+					}
+					else{
+						$response['error'] = trans('messages.not_able_to_upload_rec_letter');
+						return  $this->sendError($response,trans('messages.not_able_to_upload_rec_letter'),500);
+					}
+				}
+				
+				$param['full_name'] = $postData['full_name'];
+				$param['email'] = $postData['email'];
+                $param['address_line_1'] = $postData['address_line_1'];
+                $param['taluka'] = $postData['taluka'];
+				$param['district'] = $postData['district'];
+                $param['city_town'] = $postData['city_town'];
+                $param['state'] = $postData['state'];
+                $param['state_id'] = $postData['state_id'];
+                $param['pincode'] = $postData['pincode']; 
+                $param['sex'] = $postData['sex']; 
+                $param['date_of_birth'] = $birthDate;
+				$paramDetail['job_type'] = $postData['job_type'];
+				$paramDetail['pm_name_of_org'] = $postData['pm_name_of_org'];
+                $param['education']= $postData['education'];
+			}
+			
+			if($postData['role']=='Animal-owner' || $postData['role']=='Other')
+            {
+				$param['full_name'] = $postData['full_name'];
+				$param['email'] = $postData['email'];
+                $param['address_line_1'] = $postData['address_line_1'];
+                $param['taluka'] = $postData['taluka'];
+				$param['district'] = $postData['district'];
+                $param['city_town'] = $postData['city_town'];
+                $param['state'] = $postData['state'];
+                $param['state_id'] = $postData['state_id'];
+                $param['pincode'] = $postData['pincode']; 
+                $param['sex'] = $postData['sex']; 
+                $param['date_of_birth'] = $birthDate;
+				$role = $postData['role'];
+				$param['other_usercode'] = $this->userRepo->generateOtherUserCode($role);
+			}
+			
+			if($postData['role']=='Registered-vet')
+            {
+				if($request->education_certificate!=''){
+					$education_certificateName = $this->uploadFile($request->education_certificate,'education_certificate');
+					if(!empty($education_certificateName))
+					{
+						$param['education_certificate']= $education_certificateName;
+					}
+					else{
+						$response['error'] = trans('messages.not_able_to_upload_edu_certi');
+						return  $this->sendError($response,trans('messages.not_able_to_upload_edu_certi'),500);
+					}
+				}
+				
+				$param['full_name'] = $postData['full_name'];
+				$param['email'] = $postData['email'];
+                $param['address_line_1'] = $postData['address_line_1'];
+                $param['taluka'] = $postData['taluka'];
+				$param['district'] = $postData['district'];
+                $param['city_town'] = $postData['city_town'];
+                $param['state'] = $postData['state'];
+                $param['state_id'] = $postData['state_id'];
+                $param['pincode'] = $postData['pincode']; 
+                $param['sex'] = $postData['sex']; 
+                $param['date_of_birth'] = $birthDate;
+				
+				$param['education']= $postData['education'];
+				$paramDetail['job_type'] =$postData['job_type'];
+				$paramDetail['rv_state_verternity_council_no'] =$postData['rv_state_verternity_council_no'];
+                $paramDetail['rv_name_of_working_org'] =$postData['rv_name_of_working_org'];
+                $paramDetail['rv_speciality'] =$postData['rv_speciality'];
+                
+            }
+			
+				//get latitude , longitude
+				$coordinateArr = $this->userRepo->getLatitudeLongitudes($param);
+				$param['latitude'] = $coordinateArr['latitude'];
+				$param['longitude'] = $coordinateArr['longitude'];
+				
+				$oUser =$this->userRepo->update($user_id,$param);
+
+				$paramDetail['user_id'] = $user_id;
+				$userDetailId = isset($userData->getUserDetail->id) ? $userData->getUserDetail->id : null;
+				
+				if($userDetailId){
+                    $oUser = $this->userDetailRepo->update($userDetailId,$paramDetail); 
+                }else{
+                    $paramDetail['user_id'] = $user_id;
+                    $oUser = $this->userDetailRepo->create($paramDetail);
+                }
+				
+				DB::commit();
+                ## Store log
+                $message = trans('messages.update_user',['name' => $postData['full_name']]);
+                storeActicityLog(trans('messages.update'),$message,$userData,$oUser);
+                return $this->sendResponse($response,trans('messages.update_records'),200);
+		}
+		catch(\Exception $e){  
+                DB::rollback();
+                $response['error'] = !empty($e->getMessage())?$e->getMessage() : '';
+                ##store error log
+                storeActicityLog(trans('messages.error'),$response['error']);
+                return  $this->sendError($response,trans('messages.something'),500);
+            }
+    }
 }   

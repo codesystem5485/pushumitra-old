@@ -49,6 +49,7 @@ Route::group(['middleware' => ['cors']], function () {
 		
 		Route::get('/get-profile', [AuthController::class,'getProfile']);
 		Route::post('/update-generalprofile', [AuthController::class,'updateGeneralProfile']);
+		Route::post('/update-complete-profile', [AuthController::class,'updateCompleteProfile']);
 		Route::post('/update-bankprofile', [AuthController::class,'updateBankProfile']);
 		Route::post('/update-otherprofile', [AuthController::class,'updateOtherProfile']);
 		

@@ -172,6 +172,9 @@ class PaymentController extends BaseController
 		elseif($aInsertData['role']=="Animal-owner")
 		{
 			$roleId = 6;
+		}elseif($aInsertData['role']=="Other")
+		{
+			$roleId = 13;
 		}
 		
 		$payment_response = $aInsertData['payment_response'];
@@ -270,6 +273,138 @@ class PaymentController extends BaseController
 			return  $this->sendError($response,trans('messages.something'),500);			
         }
 	}
+	
+	public function addRenewPayments(Request $request)
+	{
+		$postData = request()->all();
+		
+		$validator = Validator::make($postData, [
+				'role' => 'required',
+				'amount' => 'required',
+				'type' => 'required',
+				'order_id' => 'required',
+			]);
+			
+		if ($validator->fails())
+		{
+			return $this->sendError([],implode(',',$validator->errors()->all()),400);
+		}
+		
+        $response = [];
+		
+        DB::beginTransaction();
+        try{            
+            $aInsertData = $request->all();
+		$roleId = null;
+		if($aInsertData['role']=="Pashumitra"){
+			$roleId = 8;
+		}elseif($aInsertData['role']=="Registered-vet")
+		{
+			$roleId = 7;
+		}
+		elseif($aInsertData['role']=="Animal-owner")
+		{
+			$roleId = 6;
+		}elseif($aInsertData['role']=="Other")
+		{
+			$roleId = 13;
+		}
+		
+		$payment_response = $aInsertData['payment_response'];
+		$amount = $aInsertData['amount'];
+		$type = $aInsertData['type'];
+		$order_id =$aInsertData['order_id'];
+		$renew_flag =1;
+		
+		$paymentId =0;
+		$status=0;
+		$payment_request = '';
+		
+		if($aInsertData['payment_id']!=''){
+			$paymentId =$aInsertData['payment_id'];
+			$status = 1;
+		}
+		$jsonArr = '';
+			if(isset($aInsertData['name']) && isset($aInsertData['mobile_number'])){
+				$moduleDetails = array('name'=>$aInsertData['name'],'mobile_number'=>$aInsertData['mobile_number']);
+				$jsonArr = json_encode($moduleDetails);
+			}
+		
+		
+			$insertArray = array(
+					'role_id'=>$roleId,
+					'user_id'=>$aInsertData['user_id'],
+					'payment_id' =>$paymentId,
+					'order_id' =>$aInsertData['order_id'],
+					'status' =>$status,
+					'payment_date' =>date("Y-m-d H:i:s"),
+					'payment_response' =>$payment_response,
+					//'payment_request' =>$payment_request,
+					'amount' =>$amount,
+					'type' =>$type,
+					'renew_flag' =>$renew_flag,
+					'module_details'=>$jsonArr 
+				);
+			
+			$payment = Payments::create($insertArray);
+			
+			$createdPaymentId = 0;
+			
+			//pashumitra renewal
+			if($roleId==8 && $type==1){
+				if(isset($payment->id))
+				{ 
+					$createdPaymentId = $payment->id;
+					//get subscriptions date
+					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
+					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
+					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
+					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
+					$this->userRepo->update($aInsertData['user_id'],$param);  
+				}
+			}
+			
+			//registered vet renewal
+			if($roleId==7 && $type==6){
+				if(isset($payment->id))
+				{ 
+					$createdPaymentId = $payment->id;
+					//get subscriptions date
+					$paymentArr = array( 'type'=>$payment->type,'id'=>$aInsertData['user_id']);
+					$subscriptionArr = $this->userRepo->getSubscriptionDates($paymentArr);
+					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
+					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
+					$this->userRepo->update($aInsertData['user_id'],$param); 
+				}
+			}
+			
+			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$createdPaymentId);
+			
+			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+			$aInsertData['rx_reminder_id'] = 0;
+			$aInsertData['type'] = 2;
+			$aInsertData['link'] = $link;
+			$aInsertData['scheduled_date'] = date("Y-m-d");
+			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+			$aInsertData['title'] = 'Payment Receipt';
+			$notifications = $this->userRepo->addPaymentToNotifications($aInsertData);
+			
+			$response['payments'] =$payment; 
+            DB::commit();
+			 ## Store log
+            $message = trans('messages.payments_create',['name' => $paymentId]);
+            storeActicityLog(trans('messages.payments_create'),$message);
+			
+			return $this->sendResponse($response,trans('messages.payments_create'),200);
+        }catch(\Exception $e){
+            DB::rollback(); 
+            $error = !empty($e->getMessage())?$e->getMessage() : '';
+            ##store error log
+            storeActicityLog(trans('messages.error'),$error,$request->user_id);
+			return  $this->sendError($response,trans('messages.something'),500);			
+        }
+	}
+	
 	
 	public function updateModuleCount(Request $request)
 	{
