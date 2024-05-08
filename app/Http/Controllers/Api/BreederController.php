@@ -199,7 +199,8 @@ class BreederController extends BaseController
 		$query  = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 				->select('breeders.user_code','breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number','breeders.latitude','breeders.longitude',
 				'species.specie as species_name',DB::raw('(select image_name from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'),
-			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = breeders.id AND module_id ='.$module_id.' ) as star_rating_count'));
+			DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id = breeders.id AND module_id ='.$module_id.' ) as star_rating_count'))
+			;
            
 		  if(isset($requestData['search_input']) && $requestData['search_input']!=''){
 			  $words = preg_split("/[\s,]+/", $requestData['search_input'], -1);
@@ -224,7 +225,7 @@ class BreederController extends BaseController
 		  if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
-		  $query  = $query->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now());
+		  $query  = $query->where('breeders.status', 1)->whereDate('breeders.subscriptionEndDate', '>=', Carbon::now());
 		    
 		   if($haversine!=''){
 			$query  = $query->orderby("distance", "ASC");

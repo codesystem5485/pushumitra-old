@@ -283,6 +283,7 @@ class PaymentController extends BaseController
 				'amount' => 'required',
 				'type' => 'required',
 				'order_id' => 'required',
+				'module_type_id'=> 'required',
 			]);
 			
 		if ($validator->fails())
@@ -339,9 +340,9 @@ class PaymentController extends BaseController
 					'status' =>$status,
 					'payment_date' =>date("Y-m-d H:i:s"),
 					'payment_response' =>$payment_response,
-					//'payment_request' =>$payment_request,
 					'amount' =>$amount,
 					'type' =>$type,
+					'module_type_id'=>$module_type_id,
 					'renew_flag' =>$renew_flag,
 					'module_details'=>$jsonArr 
 				);
@@ -361,6 +362,17 @@ class PaymentController extends BaseController
 					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
 					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
 					$this->userRepo->update($aInsertData['user_id'],$param);  
+					
+					$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$createdPaymentId);
+			
+					$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+					$aInsertData['rx_reminder_id'] = 0;
+					$aInsertData['type'] = 2;
+					$aInsertData['link'] = $link;
+					$aInsertData['scheduled_date'] = date("Y-m-d");
+					$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+					$aInsertData['title'] = 'Payment Receipt';
+					$notifications = $this->userRepo->addPaymentToNotifications($aInsertData);
 				}
 			}
 			
@@ -375,19 +387,57 @@ class PaymentController extends BaseController
 					$param['subscriptionStartDate']=$subscriptionArr['subscriptionStartDate'];
 					$param['subscriptionEndDate']=$subscriptionArr['subscriptionEndDate'];
 					$this->userRepo->update($aInsertData['user_id'],$param); 
+					
+					$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$createdPaymentId);
+			
+					$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+					$aInsertData['rx_reminder_id'] = 0;
+					$aInsertData['type'] = 2;
+					$aInsertData['link'] = $link;
+					$aInsertData['scheduled_date'] = date("Y-m-d");
+					$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+					$aInsertData['title'] = 'Payment Receipt';
+					$notifications = $this->userRepo->addPaymentToNotifications($aInsertData);
 				}
 			}
 			
-			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$createdPaymentId);
+			//check modules
 			
-			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
-			$aInsertData['rx_reminder_id'] = 0;
-			$aInsertData['type'] = 2;
-			$aInsertData['link'] = $link;
-			$aInsertData['scheduled_date'] = date("Y-m-d");
-			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
-			$aInsertData['title'] = 'Payment Receipt';
-			$notifications = $this->userRepo->addPaymentToNotifications($aInsertData);
+			
+			$subscriptionStartDate='';
+			$subscriptionEndDate='';
+			
+			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
+			{
+				$paymentArr = array( 'type'=>$payment->type);
+				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
+				
+				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
+				$subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
+				
+				// Add payment notifications
+				//add to notifications
+				$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+				
+				$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+				$aInsertData['rx_reminder_id'] = 0;
+				$aInsertData['type'] = 2;
+				$aInsertData['link'] = $link;
+				$aInsertData['scheduled_date'] = date("Y-m-d");
+				$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+				$aInsertData['title'] = "Payment Receipt for Milk Collection";
+				$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
+			}
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			
+			
+			$results->latitude=$coordinateArr['latitude'];
+			$results->longitude=$coordinateArr['longitude'];
+			$results->subscriptionStartDate=$subscriptionStartDate;
+			$results->subscriptionEndDate=$subscriptionEndDate;
+			$results->update();
+			
 			
 			$response['payments'] =$payment; 
             DB::commit();

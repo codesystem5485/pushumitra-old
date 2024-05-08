@@ -223,7 +223,7 @@ rateable_id  =   chemists.id AND module_id ='.$module_id.' ) as star_rating_coun
 		  if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");
 		  }
-		  $query  = $query->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now());
+		  $query  = $query->where('chemists.status',1)->whereDate('chemists.subscriptionEndDate', '>=', Carbon::now());
 		    
 		   if($haversine!=''){
 			$query  = $query->orderby("distance", "ASC");

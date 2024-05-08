@@ -85,21 +85,31 @@ class RxreminderController extends BaseController
 			//adding animal owner name 
 			
 			//add to notifications for animal owner
-			$aInsertData['scheduled_message'] = $aInsertData['scheduled_message'];
+			//$aInsertData['scheduled_message'] = $aInsertData['scheduled_message'];
+
 			$aInsertData['sender_user_id'] = $aInsertData['animal_owner_id'];
 			$aInsertData['rx_reminder_id'] = $rxreminder->id;
 			$aInsertData['title'] = "Rx Reminder";
-			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
 			
-			//add to notifications for user adding rx reminder
-			if($aInsertData['animal_owner_id']!=$aInsertData['user_id']){
-			$animalOwner = User::select('full_name')->where('id',$aInsertData['animal_owner_id'])->first(); 
+			$animalOwner = User::select('full_name')->where('id',$aInsertData['animal_owner_id'])->first();
+			$animalInfo = Animals::select('name')->where('id',$rxreminder->animal_id)->first();
+			$animalName= '';
+			if($animalInfo)
+			{
+				$animalName = $animalInfo->name;
+			}
 			$animalOwnerName='';
 			if($animalOwner){
 				$animalOwnerName = $animalOwner->full_name;
-				$aInsertData['scheduled_message'] = $aInsertData['scheduled_message']." - ".$animalOwnerName;
-			}
+				}
+			$aInsertData['scheduled_message'] = $animalOwnerName." has added for ".$animalName." ".$aInsertData['scheduled_message'];
 			
+			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
+			
+			//add to notifications for user adding rx reminder
+			if($aInsertData['animal_owner_id']!=$aInsertData['user_id'])
+			{
+			$aInsertData['scheduled_message'] =$rxreminder->scheduled_message;
 			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
 			$aInsertData['rx_reminder_id'] = $rxreminder->id;
 			$aInsertData['title'] = "Rx Reminder";
@@ -179,7 +189,7 @@ class RxreminderController extends BaseController
 		$response = [];
 		$getAnimals =  Animals::select('id', 'name','UID_number',DB::raw('CONCAT(COALESCE(name," "),COALESCE(UID_number)) AS animal_name'))
 					->where('animal_owner',$postData['animal_owner_id'])
-					->where('is_active',1)
+					->where('status',1)
 					->orderBy('id', 'DESC')
 					->get();
 					
@@ -204,7 +214,8 @@ class RxreminderController extends BaseController
 		
 		$response = [];
 		$animals = Rxreminder::leftJoin('animals', 'animals.id', '=', 'rx_reminders.animal_id')
-			->select('animals.id as animal_id','animals.name','animals.UID_number','animals.sex','animals.age',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
+			->leftJoin('users', 'users.id', '=', 'rx_reminders.user_id')
+			->select('users.full_name','animals.id as animal_id','animals.name','animals.UID_number','animals.sex','animals.age',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where(function ($q) use ($owner) {
 				$q->where('rx_reminders.user_id',$owner)->orWhere('rx_reminders.animal_owner_id',$owner);
 			})

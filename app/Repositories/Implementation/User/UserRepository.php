@@ -1101,7 +1101,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		$subscriptionEndDate = '';
 		$feeDetails = Fee::where('id',$input['type'])->first();
 		if($feeDetails){
-			 $months =$feeDetails->valid_months;
+			$months =$feeDetails->valid_months;
 			$subscriptionEndDate = date('Y-m-d', strtotime($subscriptionStartDate. ' + '.$months.' months'));
 		}
 		

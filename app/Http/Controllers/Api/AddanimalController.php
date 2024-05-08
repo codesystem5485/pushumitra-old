@@ -49,7 +49,7 @@ class AddanimalController extends BaseController
 		}
 		
 		$validator = Validator::make($postData, [
-				//'UID_number' => 'nullable|numeric|digits:12',
+				'UID_number' => 'nullable|numeric|digits:12',
 				//'name' => 'required',
 				//'species' => 'required',
 				//'breed' => "required",
@@ -238,7 +238,20 @@ class AddanimalController extends BaseController
 				}
 			});
 		  }
-		  $query  = $query->where('animals.status',1)->orderBy('animals.id','DESC')->get(); 
+		  $query  = $query->where('animals.status',1)->orderBy('animals.id','DESC'); 
+		  
+		  $response['total_count'] = $query->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $query  = $query->offset($offset)->limit($requestData['limit']);
+		  }
+		  $query  = $query->get();
+		  
 		  $response['results'] =$query;
 		  $response['image_base_path'] =  url("/upload/animal")."/";
 			

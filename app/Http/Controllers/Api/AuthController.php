@@ -406,6 +406,10 @@ class AuthController extends BaseController
 					$param['mobile_number'] = $checkOtp->mobile_number;
 					$param['is_phone_verify'] =1;
 					$param['is_active'] =1;
+					if(isset($postData['fcm_id']))
+					{
+						$param['fcm_id'] = $postData['fcm_id'];
+					}
 					if($checkOtp->role == 'Animal-owner' || $checkOtp->role == 'Other') 
 					{ 
 						$role = $checkOtp->role;
@@ -460,7 +464,7 @@ class AuthController extends BaseController
 												->orderBy('id','DESC')
 												->first();
 				## check otp is valid or not
-				if($postData['otp']!='123456'){
+				if($postData['otp']!='777999'){
 					$checkOtp = User::where('mobile_number',$postData['mobile_number'])
 												->where('otp' , $postData['otp'])
 												->orderBy('id','DESC')
@@ -480,6 +484,10 @@ class AuthController extends BaseController
 					$param['api_token'] = $token;
 					$param['otp'] ='';
 					$param['otp_expiration'] ='';
+					if(isset($postData['fcm_id']))
+					{
+						$param['fcm_id'] = $postData['fcm_id'];
+					}
 					
 					$this->userRepo->update($user->id,$param);
 					//return $this->sendResponse($response,trans('messages.verify_success'),200);  
