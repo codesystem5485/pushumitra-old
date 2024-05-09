@@ -93,6 +93,18 @@ class CommonController extends BaseController
 		}
         $categories =$categories->orderBy('name')->get();
 		$response['results'] = $categories;
+		
+		$arr = [];
+		$arr1 = [];
+		foreach($response['results'] as $val){
+			$arr['id'] = $val['id'];
+			$arr['name'] = trans('subcategories.'.$val['name']);
+			$arr1[] = $arr;
+		}
+		
+		$response['results'] = $arr1;
+		return $this->sendResponse($response,"",200);
+		
 		return $this->sendResponse($response,"",200);
     }
 	

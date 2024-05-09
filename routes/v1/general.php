@@ -38,7 +38,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-species', [CommonController::class,'getSpecies'])->middleware('localization'); 
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
 	Route::get('/get-library', [AuthController::class,'getLibrary']);
-	Route::get('/get-subcategories', [CommonController::class,'getSubCategories']);
+	Route::get('/get-subcategories', [CommonController::class,'getSubCategories'])->middleware('localization');
 	Route::get('/get-categories', [CommonController::class,'getParentCategories']);
 	Route::get('/get-grfiles', [CommonController::class,'getGrFiles']);
 	Route::get('/get-csractivities', [FrontPagesController::class,'csrActivities']);
