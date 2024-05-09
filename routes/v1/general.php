@@ -35,7 +35,7 @@ use App\Http\Controllers\Api\UserTransactionsController;
 
 Route::group(['middleware' => ['cors']], function () {
 	 
-	Route::get('/get-species', [CommonController::class,'getSpecies']); 
+	Route::get('/get-species', [CommonController::class,'getSpecies'])->middleware('localization'); 
 	Route::get('/get-breeds', [CommonController::class,'getBreeds']);
 	Route::get('/get-library', [AuthController::class,'getLibrary']);
 	Route::get('/get-subcategories', [CommonController::class,'getSubCategories']);

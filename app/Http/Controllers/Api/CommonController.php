@@ -44,6 +44,15 @@ class CommonController extends BaseController
 	 public function getSpecies(){
 	   
 	    $response['species'] = Species::where('is_active','1')->get();
+		$arr = [];
+		$arr1 = [];
+		foreach($response['species'] as $val){
+			$arr['id'] = $val['id'];
+			$arr['specie'] = trans('species.'.$val['specie']);
+			$arr1[] = $arr;
+		}
+		
+		$response['species'] = $arr1;
 		return $this->sendResponse($response,"",200);
     }
    
