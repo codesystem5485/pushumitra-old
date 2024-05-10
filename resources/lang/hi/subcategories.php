@@ -24,7 +24,55 @@ return [
 'Semen Doses Supplier'=>'वीर्य खुराक आपूर्तिकर्ता',
 'Pathological Reagent Supplier'=>'प्रयोगशाला सामग्री आपूर्तिकर्ता',
 'Silage Supplier'=>'साइलेज आपूर्तिकर्ता',
-'Surgical Instrument Supplier'=>'सर्जिकल उपकरण आपूर्तिकर्ता'
+'Surgical Instrument Supplier'=>'सर्जिकल उपकरण आपूर्तिकर्ता',
+
+'Agriculture Degree College'=>'कृषि डिग्री कॉलेज',
+'Agriculture Diploma College'=>'कृषि डिप्लोमा कॉलेज',
+'Agriculture University'=>'कृषि विश्वविद्यालय',
+'Dairy Diploma College'=>'डेयरी डिप्लोमा कॉलेज',
+'Dairy Science College'=>'डेयरी साइंस कॉलेज',
+'Fodder Research Institute'=>'चारा अनुसंधान संस्थान',
+'Goat Research Institute'=>'बकरी अनुसंधान संस्थान',
+'Krushi Vidnyan Kendra'=>'कृषि विज्ञान केन्द्र',
+'Poultry Research Institute'=>'कुक्कुट अनुसंधान संस्थान',
+'Vaccine Manufacturing Institute'=>'वैक्सीन निर्माण संस्थान',
+'Veterinary College'=>'पशुचिकित्सा महाविद्यालय',
+'Veterinary Diploma College'=>'पशु चिकित्सा डिप्लोमा कॉलेज',
+'Veterinary Research Institute'=>'पशु चिकित्सा अनुसंधान संस्थान',
+'Veterinary University'=>'पशु चिकित्सा विश्वविद्यालय',
+
+'Cattle Farm'=>'मवेशी फार्म',
+'Poultry Farm'=>'मुर्गीपालन फार्म',
+'Goat Farm'=>'बकरी फार्म',
+'Duck Farm'=>'बत्तख फार्म',
+'Rabbit Farm'=>'खरगोश फार्म',
+'Emu Farm'=>'एमु फार्म',
+'Stud Farm'=>'स्टड फार्म',
+'Fish Farm'=>'मछली पालन फार्म',
+
+'AI Training Centre'=>'एआय प्रशिक्षण केंद्र',
+'Dairy Farming Training Centre'=>'डेयरी फार्मिंग प्रशिक्षण केंद्र',
+'Goat Farming Training Centre'=>'बकरी पालन प्रशिक्षण केंद्र',
+'Poultry Farming Training Centre'=>'मुर्गीपालन प्रशिक्षण केन्द्र',
+'Pig Farming Training Centre'=>'सुअर पालन प्रशिक्षण केंद्र',
+'Dog Training Centre'=>'कुत्ता प्रशिक्षण केंद्र',
+'IVF/ET Training Centre'=>'आईवीएफ/ईटी प्रशिक्षण केंद्र',
+'Horse Riding Training Centres'=>'घुड़सवारी प्रशिक्षण केंद्र',
+
+'Cattle Feed'=>'पशु का चारा',
+'Aquarium'=>'मछलीघर',
+'Pet Shop'=>'पालतू जानवरों के उपयोग में आने वाली वस्तुओं की दुकान',
+'LN2 Sale'=>'LN2 बिक्री',
+'Semen Straw Sales'=>'वीर्य भूसे की बिक्री',
+'Books'=>'पुस्तकें',
+'Milk Dairy'=>'दूध डेयरी',
+'Fish Feed'=>'मछली फीड',
+'Goat Feed'=>'बकरी का चारा',
+'Dog Food'=>'कुत्ते का भोजन',
+'Poultry Feed'=>'कुक्कुट आहार',
+'Pet Parlour'=>'पालतू पशु पार्लर',
+
+
 ];
 
 ?>
