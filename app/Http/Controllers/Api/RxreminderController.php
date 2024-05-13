@@ -93,28 +93,38 @@ class RxreminderController extends BaseController
 			
 			$animalOwner = User::select('full_name')->where('id',$aInsertData['animal_owner_id'])->first();
 			$animalInfo = Animals::select('name')->where('id',$rxreminder->animal_id)->first();
+			$regvet = User::select('full_name')->where('id',$aInsertData['user_id'])->first();
+			
 			$animalName= '';
 			if($animalInfo)
 			{
 				$animalName = $animalInfo->name;
 			}
+			
+			$regvetname= '';
+			if($regvet)
+			{
+				$regvetname = $regvet->full_name;
+			}
+			
 			$animalOwnerName='';
 			if($animalOwner){
 				$animalOwnerName = $animalOwner->full_name;
 				}
-			$aInsertData['scheduled_message'] = $animalOwnerName." has added for ".$animalName." ".$aInsertData['scheduled_message'];
+			$aInsertData['scheduled_message'] =$regvetname." has added for ".$animalName." ".$aInsertData['scheduled_message'];
 			
 			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
 			
 			//add to notifications for user adding rx reminder
-			if($aInsertData['animal_owner_id']!=$aInsertData['user_id'])
-			{
-			$aInsertData['scheduled_message'] =$rxreminder->scheduled_message;
-			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
-			$aInsertData['rx_reminder_id'] = $rxreminder->id;
-			$aInsertData['title'] = "Rx Reminder";
-			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
-			}
+		/*	if($aInsertData['animal_owner_id']!=$aInsertData['user_id'])
+			{*/
+			    
+			    $aInsertData['scheduled_message'] =$rxreminder->scheduled_message;
+    			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+    			$aInsertData['rx_reminder_id'] = $rxreminder->id;
+    			$aInsertData['title'] = "Rx Reminder";
+    			$notifications = $this->rxreminderRepo->addReminderToNotifications($aInsertData);
+		//	}
             DB::commit();
             ## Store log
             $message = trans('messages.rxreminder_create',['name' => $request->UID_number]);
@@ -201,6 +211,7 @@ class RxreminderController extends BaseController
 	public function getRxReminderHistory(Request $request)
 	{
 		$postData = request()->all();
+		$requestData = request()->all();
 		$validator = Validator::make($postData, [
 				'user_id' => 'required',
 			]);
@@ -218,8 +229,23 @@ class RxreminderController extends BaseController
 			->select('users.full_name','animals.id as animal_id','animals.name','animals.UID_number','animals.sex','animals.age',DB::raw('(select image_name from add_animal_images where animal_id  =   animals.id order by id asc limit 1) as image_name'))
 			->where(function ($q) use ($owner) {
 				$q->where('rx_reminders.user_id',$owner)->orWhere('rx_reminders.animal_owner_id',$owner);
-			})
-			->groupBy('animal_id')->get();
+			});
+		
+			$response['total_count'] = $animals->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $animals  = $animals->offset($offset)->limit($requestData['limit']);
+		  }
+		  $animals = 	$animals->orderby("rx_reminders.id", "DESC");
+		  $animals = 	$animals->groupBy('animal_id');
+		  $animals  = $animals->get();
+		  
+			//->groupBy('animal_id')->get();
 		
 		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal")."/";
@@ -231,6 +257,7 @@ class RxreminderController extends BaseController
 	{
 		DB::enableQueryLog();
 		$postData = request()->all();
+		$requestData = request()->all();
 		$validator = Validator::make($postData, [
 				'animal_id' => 'required',
 			]);
@@ -249,7 +276,21 @@ class RxreminderController extends BaseController
 			->where('rx_reminders.animal_id',$postData['animal_id'])
 			->where(function ($q) use ($owner) {
 				$q->where('rx_reminders.user_id',$owner)->orWhere('rx_reminders.animal_owner_id',$owner);
-			})->get();
+			});
+			
+				$response['total_count'] = $animals->count();
+		  if(isset($requestData['offset']) && $requestData['offset']!='' && 
+		  isset($requestData['limit']) && $requestData['limit']!='')
+		  {
+			  $offset = 0;
+			  if($requestData['offset']!=0){
+				  $offset = $requestData['offset'] * $requestData['limit'];
+			  }
+			  $animals  = $animals->offset($offset)->limit($requestData['limit']);
+		  }
+		  $animals = 	$animals->orderby("rx_reminders.id", "DESC");
+		 
+		  $animals  = $animals->get();
 		
 		$response['animals'] = $animals;
 		$response['animal_image_path'] =  url("/upload/animal")."/";
