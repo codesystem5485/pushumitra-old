@@ -85,37 +85,40 @@ class AnimalsaleController extends BaseController
                 } 
             }
 			
-			$payment = Payments::find($postData['payment_id']);
-			$payment->module_type_id = $animalsale->id;
-			$payment->save();
+			$paymentArr = array( 'type'=>2,'animalsale_id'=>$animalsale->id);
+			$subscriptionArr = $this->animalsaleRepo->getSubscriptionDates($paymentArr);
+				
+			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
+			{
+				$payment = Payments::find($postData['payment_id']);
+				$payment->module_type_id = $animalsale->id;
+				$payment->save();
+				
+				$paymentArr = array( 'type'=>$payment->type,'animalsale_id'=>$animalsale->id);
+				
+				$subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
+				$subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
+				
+				$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
+				
+				$aInsertData['sender_user_id'] = $aInsertData['user_id'];
+				$aInsertData['rx_reminder_id'] = 0;
+				$aInsertData['type'] = 2;
+				$aInsertData['link'] = $link;
+				$aInsertData['scheduled_date'] = date("Y-m-d");
+				$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
+				$aInsertData['title'] = "Payment Receipt for Animal Sale";
+				$notifications = $this->animalsaleRepo->addPaymentToNotifications($aInsertData);
+			
+            }
 			
 			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
-			$paymentArr = array( 'type'=>$payment->type,'animalsale_id'=>$animalsale->id);
-			$subscriptionArr = $this->animalsaleRepo->getSubscriptionDates($paymentArr);
-			
 			$animalsale->latitude=$coordinateArr['latitude'];
 			$animalsale->longitude=$coordinateArr['longitude'];
 			$animalsale->subscriptionStartDate=$subscriptionArr['subscriptionStartDate'];
 			$animalsale->subscriptionEndDate=$subscriptionArr['subscriptionEndDate'];
 			$animalsale->update();
 			
-			
-			// Add payment notifications
-			//add to notifications
-			//$link = url().'receipt/download/'.$aInsertData['user_id'].'/'.$postData['payment_id'];
-			
-			$link = url("/invoice/download/".$aInsertData['user_id'].'/'.$postData['payment_id']);
-			
-			$aInsertData['sender_user_id'] = $aInsertData['user_id'];
-			$aInsertData['rx_reminder_id'] = 0;
-			$aInsertData['type'] = 2;
-			$aInsertData['link'] = $link;
-			$aInsertData['scheduled_date'] = date("Y-m-d");
-			$aInsertData['scheduled_message'] ="Thank you.Your payment has been confirmed.Please download your bill receipt.";
-			$aInsertData['title'] = "Payment Receipt for Animal Sale";
-			$notifications = $this->animalsaleRepo->addPaymentToNotifications($aInsertData);
-			
-            
             DB::commit();
 			 ## Store log
             $message = trans('messages.animalsale_create',['name' => $request->UID_number]);
