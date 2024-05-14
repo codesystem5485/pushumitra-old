@@ -13,7 +13,7 @@ return [
 'Feed/Fodder Investigation Lab'=>'चारा/चारा तपासणी प्रयोगशाळा',
 'Milk & Milk Product Testing Lab'=>'दूध आणि दुग्धजन्य पदार्थ चाचणी प्रयोगशाळा',
 
-'Cattle Manure Supplier'=>'गुरांचे खत पुरवठादार',
+'Cow Manure Supplier'=>'शेण खत पुरवठादार',
 'Goat Manure Supplier'=>'शेळी खत पुरवठादार',
 'Poultry Manure Supplier'=>'पोल्ट्री खत पुरवठादार',
 'Cow Urine Supplier'=>'गोमूत्र पुरवठादार',
@@ -25,6 +25,13 @@ return [
 'Pathological Reagent Supplier'=>'प्रयोगशाळा साहित्य पुरवठादार',
 'Silage Supplier'=>'मुरघास पुरवठादार',
 'Surgical Instrument Supplier'=>'सर्जिकल इन्स्ट्रुमेंट पुरवठादार',
+'Silage Culture Supplier'=>'मुरघास कल्चर सप्लायर',
+'Cattle Feed Supplier'=>'पशुखाद्य पुरवठादार',
+'Liquid Nitrogen Supplier'=>'द्रव नत्र पुरवठादार',
+
+'Green fodder supplier'=>'हिरवा चारा पुरवठादार',
+'Dry fodder supplier'=>'सुका चारा पुरवठादार',
+
 
 'Agriculture Degree College'=>'कृषी पदवी महाविद्यालय',
 'Agriculture Diploma College'=>'कृषी पदविका महाविद्यालय',
@@ -59,18 +66,14 @@ return [
 'IVF/ET Training Centre '=>'IVF/ET प्रशिक्षण केंद्र',
 'Horse Riding Training Centres'=>'घोडेस्वारी प्रशिक्षण केंद्रे',
 
-'Cattle Feed'=>'गुरांचा चारा',
+'Animal Feed'=>'पशु खाद्य',
 'Aquarium'=>'मत्स्यालय',
-'Pet Shop'=>'पाळीव प्राण्यांचे दुकान',
-'LN2 Sale'=>'LN2 विक्री',
-'Semen Straw Sales'=>'वीर्य पेंढा विक्री',
 'Books'=>'पुस्तके',
-'Milk Dairy'=>'दूध डेअरी',
-'Fish Feed'=>'फिश फीड',
-'Goat Feed'=>'शेळी चारा',
-'Dog Food'=>'कुत्र्याचे अन्न',
-'Poultry Feed'=>'पोल्ट्री फीड',
-'Pet Parlour'=>'पेट पार्लर',
+'Milk selling centre'=>'दूध विक्री केंद्र',
+'Fish Food'=>'फिश फूड',
+'Dog Food'=>'डॉग फूड',
+'Poultry Food'=>'कुक्कुट खाद्य',
+'Pet Parlour'=>'पाळीव प्राण्यांचे पार्लर',
 
 ];
 

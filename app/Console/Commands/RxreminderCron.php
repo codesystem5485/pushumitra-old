@@ -47,8 +47,8 @@ class RxreminderCron extends Command
 	//	$todayDate ='2024-01-20';
 		
 		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
-		$date = $todayDate1->addDays(1);
-		$newDate = date("Y-m-d",strtotime($date));
+	//	$date = $todayDate1->addDays(1);
+		$newDate = date("Y-m-d",strtotime($todayDate1));
 
 		
 		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')

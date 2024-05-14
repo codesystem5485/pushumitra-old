@@ -13,7 +13,7 @@ return [
 'Feed/Fodder Investigation Lab'=>'ઘાસચારો/ચારા પરીક્ષણ પ્રયોગશાળા',
 'Milk & Milk Product Testing Lab'=>'દૂધ અને દૂધ ઉત્પાદનો પરીક્ષણ પ્રયોગશાળા',
 
-'Cattle Manure Supplier'=>'ઢોર ખાતર સપ્લાયર',
+'Cow Manure Supplier'=>'ગાય ખાતર સપ્લાયર',
 'Goat Manure Supplier'=>'બકરી ખાતર સપ્લાયર',
 'Poultry Manure Supplier'=>'મરઘાં ખાતર સપ્લાયર',
 'Cow Urine Supplier'=>'ગૌમૂત્ર સપ્લાયર',
@@ -25,6 +25,14 @@ return [
 'Pathological Reagent Supplier'=>'પેથોલોગોકલ રીએજન્ટ સપ્લાયર',
 'Silage Supplier'=>'સાઈલેજ સપ્લાયર',
 'Surgical Instrument Supplier'=>'સર્જિકલ ઇન્સ્ટ્રુમેન્ટ સપ્લાયર',
+
+
+'Silage Culture Supplier'=>'સાઈલેજ કલ્ચર સપ્લાયર',
+'Cattle Feed Supplier'=>'કેટલ ફીડ સપ્લાયર',
+'Liquid Nitrogen Supplier'=>'લિક્વિડ નાઇટ્રોજન સપ્લાયર',
+
+'Green fodder supplier'=>'લીલા ચારા સપ્લાયર',
+'Dry fodder supplier'=>'સૂકા ચારા સપ્લાયર',
 
 'Agriculture Degree College'=>'કૃષિ ડિગ્રી કોલેજ',
 'Agriculture Diploma College'=>'એગ્રીકલ્ચર ડિપ્લોમા કોલેજ',
@@ -59,17 +67,14 @@ return [
 'IVF/ET Training Centre'=>'आईवीएफ/ईटी તાલીમ કેન્દ્રर',
 'Horse Riding Training Centres'=>'ઘોડેસવારી તાલીમ કેન્દ્રો',
 
-'Cattle Feed'=>'ઢોર ચારો',
+
+'Animal Feed'=>'પશુ આહાર',
 'Aquarium'=>'એક્વેરિયમ',
-'Pet Shop'=>'પાલતું પ્રાણી વેચતી દુકાન',
-'LN2 Sale'=>'LN2 વેચાણ',
-'Semen Straw Sales'=>'વીર્ય સ્ટ્રો વેચાણ',
 'Books'=>'પુસ્તકો',
-'Milk Dairy'=>'દૂધની ડેરી',
-'Fish Feed'=>'માછલી ફીડ',
-'Goat Feed'=>'બકરી ફીડ',
-'Dog Food'=>'ડોગ ફૂડ',
-'Poultry Feed'=>'મરઘાં ફીડ',
+'Milk selling centre'=>'દૂધ વેચાણ કેન્દ્ર',
+'Fish Food'=>'માછલી ખોરાક',
+'Dog Food'=>'કૂતરો ખોરાક',
+'Poultry Food'=>'મરઘાં ફીડ',
 'Pet Parlour'=>'પેટ પાર્લર',
 
 ];

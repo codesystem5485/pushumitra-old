@@ -13,7 +13,7 @@ return [
 'Feed/Fodder Investigation Lab'=>'चारा/चारा परीक्षण प्रयोगशाला',
 'Milk & Milk Product Testing Lab'=>'दूध एवं दूध उत्पाद परीक्षण प्रयोगशाला',
 
-'Cattle Manure Supplier'=>'मवेशी खाद आपूर्तिकर्ता',
+'Cow Manure Supplier'=>'गाय खाद आपूर्तिकर्ता',
 'Goat Manure Supplier'=>'बकरी खाद आपूर्तिकर्ता',
 'Poultry Manure Supplier'=>'पोल्ट्री खाद आपूर्तिकर्ता',
 'Cow Urine Supplier'=>'गौमूत्र आपूर्तिकर्ता',
@@ -21,10 +21,18 @@ return [
 'Fodder Seed Supplier'=>'चारा बीज आपूर्तिकर्ता',
 'Fodder Supplier'=>'चारा आपूर्तिकर्ता',
 'Poultry Equipment Supplier'=>'पोल्ट्री फार्म उपकरण आपूर्तिकर्ता',
-'Semen Doses Supplier'=>'वीर्य खुराक आपूर्तिकर्ता',
+'Semen Doses Supplier'=>'वीर्य मात्रा आपूर्तिकर्ता',
 'Pathological Reagent Supplier'=>'प्रयोगशाला सामग्री आपूर्तिकर्ता',
 'Silage Supplier'=>'साइलेज आपूर्तिकर्ता',
 'Surgical Instrument Supplier'=>'सर्जिकल उपकरण आपूर्तिकर्ता',
+
+'Silage Culture Supplier'=>'सिलेज कल्चर आपूर्तिकर्ता',
+'Cattle Feed Supplier'=>'पशु चारा आपूर्तिकर्ता',
+
+'Liquid Nitrogen Supplier'=>'लिक्विड नाइट्रोजन आपूर्तिकर्ता',
+
+'Green fodder supplier'=>'हरा चारा आपूर्तिकर्ता',
+'Dry fodder supplier'=>'सूखा चारा आपूर्तिकर्ता',
 
 'Agriculture Degree College'=>'कृषि डिग्री कॉलेज',
 'Agriculture Diploma College'=>'कृषि डिप्लोमा कॉलेज',
@@ -59,20 +67,16 @@ return [
 'IVF/ET Training Centre'=>'आईवीएफ/ईटी प्रशिक्षण केंद्र',
 'Horse Riding Training Centres'=>'घुड़सवारी प्रशिक्षण केंद्र',
 
-'Cattle Feed'=>'पशु का चारा',
+
+
+'Animal Feed'=>'पशुखाद',
 'Aquarium'=>'मछलीघर',
-'Pet Shop'=>'पालतू जानवरों के उपयोग में आने वाली वस्तुओं की दुकान',
-'LN2 Sale'=>'LN2 बिक्री',
-'Semen Straw Sales'=>'वीर्य भूसे की बिक्री',
-'Books'=>'पुस्तकें',
-'Milk Dairy'=>'दूध डेयरी',
-'Fish Feed'=>'मछली फीड',
-'Goat Feed'=>'बकरी का चारा',
-'Dog Food'=>'कुत्ते का भोजन',
-'Poultry Feed'=>'कुक्कुट आहार',
-'Pet Parlour'=>'पालतू पशु पार्लर',
-
-
+'Milk selling centre'=>'दूध विक्रय केन्द्र',
+'Fish Food'=>'फिश फीड',
+'Dog Food'=>'डॉग फ़ूड',
+'Poultry Food'=>'मुर्गी खाद',
+'Pet Parlour'=>'पेट पार्लर',
+'Books'=>'किताबे',
 ];
 
 ?>

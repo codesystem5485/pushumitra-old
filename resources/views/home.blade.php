@@ -438,8 +438,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/pashumitra')}}">{{$pashumitraCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/pashumitra')}}"> {{$totalpashumitraCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra')}}">{{$pashumitraCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra')}}"> {{$totalpashumitraCount}}</a></h3>
                      </div>
                      <span>Pashumitra</span>
                   </div>
@@ -453,8 +453,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/registered-vet')}}">{{$registerVetCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/registered-vet')}}">{{$totalregisterVetCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('registered-vet')}}">{{$registerVetCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('registered-vet')}}">{{$totalregisterVetCount}}</a></h3>
                      </div>
                      <span>Registered-vet</span>
 
@@ -469,8 +469,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/animal-owner')}}">{{$animalOwnerCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/animal-owner')}}">{{$totalanimalOwnerCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('animal-owner')}}">{{$animalOwnerCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('animal-owner')}}">{{$totalanimalOwnerCount}}</a></h3>
                      </div>
                      <span>Animal owner</span>
 
@@ -485,8 +485,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/otheruser')}}">{{$otheruserCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/otheruser')}}"> {{$totalotherCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('otheruser')}}">{{$otheruserCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('otheruser')}}"> {{$totalotherCount}}</a></h3>
                      </div>
                      <span>Other Users</span>
                   </div>
@@ -500,8 +500,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/add-animal')}}">{{$animalCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/add-animal')}}">{{$totalAnimalsCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('add-animal')}}">{{$animalCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('add-animal')}}">{{$totalAnimalsCount}}</a></h3>
                      </div>
                      <span>Animals </span>
                   </div>
@@ -515,8 +515,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/animal-sale')}}">{{$animalSaleCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/animal-sale')}}">{{$totalanimalSaleCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('animal-sale')}}">{{$animalSaleCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('animal-sale')}}">{{$totalanimalSaleCount}}</a></h3>
                      </div>
                      <span>Animal for sale</span>
                   </div>
@@ -530,8 +530,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/product-sale')}}">{{$productSaleCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/product-sale')}}">{{$totalproductSaleCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('product-sale')}}">{{$productSaleCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('product-sale')}}">{{$totalproductSaleCount}}</a></h3>
                      </div>
                      <span>Product for sale</span>
                   </div>
@@ -545,8 +545,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/chemist')}}">{{$chemistCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/chemist')}}">{{$totalchemistCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('chemist')}}">{{$chemistCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('chemist')}}">{{$totalchemistCount}}</a></h3>
                      </div>
                      <span>Chemist</span>
                   </div>
@@ -560,8 +560,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/breeders')}}">{{$breederCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/chemist')}}">{{$totalbreederCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('breeders')}}">{{$breederCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('breeders')}}">{{$totalbreederCount}}</a></h3>
                      </div>
                      <span>Breeders</span>
                   </div>
@@ -575,8 +575,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/transporter')}}">{{$transporterCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/transporter')}}">{{$totaltransporterCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('transporter')}}">{{$transporterCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('transporter')}}">{{$totaltransporterCount}}</a></h3>
                      </div>
                      <span>Transporter</span>
                   </div>
@@ -590,8 +590,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/hospitals')}}">{{$hospitalCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/hospitals')}}">{{$totalhospitalCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('hospitals')}}">{{$hospitalCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('hospitals')}}">{{$totalhospitalCount}}</a></h3>
                      </div>
                      <span>Vet Hospitals</span>
                   </div>
@@ -605,8 +605,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/suppliers')}}">{{$supplierCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/suppliers')}}">{{$totalsupplierCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('suppliers')}}">{{$supplierCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('suppliers')}}">{{$totalsupplierCount}}</a></h3>
                      </div>
                      <span>Suppliers</span>
                   </div>
@@ -620,8 +620,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/dogshelters')}}">{{$dogShelterCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/dogshelters')}}">{{$totaldogShelterCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('dogshelters')}}">{{$dogShelterCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('dogshelters')}}">{{$totaldogShelterCount}}</a></h3>
                      </div>
                      <span>Shelter</span>
                   </div>
@@ -635,8 +635,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/trainingcenters')}}">{{$trainingCenterCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/trainingcenters')}}">{{$totaltrainingCenterCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('trainingcenters')}}">{{$trainingCenterCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('trainingcenters')}}">{{$totaltrainingCenterCount}}</a></h3>
                      </div>
                      <span>Training Centers</span>
 
@@ -651,8 +651,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/institutions')}}">{{$institutionCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/institutions')}}">{{$totalinstitutionCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('institutions')}}">{{$institutionCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('institutions')}}">{{$totalinstitutionCount}}</a></h3>
                      </div>
                      <span>Institutions</span>
                   </div>
@@ -666,8 +666,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/farms')}}">{{$farmCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/farms')}}">{{$totalfarmCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('farms')}}">{{$farmCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('farms')}}">{{$totalfarmCount}}</a></h3>
                      </div>
                      <span>Farms</span>
                   </div>
@@ -681,8 +681,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/shops')}}">{{$shopCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/shops')}}">{{$totalshopCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('shops')}}">{{$shopCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('shops')}}">{{$totalshopCount}}</a></h3>
                      </div>
                      <span>Shops</span>
                   </div>
@@ -696,8 +696,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/milkcollections')}}">{{$milkCollectionCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/milkcollections')}}">{{$totalmilkCollectionCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('milkcollections')}}">{{$milkCollectionCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('milkcollections')}}">{{$totalmilkCollectionCount}}</a></h3>
                      </div>
                      <span>Milk Collections</span>
                   </div>
@@ -711,8 +711,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/poultryhatchery')}}">{{$poultryCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/poultryhatchery')}}">{{$totalpoultryCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('poultryhatchery')}}">{{$poultryCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('poultryhatchery')}}">{{$totalpoultryCount}}</a></h3>
                      </div>
                      <span>Poultry Hatchery</span>
                   </div>
@@ -726,8 +726,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/panjarpols')}}">{{$panjarpolCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/panjarpols')}}">{{$totalpanjarpolCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('panjarpols')}}">{{$panjarpolCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('panjarpols')}}">{{$totalpanjarpolCount}}</a></h3>
                      </div>
                      <span>Panjarpol</span>
                   </div>
@@ -741,8 +741,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/labs')}}">{{$labCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/labs')}}">{{$totallabCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('labs')}}">{{$labCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('labs')}}">{{$totallabCount}}</a></h3>
                      </div>
                      <span>Labs</span>
                   </div>
@@ -756,8 +756,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="#">{{$ngoCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="#">{{$totalngoCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('ngo')}}">{{$ngoCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('ngo')}}">{{$totalngoCount}}</a></h3>
                      </div>
                      <span>NGO</span>
                   </div>
@@ -771,8 +771,8 @@
                <div class="card overflowhidden">
                   <div class="body card-count ">
                      <div class="counts">
-                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('pashumitra/easycares')}}">{{$easycareCount}}</a></h3>
-                        <h3><small class="total-counts">Total Counts</small><a href="{{url('pashumitra/easycares')}}">{{$totaleasycareCount}}</a></h3>
+                        <h3><small class="today-counts">Today's Counts</small><a href="{{url('easycares')}}">{{$easycareCount}}</a></h3>
+                        <h3><small class="total-counts">Total Counts</small><a href="{{url('easycares')}}">{{$totaleasycareCount}}</a></h3>
                      </div>
                      <span>Knowledge Sharing</span>
 

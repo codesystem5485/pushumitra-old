@@ -13,7 +13,7 @@ return [
 'Feed/Fodder Investigation Lab'=>'Feed/Fodder Investigation Lab',
 'Milk & Milk Product Testing Lab'=>'Milk & Milk Product Testing Lab',
 
-'Cattle Manure Supplier'=>'Cattle Manure Supplier',
+'Cow Manure Supplier'=>'Cow Manure Supplier',
 'Goat Manure Supplier'=>'Goat Manure Supplier',
 'Poultry Manure Supplier'=>'Poultry Manure Supplier',
 'Cow Urine Supplier'=>'Cow Urine Supplier',
@@ -25,6 +25,11 @@ return [
 'Pathological Reagent Supplier'=>'Pathological Reagent Supplier',
 'Silage Supplier'=>'Silage Supplier',
 'Surgical Instrument Supplier'=>'Surgical Instrument Supplier',
+'Silage Culture Supplier'=>'Silage Culture Supplier',
+'Cattle Feed Supplier'=>'Cattle Feed Supplier',
+'Liquid Nitrogen Supplier'=>'Liquid Nitrogen Supplier',
+'Green fodder supplier'=>'Green fodder supplier',
+'Dry fodder supplier'=>'Dry fodder supplier',
 
 'Agriculture Degree College'=>'Agriculture Degree College',
 'Agriculture Diploma College'=>'Agriculture Diploma College',
@@ -62,19 +67,15 @@ return [
 'IVF/ET Training Centre'=>'IVF/ET Training Centre',
 'Horse Riding Training Centres'=>'Horse Riding Training Centres',
 
-'Cattle Feed'=>'Cattle Feed',
+'Animal Feed'=>'Animal Feed',
 'Aquarium'=>'Aquarium',
 'Pet Shop'=>'Pet Shop',
-'LN2 Sale'=>'LN2 Sale',
-'Semen Straw Sales'=>'Semen Straw Sales',
 'Books'=>'Books',
-'Milk Dairy'=>'Milk Dairy',
-'Fish Feed'=>'Fish Feed',
-'Goat Feed'=>'Goat Feed',
-'Dog Food'=>'Dog Food',
-'Poultry Feed'=>'Poultry Feed',
+'Milk selling centre'=>'Milk selling centre',
+'Fish Food'=>'Fish Feed',
+'Poultry Food'=>'Poultry Feed',
 'Pet Parlour'=>'Pet Parlour',
-
+'Dog Food'=>'Dog Food',
 
 ];
 
