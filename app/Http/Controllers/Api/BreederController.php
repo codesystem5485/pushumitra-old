@@ -139,7 +139,7 @@ class BreederController extends BaseController
 			}
 			
             $breeder = $this->breederRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -154,7 +154,7 @@ class BreederController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
 			
 			if($request->animal_photo)
             {

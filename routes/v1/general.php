@@ -46,6 +46,9 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-testimonials', [FrontPagesController::class,'testimonials']);
 	
 	 Route::group(['middleware' => ['api-token']], function () {
+		 
+	Route::post('/delete-image', [CommonController::class,'deleteImagesUsingModuleId']);
+	
 	
 	Route::get('/get-transactions', [UserTransactionsController::class,'getTransactions']);
 	

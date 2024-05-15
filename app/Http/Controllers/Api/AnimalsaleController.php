@@ -147,7 +147,7 @@ class AnimalsaleController extends BaseController
 			}
             $animalsale = $this->animalsaleRepo->update($postData['edit_id'],$aInsertData);
 			
-			$existing_arr = [];
+		/*	$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -163,7 +163,7 @@ class AnimalsaleController extends BaseController
 						 
 					}
 				}
-			}
+			}*/
 			
             if($request->animal_photo)
             {
