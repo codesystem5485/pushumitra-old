@@ -149,7 +149,7 @@ class PanjarpolController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $results = $this->panjarpolRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -163,7 +163,7 @@ class PanjarpolController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
 
             if($request->panjarpol_photo)
             {

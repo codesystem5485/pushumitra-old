@@ -157,7 +157,7 @@ class DogShelterController extends BaseController
 			}
 			//$aInsertData['type']='Private'; // default
             $results = $this->dogshelterRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -171,7 +171,7 @@ class DogShelterController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
 			if($request->dogshelter_photo)
             {
                 foreach($request->dogshelter_photo as $photo)

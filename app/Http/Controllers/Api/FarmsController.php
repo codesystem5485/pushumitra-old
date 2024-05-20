@@ -145,7 +145,7 @@ class FarmsController extends BaseController
 				unset($aInsertData['user_code']);
 			}
 			
-            $existing_arr = [];
+           /* $existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -159,7 +159,7 @@ class FarmsController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
             if($request->farm_photo)
             {
                 foreach($request->farm_photo as $photo)

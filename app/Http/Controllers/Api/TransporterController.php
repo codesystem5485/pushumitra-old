@@ -154,7 +154,7 @@ class TransporterController extends BaseController
             $aInsertData = $request->all();
             $transporter = $this->transporterRepo->update($postData['edit_id'],$aInsertData);
 			
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_vehicle_images'])){
 				$existing_arr = $postData['existing_vehicle_images'];
 			}
@@ -184,7 +184,7 @@ class TransporterController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
 
             if($request->vehicle_photo)
             {

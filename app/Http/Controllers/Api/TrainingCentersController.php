@@ -153,7 +153,7 @@ class TrainingCentersController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $results = $this->trainingcenterRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -169,7 +169,7 @@ class TrainingCentersController extends BaseController
 						 
 					}
 				}
-			}
+			}*/
 			
             if($request->trainingcenter_photo)
             {

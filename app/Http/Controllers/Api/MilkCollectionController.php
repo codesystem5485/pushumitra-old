@@ -150,7 +150,7 @@ class MilkCollectionController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $results = $this->milkcollectionRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -164,7 +164,7 @@ class MilkCollectionController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
             if($request->milkcollection_photo)
             {
                 foreach($request->milkcollection_photo as $photo)

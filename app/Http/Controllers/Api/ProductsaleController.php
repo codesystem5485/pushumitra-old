@@ -130,7 +130,7 @@ class ProductsaleController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $productsale = $this->productsaleRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -146,7 +146,7 @@ class ProductsaleController extends BaseController
 						 
 					}
 				}
-			}
+			}*/
 
             if($request->product_photo)
             {

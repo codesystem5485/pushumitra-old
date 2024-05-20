@@ -108,7 +108,7 @@ class EasycareController extends BaseController
 			}
 			$results = $this->easycareRepo->update($postData['edit_id'],$aInsertData);
 			
-            $existing_arr = [];
+           /* $existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -122,7 +122,8 @@ class EasycareController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
+			
 			if($request->easy_care_photo)
             {
                 foreach($request->easy_care_photo as $photo)

@@ -155,7 +155,7 @@ class InstitutionsController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $results = $this->institutionsRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -169,7 +169,7 @@ class InstitutionsController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
             if($request->institution_photo)
             {
                 foreach($request->institution_photo as $photo)

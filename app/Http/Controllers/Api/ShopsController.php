@@ -151,7 +151,7 @@ class ShopsController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $results = $this->shopsRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -165,7 +165,7 @@ class ShopsController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
 			if($request->shop_photo)
             {
                 foreach($request->shop_photo as $photo)

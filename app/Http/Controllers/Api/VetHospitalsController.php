@@ -155,7 +155,7 @@ class VetHospitalsController extends BaseController
 			}
             $hospitals = $this->vethospitalsRepo->update($postData['edit_id'],$aInsertData);
 			
-			$existing_arr = [];
+		/*	$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -171,7 +171,7 @@ class VetHospitalsController extends BaseController
 						 
 					}
 				}
-			}
+			}*/
 			
             if($request->hospitals_photo)
             {

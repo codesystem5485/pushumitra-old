@@ -143,7 +143,7 @@ class SuppliersController extends BaseController
 				unset($aInsertData['user_code']);
 			}
 			 $suppliers = $this->suppliersRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -159,7 +159,7 @@ class SuppliersController extends BaseController
 					}
 				}
 			}
-			
+			*/
             if($request->supplier_photo)
             {
                 foreach($request->supplier_photo as $photo)

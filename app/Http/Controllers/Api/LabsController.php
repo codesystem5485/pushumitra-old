@@ -154,7 +154,7 @@ class LabsController extends BaseController
 				unset($aInsertData['user_code']);
 			}
             $labs = $this->labsRepo->update($postData['edit_id'],$aInsertData);
-			$existing_arr = [];
+			/*$existing_arr = [];
 			if(isset($postData['existing_images'])){
 				$existing_arr = $postData['existing_images'];
 			}
@@ -168,7 +168,7 @@ class LabsController extends BaseController
 						$image->delete();
 					}
 				}
-			}
+			}*/
             
             if($request->labs_photo)
             {

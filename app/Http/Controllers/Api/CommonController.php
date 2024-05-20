@@ -35,6 +35,7 @@ use App\Models\EasycaresImages;
 use App\Models\AnimalImages; 
 use App\Models\ProductImages;
 use App\Traits\FileUpload;
+use App\Models\ChemistShopImages;
 
 class CommonController extends BaseController
 {
@@ -174,63 +175,77 @@ class CommonController extends BaseController
 			$imagepath = 'breederanimals';
             break;
 			case 4:
-            $result = BreederImages::where('id',$image_id)->first();
-			$imagepath = 'breederanimals';
+            $result = VehicleImages::where('id',$image_id)->first();
+			$imagepath = 'vehicle';
             break;
-			case 'Add Transporter':
-			$result = BreederImages::where('id',$image_id)->first();
-			$imagepath = 'breederanimals';
+			case 5:
+			$result = ChemistShopImages::where('id',$image_id)->first();
+			$imagepath = 'chemist';
             break;
-			case 'Add chemist':
-            $column = 'chemists';
+			case 7:
+			$result = VeterinaryhospitalsImages::where('id',$image_id)->first();
+			$imagepath = 'hospitals';
             break;
-			case 'Registered-vet Registration':
-            $column = 'registered_vet_registrations';
+			case 8:
+            $result = ProductImages::where('id',$image_id)->first();
+			$imagepath = 'productsale';
             break;
-			case 'Add Veterinary Hospitals':
-            $column = 'veterinary_hospitals';
+			case 9:
+			$result = SupplierProductImages::where('id',$image_id)->first();
+			$imagepath = 'suppliers';
             break;	
-			case 'Add Product For Sale':
-            $column = 'product_for_sales';
+			case 10:
+            $result = FarmsImages::where('id',$image_id)->first();
+			$imagepath = 'farms';
             break;
-			case 'Add Supplier':
-            $column = 'suppliers';
+			case 11:
+            $result = TrainingCenterImages::where('id',$image_id)->first();
+			$imagepath = 'trainingcenters';
             break;	
-			case 'Add Farm':
-            $column = 'farms';
+			case 12:
+            $result = ShopImages::where('id',$image_id)->first();
+			$imagepath = 'shops';
             break;
-			case 'Add Training Centre':
-            $column = 'training_centers';
+			case 13: 
+            $result = PanjarpolImages::where('id',$image_id)->first();
+			$imagepath = 'panjarpol';
+             break;
+			case 14:
+            $result = PoultryHatcheryImages::where('id',$image_id)->first();
+			$imagepath = 'poultryhatchery';
             break;
-			case 'Add Shop':
-            $column = 'shops';
+			case 15:
+            $result = DogshelterImages::where('id',$image_id)->first();
+			$imagepath = 'dogshelters';
             break;
-			case 'Go Shala / Panjarpol':
-            $column = 'panjarpol';
+			case 16:
+            $result = InstitutionImages::where('id',$image_id)->first();
+			$imagepath = 'institutions';
             break;
-			case 'Poultry Hatchery':
-            $column = 'poultryhatchery_centers';
+			case 17:
+            $result = MilkCollectionImages::where('id',$image_id)->first();
+			$imagepath = 'milkcollections';
             break;
-			case 'Dog Shelter':
-            $column = 'dog_shelters';
+			case 18:
+            $result = LabsImages::where('id',$image_id)->first();
+			$imagepath = 'labs';
             break;
-			case 'Institutions':
-            $column = 'institutions';
+			case 19:
+            $result = EasycaresImages::where('id',$image_id)->first();
+			$imagepath = 'easycares';
             break;
-			case 'Milk Collection':
-            $column = 'milkcollection_centers';
+			case 20:
+            $result = NgoImages::where('id',$image_id)->first();
+			$imagepath = 'ngo';
             break;
-			case 'Add Lab':
-            $column = 'labs';
+			case 21:
+            $result = AddAnimalImages::where('id',$image_id)->first();
+			$imagepath = 'animal';
             break;
-			case 'Add NGO':
-            $column = 'ngo';
-            break;
-			case 'Knowledge Sharing':
-            $column = 'easy_cares';
-            break;			
+			 	
             default:
-            $column = '';    
+            $result = ''; 
+			$imagepath = ''; 			
         }
 		
 		if($result){
