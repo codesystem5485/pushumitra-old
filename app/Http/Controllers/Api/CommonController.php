@@ -163,6 +163,7 @@ class CommonController extends BaseController
 		$image_id = $postData['image_id'];
 		$imagepath = '';
 		$result='';
+		$rcbook_image_id = 0;
 		
 		
 		switch($module_id){
@@ -177,6 +178,12 @@ class CommonController extends BaseController
 			case 4:
             $result = VehicleImages::where('id',$image_id)->first();
 			$imagepath = 'vehicle';
+			$rcbook = 0;
+			if(isset($postData['rcbook_image_id']) && $postData['rcbook_image_id']!=0){
+				$rcbook_image_id = $postData['rcbook_image_id'];
+				$result = TransporterRcbookImages::where('id',$rcbook_image_id)->first();
+				$imagepath = 'rcbooks';
+			}
             break;
 			case 5:
 			$result = ChemistShopImages::where('id',$image_id)->first();
