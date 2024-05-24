@@ -1555,4 +1555,17 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 		 ->where('user_id',$user_id)->count();
 		 return $response;
 	}
+	
+	public function sendRenewReminderNotifications($insertArray)
+	{
+		 $response = Notifications::create($insertArray);
+		 $sendArray = array(
+			'fcm_token'=> $insertArray['userFcmToken'],
+			'message' =>$insertArray['message'],
+			'title'=>$insertArray['title']
+		 );
+				
+		//send notifications
+		sendNotifications($sendArray);
+	}
 }
