@@ -57,7 +57,7 @@ class UserTransactionsController extends BaseController
 		
 		$url1 = url("/upload/milkcollections")."/";
 		$milkCollectionArr = MilkCollections::select('id','user_code','registration_number','milkcollection_center_name','incharge_name','mobile_number','type',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url1.'", image_name) from  milkcollection_center_images where milkcollection_center_id  = milkcollection_centers.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('status',1)->get();
 		$milkCollectionModuleArr = [];
@@ -69,7 +69,7 @@ class UserTransactionsController extends BaseController
 		
 		$url2 = url("/upload/panjarpol")."/";
 		$panjarpolArr = Panjarpol::select('panjarpol.id','user_code','registration_number','panjarpol_name','manager_name','mobile_number',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url2.'", image_name) from panjarpol_images where panjarpol_id  = panjarpol.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('panjarpol.status',1)->get();
 		$panjarpolModuleArr = [];
@@ -81,7 +81,7 @@ class UserTransactionsController extends BaseController
 		
 		$url3 = url("/upload/poultryhatchery")."/";
 		$poultryArr = PoultryHatchery::select('id','user_code','poultryhatchery_center_name','incharge_name','mobile_number','type',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url3.'", image_name) from  poultryhatchery_center_images where poultryhatchery_center_id  = poultryhatchery_centers.id order by id asc limit 1) as image_name'))
             ->where('user_id', $user_id)->where('poultryhatchery_centers.status',1)->get();
 		$poultryModuleArr = [];
@@ -93,7 +93,7 @@ class UserTransactionsController extends BaseController
 		
 		$url4 = url("/upload/dogshelters")."/";
 		$dogShelterArr = DogShelters::select('id','user_code','dogshelter_name','incharge_name','mobile_number',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url4.'", image_name) from  dog_shelter_images where dog_shelter_id  = dog_shelters.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('dog_shelters.status',1)->get();
 		$dogShelterModuleArr = [];
@@ -116,8 +116,8 @@ class UserTransactionsController extends BaseController
 		}
 		
 		$url6 = url("/upload/labs")."/";
-		$labArr = Labs::select('labs.id','user_code','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		$labArr = Labs::select('labs.id','labs.parent_category','user_code','lab_name','owner_name','mobile_number','education','type','svc_registration_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url6.'", image_name) from  labs_images where lab_id  = labs.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('labs.status',1)->get();
 		$labModuleArr = [];
@@ -129,7 +129,7 @@ class UserTransactionsController extends BaseController
 		
 		$url7 = url("/upload/ngo")."/";
 		$ngoArr = Ngo::select('ngo.id','user_code','registration_number','ngo_name','manager_name','mobile_number',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url7.'", image_name) from ngo_images where ngo_id  = ngo.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('ngo.status',1)->get();
 		$ngoModuleArr = [];
@@ -152,8 +152,8 @@ class UserTransactionsController extends BaseController
 		}
 		
 		$url9 = url("/upload/shops")."/";
-		$shopArr = Shops::select('shops.id','shop_name','user_code','shop_owner_name','mobile_number',
-		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		$shopArr = Shops::select('shops.id','shops.parent_category','shop_name','user_code','shop_owner_name','mobile_number',
+		'taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url9.'", image_name) from  shop_images where shop_id  = shops.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('shops.status', 1)->get();
 		$shopModuleArr = [];
@@ -164,7 +164,8 @@ class UserTransactionsController extends BaseController
 		}
 		
 		$url10 = url("/upload/farms")."/";
-		$farmArr = Farms::select('farms.id','user_code','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		$farmArr = Farms::select('farms.id','farms.parent_category','user_code','farm_name','incharge_name','mobile_number','taluka','address','city_town','district','state','pincode','latitude','longitude',
+		'created_at','updated_at','subscriptionEndDate',
 			DB::raw('(select CONCAT("'.$url10.'", image_name) from farm_images where farm_id  = farms.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('farms.status', 1)->get();
 		$farmModuleArr = [];
@@ -175,8 +176,8 @@ class UserTransactionsController extends BaseController
 		}
 		
 		$url11 = url("/upload/trainingcenters")."/";
-		$trainingCenterArr = TrainingCenters::select('training_centers.id','training_centers.user_code','training_center_name','incharge_name','mobile_number','duration','type','fees',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		$trainingCenterArr = TrainingCenters::select('training_centers.id','training_centers.parent_category','training_centers.user_code','training_center_name','incharge_name','mobile_number','duration','type','fees',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url11.'", image_name) from  training_center_images where training_center_id  = training_centers.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('training_centers.status', 1)->get();
 		$trainingCenterModuleArr = [];
@@ -187,8 +188,8 @@ class UserTransactionsController extends BaseController
 		}
 		
 		$url12 = url("/upload/institutions")."/";
-		$institutionArr = Institutions::select('institutions.id','user_code','institution_name','incharge_name','mobile_number','type',
-		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at',
+		$institutionArr = Institutions::select('institutions.id','institutions.parent_category','user_code','institution_name','incharge_name','mobile_number','type',
+		'registration_number','taluka','address','city_town','district','state','pincode','latitude','longitude','created_at','updated_at','subscriptionEndDate',
             DB::raw('(select CONCAT("'.$url12.'", image_name) from  institutions_images where institution_id  = institutions.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('institutions.status', 1)->get();
 		$institutionModuleArr = [];
@@ -199,7 +200,7 @@ class UserTransactionsController extends BaseController
 		}
 		$url13 = url("/upload/chemist")."/";
 		$chemistArr 	  = Chemist::select( 'chemists.id','chemists.shop_name','chemists.owner_name','chemists.mobile_number',
-		'chemists.city_town','chemists.latitude','chemists.user_code','chemists.longitude','chemists.created_at','chemists.updated_at',
+		'chemists.city_town','chemists.latitude','chemists.user_code','chemists.longitude','chemists.created_at','chemists.updated_at','subscriptionEndDate',
 		DB::raw('(select CONCAT("'.$url13.'", image_name) from chemist_shop_images where chemist_id  =   chemists.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('chemists.status', 1)->get();
 		$chemistModuleArr = [];
@@ -210,7 +211,7 @@ class UserTransactionsController extends BaseController
 		}
 		$url14 = url("/upload/vehicle")."/";
 		$transporterArr = Transporters::select('transporters.user_code','transporters.id','transporters.transporter_name','transporters.vehicle_name',
-            'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude','transporters.created_at','transporters.updated_at',
+            'transporters.mobile_number','transporters.city_town','transporters.latitude','transporters.longitude','transporters.created_at','transporters.updated_at','transporters.subscriptionEndDate',
 			DB::raw('(select CONCAT("'.$url14.'", image_name) from  vehicle_images where transporter_id  = transporters.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('transporters.status', 1)->get();
 		$transporterModuleArr = [];
@@ -245,7 +246,7 @@ class UserTransactionsController extends BaseController
 		
 		$breederArr = Breeder::leftJoin('species', 'species.id', '=', 'breeders.species')
 		->select('breeders.user_code','breeders.id','breeders.breeder_name','breeders.animal_breed','breeders.age','breeders.expected_price','breeders.mobile_number',
-		'breeders.latitude','breeders.longitude','breeders.created_at','breeders.updated_at',
+		'breeders.latitude','breeders.longitude','breeders.created_at','breeders.updated_at','breeders.subscriptionEndDate',
 				'species.specie as species_name',DB::raw('(select CONCAT("'.$url17.'", image_name) from  breeder_images where breeder_id  = breeders.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('breeders.status', 1)->get();
 		$breederModuleArr = [];
@@ -257,9 +258,10 @@ class UserTransactionsController extends BaseController
 		$url18 = url("/upload/suppliers")."/";
 		
 		$supplierArr = Suppliers::leftJoin('subcategories', 'subcategories.id', '=', 'suppliers.sub_category')
-		    ->select('suppliers.id','suppliers.user_code','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
+		    ->select('suppliers.id','suppliers.parent_category','suppliers.user_code','suppliers.supplier_name','suppliers.mobile_number','suppliers.sub_category',
 		'suppliers.address','suppliers.city_town','suppliers.district','suppliers.taluka','suppliers.user_code','suppliers.latitude',
-		'suppliers.longitude','subcategories.name as sub_category_name','suppliers.created_at','suppliers.updated_at',DB::raw('(select CONCAT("'.$url18.'", image_name) from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'))
+		'suppliers.longitude','subcategories.name as sub_category_name','suppliers.created_at','suppliers.updated_at','suppliers.subscriptionEndDate',
+		DB::raw('(select CONCAT("'.$url18.'", image_name) from  supplier_product_images where supplier_id  = suppliers.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('suppliers.status', 1)->get();
 		$supplierModuleArr = [];
 		foreach($supplierArr as $supplier)

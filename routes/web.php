@@ -49,6 +49,7 @@ use App\Http\Controllers\Backend\LabsController;
 use App\Http\Controllers\Backend\GrfileController;
 use App\Http\Controllers\Backend\EasycaresController;
 use App\Http\Controllers\Backend\NgoController;
+use App\Http\Controllers\Crons\SubscriptionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -68,6 +69,9 @@ Front Website
 */
 
 Route::get('notifications/getNotificationsToSend', [NotificationController::class, 'getNotificationsToSend'])->name('getNotificationsToSend');
+
+Route::get('notifications/subscriptionend', [SubscriptionController::class, 'sendsheltersNotifications'])->name('subscriptionend');
+
 
 Route::get('/home', [FrontPagesController::class, 'index'])->name('index');
 Route::get('/about-us', [FrontPagesController::class, 'aboutus'])->name('about-us');
