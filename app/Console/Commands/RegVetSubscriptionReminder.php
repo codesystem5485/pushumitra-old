@@ -66,7 +66,7 @@ class RegVetSubscriptionReminder extends Command
         ->orderBy('id', 'DESC')
         ->get();
 		
-		$subscriptionEndDate = date("d-M-Y");
+		$subscriptionEndDate = date("d-M-Y",strtotime($date));
 		$title = 'Reminder: 1-Year Membership Renewal';
 		if($results)
 		{
