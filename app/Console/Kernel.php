@@ -18,6 +18,20 @@ class Kernel extends ConsoleKernel
 		 Commands\AnimalsaleSubscriptionReminder::class,
 		 Commands\BreederSubscriptionReminder::class,
 		 Commands\PtoductsaleSubscriptionReminder::class,
+		 Commands\ChemistSubscriptionReminder::class,
+		 Commands\VetHospitalsSubscriptionReminder::class,
+		 Commands\LabSubscriptionReminder::class,
+		 Commands\SupplierSubscriptionReminder::class,
+		 Commands\TrainingCenterSubscriptionReminder::class,
+		 Commands\InstitutionSubscriptionReminder::class,
+		 Commands\ShopSubscriptionReminder::class,
+		 Commands\PoultryHatcherySubscriptionReminder::class,
+		 Commands\MilkCollectionsSubscriptionReminder::class,
+		 Commands\FarmSubscriptionReminder::class,
+		 Commands\DogShelterSubscriptionReminder::class,
+		 Commands\PashumitraSubscriptionReminder::class,
+		 Commands\RegVetSubscriptionReminder::class,
+		 
     ];
 
     /**
