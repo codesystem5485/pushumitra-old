@@ -26,7 +26,7 @@ class FarmsController extends Controller
      * farms Construct 
      * @return url 
      */
-    public function __construct(FarmsRepositoryInterface $farmsRepo){
+    public function __construct(FarmsRepositoryInterface $farmsRepo, UserRepositoryInterface $userRepository){
 
       /*  $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
         $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class FarmsController extends Controller
             'createUrl' => route('farms.create')
         ];
         $this->farmsRepo = $farmsRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -140,6 +141,10 @@ class FarmsController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($farms);
+			$farms->latitude=$coordinateArr['latitude'];
+			$farms->longitude=$coordinateArr['longitude'];
+			$farms->update();
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

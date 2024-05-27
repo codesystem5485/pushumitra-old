@@ -111,9 +111,10 @@ class TransporterController extends Controller
     public function edit(Request $request, $id = ''){
         $transporter = Transporters::find($id);
         $vehicleimages = VehicleImages::where('transporter_id',$transporter->id)->get();
+		$rcbookImages = TransporterRcbookImages::where('transporter_id',$transporter->id)->get();
         $states = State::where('is_active','1')->get();
         $cities = Cities::where('state_id',$transporter->state_id)->get();        
-        return view('backend.transporter.create',['vehicleimages'=>$vehicleimages,'cities'=>$cities,'states'=>$states,'transporter' => $transporter,'url' => $this->url]);  
+        return view('backend.transporter.create',['vehicleimages'=>$vehicleimages,'rcbookImages'=>$rcbookImages,'cities'=>$cities,'states'=>$states,'transporter' => $transporter,'url' => $this->url]);  
     }
 
      /**
@@ -137,6 +138,19 @@ class TransporterController extends Controller
                     if($fileName)
                     {
                         VehicleImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
+                    }
+                }
+            }
+			
+			if($request->rcbook_photo)
+            {
+                foreach($request->rcbook_photo as $photo)
+                {
+                    $fileName ='';
+                    $fileName = $this->uploadFile($photo,'rcbooks');
+                    if($fileName)
+                    {
+                        TransporterRcbookImages::create(['transporter_id'=>$transporter->id,'image_name' => $fileName]);
                     }
                 }
             }

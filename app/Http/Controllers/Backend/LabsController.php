@@ -142,6 +142,11 @@ class LabsController extends Controller
                     }
                 }
             }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($labs);
+			$labs->latitude=$coordinateArr['latitude'];
+			$labs->longitude=$coordinateArr['longitude'];
+			$labs->update();
 
             DB::commit();
             Session::flash('success', trans('messages.update_records'));

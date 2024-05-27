@@ -13,6 +13,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Requests\AnimalsaleProcessRequest;
 use App\Repositories\Interfaces\Animalsale\AnimalsaleRepositoryInterface;
 use App\Repositories\Interfaces\State\StateRepositoryInterface;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use Session;
 use Auth;
@@ -27,7 +28,7 @@ class AnimalsaleController extends Controller
      * Animal Sale Construct 
      * @return url 
      */
-    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo,StateRepositoryInterface $stateRepo){
+    public function __construct(AnimalsaleRepositoryInterface $animalsaleRepo,StateRepositoryInterface $stateRepo,UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:animal-sale-list|animal-sale-create|animal-sale-edit|animal-sale-delete', ['only' => ['index','show']]);
         $this->middleware('permission:animal-sale-create', ['only' => ['create','store']]);
@@ -41,6 +42,7 @@ class AnimalsaleController extends Controller
         ];
         $this->animalsaleRepo = $animalsaleRepo;
 		$this->stateRepo = $stateRepo;
+		$this->userRepo = $userRepository;
 	} 
 
     /**
@@ -169,6 +171,10 @@ class AnimalsaleController extends Controller
                     }
                 }
             }
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($animalsale);
+			$animalsale->latitude=$coordinateArr['latitude'];
+			$animalsale->longitude=$coordinateArr['longitude'];
+			$animalsale->update();
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

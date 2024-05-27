@@ -15,6 +15,7 @@ use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 
 class ChemistController extends Controller
 {
@@ -25,7 +26,7 @@ class ChemistController extends Controller
      * Chemist Construct 
      * @return url 
      */
-    public function __construct(ChemistRepositoryInterface $chemistRepo){
+    public function __construct(ChemistRepositoryInterface $chemistRepo,UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:chemist-list|chemist-create|chemist-edit|chemist-delete', ['only' => ['index','show']]);
         $this->middleware('permission:chemist-create', ['only' => ['create','store']]);
@@ -37,6 +38,7 @@ class ChemistController extends Controller
             'createUrl' => route('chemist.create')
         ];
         $this->chemistRepo = $chemistRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -138,6 +140,11 @@ class ChemistController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($chemist);
+			$chemist->latitude=$coordinateArr['latitude'];
+			$chemist->longitude=$coordinateArr['longitude'];
+			$chemist->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

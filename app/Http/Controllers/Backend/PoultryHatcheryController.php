@@ -25,7 +25,7 @@ class PoultryHatcheryController extends Controller
      * poultryhatchery Construct 
      * @return url 
      */
-    public function __construct(PoultryhatcheryRepositoryInterface $poultryhatcheryRepo){
+    public function __construct(PoultryhatcheryRepositoryInterface $poultryhatcheryRepo,UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:poultryhatchery-list|poultryhatchery-create|poultryhatchery-edit|poultryhatchery-delete', ['only' => ['index','show']]);
         $this->middleware('permission:poultryhatchery-create', ['only' => ['create','store']]);
@@ -37,6 +37,7 @@ class PoultryHatcheryController extends Controller
             'createUrl' => route('poultryhatchery.create')
         ];
         $this->poultryhatcheryRepo = $poultryhatcheryRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -139,6 +140,11 @@ class PoultryHatcheryController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($poultryhatchery);
+			$poultryhatchery->latitude=$coordinateArr['latitude'];
+			$poultryhatchery->longitude=$coordinateArr['longitude'];
+			$poultryhatchery->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

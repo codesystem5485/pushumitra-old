@@ -26,7 +26,7 @@ class SuppliersController extends Controller
      * Suppliers Construct 
      * @return url 
      */
-    public function __construct(SuppliersRepositoryInterface $suppliersRepo){
+    public function __construct(SuppliersRepositoryInterface $suppliersRepo, UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:supplier-list|supplier-create|supplier-edit|supplier-delete', ['only' => ['index','show']]);
         $this->middleware('permission:supplier-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class SuppliersController extends Controller
             'createUrl' => route('suppliers.create')
         ];
         $this->suppliersRepo = $suppliersRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -141,6 +142,11 @@ class SuppliersController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($suppliers);
+			$suppliers->latitude=$coordinateArr['latitude'];
+			$suppliers->longitude=$coordinateArr['longitude'];
+			$suppliers->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

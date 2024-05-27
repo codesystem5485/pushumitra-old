@@ -25,7 +25,7 @@ class MilkCollectionController extends Controller
      * milkcollection Construct 
      * @return url 
      */
-    public function __construct(MilkCollectionRepositoryInterface $milkcollectionRepo){
+    public function __construct(MilkCollectionRepositoryInterface $milkcollectionRepo,UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:milkcollection-list|milkcollection-create|milkcollection-edit|milkcollection-delete', ['only' => ['index','show']]);
         $this->middleware('permission:milkcollection-create', ['only' => ['create','store']]);
@@ -37,6 +37,7 @@ class MilkCollectionController extends Controller
             'createUrl' => route('milkcollections.create')
         ];
         $this->milkcollectionRepo = $milkcollectionRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -138,7 +139,12 @@ class MilkCollectionController extends Controller
                     }
                 }
             }
-
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($milkcollections);
+			$milkcollections->latitude=$coordinateArr['latitude'];
+			$milkcollections->longitude=$coordinateArr['longitude'];
+			$milkcollections->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

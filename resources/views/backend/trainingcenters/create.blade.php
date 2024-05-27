@@ -85,8 +85,8 @@
 						<div class="form-control">
 						Private
 						<input @if(!empty($trainingcenters))@if($trainingcenters->type == 'Private') checked @endif @endif  type="radio" id="Private" name="type" value="Private">
-						  Goverment
-						  <input @if(!empty($trainingcenters)) @if($trainingcenters->type == 'Goverment') checked @endif @endif type="radio" id="Goverment" name="type" value="Goverment">
+						  Government
+						  <input @if(!empty($trainingcenters)) @if($trainingcenters->type == 'Government') checked @endif @endif type="radio" id="Goverment" name="type" value="Goverment">
 						</div>  
 					</div>
 					
@@ -94,7 +94,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" >{{ __('general.trainingcenter_registration_number') }}* :</span>
                         </div>
-                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="registration_number" value="@if(empty($trainingcenters)){{old('registration_number')}}@else{{$trainingcenters->registration_number}}@endif"placeholder="{{ __('general.trainingcenters_registration_number') }}">
+                        <input type="text" class="form-control"  aria-describedby="basic-addon3" name="registration_number" value="@if(empty($trainingcenters)){{old('registration_number')}}@else{{$trainingcenters->registration_number}}@endif"placeholder="{{ __('general.trainingcenter_registration_number') }}">
                     </div>
                    
                     <div class="input-group mb-3">

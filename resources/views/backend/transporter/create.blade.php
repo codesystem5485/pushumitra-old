@@ -116,16 +116,18 @@
                         <input type="text" id="user_code" class="form-control" aria-describedby="basic-addon3" name="user_code" value="@if(empty($transporter)){{old('user_code')}}@else{{$transporter->user_code}}@endif"placeholder="{{ __('general.added_by') }}" readonly><br>
                         <div><span>{{ $errors->first('added_by') }}</span></div>
                     </div>
+					
+					<div class="input-group mb-3">
+                       <span class="input-group-text">Select Vehicle Images :</span>
+                        
+                    </div>
+					
                     <div class="input_fields_wrap input-group mb-3">
                         <div><input type="file" class="form-control" name="vehicle_photo[]"></div>
                         <div class="input-group-prepend"><button class="add_field_button">Add More Photos</button></div>
                     </div>
-
-                    <div class="input-group mb-2">
-                        <input type="submit" class="btn btn-primary" value="Submit" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"/>
-                    </div>
-
-                    <div class="input_wrapper input-group mb-3">
+					
+					 <div class="input_wrapper input-group mb-3">
                     @if(!empty($vehicleimages))
                         @if(count($vehicleimages))
                             @foreach($vehicleimages as $value)
@@ -137,6 +139,35 @@
                         @endif
                     @endif
                 </div>
+
+					<div class="input-group mb-3">
+                       <span class="input-group-text">Select RC Book Images :</span>
+                        
+                    </div>
+					
+                    <div class="input_fields_wrap1 input-group mb-3">
+                        <div><input type="file" class="form-control" name="rcbook_photo[]"></div>
+                        <div class="input-group-prepend"><button class="add_field_button1">Add More Photos</button></div>
+                    </div>
+					
+					 <div class="input_wrapper input-group mb-3">
+                    @if(!empty($rcbookImages))
+                        @if(count($rcbookImages))
+                            @foreach($rcbookImages as $value)
+                                <div class="input-group mb-2" style="align:left;">
+                                    <img height="100" width="100" src="{{ url("/upload/rcbooks/")}}/{{$value->image_name}}" />
+                                    <a href="javascript:void(0);" class="removeTransrcImage" image_val="{{$value->id}}"> Delete</a>
+                                </div>
+                            @endforeach
+                        @endif
+                    @endif
+                </div>
+					
+                    <div class="input-group mb-2">
+                        <input type="submit" class="btn btn-primary" value="Submit" onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();"/>
+                    </div>
+
+                   
 
                 </div>
                 </form>
@@ -176,11 +207,39 @@
             return false;
         }
     });
+	
+	$(document).on('click',".removeTransrcImage",function(e){
+        e.preventDefault();
+        if(confirm("Do you really want to delete this vehicle image?"))
+        {
+        var image_val = $(this).attr('image_val');
+        var actionurl = webUrl+"/transporter/"+image_val+"/remove";
+         $.ajax({
+            url: actionurl,
+            type: "get",
+            dataType: "application/json",
+            data: { id: image_val },
+            dataType: "JSON",
+            success: function (res) {
+                // $("input_wrapper").refresh();
+                $(".input_wrapper").load(location.href + " .input_wrapper");
+
+                // product-sale.edit
+            },
+        });
+        }
+        else{
+            return false;
+        }
+    });
 
     $(document).ready(function() {
     var max_fields      = 10; //maximum input boxes allowed
     var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+	 var wrapper1         = $(".input_fields_wrap1"); //Fields wrapper
     var add_button      = $(".add_field_button"); //Add button ID
+	
+	var add_button1      = $(".add_field_button1"); //Add button ID
 
     var x = 1; //initlal text box count
     $(add_button).click(function(e){ //on add input button click
@@ -190,10 +249,18 @@
             $(wrapper).append('<div class="input-group"><input type="file" class="form-control" name="vehicle_photo[]"/><a href="#" style="align:right;" class="remove_field">Remove</a></div>'); //add input box
         }
     });
+	
+	$(add_button1).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+            x++; //text box increment
+            $(wrapper1).append('<div class="input-group"><input type="file" class="form-control" name="rcbook_photo[]"/><a href="#" style="align:right;" class="remove_field1">Remove</a></div>'); //add input box
+        }
+    });
 
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+    $(wrapper1).on("click",".remove_field1", function(e){ //user click on remove text
         e.preventDefault(); $(this).parent('div').remove(); x--;
-    })
+    });
 
     
 }); 

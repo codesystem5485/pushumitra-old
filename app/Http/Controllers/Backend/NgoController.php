@@ -26,7 +26,7 @@ class NgoController extends Controller
      * ngo Construct 
      * @return url 
      */
-    public function __construct(NgoRepositoryInterface $ngoRepo){
+    public function __construct(NgoRepositoryInterface $ngoRepo, UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:ngo-list|ngo-create|ngo-edit|ngo-delete', ['only' => ['index','show']]);
         $this->middleware('permission:ngo-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class NgoController extends Controller
             'createUrl' => route('ngo.create')
         ];
         $this->ngoRepo = $ngoRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -139,6 +140,11 @@ class NgoController extends Controller
                     }
                 }
             }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($ngos);
+			$ngos->latitude=$coordinateArr['latitude'];
+			$ngos->longitude=$coordinateArr['longitude'];
+			$ngos->update();
 
             DB::commit();
             Session::flash('success', trans('messages.update_records'));

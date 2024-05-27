@@ -17,6 +17,7 @@ use DB;
 use Session;
 use Auth;
 use App\Traits\FileUpload;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 
 class BreederController extends Controller
 {
@@ -28,7 +29,7 @@ class BreederController extends Controller
      * Breeder Construct 
      * @return url 
      */
-    public function __construct(BreederRepositoryInterface $breederRepo,StateRepositoryInterface $stateRepo){
+    public function __construct(BreederRepositoryInterface $breederRepo,StateRepositoryInterface $stateRepo,UserRepositoryInterface $userRepository){
 
       /*  $this->middleware('permission:animal-sale-list|animal-sale-create|animal-sale-edit|animal-sale-delete', ['only' => ['index','show']]);
         $this->middleware('permission:animal-sale-create', ['only' => ['create','store']]);
@@ -41,6 +42,7 @@ class BreederController extends Controller
         ];
         $this->breederRepo = $breederRepo;
 		$this->stateRepo = $stateRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -143,6 +145,12 @@ class BreederController extends Controller
                     }
                 } 
             }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($breeder);
+			$breeder->latitude=$coordinateArr['latitude'];
+			$breeder->longitude=$coordinateArr['longitude'];
+			$breeder->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 
