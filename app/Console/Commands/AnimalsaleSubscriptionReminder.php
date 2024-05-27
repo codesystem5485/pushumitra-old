@@ -9,10 +9,13 @@ use Carbon\Carbon;
 use App\Models\AnimalForSale;
 use Illuminate\Http\Request;
 use DB;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 
 class AnimalsaleSubscriptionReminder extends Command
 {
-    /**
+   
+    protected $userRepository;
+   /**
      * The name and signature of the console command.
      *
      * @var string
@@ -31,8 +34,9 @@ class AnimalsaleSubscriptionReminder extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepositoryInterface $userRepository)
     {
+		$this->userRepo = $userRepository;
         parent::__construct();
     }
 

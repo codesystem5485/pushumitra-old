@@ -33,6 +33,7 @@ class FarmsRepository  extends BaseRepository implements FarmsRepositoryInterfac
     public function getFarmsList()
     {     
         return  $this->farmsModelRepo
+			->where('status',1)
             ->orderBy('id', 'DESC')
             ->get();
     }

@@ -70,7 +70,7 @@ Front Website
 
 Route::get('notifications/getNotificationsToSend', [NotificationController::class, 'getNotificationsToSend'])->name('getNotificationsToSend');
 
-Route::get('notifications/subscriptionend', [SubscriptionController::class, 'sendsheltersNotifications'])->name('subscriptionend');
+Route::get('notifications/subscriptionend', [SubscriptionController::class, 'userPashumitraSubscriptionEnd'])->name('subscriptionend');
 
 
 Route::get('/home', [FrontPagesController::class, 'index'])->name('index');

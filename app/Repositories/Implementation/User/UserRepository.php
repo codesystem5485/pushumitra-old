@@ -104,7 +104,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	public function getUsersFcmIds(array $input = [])
     {     
         return  $this->userModelRepo->with(['roles'])
-		->select('fcm_id','full_name')
+		->select('fcm_id')
         ->whereHas('roles', function($q) use($input) {
             if(!empty($input['sRoleName'])){
                 $q->where('name', $input['sRoleName']);
