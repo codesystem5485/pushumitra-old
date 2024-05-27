@@ -775,41 +775,48 @@ $uidnumber = $row->UID_number;
 	{
 		$input[] ='';
 		$input['sRoleName'] ='Pashumitra';
-		$results = $this->userRepo->getUsersFcmIds();
-		
 		$todayDate = date("Y-m-d");
 		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
-		$date = date("Y-m-d",strtotime($todayDate1->addDays(2))); 
-		 
-		$results = DogShelters::leftJoin('users', 'users.id', '=', 'dog_shelters.user_id')
-								->select('dog_shelters.id','dog_shelters.dogshelter_name',
-								'dog_shelters.incharge_name','dog_shelters.mobile_number','users.fcm_id')
-								->where( 'dog_shelters.subscriptionEndDate', '=', $date)
-								->where( 'dog_shelters.status',1)
-								->get();
-								
-		 
-		$title = 'Reminder: Shelters Listing Expiry';
+		$date = date("Y-m-d",strtotime($todayDate1->addDays(2)));
+		
+		$results = User::with(['roles'])
+		->select('fcm_id','full_name','subscriptionEndDate','pm_code')
+        ->whereHas('roles', function($q) use($input) {
+            if(!empty($input['sRoleName'])){
+                $q->where('name', 'Pashumitra');
+            }
+        })
+        ->where('is_active',1)
+		->where('fcm_id','!=','')
+		->where( 'subscriptionEndDate', '=', $date)
+        ->orderBy('id', 'DESC')
+        ->get();
+		
+		$subscriptionEndDate = date("d-M-Y");
+		$title = 'Reminder: 1-Year Membership Renewal';
 		if($results)
 		{
 			foreach($results as $row)
 			{ 
-			 
-				$insertArray[] = '';
-				$name = $row->dogshelter_name; 
-				$owner_name = $row->incharge_name ;
-				$send_message = 'Your Shelter listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
-  Shelter Details:
- *Shelter Name: '.$name.'
- *Incharge Name: '.$owner_name.'
- *Incharge Contact: '.$row->mobile_number;
-			    $user_id =  $row->user_id; 
+			    $insertArray[] = '';
+				$send_message = 'Dear '.$row->full_name.',
+
+Your 1-year membership with PashuMitra is set to expire soon. Renew now to continue enjoying uninterrupted access to all our features and services.
+
+*Membership Details:*
+- *Expiry Date:* '.$subscriptionEndDate.'
+- *Membership ID:* '.$row->pm_code.'
+
+Renew your membership today to keep benefiting from our platform.
+
+Best regards,  
+The PashuMitra Team';
+			  
 				$insertArray['userFcmToken'] = $row->fcm_id;
-				
 				$insertArray['message'] =$send_message;
 				$insertArray['title'] =$title;
 				$insertArray['scheduled_date']=$todayDate;
-				$insertArray['sender_user_id']=$row->user_id;
+				$insertArray['sender_user_id']=$row->id;
 				$insertArray['type']=5;
 				$insertArray['send_flag']=1;
 				$insertArray['rx_reminder_id']=0;
@@ -825,8 +832,56 @@ $uidnumber = $row->UID_number;
 	{
 		$input[] ='';
 		$input['sRoleName'] ='Registered-vet';
-		$users = $this->userRepo->getUsersFcmIds($input);
+		$todayDate = date("Y-m-d");
+		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
+		$date = date("Y-m-d",strtotime($todayDate1->addDays(2)));
+		
+		$results = User::with(['roles'])
+		->select('fcm_id','full_name','subscriptionEndDate','pm_code')
+        ->whereHas('roles', function($q) use($input) {
+            if(!empty($input['sRoleName'])){
+                $q->where('name', 'Pashumitra');
+            }
+        })
+        ->where('is_active',1)
+		->where('fcm_id','!=','')
+		->where( 'subscriptionEndDate', '=', $date)
+        ->orderBy('id', 'DESC')
+        ->get();
+		
+		$subscriptionEndDate = date("d-M-Y");
+		$title = 'Reminder: 1-Year Membership Renewal';
+		if($results)
+		{
+			foreach($results as $row)
+			{ 
+			    $insertArray[] = '';
+				$send_message = 'Dear '.$row->full_name.',
+
+Your 1-year membership with PashuMitra is set to expire soon. Renew now to continue enjoying uninterrupted access to all our features and services.
+
+*Membership Details:*
+- *Expiry Date:* '.$subscriptionEndDate.'
+- *Membership ID:* '.$row->rv_code.'
+
+Renew your membership today to keep benefiting from our platform.
+
+Best regards,  
+The PashuMitra Team';
+			  
+				$insertArray['userFcmToken'] = $row->fcm_id;
+				$insertArray['message'] =$send_message;
+				$insertArray['title'] =$title;
+				$insertArray['scheduled_date']=$todayDate;
+				$insertArray['sender_user_id']=$row->id;
+				$insertArray['type']=5;
+				$insertArray['send_flag']=1;
+				$insertArray['rx_reminder_id']=0;
+				$insertArray['send_date']=$todayDate;
+			 
+				$notifications = $this->userRepo->sendRenewReminderNotifications($insertArray);
+			}
+		}
 		
 	}
-
 }

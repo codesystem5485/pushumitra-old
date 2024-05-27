@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         //
 		 Commands\RxreminderCron::class,
 		 Commands\AnimalsaleSubscriptionReminder::class,
+		 Commands\BreederSubscriptionReminder::class,
     ];
 
     /**

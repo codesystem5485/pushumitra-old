@@ -31,8 +31,8 @@ class NotificationController extends BaseController
 		//echo $date = $todayDate->addDays(1);exit;
 		
 		$todayDate1 = Carbon::createFromFormat('Y-m-d', $todayDate);
-		//$date = $todayDate1->addDays(1);
-		echo $newDate = date("Y-m-d",strtotime($todayDate1));exit;
+	//	$date = $todayDate1->addDays(1);
+		$newDate = date("Y-m-d",strtotime($todayDate1));
 
 		
 		$notifications = Notifications::leftJoin('users', 'users.id', '=', 'notifications.sender_user_id')
@@ -40,8 +40,10 @@ class NotificationController extends BaseController
 								->where( 'scheduled_date', '=', $newDate)
 								->where( 'type', 1)
 								->where('send_flag',0)
-								->where('sender_user_id',104)
+								//->where('sender_user_id',104)
 								->get();
+								
+			//		echo '<pre>'; print_r($notifications);exit;
 								
 		if($notifications)
 		{
