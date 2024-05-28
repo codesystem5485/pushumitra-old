@@ -69,9 +69,9 @@ class PanjarpolSubscriptionReminder extends Command
 				$owner_name = $row->manager_name ;
 				$send_message = 'Your Panjarpol listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Panjarpol Details:
- *Panjarpol Name: '.$name.'
- *Manager Name: '.$owner_name.'
- *Manager Contact: '.$row->mobile_number;
+ Panjarpol Name: '.$name.'
+ Manager Name: '.$owner_name.'
+ Manager Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

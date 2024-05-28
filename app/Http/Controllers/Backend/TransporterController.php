@@ -241,6 +241,19 @@ class TransporterController extends Controller
         return true;
     }
 	
+	public function removeRcbookImage($id)
+    {
+        $TransporterRcbookImages = TransporterRcbookImages::where('id',$id)->first();
+        $this->removeFile($TransporterRcbookImages->image_name,'rcbooks');
+        $TransporterRcbookImages->delete();
+        // Session::flash('success', trans('messages.delete_records'));
+        
+        ## Store log
+        $message = trans('messages.vehicle_remove',['name' => $TransporterRcbookImages->id]);
+        storeActicityLog(trans('messages.vehicle_remove'),$message,Auth::user(),$TransporterRcbookImages);
+       return true;
+    }
+	
 	public function getAjaxList(Request $request){
         $list = $this->transporterRepo->getAjaxList();
         return  $list;

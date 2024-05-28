@@ -70,9 +70,9 @@ class AnimalsaleSubscriptionReminder extends Command
 $uidnumber = $row->UID_number;				
 				$send_message = 'Your animal for sale listing '.$uidnumber.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
   Animal Details:
- *species: '.$species_name.'
- *Age: '.$age.'
- *Breed: '.$breed;
+ species: '.$species_name.'
+ Age: '.$age.'
+ Breed: '.$breed;
  
 				$insertArray[] = '';
 			    $user_id =  $row->user_id; 

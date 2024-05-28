@@ -71,10 +71,10 @@ class InstitutionSubscriptionReminder extends Command
 				$owner_name = $row->incharge_name ;
 				$send_message = 'Your Institution listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Institution Details:
- *Institution Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Incharge Name: '.$owner_name.'
- *Incharge Contact: '.$row->mobile_number;
+ Institution Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Incharge Name: '.$owner_name.'
+ Incharge Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

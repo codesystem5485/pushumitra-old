@@ -26,7 +26,7 @@ class DogShelterController extends Controller
      * dogshelters Construct 
      * @return url 
      */
-    public function __construct(DogsheltersRepositoryInterface $dogsheltersRepo){
+    public function __construct(DogsheltersRepositoryInterface $dogsheltersRepo, UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:dogshelter-list|dogshelter-create|dogshelter-edit|dogshelter-delete', ['only' => ['index','show']]);
         $this->middleware('permission:dogshelter-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class DogShelterController extends Controller
             'createUrl' => route('dogshelters.create')
         ];
         $this->dogsheltersRepo = $dogsheltersRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -138,6 +139,12 @@ class DogShelterController extends Controller
 				}
 			}
 		}
+		
+		$coordinateArr = $this->userRepo->getLatitudeLongitudes($dogshelters);
+		$dogshelters->latitude=$coordinateArr['latitude'];
+		$dogshelters->longitude=$coordinateArr['longitude'];
+		$dogshelters->update();
+			
 		Session::flash('success', trans('messages.update_records'));
 
 		## Store log

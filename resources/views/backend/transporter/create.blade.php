@@ -156,7 +156,7 @@
                             @foreach($rcbookImages as $value)
                                 <div class="input-group mb-2" style="align:left;">
                                     <img height="100" width="100" src="{{ url("/upload/rcbooks/")}}/{{$value->image_name}}" />
-                                    <a href="javascript:void(0);" class="removeTransrcImage" image_val="{{$value->id}}"> Delete</a>
+                                    <a href="javascript:void(0);" class="removeTransrcImage" image_valrc="{{$value->id}}"> Delete</a>
                                 </div>
                             @endforeach
                         @endif
@@ -210,10 +210,10 @@
 	
 	$(document).on('click',".removeTransrcImage",function(e){
         e.preventDefault();
-        if(confirm("Do you really want to delete this vehicle image?"))
+        if(confirm("Do you really want to delete this image?"))
         {
-        var image_val = $(this).attr('image_val');
-        var actionurl = webUrl+"/transporter/"+image_val+"/remove";
+        var image_val = $(this).attr('image_valrc');
+        var actionurl = webUrl+"/transporter/"+image_val+"/removeRcbookImages";
          $.ajax({
             url: actionurl,
             type: "get",
@@ -222,7 +222,7 @@
             dataType: "JSON",
             success: function (res) {
                 // $("input_wrapper").refresh();
-                $(".input_wrapper").load(location.href + " .input_wrapper");
+                $(".input_wrapper1").load(location.href + " .input_wrapper1");
 
                 // product-sale.edit
             },

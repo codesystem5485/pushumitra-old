@@ -71,10 +71,10 @@ class LabSubscriptionReminder extends Command
 				$owner_name = $row->owner_names ;
 				$send_message = 'Your Labs listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Lab Details:
- *Lab Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Owner Name: '.$owner_name.'
- *Owner Contact: '.$row->mobile_number;
+ Lab Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Owner Name: '.$owner_name.'
+ Owner Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

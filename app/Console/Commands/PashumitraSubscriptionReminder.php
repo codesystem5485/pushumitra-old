@@ -76,9 +76,9 @@ class PashumitraSubscriptionReminder extends Command
 
 Your 1-year membership with PashuMitra is set to expire soon. Renew now to continue enjoying uninterrupted access to all our features and services.
 
-*Membership Details:*
-- *Expiry Date:* '.$subscriptionEndDate.'
-- *Membership ID:* '.$row->pm_code.'
+Membership Details:
+- Expiry Date:* '.$subscriptionEndDate.'
+- Membership ID:* '.$row->pm_code.'
 
 Renew your membership today to keep benefiting from our platform.
 

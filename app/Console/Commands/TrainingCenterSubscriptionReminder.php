@@ -71,10 +71,10 @@ class TrainingCenterSubscriptionReminder extends Command
 				$owner_name = $row->incharge_name ;
 				$send_message = 'Your Training Centre listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Training Centre Details:
- *Training Centre Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Incharge Name: '.$owner_name.'
- *Incharge Contact: '.$row->mobile_number;
+ Training Centre Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Incharge Name: '.$owner_name.'
+ Incharge Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

@@ -66,8 +66,8 @@ class TransporterSubscriptionReminder extends Command
 				$vehicle_name= $row->vehicle_name;
 				$send_message = 'Your Transporter listing for '.$transporter_name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
   Transporter Details:
- *Name: '.$transporter_name.'
- *Vehicle name: '.$vehicle_name;
+ Name: '.$transporter_name.'
+ Vehicle name: '.$vehicle_name;
  
 				$insertArray[] = '';
 			    $user_id =  $row->user_id; 

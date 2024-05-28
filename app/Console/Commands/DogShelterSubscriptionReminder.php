@@ -70,9 +70,9 @@ class DogShelterSubscriptionReminder extends Command
 				$owner_name = $row->incharge_name ;
 				$send_message = 'Your Shelter listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
   Shelter Details:
- *Shelter Name: '.$name.'
- *Incharge Name: '.$owner_name.'
- *Incharge Contact: '.$row->mobile_number;
+ Shelter Name: '.$name.'
+ Incharge Name: '.$owner_name.'
+ Incharge Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

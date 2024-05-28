@@ -26,7 +26,7 @@ class ShopsController extends Controller
      * Shops Construct 
      * @return url 
      */
-    public function __construct(ShopsRepositoryInterface $shopsRepo){
+    public function __construct(ShopsRepositoryInterface $shopsRepo, UserRepositoryInterface $userRepository){
 
        $this->middleware('permission:shop-list|shop-create|shop-edit|shop-delete', ['only' => ['index','show']]);
         $this->middleware('permission:shop-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class ShopsController extends Controller
             'createUrl' => route('shops.create')
         ];
         $this->shopsRepo = $shopsRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -124,10 +125,8 @@ class ShopsController extends Controller
      */
     public function update(ShopsProcessRequest $request, $id) 
     {
-       
-            $shops = $this->shopsRepo->update($id,$request->all());
-
-             if($request->shop_photo)
+			$shops = $this->shopsRepo->update($id,$request->all());
+			if($request->shop_photo)
             {
                 foreach($request->shop_photo as $photo)
                 {
@@ -140,6 +139,11 @@ class ShopsController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($shops);
+			$shops->latitude=$coordinateArr['latitude'];
+			$shops->longitude=$coordinateArr['longitude'];
+			$shops->update();
+            
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

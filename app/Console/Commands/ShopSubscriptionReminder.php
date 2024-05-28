@@ -70,10 +70,10 @@ class ShopSubscriptionReminder extends Command
 				$owner_name = $row->shop_owner_name ;
 				$send_message = 'Your Shop listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Shop Details:
- *Shop Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Shop Name: '.$owner_name.'
- *Shop Contact: '.$row->mobile_number;
+ Shop Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Shop Name: '.$owner_name.'
+ Shop Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

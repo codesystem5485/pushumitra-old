@@ -9,6 +9,7 @@ use App\Models\ProductImages;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\ProductsaleProcessRequest;
 use App\Repositories\Interfaces\Productsale\ProductsaleRepositoryInterface;
+use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use DB;
 use Session;
 use Auth;
@@ -24,7 +25,7 @@ class ProductsaleController extends Controller
      * Product Sale Construct 
      * @return url 
      */
-    public function __construct(ProductsaleRepositoryInterface $productsaleRepo){
+    public function __construct(ProductsaleRepositoryInterface $productsaleRepo, UserRepositoryInterface $userRepository){
 
         $this->middleware('permission:product-sale-list|product-sale-create|product-sale-edit|product-sale-delete', ['only' => ['index','show']]);
         $this->middleware('permission:product-sale-create', ['only' => ['create','store']]);
@@ -36,6 +37,7 @@ class ProductsaleController extends Controller
             'createUrl' => route('product-sale.create')
         ];
         $this->productsaleRepo = $productsaleRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -134,6 +136,12 @@ class ProductsaleController extends Controller
                     }
                 }
             }
+			
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($productsale);
+			$productsale->latitude=$coordinateArr['latitude'];
+			$productsale->longitude=$coordinateArr['longitude'];
+			$productsale->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

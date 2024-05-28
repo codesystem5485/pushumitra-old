@@ -69,9 +69,9 @@ class SupplierSubscriptionReminder extends Command
 				$name = $row->supplier_name; 
 				$send_message = 'Your Supplier listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Supplier Details:
- *Supplier Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Suppliers Contact: '.$row->mobile_number;
+ Supplier Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Suppliers Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

@@ -26,7 +26,7 @@ class InstitutionsController extends Controller
      * institutions Construct 
      * @return url 
      */
-    public function __construct(InstitutionsRepositoryInterface $institutionsRepo){
+    public function __construct(InstitutionsRepositoryInterface $institutionsRepo, UserRepositoryInterface $userRepository){
 
       /*  $this->middleware('permission:transporter-list|transporter-create|transporter-edit|transporter-delete', ['only' => ['index','show']]);
         $this->middleware('permission:transporter-create', ['only' => ['create','store']]);
@@ -38,6 +38,7 @@ class InstitutionsController extends Controller
             'createUrl' => route('institutions.create')
         ];
         $this->institutionsRepo = $institutionsRepo;
+		$this->userRepo = $userRepository;
     } 
 
     /**
@@ -124,10 +125,9 @@ class InstitutionsController extends Controller
      */
     public function update(InstitutionProcessRequest $request, $id) 
     {
-       
-            $institutions = $this->institutionsRepo->update($id,$request->all());
+			$institutions = $this->institutionsRepo->update($id,$request->all());
 
-              if($request->institution_photo)
+            if($request->institution_photo)
             {
                 foreach($request->institution_photo as $photo)
                 {
@@ -140,6 +140,11 @@ class InstitutionsController extends Controller
                 }
             }
 
+			$coordinateArr = $this->userRepo->getLatitudeLongitudes($institutions);
+			$institutions->latitude=$coordinateArr['latitude'];
+			$institutions->longitude=$coordinateArr['longitude'];
+			$institutions->update();
+			
             DB::commit();
             Session::flash('success', trans('messages.update_records'));
 

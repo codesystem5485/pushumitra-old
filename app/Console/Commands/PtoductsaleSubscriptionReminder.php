@@ -68,10 +68,10 @@ class PtoductsaleSubscriptionReminder extends Command
 				$price = $row->price;
 				$send_message = 'Your Product for sale listing for '.$product_name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
   Product Details:
- *Product Name: '.$product_name.'
- *Price: '.$price.'
- *Product Owner Name: '.$row->contact_number_of_owner.'
- *Product Owner Contact: '.$row->contact_name_of_owner;
+ Product Name: '.$product_name.'
+ Price: '.$price.'
+ Product Owner Name: '.$row->contact_number_of_owner.'
+ Product Owner Contact: '.$row->contact_name_of_owner;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

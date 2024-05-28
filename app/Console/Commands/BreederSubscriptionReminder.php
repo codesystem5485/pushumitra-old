@@ -70,9 +70,9 @@ class BreederSubscriptionReminder extends Command
 				$age =  $row->age;	
 				$send_message = 'Your Breeder listing for '.$breeder_name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
   Breeder Details:
- *species: '.$species_name.'
- *Age: '.$age.'
- *Breed: '.$breed;
+ species: '.$species_name.'
+ Age: '.$age.'
+ Breed: '.$breed;
  
 				$insertArray[] = '';
 			    $user_id =  $row->user_id; 

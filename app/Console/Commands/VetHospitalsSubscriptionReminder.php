@@ -71,10 +71,10 @@ class VetHospitalsSubscriptionReminder extends Command
 				$owner_name = $row->veterinary_owner_name;
 				$send_message = 'Your Vet Hospitals listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Vet Hospitals Details:
- *Vet Hospital Name: '.$name.'
- *Type: '.$row->subcategory_name.'
- *Owner Name: '.$owner_name.'
- *Owner Contact: '.$row->mobile_number;
+ Vet Hospital Name: '.$name.'
+ Type: '.$row->subcategory_name.'
+ Owner Name: '.$owner_name.'
+ Owner Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				

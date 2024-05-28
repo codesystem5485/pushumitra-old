@@ -462,6 +462,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::post('/{id?}/update', [TransporterController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [TransporterController::class, 'delete'])->name('delete'); 
         Route::get('/{id?}/remove', [TransporterController::class, 'removeImage'])->name('remove');
+		Route::get('/{id?}/removeRcbookImages', [TransporterController::class, 'removeRcbookImage'])->name('removeRcbookImages');
 		Route::get('/transporters-list', [TransporterController::class, 'getAjaxList'])->name('list');		
     });
 

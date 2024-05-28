@@ -66,9 +66,9 @@ class ChemistSubscriptionReminder extends Command
 				$owner_name = $row->owner_name;
 				$send_message = 'Your Chemist listing for '.$name.' is expiring in 2 days. Renew your subscription now to continue enjoying our services.
  Shop Details:
- *Shop Name: '.$name.'
- *Shop Owner Name: '.$row->owner_name.'
- *Shop Owner Contact: '.$row->mobile_number;
+ Shop Name: '.$name.'
+ Shop Owner Name: '.$row->owner_name.'
+ Shop Owner Contact: '.$row->mobile_number;
 			    $user_id =  $row->user_id; 
 				$insertArray['userFcmToken'] = $row->fcm_id;
 				
