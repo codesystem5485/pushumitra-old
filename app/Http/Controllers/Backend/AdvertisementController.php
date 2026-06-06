@@ -102,21 +102,25 @@ class AdvertisementController extends Controller
 
 			$advertisement_app_image='';
 			$advertisement_web_image='';
-			$type = 'adevertisements_app';
+			
 			if(!empty($request->advertisement_app_image))
 			{
+				$type = 'adevertisements_app';
 				$file = $request->advertisement_app_image;
 				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
 				$path = Config::get('constants.file.adevertisements_file_path');
 				 $file->move(public_path($path), $fileName);
+				 $advertisement_app_image=$fileName;
 			}
 			
 			if(!empty($request->advertisement_website_image))
 			{
+				$type = 'adevertisements_web';
 				$file = $request->advertisement_website_image;
 				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
 				$path = Config::get('constants.file.adevertisements_file_path');
 				 $file->move(public_path($path), $fileName);
+				 $advertisement_web_image=$fileName;
 			}
 			
 			$advertisement_startdate = '';
@@ -209,7 +213,7 @@ class AdvertisementController extends Controller
 		
         DB::beginTransaction();
         try{
-            $advertisements = Advertisements::find($id);
+         $advertisements = Advertisements::find($id);
 			$type = 'adevertisements_app';
             if(!empty($request->advertisement_app_image))
 			{
@@ -223,6 +227,8 @@ class AdvertisementController extends Controller
 				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
 				$path = Config::get('constants.file.adevertisements_file_path');
 				 $file->move(public_path($path), $fileName);
+				 $advertisement_app_image=$fileName;
+				 $advertisements->advertisement_app_image = $advertisement_app_image;
 			}
 			
 			if(!empty($request->advertisement_website_image))
@@ -231,13 +237,15 @@ class AdvertisementController extends Controller
 				if(!empty($advertisement_web_imagename))
 				{
 					$advertisement_web_image = $advertisement_web_imagename;
-					$advertisements->advertisement_website_image = $advertisement_web_image;
+					
 				}*/
-				
+				$type = 'adevertisements_web';
 				$file = $request->advertisement_website_image;
 				$fileName = $fileName = rand(10,100).time().'-'.$type.'.'.$file->extension();
 				$path = Config::get('constants.file.adevertisements_file_path');
 				 $file->move(public_path($path), $fileName);
+				 $advertisement_web_image=$fileName;
+				 $advertisements->advertisement_website_image = $advertisement_web_image;
 			}
 			$advertisement_startdate = '';
 			if($request->advertisement_startdate!=''){
@@ -268,7 +276,7 @@ class AdvertisementController extends Controller
             ## Store log
             $message = trans('messages.advertisements_update',['name' => $request->input('name')]);
             storeActicityLog(trans('messages.advertisements_update'),$message,Auth::user(),$advertisements);
-            return redirect()->route('advertisements.index');    
+             return redirect()->route('advertisements.index');    
         }catch(\Exception $e){ 
             DB::rollback();
             $error = !empty($e->getMessage())?$e->getMessage() : '';
@@ -276,7 +284,7 @@ class AdvertisementController extends Controller
             storeActicityLog(trans('messages.error'),$error,Auth::user());
             Session::flash('error', trans('messages.something'));
             return redirect()->route('advertisements.index'); 
-        }
+        } 
     }
 
     /**

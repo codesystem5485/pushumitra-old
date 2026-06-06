@@ -205,6 +205,7 @@ class PoultryHatcheryController extends BaseController
 	public function getPoultryHatcheryList(Request $request)
 	{
 		$requestData = request()->all();
+		\Log::info('Poultry Hatchery List Request', $requestData);
 		$module_id = 0;
 		if(isset($requestData['module_id']) && $requestData['module_id']!=''){
 				$module_id = $requestData['module_id'];

@@ -155,6 +155,11 @@
                               <a href="{{url('categories')}}" class="@if (\Request::is('categories') || \Request::is('categories/*'))  active  @endif" ><i class="bi bi-ui-checks-grid"></i> <span>Categories </span></a>
                            </li>
 						    @endif
+						    @if(auth()->user()->can('categories-list'))
+						   <li class="@if (\Request::is('references') || \Request::is('references/*'))  active  @endif">
+                              <a href="{{url('references')}}" class="@if (\Request::is('references') || \Request::is('references/*'))  active  @endif" ><i class="bi bi-link-45deg"></i> <span>References </span></a>
+                           </li>
+                            @endif
                            @if(auth()->user()->can('animal-type-list') || auth()->user()->can('breed-list') ||  auth()->user()->can('species-list') ||  auth()->user()->can('characteristics-list'))
                            <li class="@if (\Request::is('animal') || \Request::is('breed') || \Request::is('species') || \Request::is('characteristics')) active  @endif">
                               <a href="javascript:void(0)" class="has-arrow" ><i class="material-symbols-outlined">pets</i> <span>Animal</span></a>
@@ -200,6 +205,11 @@
 						   @if(auth()->user()->can('grfile-list') || auth()->user()->can('grfile-create') ||  auth()->user()->can('grfile-edit') ||  auth()->user()->can('grfile-delete'))
                            <li class="@if (\Request::is('grfiles')) active  @endif">
                               <a href="{{url('grfiles')}}" class="" ><i class="material-symbols-outlined">assured_workload</i> <span>Government Schemes </span></a>
+                           </li>
+                           @endif
+                           @if(auth()->user()->can('grfile-list') || auth()->user()->can('grfile-create') ||  auth()->user()->can('grfile-edit') ||  auth()->user()->can('grfile-delete'))
+                           <li class="@if (\Request::is('gresolutionfiles')) active  @endif">
+                              <a href="{{url('gresolutionfiles')}}" class="" ><i class="material-symbols-outlined">assured_workload</i> <span>Government Resolutions </span></a>
                            </li>
                            @endif
 						   @if(auth()->user()->can('fees-list') || auth()->user()->can('fees-create') || auth()->user()->can('fees-edit') || auth()->user()->can('fees-delete')) 

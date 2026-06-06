@@ -12,6 +12,25 @@ use App\Models\Payments;
 use App\Models\UserModuleCounts;
 use App\Repositories\Interfaces\User\UserRepositoryInterface;
 use App\Repositories\Interfaces\User\UserDetailRepositoryInterface;
+use App\Repositories\Implementation\Vethospitals\VethospitalsRepository;
+use App\Repositories\Implementation\Milkcollections\MilkcollectionsRepository;
+use App\Repositories\Implementation\Panjarpol\PanjarpolRepository;
+use App\Repositories\Implementation\Poultryhatchery\PoultryhatcheryRepository;
+use App\Repositories\Implementation\Dogshelters\DogsheltersRepository;
+use App\Repositories\Implementation\Addanimal\AddanimalRepository;
+use App\Repositories\Implementation\Labs\LabsRepository;
+use App\Repositories\Implementation\Ngo\NgoRepository;
+use App\Repositories\Implementation\Easycares\EasycaresRepository;
+use App\Repositories\Implementation\Shops\ShopsRepository;
+use App\Repositories\Implementation\Farms\FarmsRepository;
+use App\Repositories\Implementation\Trainingcenters\TrainingcentersRepository;
+use App\Repositories\Implementation\Institutions\InstitutionsRepository;
+use App\Repositories\Implementation\Chemist\ChemistRepository;
+use App\Repositories\Implementation\Transporter\TransporterRepository;
+use App\Repositories\Implementation\Productsale\ProductsaleRepository;
+use App\Repositories\Implementation\Animalsale\AnimalsaleRepository;
+use App\Repositories\Implementation\Breeder\BreederRepository;
+use App\Repositories\Implementation\Suppliers\SuppliersRepository;
 
 class PaymentController extends BaseController
 {
@@ -44,6 +63,13 @@ class PaymentController extends BaseController
 		}
 		
 		$response = $this->userRepo->checkProfilePaymentDetails($user_id,$role);
+		$userDetail = \App\Models\UserDetail::where('user_id', $user_id)->first();
+		
+		if($userDetail && in_array(strtolower($userDetail->job_type), ['government', 'student'])){
+			foreach($createArray as $key => $val){
+				$createArray[$key]['fee'] = '0';
+			}
+		}
 		$response['fee'] = $createArray;
 		$response['module_counts'] = $moduleres;
 		
@@ -278,6 +304,7 @@ class PaymentController extends BaseController
 	{
 		$postData = request()->all();
 		
+		
 		$validator = Validator::make($postData, [
 				'role' => 'required',
 				'amount' => 'required',
@@ -316,10 +343,15 @@ class PaymentController extends BaseController
 		$type = $aInsertData['type'];
 		$order_id =$aInsertData['order_id'];
 		$renew_flag =1;
-		
+		$itemid =0;
 		$paymentId =0;
 		$status=0;
 		$payment_request = '';
+		$module_type_id = $aInsertData['module_type_id'];
+		
+		if(isset($postData['itemid'])){
+		    $itemid= $postData['itemid'];
+		}
 		
 		if($aInsertData['payment_id']!=''){
 			$paymentId =$aInsertData['payment_id'];
@@ -348,7 +380,7 @@ class PaymentController extends BaseController
 				);
 			
 			$payment = Payments::create($insertArray);
-			
+
 			$createdPaymentId = 0;
 			
 			//pashumitra renewal
@@ -407,7 +439,10 @@ class PaymentController extends BaseController
 			$subscriptionStartDate='';
 			$subscriptionEndDate='';
 			
-			if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
+		/*	if(isset($postData['payment_id']) && $postData['payment_id']!='' && $postData['payment_id']!=0)
+			{*/
+			    
+		if(isset($postData['payment_id']) && ($postData['payment_id']!='' || $postData['payment_id']!=0))
 			{
 				$paymentArr = array( 'type'=>$payment->type);
 				$subscriptionArr = $this->userRepo->getAllSubscriptionDates($paymentArr);
@@ -429,18 +464,43 @@ class PaymentController extends BaseController
 				$notifications = $this->userRepo->addAllPaymentToNotifications($aInsertData);
 			}
 			
-			$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+			$repo = $this->getRepositoryByModuleId($module_type_id);
+			if ($repo) {
+			    if($itemid!=0){
+			        
+    				$results = $repo->getbyId($itemid);
+    				if(!$results){
+    				    \Log::info("record not found for itemid".$itemid."for module".$module_type_id);
+    				}else{
+    				    
+    				
+        				$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+        				$results->latitude=$coordinateArr['latitude'];
+        				$results->longitude=$coordinateArr['longitude'];
+        				$results->subscriptionStartDate = $subscriptionStartDate;
+        				$results->subscriptionEndDate = $subscriptionEndDate;
+        				$results->update();
+    				    
+    				}
+    			  }else{
+    			      
+    			      \Log::info("No itemid provided in request".$itemid."for module".$module_type_id);
+    			  }
+    			  
+			} else {
+			    \Log::info("No Repo implementation found for itemid provided in request".$itemid."for module".$module_type_id);
+                // 	$results = $this->userRepo->getbyId($aInsertData['user_id']);
+                // 	$coordinateArr = $this->userRepo->getLatitudeLongitudes($results);
+                // 	$results->latitude=$coordinateArr['latitude'];
+                // 	$results->longitude=$coordinateArr['longitude'];
+                // 	$results->subscriptionStartDate=$subscriptionStartDate;
+                // 	$results->subscriptionEndDate=$subscriptionEndDate;
+                // 	$results->update();
 			
-			
-			$results->latitude=$coordinateArr['latitude'];
-			$results->longitude=$coordinateArr['longitude'];
-			$results->subscriptionStartDate=$subscriptionStartDate;
-			$results->subscriptionEndDate=$subscriptionEndDate;
-			$results->update();
-			
+			}
 			
 			$response['payments'] =$payment; 
-            DB::commit();
+                DB::commit();
 			 ## Store log
             $message = trans('messages.payments_create',['name' => $paymentId]);
             storeActicityLog(trans('messages.payments_create'),$message);
@@ -475,4 +535,38 @@ class PaymentController extends BaseController
 		$message = "Count updated successfully";
 		return $this->sendResponse($response,$message,200);
 	}
+	
+	
+	public function getRepositoryImplementationByModuleId(int $moduleId): ?string
+    {
+        $map = [
+            7  => VethospitalsRepository::class,
+            17 => MilkcollectionsRepository::class,
+            13 => PanjarpolRepository::class,
+            14 => PoultryhatcheryRepository::class,
+            15 => DogsheltersRepository::class,
+            21 => AddanimalRepository::class,
+            18 => LabsRepository::class,
+            20 => NgoRepository::class,
+            19 => EasycaresRepository::class,
+            12 => ShopsRepository::class,
+            10 => FarmsRepository::class,
+            11 => TrainingcentersRepository::class,
+            16 => InstitutionsRepository::class,
+            5  => ChemistRepository::class,
+            4  => TransporterRepository::class,
+            8  => ProductsaleRepository::class,
+            2  => AnimalsaleRepository::class,
+            3  => BreederRepository::class,
+            9  => SuppliersRepository::class,
+        ];
+
+        return $map[$moduleId] ?? null;
+    }
+
+    public function getRepositoryByModuleId(int $moduleId)
+    {
+        $class = $this->getRepositoryImplementationByModuleId($moduleId);
+        return $class ? app($class) : null;
+    }
 }

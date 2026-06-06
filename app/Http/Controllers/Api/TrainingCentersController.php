@@ -226,7 +226,8 @@ rateable_id  =   training_centers.id AND module_id ='.$module_id.' ) as star_rat
 							 ->orWhere(function($query){
                                  $query->where('type','Government')->where('training_centers.subscriptionEndDate', '0000-00-00');
                              });
-                         });
+                         })
+                         ->where('training_centers.status', 1);
 						 
 		if($haversine!=''){
 			$query  = $query->selectRaw("$haversine AS distance");

@@ -34,6 +34,8 @@ use App\Models\Animals;
 use App\Models\Labs;
 use App\Models\Ngo;
 use App\Models\Easycares;
+use App\Models\ReferenceModel;
+use App\Models\UserReference;
 
 class HomeController extends Controller
 {
@@ -149,7 +151,15 @@ class HomeController extends Controller
      */
     public function updateProfile(UserRequest $request,$id){ 
         $res = $this->userRepo->updateUser($id,$request->all());
+        $referenceId = $request->input('referenceid', 1);
         if($res){
+            UserReference::updateOrCreate(
+                ['userid' => $id],
+                [
+                    'referenceid' => $referenceId,
+                    'refereddate' => Carbon::today()->toDateString(),
+                ]
+            );
             Session::flash('success', trans('messages.update_information')); 
         }else{
             Session::flash('error', trans('messages.something')); 

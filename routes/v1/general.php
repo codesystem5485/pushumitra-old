@@ -32,6 +32,8 @@ use App\Http\Controllers\Api\LabsController;
 use App\Http\Controllers\Api\NgoController;
 use App\Http\Controllers\Api\FrontPagesController;
 use App\Http\Controllers\Api\UserTransactionsController;
+use App\Http\Controllers\Api\ReferenceController;
+
 
 Route::group(['middleware' => ['cors']], function () {
 	 
@@ -41,6 +43,7 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/get-subcategories', [CommonController::class,'getSubCategories'])->middleware('localization');
 	Route::get('/get-categories', [CommonController::class,'getParentCategories']);
 	Route::get('/get-grfiles', [CommonController::class,'getGrFiles']);
+	Route::get('/get-gresolutionfiles', [CommonController::class,'getGResolutionFiles']);
 	Route::get('/get-csractivities', [FrontPagesController::class,'csrActivities']);
 	Route::get('/get-csractivity-detail', [FrontPagesController::class,'csrActivityDetails']);
 	Route::get('/get-testimonials', [FrontPagesController::class,'testimonials']);
@@ -83,7 +86,7 @@ Route::group(['middleware' => ['cors']], function () {
 	/* payment */
 	Route::post('/get-orderid', [PaymentController::class,'generatePaymentOrderId']);
 	Route::post('/create-payment', [PaymentController::class,'addPayments']);
-	Route::post('/create-renewal-payment', [PaymentController::class,'addRenewPayments']);
+ 	Route::post('/create-renewal-payment', [PaymentController::class,'addRenewPayments']);
 	
 	Route::get('/get-config', [PaymentController::class,'getConfig'])->middleware('localization');
 	
@@ -232,5 +235,15 @@ Route::group(['middleware' => ['cors']], function () {
 	Route::get('/lab-detail', [LabsController::class,'labDetail']);
 	Route::get('/ngo-list', [NgoController::class,'getNgoList']);
 	Route::get('/ngo-detail', [NgoController::class,'ngoDetail']);
+	
+	/* References */
+	Route::post('/add-reference', [ReferenceController::class,'addReference']);
+	Route::post('/update-reference', [ReferenceController::class,'updateReference']);
+	Route::post('/delete-reference', [ReferenceController::class,'deleteReference']);
+	Route::post('/add-user-reference', [ReferenceController::class,'addUserReference']);
+	Route::get('/user-references', [ReferenceController::class,'getUserReferences']);
+	
+	Route::get('/references-list', [ReferenceController::class,'getReferenceList']);
+	Route::get('/reference-detail', [ReferenceController::class,'referenceDetail']);
 	
 }); 

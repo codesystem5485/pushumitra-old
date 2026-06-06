@@ -30,7 +30,7 @@ class InvoiceController extends Controller
     public function downloadReceipt($userId,$paymentId){
 		
         $payments = Payments::leftJoin('users', 'users.id', '=', 'payments.user_id')
-		->select('payments.*','users.full_name','users.mobile_number','users.address_line_1','users.pincode','users.rv_code','users.pm_code')
+		->select('payments.*','users.full_name','users.mobile_number','users.address_line_1','users.pincode','users.rv_code','users.pm_code','users.state_id as user_state_id')
 		->where('payments.id',$paymentId)->first();
 		if($payments){
 			
@@ -52,6 +52,7 @@ class InvoiceController extends Controller
 			
 			$data = [
 				'user_name'    => $payments->full_name,
+				'user_state_id' =>$payments->user_state_id,
 				'mobile_number' => $payments->mobile_number,
 				'invoice_number'      => $paymentId,
 				'invoice_date' => date("d-m-Y",strtotime($payments->payment_date)),

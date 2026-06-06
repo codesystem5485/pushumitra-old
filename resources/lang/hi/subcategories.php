@@ -2,16 +2,20 @@
 return [
 'Veterinary hospitals'=>'पशुवैद्यकीय रुग्णालय',
 'District Veterinary Polyclinic'=>'जिला पशु चिकित्सा पॉलीक्लिनिक',
-'Veterinary Mini Polyclinic'=>'पशु चिकित्सा मिनी पॉलीक्लिनिक',
-'Veterinary Dispensary Grade 2'=>'पशु चिकित्सा केंद्र ग्रेड 2',
+'Veterinary Mini Polyclinic'=>'तालुका पशु चिकित्सालय', 
+'Veterinary Clinic (State)'=>'पशु चिकित्सालय (राज्य स्तर)', 
 'A. I. Centre'=>'कृत्रिम गर्भाधान केंद्र',
 'Mobile Veterinary Clinic'=>'मोबाइल पशु चिकित्सा क्लिनिक',
-'Veterinary Dispensary Grade 1'=>'पशु चिकित्सा केंद्र ग्रेड 1 ',
+'Veterinary Clinic (Local)'=>'पशु चिकित्सा क्लिनिक (स्थानीय)',
+'Office of Taluka AH & Dairy Officer'=>'तालुका पशुपालन एवं डेयरी अधिकारी कार्यालय', 
+
 'Disease Investigation Lab'=>'रोग परीक्षण प्रयोगशाला',
 'Frozen Semen Lab'=>'जमे हुए वीर्य प्रयोगशाला',
 'IVF/ET Lab'=>'आईवीएफ/भ्रूण स्थानांतरण लैब',
 'Feed/Fodder Investigation Lab'=>'चारा/चारा परीक्षण प्रयोगशाला',
 'Milk & Milk Product Testing Lab'=>'दूध एवं दूध उत्पाद परीक्षण प्रयोगशाला',
+'Soil Testing Lab'=>'मृदा परीक्षण प्रयोगशाला',
+
 
 'Cow Manure Supplier'=>'गाय खाद आपूर्तिकर्ता',
 'Goat Manure Supplier'=>'बकरी खाद आपूर्तिकर्ता',
@@ -25,14 +29,16 @@ return [
 'Pathological Reagent Supplier'=>'प्रयोगशाला सामग्री आपूर्तिकर्ता',
 'Silage Supplier'=>'साइलेज आपूर्तिकर्ता',
 'Surgical Instrument Supplier'=>'सर्जिकल उपकरण आपूर्तिकर्ता',
-
+'Animal Feed Supplement Supplier' =>'पशु आहार अनुपूरक आपूर्तिकर्ता',
 'Silage Culture Supplier'=>'सिलेज कल्चर आपूर्तिकर्ता',
 'Cattle Feed Supplier'=>'पशु चारा आपूर्तिकर्ता',
-
 'Liquid Nitrogen Supplier'=>'लिक्विड नाइट्रोजन आपूर्तिकर्ता',
-
 'Green fodder supplier'=>'हरा चारा आपूर्तिकर्ता',
 'Dry fodder supplier'=>'सूखा चारा आपूर्तिकर्ता',
+'Disinfectant Sanitizer Supplier'=>'निस्संक्रामक सैनिटाइज़र आपूर्तिकर्ता ',
+'Goat Feed Supplier'=>'बकरी चारा आपूर्तिकर्ता',
+'Poultry Feed Supplier'=>'पोल्ट्री फ़ीड आपूर्तिकर्ता',
+'Mannure Compost Culture Supplier'=>'खाद कम्पोस्ट कल्चर आपूर्तिकर्ता',
 
 'Agriculture Degree College'=>'कृषि डिग्री कॉलेज',
 'Agriculture Diploma College'=>'कृषि डिप्लोमा कॉलेज',
@@ -48,15 +54,18 @@ return [
 'Veterinary Diploma College'=>'पशु चिकित्सा डिप्लोमा कॉलेज',
 'Veterinary Research Institute'=>'पशु चिकित्सा अनुसंधान संस्थान',
 'Veterinary University'=>'पशु चिकित्सा विश्वविद्यालय',
+'Livestock Management and Dairy Production Diploma'=>'पशुधन प्रबंधन और डेयरी उत्पादन में डिप्लोमा',
 
 'Cattle Farm'=>'मवेशी फार्म',
 'Poultry Farm'=>'मुर्गीपालन फार्म',
-'Goat Farm'=>'बकरी फार्म',
+'Sheep and Goat Farm'=>'भेड़ और बकरी फार्म',
 'Duck Farm'=>'बत्तख फार्म',
 'Rabbit Farm'=>'खरगोश फार्म',
 'Emu Farm'=>'एमु फार्म',
 'Stud Farm'=>'स्टड फार्म',
 'Fish Farm'=>'मछली पालन फार्म',
+
+
 
 'AI Training Centre'=>'एआय प्रशिक्षण केंद्र',
 'Dairy Farming Training Centre'=>'डेयरी फार्मिंग प्रशिक्षण केंद्र',
@@ -66,6 +75,9 @@ return [
 'Dog Training Centre'=>'कुत्ता प्रशिक्षण केंद्र',
 'IVF/ET Training Centre'=>'आईवीएफ/ईटी प्रशिक्षण केंद्र',
 'Horse Riding Training Centres'=>'घुड़सवारी प्रशिक्षण केंद्र',
+'Agriclinics and Agribusiness centers scheme (ACABC Scheme)'=> 'कृषि क्लिनिक और कृषि व्यवसाय केंद्र योजना (एसीएबीसी योजना)',
+'Training Centre'=>'प्रशिक्षण केंद्र',
+
 
 
 
@@ -77,6 +89,8 @@ return [
 'Poultry Food'=>'मुर्गी खाद',
 'Pet Parlour'=>'पेट पार्लर',
 'Books'=>'किताबे',
+'Animal Feed Supplement Shop'=>'पशु चारा अनुपूरक दुकान',
+
 ];
 
 ?>

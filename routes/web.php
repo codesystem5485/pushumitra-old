@@ -47,9 +47,12 @@ use App\Http\Controllers\Backend\CategoriesController;
 use App\Http\Controllers\Backend\PushNotificationController;
 use App\Http\Controllers\Backend\LabsController;
 use App\Http\Controllers\Backend\GrfileController;
+use App\Http\Controllers\Backend\GResolutionfileController;
 use App\Http\Controllers\Backend\EasycaresController;
 use App\Http\Controllers\Backend\NgoController;
 use App\Http\Controllers\Crons\SubscriptionController;
+use App\Jobs\SendPushNotificationJob;
+use App\Http\Controllers\Backend\ReferenceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +70,11 @@ use App\Http\Controllers\Crons\SubscriptionController;
 Front Website
 
 */
+
+Route::get('/test-queue', function () {
+    SendPushNotificationJob::dispatch(['egMn8976STeJwNRfj9uCiK:APA91bF6e9X1O6Ct7dwAYqG-tw8Z4e1WSDFlzlMAwPSl2Evv6ZziWMgDcTQ2OWnHpaDLCf76YqzF8DYL8MDRxcMn2SRbwPvJVGCLS3I5qwTLvqMuta9j1b8'], 'Queue Test', 'Working');
+    return 'Job dispatched';
+});
 
 Route::get('notifications/getNotificationsToSend', [NotificationController::class, 'getNotificationsToSend'])->name('getNotificationsToSend');
 
@@ -201,6 +209,22 @@ Route::middleware(['auth'])->group(function () {//,'check.role'
         Route::post('/{id?}/update', [CategoriesController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [CategoriesController::class, 'delete'])->name('delete'); 
     });
+    
+    
+    //Reference module
+    Route::group([
+        'prefix' => 'references',
+        'as' => 'references.',
+      ], function () {
+        Route::get('/', [ReferenceController::class, 'index'])->name('index');
+        Route::get('/create', [ReferenceController::class, 'create'])->name('create');
+        Route::post('/store', [ReferenceController::class, 'store'])->name('store');
+        Route::get('/{id?}/edit', [ReferenceController::class, 'edit'])->name('edit');
+        Route::post('/{id?}/update', [ReferenceController::class, 'update'])->name('update');
+        Route::get('/{id?}/delete', [ReferenceController::class, 'delete'])->name('delete');
+    });
+
+
 
     //Animal Characterestics module
     Route::group([
@@ -481,7 +505,7 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         
     });
 	
-	//GR module
+	//Goverment Scheme module
     Route::group([
         'prefix' => 'grfiles',
         'as' => 'grfiles.',
@@ -492,7 +516,22 @@ Route::get('/{id?}/easycares-verify', [EasycaresController::class, 'easycareVeri
         Route::get('/{id?}/edit', [GrfileController::class, 'edit'])->name('edit'); 
         Route::post('/{id?}/update', [GrfileController::class, 'update'])->name('update'); 
         Route::get('/{id?}/delete', [GrfileController::class, 'delete'])->name('delete'); 
-        Route::get('/{file_name?}/download', [GrfileController::class, 'getDownload'])->name('download'); 
+        Route::get('/{file_name?}/download', [GrfileController::class, 'getDownload'])->where('file_name', '.*')->name('download'); 
+        
+    });
+    
+    //Goverment Resolutions module
+    Route::group([
+        'prefix' => 'gresolutionfiles',
+        'as' => 'gresolutionfiles.',
+      ], function () {
+        Route::get('/', [GResolutionfileController::class, 'index'])->name('index');
+        Route::get('/create', [GResolutionfileController::class, 'create'])->name('create');
+        Route::post('/store', [GResolutionfileController::class, 'store'])->name('store'); 
+        Route::get('/{id?}/edit', [GResolutionfileController::class, 'edit'])->name('edit'); 
+        Route::post('/{id?}/update', [GResolutionfileController::class, 'update'])->name('update'); 
+        Route::get('/{id?}/delete', [GResolutionfileController::class, 'delete'])->name('delete'); 
+        Route::get('/{file_name?}/download', [GResolutionfileController::class, 'getDownload'])->where('file_name', '.*')->name('download'); 
         
     });
 	

@@ -15,6 +15,7 @@ use App\Repositories\Interfaces\User\UserDetailRepositoryInterface;
 use DB;
 use Session;
 use Auth;
+use App\Models\ReferenceModel;
 
 class PaymentReportController extends Controller
 {
@@ -41,7 +42,7 @@ class PaymentReportController extends Controller
 	
 	public function index(Request $request){
 		
-		$to_date = '';$from_date='';$activity='';
+		$to_date = '';$from_date='';$activity=''; $referenceid='';
 		if($request->from_date!=''){
 			$from_date = date("Y-m-d", strtotime($request->from_date))." 00:00:01";
 		}
@@ -53,8 +54,24 @@ class PaymentReportController extends Controller
 			$activity = $request->activity;
 		}
 		
+		if($request->referenceid!=''){
+			$referenceid = $request->referenceid;
+		}
 		
-        $payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.rv_code')
+		
+         $payments = Payments::select(
+						'payments.*',
+						'fee_structure.name',
+						'users.pm_code',
+						'users.rv_code',
+						'users.other_usercode',
+						'users.full_name',
+						'users.first_name',
+						'users.middle_name',
+						'users.last_name',
+						'users.mobile_number',
+						DB::raw('COALESCE((select `references`.name from user_references left join `references` on `references`.id = user_references.referenceid where user_references.userid = payments.user_id order by user_references.id desc limit 1), (select `references`.name from `references` where `references`.id = 1 limit 1), "Pashumitra advertisement") as reference_name')
+					)
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',0);
@@ -65,12 +82,38 @@ class PaymentReportController extends Controller
 					if($activity!=''){
 						$payments = $payments->where('type',$activity);
 					}
+					
+					if($referenceid!=''){
+						if($referenceid == 1){
+							$payments = $payments->where(function($query) use ($referenceid) {
+								$query->whereIn('payments.user_id', function($subQuery) use ($referenceid) {
+									$subQuery->select('userid')
+										->from('user_references')
+										->where('referenceid', $referenceid);
+								})
+								->orWhereNotIn('payments.user_id', function($subQuery) {
+									$subQuery->select('userid')
+										->from('user_references');
+								});
+							});
+						}else{
+							$payments = $payments->whereIn('payments.user_id', function($query) use ($referenceid) {
+								$query->select('userid')
+									->from('user_references')
+									->where('referenceid', $referenceid);
+							});
+						}
+					}
+					
 					$payments = $payments->orderBy('payment_date','DESC')->get();
+					$totalBusinessCount = $payments->count();
+					$totalBusinessAmount = $payments->sum('amount');
+	
 			
 		DB::connection()->enableQueryLog();
         
 		//	dd(DB::getQueryLog());
-		$fromdate='';$todate=''; $selactivity='';
+		$fromdate='';$todate=''; $selactivity=''; $selreferenceid='';
 		if($from_date!=''){
 			$fromdate = date("d-m-Y",strtotime($from_date));
 		}
@@ -80,12 +123,36 @@ class PaymentReportController extends Controller
 		if($activity!=''){
 			$selactivity =$activity; 
 		}
+		if($referenceid!=''){
+			$selreferenceid =$referenceid;
+		}
 		$fees = Fee::where('fee_structure.reg_flag',0)->orderBy('id','ASC')->get();
-        return view('backend.payment_reports.index',['from_date'=>$fromdate,'to_date'=>$todate,'selactivity'=>$selactivity,'fees'=>$fees,'payments'=>$payments,'url' => $this->url]); 
+		$references = ReferenceModel::where('active',1)->orWhere('id',1)->orderBy('name','ASC')->get();
+        foreach($payments as $row){
+			$user_code = '';
+			if($row->pm_code){
+				$user_code = $row->pm_code;
+			}elseif($row->rv_code){
+				$user_code = $row->rv_code;
+			}elseif($row->other_usercode){
+				$user_code = $row->other_usercode;
+			}elseif($row->mobile_number){
+				$user_code = $row->mobile_number;
+			}elseif($row->first_name || $row->last_name){
+				$user_code = $row->first_name.' '.$row->last_name;
+			}elseif($row->full_name){
+				$user_code = $row->full_name;
+			}else{
+				$user_code = 'N/A';
+			}
+			$row->user_code = $user_code;
+		}
+		
+        return view('backend.payment_reports.index',['from_date'=>$fromdate,'to_date'=>$todate,'selactivity'=>$selactivity,'selreferenceid'=>$selreferenceid,'fees'=>$fees,'references'=>$references,'payments'=>$payments,'totalBusinessCount'=>$totalBusinessCount,'totalBusinessAmount'=>$totalBusinessAmount,'url' => $this->url]);
     }
 	
 	public function registrationPaymentReport(Request $request){
-		$to_date = '';$from_date='';$activity='';
+		$to_date = '';$from_date='';$referenceid='';
 		if($request->from_date!=''){
 			$from_date = date("Y-m-d", strtotime($request->from_date))." 00:00:01";
 		}
@@ -93,13 +160,29 @@ class PaymentReportController extends Controller
 			$to_date = date("Y-m-d", strtotime($request->to_date))." 00:00:01";
 			 
 		}
+		if($request->referenceid!=''){
+			$referenceid = $request->referenceid;
+		}
         /*$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.full_name','users.rv_code')
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',1)
 					->orderBy('payment_date','DESC')->get();*/
 					
-		$payments = Payments::select('payments.*','fee_structure.name','users.pm_code','users.city_town','users.full_name','users.rv_code')
+		$payments = Payments::select(
+						'payments.*',
+						'fee_structure.name',
+						'users.pm_code',
+						'users.city_town',
+						'users.full_name',
+						'users.rv_code',
+						'users.other_usercode',
+						'users.first_name',
+						'users.middle_name',
+						'users.last_name',
+						'users.mobile_number',
+						DB::raw('COALESCE((select `references`.name from user_references left join `references` on `references`.id = user_references.referenceid where user_references.userid = payments.user_id order by user_references.id desc limit 1), (select `references`.name from `references` where `references`.id = 1 limit 1), "Pashumitra advertisement") as reference_name')
+					)
 					->leftJoin('fee_structure', 'fee_structure.id', '=', 'payments.type')
 					->leftJoin('users', 'users.id', '=', 'payments.user_id')
 					->where('fee_structure.reg_flag',1);
@@ -107,17 +190,64 @@ class PaymentReportController extends Controller
 					if($from_date!='' && $to_date!=''){
 						$payments = $payments->whereBetween('payment_date', [$from_date, $to_date]);
 					}
+					if($referenceid!=''){
+						if($referenceid == 1){
+							$payments = $payments->where(function($query) use ($referenceid) {
+								$query->whereIn('payments.user_id', function($subQuery) use ($referenceid) {
+									$subQuery->select('userid')
+										->from('user_references')
+										->where('referenceid', $referenceid);
+								})
+								->orWhereNotIn('payments.user_id', function($subQuery) {
+									$subQuery->select('userid')
+										->from('user_references');
+								});
+							});
+						}else{
+							$payments = $payments->whereIn('payments.user_id', function($query) use ($referenceid) {
+								$query->select('userid')
+									->from('user_references')
+									->where('referenceid', $referenceid);
+							});
+						}
+					}
 					
 					$payments = $payments->orderBy('payment_date','DESC')->get();
+					$totalBusinessCount = $payments->count();
+					$totalBusinessAmount = $payments->sum('amount');
 					
-		$fromdate='';$todate='';
+		$fromdate='';$todate='';$selreferenceid='';
 		if($from_date!=''){
 			$fromdate = date("d-m-Y",strtotime($from_date));
 		}
 		if($to_date!=''){
 			$todate =date("d-m-Y",strtotime($to_date));
 		}
-        return view('backend.payment_reports.reg_payment_report',['from_date'=>$fromdate,'to_date'=>$todate,'payments'=>$payments,'url' => $this->url]); 
+		if($referenceid!=''){
+			$selreferenceid =$referenceid;
+		}
+		$references = ReferenceModel::where('active',1)->orWhere('id',1)->orderBy('name','ASC')->get();
+		foreach($payments as $row){
+			$user_code = '';
+			if($row->pm_code){
+				$user_code = $row->pm_code;
+			}elseif($row->rv_code){
+				$user_code = $row->rv_code;
+			}elseif($row->other_usercode){
+				$user_code = $row->other_usercode;
+			}elseif($row->mobile_number){
+				$user_code = $row->mobile_number;
+			}elseif($row->first_name || $row->last_name){
+				$user_code = $row->first_name.' '.$row->last_name;
+			}elseif($row->full_name){
+				$user_code = $row->full_name;
+			}else{
+				$user_code = 'N/A';
+			}
+			$row->user_code = $user_code;
+		}
+
+        return view('backend.payment_reports.reg_payment_report',['from_date'=>$fromdate,'to_date'=>$todate,'selreferenceid'=>$selreferenceid,'references'=>$references,'payments'=>$payments,'totalBusinessCount'=>$totalBusinessCount,'totalBusinessAmount'=>$totalBusinessAmount,'url' => $this->url]); 
     }
 	
 	public function addPayments(Request $request)

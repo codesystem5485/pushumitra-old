@@ -189,14 +189,24 @@ class GrfileController extends Controller
 
     public function getDownload($file_name){
 
-        $file = public_path()."/upload/grfiles/".urldecode($file_name);
-		$headers = array('Content-Type: application/pdf',
-						'Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:
-		GET, POST, PUT, DELETE, OPTIONS');
-        return Response :: download($file);
+//         $file = public_path()."/upload/grfiles/".urldecode($file_name);
+// 		$headers = array('Content-Type: application/pdf',
+// 						'Access-Control-Allow-Origin:*','Access-Control-Allow-Methods:
+// 		GET, POST, PUT, DELETE, OPTIONS');
+//         return Response :: download($file);
         
-       //  return response()->download($file, $file_name, $headers);
-        return Response::download($file,$file_name, $headers);
+//       //  return response()->download($file, $file_name, $headers);
+//         return Response::download($file,$file_name, $headers);
+        $file_name = urldecode($file_name);
+
+        $path = public_path('upload/grfiles/' . $file_name);
+    
+        if (!file_exists($path)) {
+            abort(404, 'File not found: ' . $file_name);
+        }
+    
+        return response()->download($path, $file_name);
+        
     }
 
 }

@@ -33,7 +33,7 @@
             <div class="col-auto">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">From Date* :</span>
+                    <span class="input-group-text">From Date :</span>
                 </div>
                 <input data-date-autoclose="true" data-provide="datepicker" type="text" id="from_date"
                     class="form-control" aria-describedby="basic-addon3" name="from_date"
@@ -44,7 +44,7 @@
             <div class="col-auto">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">To Date* :</span>
+                    <span class="input-group-text">To Date :</span>
                 </div>
                 <input data-date-autoclose="true" data-provide="datepicker" type="text" id="to_date"
                     class="form-control" aria-describedby="basic-addon3" name="to_date"
@@ -65,6 +65,19 @@
             </div>
             </div>
             <div class="col-auto">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Reference :</span>
+                </div>
+                <select id="referenceid" class="form-control" aria-describedby="basic-addon3" name="referenceid">
+                    <option value="">Select Reference</option>
+                    @foreach($references as $reference)
+                    <option value="{{$reference->id}}" @if($selreferenceid==$reference->id) selected @endif>{{$reference->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            </div>
+            <div class="col-auto">
                 <div class="input-group mb-2">
                     <input type="submit" class="btn btn-primary" value="Search" />
                 </div>
@@ -75,11 +88,20 @@
 
     </form>
                 <div class="body">
+                    <div class="row clearfix mb-3">
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <strong>Total Business Added Count:</strong> {{$totalBusinessCount}}
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <strong>Total Business Amount:</strong> {{number_format($totalBusinessAmount, 2)}}
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover js-basic-example dataTable table-custom">
                             <thead>
                             <tr>
                                 <th>Added by</th>  
+                                <th>Reference</th>
 								<th>Activity </th>
 								<th>Amount</th>								
                                 <th>Payment Date</th>
@@ -89,13 +111,6 @@
                             <tbody>
                             @foreach($payments as $row)
 							@php
-							$user_code='';
-							if($row->pm_code!=''){
-								$user_code = $row->pm_code;
-							}
-							if($row->rv_code!=''){
-								$user_code = $row->rv_code;
-							}
 							$paymentdate = '';
 							if($row->payment_date!=''){
 								$paymentdate = date("d-M-Y",strtotime($row->payment_date));
@@ -103,7 +118,8 @@
 							
 							@endphp
                             <tr>
-                                <td>{{$user_code}}</td>
+                                <td>{{$row->user_code}}</td>
+                                <td>{{$row->reference_name}}</td>
 								<td>{{$row->name}}</td>
 								<td>{{$row->amount}}</td>
 								<td>{{$paymentdate}}</td>								

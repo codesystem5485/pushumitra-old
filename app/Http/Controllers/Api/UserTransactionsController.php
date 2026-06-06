@@ -45,6 +45,8 @@ class UserTransactionsController extends BaseController
 		$requestData = request()->all();
 		$user_id = $request->user_id;
 		
+		$feeArr = $users = DB::table('fee_structure')->get();
+		
 		$hospitalArr = Veterinaryhospitals::select('veterinary_hospitals.*',
             DB::raw('(select CONCAT("'.$url.'", image_name) from  veterinary_hospitals_images where veterinary_hospitals_id  = veterinary_hospitals.id order by id asc limit 1) as image_name'))
 			->where('user_id', $user_id)->where('veterinary_hospitals.status',1)->get();
@@ -52,6 +54,7 @@ class UserTransactionsController extends BaseController
 		foreach($hospitalArr as $hospital)
 		{
 			$myArray  = Arr::add($hospital, 'module_id', 7);
+			$myArray  = Arr::add($hospital, 'fee', $feeArr[7-1]->fee);
 			array_push($hospitalModuleArr,$myArray);
 		}
 		
@@ -64,6 +67,7 @@ class UserTransactionsController extends BaseController
 		foreach($milkCollectionArr as $millCollection)
 		{
 			$myArray  = Arr::add($millCollection, 'module_id', 17);
+			$myArray  = Arr::add($millCollection, 'fee', $feeArr[17-1]->fee);
 			array_push($milkCollectionModuleArr,$myArray);
 		}
 		
@@ -76,6 +80,7 @@ class UserTransactionsController extends BaseController
 		foreach($panjarpolArr as $panjarpol)
 		{
 			$myArray  = Arr::add($panjarpol, 'module_id', 13);
+			$myArray  = Arr::add($panjarpol, 'fee', $feeArr[13-1]->fee);
 			array_push($panjarpolModuleArr,$myArray);
 		}
 		
@@ -88,6 +93,7 @@ class UserTransactionsController extends BaseController
 		foreach($poultryArr as $poultry)
 		{
 			$myArray  = Arr::add($poultry, 'module_id', 14);
+			$myArray  = Arr::add($poultry, 'fee', $feeArr[14-1]->fee);
 			array_push($poultryModuleArr,$myArray);
 		}
 		
@@ -100,6 +106,7 @@ class UserTransactionsController extends BaseController
 		foreach($dogShelterArr as $dogShelter)
 		{
 			$myArray  = Arr::add($dogShelter, 'module_id', 15);
+			$myArray  = Arr::add($dogShelter, 'fee', $feeArr[15-1]->fee);
 			array_push($dogShelterModuleArr,$myArray);
 		}
 		
@@ -112,6 +119,7 @@ class UserTransactionsController extends BaseController
 		foreach($animalArr as $animal)
 		{
 			$myArray  = Arr::add($animal, 'module_id', 21);
+			$myArray  = Arr::add($animal, 'fee', $feeArr[21-1]->fee);
 			array_push($animalModuleArr,$myArray);
 		}
 		
@@ -124,6 +132,7 @@ class UserTransactionsController extends BaseController
 		foreach($labArr as $lab)
 		{
 			$myArray  = Arr::add($lab, 'module_id', 18);
+			$myArray  = Arr::add($lab, 'fee', $feeArr[18-1]->fee);
 			array_push($labModuleArr,$myArray);
 		}
 		
@@ -136,6 +145,7 @@ class UserTransactionsController extends BaseController
 		foreach($ngoArr as $ngo)
 		{
 			$myArray  = Arr::add($ngo, 'module_id', 20);
+			$myArray  = Arr::add($ngo, 'fee', $feeArr[20-1]->fee);
 			array_push($ngoModuleArr,$myArray);
 		}
 		
@@ -148,6 +158,7 @@ class UserTransactionsController extends BaseController
 		foreach($easycareArr as $easycare)
 		{
 			$myArray  = Arr::add($easycare, 'module_id', 19);
+			$myArray  = Arr::add($easycare, 'fee', $feeArr[19-1]->fee);
 			array_push($easycareModuleArr,$myArray);
 		}
 		
@@ -160,6 +171,7 @@ class UserTransactionsController extends BaseController
 		foreach($shopArr as $shop)
 		{
 			$myArray  = Arr::add($shop, 'module_id', 12);
+			$myArray  = Arr::add($shop, 'fee', $feeArr[12-1]->fee);
 			array_push($shopModuleArr,$myArray);
 		}
 		
@@ -172,6 +184,7 @@ class UserTransactionsController extends BaseController
 		foreach($farmArr as $farm)
 		{
 			$myArray  = Arr::add($farm, 'module_id', 10);
+			$myArray  = Arr::add($farm, 'fee', $feeArr[10-1]->fee);
 			array_push($farmModuleArr,$myArray);
 		}
 		
@@ -184,6 +197,7 @@ class UserTransactionsController extends BaseController
 		foreach($trainingCenterArr as $training)
 		{
 			$myArray  = Arr::add($training, 'module_id', 11);
+			$myArray  = Arr::add($training, 'fee', $feeArr[11-1]->fee);
 			array_push($trainingCenterModuleArr,$myArray);
 		}
 		
@@ -196,6 +210,7 @@ class UserTransactionsController extends BaseController
 		foreach($institutionArr as $institution)
 		{
 			$myArray  = Arr::add($institution, 'module_id', 16);
+			$myArray  = Arr::add($institution, 'fee', $feeArr[16-1]->fee);
 			array_push($institutionModuleArr,$myArray);
 		}
 		$url13 = url("/upload/chemist")."/";
@@ -207,6 +222,7 @@ class UserTransactionsController extends BaseController
 		foreach($chemistArr as $chemist)
 		{
 			$myArray  = Arr::add($chemist, 'module_id', 5);
+			$myArray  = Arr::add($chemist, 'fee', $feeArr[5-1]->fee);
 			array_push($chemistModuleArr,$myArray);
 		}
 		$url14 = url("/upload/vehicle")."/";
@@ -218,6 +234,7 @@ class UserTransactionsController extends BaseController
 		foreach($transporterArr as $transporter)
 		{
 			$myArray  = Arr::add($transporter, 'module_id', 4);
+			$myArray  = Arr::add($transporter, 'fee', $feeArr[4-1]->fee);
 			array_push($transporterModuleArr,$myArray);
 		}
 		$url15 = url("/upload/productsale")."/";
@@ -228,6 +245,7 @@ class UserTransactionsController extends BaseController
 		foreach($productSaleArr as $product)
 		{
 			$myArray  = Arr::add($product, 'module_id', 8);
+			$myArray  = Arr::add($product, 'fee', $feeArr[8-1]->fee);
 			array_push($productSaleModuleArr,$myArray);
 		}
 		$url16 = url("/upload/animalsale")."/";
@@ -240,6 +258,7 @@ class UserTransactionsController extends BaseController
 		foreach($animalSaleArr as $animalsale)
 		{
 			$myArray  = Arr::add($animalsale, 'module_id', 2);
+			$myArray  = Arr::add($animalsale, 'fee', $feeArr[2-1]->fee);
 			array_push($animalSaleModuleArr,$myArray);
 		}
 		$url17 = url("/upload/breederanimals")."/";
@@ -253,6 +272,7 @@ class UserTransactionsController extends BaseController
 		foreach($breederArr as $breeder)
 		{
 			$myArray  = Arr::add($breeder, 'module_id', 3);
+			$myArray  = Arr::add($breeder, 'fee', $feeArr[3-1]->fee);
 			array_push($breederModuleArr,$myArray);
 		}
 		$url18 = url("/upload/suppliers")."/";
@@ -267,6 +287,7 @@ class UserTransactionsController extends BaseController
 		foreach($supplierArr as $supplier)
 		{
 			$myArray  = Arr::add($supplier, 'module_id', 9);
+			$myArray  = Arr::add($supplier, 'fee', $feeArr[9-1]->fee);
 			array_push($supplierModuleArr,$myArray);
 		}
 		

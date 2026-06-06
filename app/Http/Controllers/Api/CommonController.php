@@ -15,6 +15,7 @@ use App\Models\Subcategories;
 use App\Models\Categories;
 use App\Models\MobileVerification;
 use App\Models\Grfiles;
+use App\Models\GResolutionfiles;
 use App\Models\BreederImages;
 use App\Models\AddAnimalImages;
 use App\Models\VehicleImages;
@@ -36,6 +37,7 @@ use App\Models\AnimalImages;
 use App\Models\ProductImages;
 use App\Traits\FileUpload;
 use App\Models\ChemistShopImages;
+
 
 class CommonController extends BaseController
 {
@@ -142,8 +144,8 @@ class CommonController extends BaseController
 	{ 	
 		 $postData = request()->all(); 
 		 $state_id= 0;
-		 if(isset($postData['state_id'])){
-			  $state_id = $postData['state_id'];
+		 if(isset($postData['stateId'])){
+			  $state_id = $postData['stateId'];
 		 }
 		
 		 $query = Grfiles::where('is_active',1);
@@ -151,8 +153,26 @@ class CommonController extends BaseController
 			 $query = $query->where('state_id',$state_id);
 		 }
 		 
-		 $response['results'] = $query->get();
+		 $response['results'] = $query->orderBy('id','DESC')->get();
 		 $response['image_base_path']=url("/upload/grfiles")."/";
+		 return $this->sendResponse($response,"",200);
+	}
+	
+	public function getGResolutionFiles(Request $request)
+	{ 	
+		 $postData = request()->all(); 
+		 $state_id= 0;
+		 if(isset($postData['stateId'])){
+			  $state_id = $postData['stateId'];
+		 }
+		
+		 $query = GResolutionfiles::where('is_active',1);
+		 if($state_id!=0){
+			 $query = $query->where('state_id',$state_id);
+		 }
+		 
+		 $response['results'] = $query->orderBy('id','DESC')->get();
+		 $response['image_base_path']=url("/upload/gresolutionfiles")."/";
 		 return $this->sendResponse($response,"",200);
 	}
 	

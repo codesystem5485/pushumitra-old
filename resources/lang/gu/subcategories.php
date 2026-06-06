@@ -2,16 +2,20 @@
 return [
 'Veterinary hospitals'=>'વેટરનરી હોસ્પિટલ',
 'District Veterinary Polyclinic'=>'જીલ્લા વેટરનરી પોલીક્લીનિક',
-'Veterinary Mini Polyclinic'=>'વેટરનરી મીની પોલીક્લીનિક',
-'Veterinary Dispensary Grade 2'=>'વેટરનરી ડિસ્પેન્સરી ગ્રેડ 2',
+'Veterinary Mini Polyclinic'=>'તાલુકા વેટરનરી હોસ્પિટલ',
+'Veterinary Clinic (State)'=>'વેટરનરી હોસ્પિટલ (રાજ્ય કક્ષા)',
 'A. I. Centre'=>'કૃત્રિમ બીજદાન કેન્દ્ર',
 'Mobile Veterinary Clinic'=>'મોબાઇલ વેટરનરી ક્લિનિક',
-'Veterinary Dispensary Grade 1'=>'વેટરનરી ડિસ્પેન્સરી ગ્રેડ 1',
+'Veterinary Clinic (Local)'=>'વેટરનરી ક્લિનિક (સ્થાનિક)',
+'Office of Taluka AH & Dairy Officer'=>'તાલુકા પશુપાલન અને ડેરી અધિકારીની કચેરી',
+
 'Disease Investigation Lab'=>'રોગ પરીક્ષણ પ્રયોગશાળા',
 'Frozen Semen Lab'=>'સ્થિર વીર્ય પ્રયોગશાળા',
 'IVF/ET Lab'=>'IVF/એમ્બ્રીયો ટ્રાન્સફર લેબ',
 'Feed/Fodder Investigation Lab'=>'ઘાસચારો/ચારા પરીક્ષણ પ્રયોગશાળા',
 'Milk & Milk Product Testing Lab'=>'દૂધ અને દૂધ ઉત્પાદનો પરીક્ષણ પ્રયોગશાળા',
+'Soil Testing Lab'=>'માટી પરીક્ષણ પ્રયોગશાળા',
+
 
 'Cow Manure Supplier'=>'ગાય ખાતર સપ્લાયર',
 'Goat Manure Supplier'=>'બકરી ખાતર સપ્લાયર',
@@ -25,14 +29,17 @@ return [
 'Pathological Reagent Supplier'=>'પેથોલોગોકલ રીએજન્ટ સપ્લાયર',
 'Silage Supplier'=>'સાઈલેજ સપ્લાયર',
 'Surgical Instrument Supplier'=>'સર્જિકલ ઇન્સ્ટ્રુમેન્ટ સપ્લાયર',
-
-
+'Animal Feed Supplement Supplier'=>'પશુ આહાર પૂરક સપ્લાયર',
 'Silage Culture Supplier'=>'સાઈલેજ કલ્ચર સપ્લાયર',
 'Cattle Feed Supplier'=>'કેટલ ફીડ સપ્લાયર',
 'Liquid Nitrogen Supplier'=>'લિક્વિડ નાઇટ્રોજન સપ્લાયર',
-
 'Green fodder supplier'=>'લીલા ચારા સપ્લાયર',
 'Dry fodder supplier'=>'સૂકા ચારા સપ્લાયર',
+'Disinfectant Sanitizer Supplier'=>'જંતુનાશક સેનિટાઇઝર સપ્લાયર',
+'Poultry Feed Supplier'=>'મરઘાં ફીડ સપ્લાયર',
+'Goat Feed Supplier'=>'બકરી ફીડ સપ્લાયર',
+'Mannure Compost Culture Supplier'=>'ખાતર કલ્ચર સપ્લાયર',
+
 
 'Agriculture Degree College'=>'કૃષિ ડિગ્રી કોલેજ',
 'Agriculture Diploma College'=>'એગ્રીકલ્ચર ડિપ્લોમા કોલેજ',
@@ -48,10 +55,11 @@ return [
 'Veterinary Diploma College'=>'વેટરનરી ડિપ્લોમા કોલેજ',
 'Veterinary Research Institute'=>'પશુચિકિત્સા સંશોધન સંસ્થા',
 'Veterinary University'=>'વેટરનરી યુનિવર્સિટી',
+'Livestock Management and Dairy Production Diploma'=>'ડિપ્લોમા ઇન લાઇવસ્ટોક મેનેજમેન્ટ અને ડેરી પ્રોડક્શન',
 
 'Cattle Farm'=>'પશુ ફાર્મ',
 'Poultry Farm'=>'મરઘાં ફાર્મ',
-'Goat Farm'=>'બકરી ફાર્મ',
+'Sheep and Goat Farm'=>'ઘેટાં અને બકરી ફાર્મ',
 'Duck Farm'=>'ડક ફાર્મ',
 'Rabbit Farm'=>'રેબિટ ફાર્મ',
 'Emu Farm'=>'ઇમુ ફાર્મ',
@@ -66,6 +74,8 @@ return [
 'Dog Training Centre'=>'ડોગ ટ્રેનિંગ સેન્ટર',
 'IVF/ET Training Centre'=>'आईवीएफ/ईटी તાલીમ કેન્દ્રर',
 'Horse Riding Training Centres'=>'ઘોડેસવારી તાલીમ કેન્દ્રો',
+'Agriclinics and Agribusiness centers scheme (ACABC Scheme)'=> 'એગ્રીક્લિનિક્સ અને એગ્રીબિઝનેસ સેન્ટર સ્કીમ (ACABC સ્કીમ)',
+'Training Centre'=>'તાલીમ કેન્દ્ર',
 
 
 'Animal Feed'=>'પશુ આહાર',
@@ -76,7 +86,7 @@ return [
 'Dog Food'=>'કૂતરો ખોરાક',
 'Poultry Food'=>'મરઘાં ફીડ',
 'Pet Parlour'=>'પેટ પાર્લર',
-
+'Animal Feed Supplement Shop'=>'પશુ આહાર પૂરવણીની દુકાન',
 ];
 
 ?>

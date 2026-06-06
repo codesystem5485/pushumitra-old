@@ -67,7 +67,7 @@
                         </div>
                         <input type="file" class="form-control" id="basic-url" aria-describedby="basic-addon3" name="gr_file" value="@if(empty($grfiles)){{old('gr_file')}}@else{{$grfiles->gr_file}}@endif"placeholder="{{ __('general.enter_grfiles') }}">
                         @if(!empty($grfiles->gr_file))
-                        <a target="_new" href="{{route("grfiles.download",['file_name'=>$grfiles->gr_file])}}" >Download PDF</a>
+                        <a target="_new" href="{{route("grfiles.download",['file_name'=>rawurlencode($grfiles->gr_file)])}}" >Download PDF</a>
                         @endif
                     </div>
                     <div class="input-group mb-2">

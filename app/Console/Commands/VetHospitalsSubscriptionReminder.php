@@ -57,7 +57,7 @@ class VetHospitalsSubscriptionReminder extends Command
 								'veterinary_hospitals.veterinary_owner_name','veterinary_hospitals.mobile_number','users.fcm_id')
 								->where( 'veterinary_hospitals.subscriptionEndDate', '=', $date)
 								->where( 'veterinary_hospitals.status',1)
-								->where( 'labs.type','Private')
+								->where( 'veterinary_hospitals.type','Private')
 								->get();
 								
 		 

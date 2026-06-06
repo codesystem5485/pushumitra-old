@@ -1,5 +1,9 @@
 <?php
 use App\Models\User;
+use App\Models\Payments;
+use Kreait\Laravel\Firebase\Facades\Firebase;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 if(!function_exists('convert_permission_name')){ 
     function convert_permission_name(string $string = ''){
         return strtoupper(preg_replace("/[^a-zA-Z]+/", " ", $string));
@@ -94,8 +98,52 @@ if(!function_exists('calculatePrizePool')){
     }
 }
 
+if(!function_exists('addZeroPaymentAmountEntry')){
+    function addZeroPaymentAmountEntry(array $input)
+    {
+        $roleId = $input['role_id'] ?? null;
+
+        if(empty($roleId) && isset($input['role'])){
+            if($input['role'] == "Pashumitra"){
+                $roleId = 8;
+            }elseif($input['role'] == "Registered-vet"){
+                $roleId = 7;
+            }elseif($input['role'] == "Animal-owner"){
+                $roleId = 6;
+            }elseif($input['role'] == "Other"){
+                $roleId = 13;
+            }
+        }
+
+        $moduleDetails = $input['module_details'] ?? '';
+        if(is_array($moduleDetails)){
+            $moduleDetails = json_encode($moduleDetails);
+        }elseif(empty($moduleDetails) && isset($input['name']) && isset($input['mobile_number'])){
+            $moduleDetails = json_encode([
+                'name' => $input['name'],
+                'mobile_number' => $input['mobile_number'],
+            ]);
+        }
+
+        return Payments::create([
+            'role_id' => $roleId,
+            'user_id' => $input['user_id'] ?? null,
+            'payment_id' => $input['payment_id'] ?? 0,
+            'order_id' => $input['order_id'] ?? '',
+            'module_type_id' => $input['module_type_id'] ?? null,
+            'status' => $input['status'] ?? 1,
+            'payment_date' => $input['payment_date'] ?? date("Y-m-d H:i:s"),
+            'payment_response' => $input['payment_response'] ?? '',
+            'payment_request' => $input['payment_request'] ?? '',
+            'amount' => 0,
+            'type' => $input['type'] ?? null,
+            'module_details' => $moduleDetails,
+        ]);
+    }
+}
+
 	//sending push notifications to mobile devices
-	function sendNotifications($input)
+	function sendNotifications_old($input)
 	{ 
 		if($input['fcm_token']!=''){
 			$tokens = array($input['fcm_token']);
@@ -142,3 +190,46 @@ if(!function_exists('calculatePrizePool')){
 			return $result;
 		}
 	}
+	
+	
+		//sending push notifications to mobile devices
+if(!function_exists('sendNotifications')){
+    function sendNotifications($input)
+    {
+        $fcmToken = $input['fcm_token'] ?? null;
+        if (empty($fcmToken)) {
+            return false;
+        }
+
+        $title = $input['title'] ?? '';
+        $body = $input['message'] ?? '';
+        $dataPayload = $input['data'] ?? [];
+
+        try {
+            $messaging = Firebase::messaging();
+            $tokens = is_array($fcmToken) ? $fcmToken : [$fcmToken];
+            $tokens = array_filter($tokens);
+            if (empty($tokens)) {
+                return false;
+            }
+
+            $notification = Notification::create($title, $body);
+            $results = [];
+
+            foreach ($tokens as $token) {
+                $message = CloudMessage::withTarget('token', $token)
+                    ->withNotification($notification);
+
+                if (!empty($dataPayload) && is_array($dataPayload)) {
+                    $message = $message->withData($dataPayload);
+                }
+
+                $results[] = $messaging->send($message);
+            }
+
+            return $results;
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+}

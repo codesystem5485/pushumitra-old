@@ -39,6 +39,7 @@ return [
 		'csractivities_file_path'=>'upload/csractivities',
 		'labs_file_path'=>'upload/labs',
 		'grfiles_file_path' => 'upload/grfiles',
+		'gresolutionfiles_file_path' => 'upload/gresolutionfiles',
 		'ngo_file_path' => 'upload/ngo',
 		'easycare_file_path' => 'upload/easycares',
     ],

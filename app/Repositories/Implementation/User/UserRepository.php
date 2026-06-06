@@ -103,18 +103,35 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
 	
 	public function getUsersFcmIds(array $input = [])
     {     
-        return  $this->userModelRepo->with(['roles'])
-		->select('fcm_id')
-        ->whereHas('roles', function($q) use($input) {
-            if(!empty($input['sRoleName'])){
-                $q->where('name', $input['sRoleName']);
-            }
+//         return  $this->userModelRepo->with(['roles'])
+// 		->select('fcm_id')
+//         ->whereHas('roles', function($q) use($input) {
+//             if(!empty($input['sRoleName'])){
+//                 $q->where('name', $input['sRoleName']);
+//             }
+//         })
+//         //->where('id','!=',1)
+// 		->where('is_active',1)
+// 		->where('fcm_id','!=','')
+//         ->orderBy('id', 'DESC')
+//         ->get();
+        
+        return $this->userModelRepo
+        ->select('users.fcm_id')
+        ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->where('model_has_roles.model_type', User::class)
+        ->when(!empty($input['sRoleName']), function($q) use($input) {
+            $q->where('roles.name', $input['sRoleName']);
         })
-        //->where('id','!=',1)
-		->where('is_active',1)
-		->where('fcm_id','!=','')
-        ->orderBy('id', 'DESC')
-        ->get();
+        ->where('users.is_active', 1)
+        ->where('users.fcm_id', '!=', '')
+        ->distinct()
+        ->pluck('fcm_id')
+        ->filter()  // removes empty/null values
+        ->unique()  // removes duplicates
+        ->values()  // reindex
+        ->toArray(); // convert to array
     }
 
     /**
@@ -784,6 +801,9 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
                 $q->where('name', 'Pashumitra');
            // }
         })
+        //->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
+// 		->select('user.id','user.full_name','user.email','user.mobile_number','user.profile_photo','user.address_line_1','user.city_town','user.district','user.taluka','user.pincode','user.latitude','user.longitude','user_details.job_type',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'));
+		
 		->select('id','full_name','email','mobile_number','profile_photo','address_line_1','city_town','district','taluka','pincode','latitude','longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'));
 		
 				if(isset($requestData['search_input']) && $requestData['search_input']!=''){
@@ -844,7 +864,7 @@ class UserRepository  extends BaseRepository implements UserRepositoryInterface
             //}
         })
 		->leftJoin('user_details', 'user_details.user_id', '=', 'users.id')
-		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
+		->select('users.id','user_details.rv_speciality','users.full_name','users.email','users.mobile_number','users.profile_photo','user_details.job_type','users.address_line_1','users.city_town','users.district','users.taluka','users.pincode','users.latitude','users.longitude',DB::raw('(select AVG(star_ratings) from review_ratings where rateable_id  =   users.id ) as star_rating_count'))
 		->where('is_verified',1)->where('is_active',1);
 		
 		if(isset($requestData['search_input']) && $requestData['search_input']!=''){

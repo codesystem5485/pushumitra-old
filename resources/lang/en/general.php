@@ -81,6 +81,17 @@ return [
 'grfiles_file'=>'File',
 'enter_grfiles'=>'Enter Government Scheme Name',
 
+//Goverment Resolutios
+'gresolutionfiles_list'=>'Government Resolution List',
+'gresolutionfiles_add'=>'Add Government Resolution',
+'gresolutionfiles_edit'=>'Edit Government Resolution',
+'gresolutionfiles_create'=>'Create Government Resolution',
+'gresolutionfiles'=>'Government Resolution',
+'gresolutionfiles_name'=>'Title',
+'gresolutionfiles_file'=>'File',
+'enter_gresolutionfiles'=>'Enter Government Resolution Name',
+
+
 //species
 'species_list'=>'Species List',
 'species_add'=>'Add Specie',

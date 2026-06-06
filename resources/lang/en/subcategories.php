@@ -2,16 +2,21 @@
 return [
 'Veterinary hospitals'=>'Veterinary hospitals',
 'District Veterinary Polyclinic'=>'District Veterinary Polyclinic',
-'Veterinary Mini Polyclinic'=>'Veterinary Mini Polyclinic',
-'Veterinary Dispensary Grade 2'=>'Veterinary Dispensary Grade 2',
+'Veterinary Mini Polyclinic'=>'Taluka Veterinary Clinic', 
+'Veterinary Clinic (State)'=>'Veterinary Clinic ( State )',
 'A. I. Centre'=>'A. I. Centre',
 'Mobile Veterinary Clinic'=>'Mobile Veterinary Clinic',
-'Veterinary Dispensary Grade 1'=>'Veterinary Dispensary Grade 1',
+'Veterinary Clinic (Local)'=>'Veterinary Clinic ( Local )', 
+'Office of Taluka AH & Dairy Officer'=>'Office of Taluka AH & Dairy Officer',
+
 'Disease Investigation Lab'=>'Disease Investigation Lab',
 'Frozen Semen Lab'=>'Frozen Semen Lab',
 'IVF/ET Lab'=>'IVF/ET Lab',
 'Feed/Fodder Investigation Lab'=>'Feed/Fodder Investigation Lab',
 'Milk & Milk Product Testing Lab'=>'Milk & Milk Product Testing Lab',
+'Soil Testing Lab'=>'Soil Testing Lab',
+
+
 
 'Cow Manure Supplier'=>'Cow Manure Supplier',
 'Goat Manure Supplier'=>'Goat Manure Supplier',
@@ -30,6 +35,12 @@ return [
 'Liquid Nitrogen Supplier'=>'Liquid Nitrogen Supplier',
 'Green fodder supplier'=>'Green fodder supplier',
 'Dry fodder supplier'=>'Dry fodder supplier',
+'Animal Feed Supplement Supplier' =>'Animal Feed Supplement Supplier',
+'Disinfectant Sanitizer Supplier'=>'Disinfectant Sanitizer Supplier',
+'Poultry Feed Supplier'=>'Poultry Feed Supplier',
+'Goat Feed Supplier'=>'Goat Feed Supplier',
+'Mannure Compost Culture Supplier'=>'Mannure Compost Culture Supplier',
+
 
 'Agriculture Degree College'=>'Agriculture Degree College',
 'Agriculture Diploma College'=>'Agriculture Diploma College',
@@ -48,10 +59,11 @@ return [
 'Vaccine Manufacturing Institute'=>'Vaccine Manufacturing Institute',
 'Veterinary College'=>'Veterinary College',
 'Veterinary Diploma College'=>'Veterinary Diploma College',
+'Livestock Management and Dairy Production Diploma'=>'Livestock Management and Dairy Production Diploma', 
 
 'Cattle Farm'=>'Cattle Farm',
 'Poultry Farm'=>'Poultry Farm',
-'Goat Farm'=>'Goat Farm',
+'Sheep and Goat Farm'=>'Sheep and Goat Farm',
 'Duck Farm'=>'Duck Farm',
 'Rabbit Farm'=>'Rabbit Farm',
 'Emu Farm'=>'Emu Farm',
@@ -66,6 +78,9 @@ return [
 'Dog Training Centre'=>'Dog Training Centre',
 'IVF/ET Training Centre'=>'IVF/ET Training Centre',
 'Horse Riding Training Centres'=>'Horse Riding Training Centres',
+'Agriclinics and Agribusiness centers scheme (ACABC Scheme)'=>'Agriclinics and Agribusiness centers scheme (ACABC Scheme)',
+'Training Centre'=>'Training Centre',
+
 
 'Animal Feed'=>'Animal Feed',
 'Aquarium'=>'Aquarium',
@@ -76,6 +91,7 @@ return [
 'Poultry Food'=>'Poultry Feed',
 'Pet Parlour'=>'Pet Parlour',
 'Dog Food'=>'Dog Food',
+'Animal Feed Supplement Shop'=>'Animal Feed Supplement Shop',
 
 ];
 
